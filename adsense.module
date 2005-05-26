@@ -1,0 +1,286 @@
+<?php
+
+function adsense_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      $output = t('Google AdSense module');
+      break;
+    case 'admin/settings/adsense':
+      $output = t('This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.
+<h2>Supported Formats</h2>
+<p>The following ad formats are supported:</p>
+ <table>
+ <tr><th>Type</th><th>Dimensions</th></tr>
+ <tr><td>Banner</td><td>468x60</td></tr>
+ <tr><td>Large Rectangle</td><td>336x280</td></tr>
+ <tr><td>Skyscraper</td><td>120x600</td></tr>
+ <tr><td>Wide Skyscraper</td><td>160x600</td></tr>
+ <tr><td>Ad Links</td><td>120x90</td></tr>
+ <tr><td>Wide Ad Links</td><td>160x90</td></tr></table>
+<h2>Configuring adsense module</h2>
+<p>To use this module, configure the parameters below. The only required parameter is the your Google account Client ID. You can customize the colors and format if you want.</p>
+<h2>Displaying AdSense Ads</h2>
+<p>Ads can be displayed in blocks or in any phptemplate based theme.</p>
+<h3>Blocks</h3>
+<p>To display ads in blocks, add a new block, make its type "PHP", and enclose it in php tags.</p>
+<pre><code>
+print adsense_display("120x600");
+</code></pre>
+<p>If you want to make sure that you do not get errors if adsense module is accidentally disabled or deleted, then use the longer form:</p>
+<pre><code>
+if (module_exist("adsense"))
+{
+ print adsense_display("120x600");
+}
+</code></pre>
+<h3>Themes</h3>
+<p>You must use a phptemplate based theme to display ads from within the theme. This requires some familiarity with PHP. Edit the <strong>page.tpl.php</strong> file in your theme directory, and add:</p>
+<pre><code>
+print adsense_display("468x60");
+</code></pre>
+<p>Make sure you enclose it in php tags.</p>
+ ');
+      break;
+  }
+
+  return $output;
+}
+  
+function adsense_menu($may_cache) {
+  $items = array();
+
+  if ($may_cache) {
+    $items[] = array(
+      'path'     => '',
+      'callback' => '',
+      'title'    => '',
+      'access'   => user_access('hide adsense'),
+      'weight'   => 0);
+   }
+   return $items;
+}
+
+function adsense_perm() {
+  return array ('hide adsense');
+}
+
+function adsense_settings() {
+  $output .= form_textfield(t('Google AdSense Client ID'), 'adsense_client_id',
+    variable_get('adsense_client_id', ''), 25, 25,
+    t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. If you mistype it, your account will not get credited by Google for ads displayed on your site.'));
+
+  $req = form_group(t('Required parameters'), $output);
+
+  $output .= form_radios(t('Ad Type'), 'adsense_type', 
+    variable_get('adsense_ad_type', '0'), array(t('Text'), t('Image')));
+
+  $output = form_textfield(t('Ad Text Color'), 'adsense_color_text',
+    variable_get('adsense_color_text', '000000'), 6, 6,
+    t('Text Color for Ad'));
+
+  $output .= form_textfield(t('Ad Border Color'), 'adsense_color_border',
+    variable_get('adsense_color_border', 'FFFFFF'), 6, 6,
+    t('Border color for Ad'));
+
+  $output .= form_textfield(t('Ad Background Color'), 'adsense_color_bg',
+    variable_get('adsense_color_bg', 'FFFFFF'), 6, 6,
+    t('Background Color for Ad'));
+
+  $output .= form_textfield(t('Ad Title Color'), 'adsense_color_link',
+    variable_get('adsense_color_link', '003366'), 6, 6,
+    t('Title Color for Ad'));
+
+  $output .= form_textfield(t('Ad URL Color'), 'adsense_color_url',
+    variable_get('adsense_color_url', '003366'), 6, 6,
+    t('URL Color for Ad'));
+
+  $type = form_group(t('Type and Colors'), $output);
+
+  $output = form_checkbox (t('Disable Google AdSense ads?'), 'adsense_disable', 1,
+    variable_get('adsense_disable', '0'), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
+
+  $output .= form_checkbox (t('Placeholder when ads are disabled?'), 'adsense_placeholder', 1,
+    variable_get('adsense_placeholder', '1'), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
+
+  $output .= form_textarea(t('Placeholder Text to display'), 'adsense_placeholder_text',
+    variable_get('adsense_placeholder_text', t('Ad placeholder here')), 70, 5,
+    t('Enter any text to display as a placeholder when ads are disabled.'));
+
+  $output .= form_checkbox (t('Do not display Google AdSense ads for admin'), 'adsense_admin_disable', 1,
+    variable_get('adsense_admin_disable', '1'), t('When the site admin (uid 1) is logged in, they will not see ads.'));
+
+  $adv = form_group(t('Advanced options'), $output);
+
+  return $req . $type . $adv;
+}  
+
+function adsense_display($format = '160x600') {
+
+  if (!_adsense_validate_dimensions($format)) {
+      $ad = '<!--adsense: invalid dimensions: ' . $format . '-->';
+  }
+  else {
+    if (_adsense_check_disable()) {
+      // Ads are disabled, check whether we have a placeholder
+      if (_adsense_check_placeholder()) {
+        // Display the placeholder
+        $ad = _adsense_format_placeholder($format);
+      }
+      else {
+        // Display nothing
+        $ad = '<!--adsense: nothing -->';
+      }
+    }
+    else {
+      $ad = _adsense_format($format);
+    }
+  }
+
+  return $ad;
+}
+
+function _adsense_check_disable() {
+  global $user;
+
+  $admin_disable = variable_get('adsense_admin_disable', '0');
+  $client_id     = variable_get('adsense_client_id', '');
+  $disable_ads   = variable_get('adsense_disable', '0');
+
+  if (($user->uid == 1) && $admin_disable) {
+    // Admin is logged in and Ads are disabled for admin
+    return true;
+  }
+
+  if (!$client_id) {
+    // Google AdSense Client ID is not configured
+    return true;
+  }
+  
+  if ($disable_ads) {
+    return true;
+  }
+
+  return false;
+}
+
+function _adsense_check_placeholder() {
+  if (variable_get('adsense_placeholder', '1')) {
+    // Ads are globally disabled and a place holder is set
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function _adsense_format_placeholder($format) {
+
+  $width   = _adsense_get_width($format);
+  $height  = _adsense_get_height($format);
+
+  $placeholder_text = variable_get('adsense_placeholder_text', t('Ad placeholder here'));
+
+  $output  = '<div style="' .
+  $output .= ' width:'  . $width  . 'px;';
+  $output .= ' height:' . $height . 'px;';
+  $output .= ' border:solid 1px">' . $placeholder_text . '</div>';
+
+  return $output;
+}
+
+function _adsense_get_dimensions($format) {
+  list($width, $height) = explode('x', $format);
+  return array('width' => $width, 'height' => $height);
+}
+
+function _adsense_get_height($format) {
+  $dims = _adsense_get_dimensions($format);
+  return $dims['height'];
+}
+
+function _adsense_get_width($format) {
+  $dims = _adsense_get_dimensions($format);
+  return $dims['width'];
+}
+
+function _adsense_validate_dimensions($format) {
+
+  $ret = true;
+
+  switch($format) {
+    case '468x60':
+      break;
+    case '336x280':
+      break;
+    case '160x600':
+      break;
+    case '120x600':
+      break;
+    case '120x90':
+      break;
+    case '160x90':
+      break;
+    default:
+      $ret = false;
+      break;
+  }
+  return $ret;
+}
+
+function _adsense_format($format) {
+
+  $client = variable_get('adsense_client_id', '');
+
+  $border = variable_get('adsense_color_border', 'FFFFFF');
+  $bg     = variable_get('adsense_color_bg',     'FFFFFF');
+  $link   = variable_get('adsense_color_link',   '003366');
+  $url    = variable_get('adsense_color_url',    '003366');
+  $text   = variable_get('adsense_color_text',   '000000');
+
+  switch (variable_get('adsense_ad_type', '0')) {
+    case 2:
+      $type = 'image';
+      break;
+    default:
+      $type = 'text';
+      break;
+  }
+
+  $width  = _adsense_get_width($format);
+  $height = _adsense_get_height($format);
+
+  switch ($height) {
+    case '90':
+      $format = $width . 'x' . $height . '_0ads_al_s';
+      break;
+    default:
+      $format = $width . 'x' . $height . '_as';
+      break;
+    }
+
+  $output .= _adsense_add_nl('');
+  $output .= _adsense_add_nl('<script type="text/javascript"><!--');
+  $output .= _adsense_add_nl('google_ad_client = "' .    $client . '";');
+  $output .= _adsense_add_nl('google_ad_type = "' .      $type . '";');
+  $output .= _adsense_add_nl('google_ad_channel = "";');
+  $output .= _adsense_add_nl('google_ad_width = ' .      $width . ';');
+  $output .= _adsense_add_nl('google_ad_height = ' .     $height . ';');
+  $output .= _adsense_add_nl('google_ad_format = "' .    $format . '";');
+  $output .= _adsense_add_nl('google_color_border = "' . $border . '";');
+  $output .= _adsense_add_nl('google_color_bg = "' .     $bg . '";');
+  $output .= _adsense_add_nl('google_color_link = "' .   $link . '";');
+  $output .= _adsense_add_nl('google_color_url = "' .    $url . '";');
+  $output .= _adsense_add_nl('google_color_text = "' .   $text . '";');
+  $output .= _adsense_add_nl('//--></script>');
+  $output .= _adsense_add_nl('<script type="text/javascript"');
+  $output .= _adsense_add_nl(' src="http://pagead2.googlesyndication.com/pagead/show_ads.js">');
+  $output .= _adsense_add_nl('</script>');
+
+  return $output;
+}
+
+function _adsense_add_nl($str) {
+  return $str . "\n";
+}
+
+?>
