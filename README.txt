@@ -38,31 +38,56 @@ To configure it, go to Admin -> Settings -> AdSense.
 The only required parameter is the your Google account Client ID. You
 can get that from the Ad code in your Google AdSense account.
 
-You can customize the colors and format if you want.
+You can customize the colors and format if you want. Three color and 
+type groups can be configured. This means that you can have ads in
+different colors in different places on your pages. This is useful
+if your theme uses different color schemes for different areas, such 
+as content, left sidebar, and right sidebar.
+You can alsoi have an image ad in some place, and a text ad in another,
+or you can make the ads contrast with your theme, or blends with it.
+
+If you are using Custom Channels, you can configure up to 5 custom
+channels and display ads for those channels. If you are using URL
+channels only, then leave the custom channels blank.
+
+The advanced options include the ability to disable showing ads. This
+is useful if the site is on a test machine that you do not want to
+get crawled by Google, or when you copy the data to a test machine
+for demos and such. A configurable placeholder is available to show
+the place where ads would display.
 
 Displaying Ads
 --------------
+
 Ads can be displayed in blocks or in any phptemplate based theme.
+
+To display ads, you call a function adsense_display and supply it with
+the following arguments.
+
+* Format: This is a string of two numbers with an "x" in between. It can
+  be any valid combination from the list provided above. If not specified,
+  then 160x600 is assumed.
+
+* Group: This is the group that denotes the type (text or image) and color
+  of the ad. This can be 1, 2 or 3. If not specified, then 1 is assumed.
+
+* Channel: This is the Custom Channel for the ad, as configured in AdSense.
+  This is an optional parameter and if not specified, then 1 is assumed.
 
 * Blocks
 
-To display ads in blocks, add a new block, make sure its type is "PHP", and 
-then enter the following:
+To display ads in blocks, add a new block, make its type "PHP", and enclose
+it in php tags, such as:
 
-<?php
-print adsense_display("120x600");
-?>
-
-Change the 120x600 to any other format you like from the supported list
-above.
+<?php print adsense_display("120x600", 1, 2); ?>
 
 If you want to make sure that you do not get errors if adsense module is
-accidentally disabled or deleted, then use the long form:
+accidentally disabled or deleted, then use the longer form:
 
 <?php
 if (module_exist("adsense"))
 {
- print adsense_display("120x600");
+ print adsense_display("120x600", 2, 4);
 }
 ?>
 
@@ -74,7 +99,17 @@ theme directory, and add:
 
 <?php print adsense_display("468x60"); ?>
 
-Again, you can select any of the supported formats above.
+Make sure you enclose it in php tags.
+
+You could also use the longer format that protects you against deleting or
+disabling the module:
+
+<?php
+if (module_exist("adsense"))
+{
+ print adsense_display("120x600", 2, 4);
+}
+?>
 
 Bugs/Features/Patches:
 ----------------------
