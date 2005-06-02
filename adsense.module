@@ -26,7 +26,7 @@ function adsense_help($section) {
 <ul>
 <li>Format: This is a string of two numbers with an "x" in between. It can be any valid combination from the list provided above. If not specified, then 160x600 is assumed.</li>
 <li>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1, 2 or 3. If not specified, then 1 is assumed.</li>
-<li>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter and if not specified, then 1 is assumed.</li>
+<li>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out.</li>
 </ul>
 <h3>Blocks</h3>
 <p>To display ads in blocks, add a new block, make its type "PHP", and enclose it in php tags.</p>
@@ -51,7 +51,28 @@ if (module_exist("adsense"))
 {
  print adsense_display("120x600", 2, 4);
 }
-</code></pre> ');
+</code></pre>
+<h2>Notes</h3>
+<p>
+The site administrator will not see ads displayed as long as they are logged in.
+This is by design, in order not to skew the page views, and not to accidentally
+click on ads (against Google\'s policy). Log out to see the ads.</p>
+<p>
+You can use the advanced options to disable ads and configure a placeholder when
+you are developing or theming to know where the ads will appear.</p>
+<p>
+If ads are not displayed, that could be caused by several things:</p>
+<ul>
+<li>You are logged in as the site administrator. Log off to see the ads.</li>
+<li>Your site is still new and Google did not index it yet.</li>
+<li>The maximum possible ad units to display have already been displayed. Your
+ page does not have enough content to display more than one or two units.</li>
+
+<li>Check the page source for comments like this <!--adsense: ???-->. These tell
+ more what is going on, and if you know PHP you can trace those in the module\'s
+ source code.</li>
+</ul>
+');
       break;
   }
 
@@ -87,7 +108,7 @@ function adsense_settings() {
   foreach(array(1,2,3) as $group) {
 
     $output = form_radios(t('Ad Type'), 'adsense_ad_type_' . $group, 
-      variable_get('adsense_ad_type_' . $group, '000000'), array(t('Text'), t('Image')));
+      variable_get('adsense_ad_type_' . $group, '000000'), array(t('Text'), t('Image'), t('Both')));
 
     $output .= form_textfield(t('Ad Text Color'), 'adsense_color_text_' . $group,
       variable_get('adsense_color_text_' . $group, '000000'), 6, 6);
@@ -204,7 +225,7 @@ function _adsense_format_placeholder($format) {
   $width   = _adsense_get_width($format);
   $height  = _adsense_get_height($format);
 
-  $placeholder_text = variable_get('adsense_placeholder_text', t('Ad placeholder here'));
+  $placeholder_text = variable_get('adsense_placeholder_text', t('Google AdSense placeholder here'));
 
   $output  = '<div style="' .
   $output .= ' width:'  . $width  . 'px;';
@@ -299,6 +320,9 @@ function _adsense_format($format, $group = 1, $channel = 1) {
 
   switch (variable_get('adsense_ad_type_' . $group, '0')) {
     case 2:
+      $type = 'text_image';
+      break;
+    case 1:
       $type = 'image';
       break;
     default:
