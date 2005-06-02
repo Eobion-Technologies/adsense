@@ -73,6 +73,7 @@ the following arguments.
 
 * Channel: This is the Custom Channel for the ad, as configured in AdSense.
   This is an optional parameter and if not specified, then 1 is assumed.
+  If you did not configure any channels, then leave this parameter out.
 
 * Blocks
 
@@ -110,6 +111,28 @@ if (module_exist("adsense"))
  print adsense_display("120x600", 2, 4);
 }
 ?>
+
+Notes:
+------
+The site administrator will not see ads displayed as long as they are logged in.
+This is by design, in order not to skew the page views, and not to accidentally
+click on ads (against Google's policy). Log out to see the ads.
+
+You can use the advanced options to disable ads and configure a placeholder when
+you are developing or theming to know where the ads will appear.
+
+If ads are not displayed, that could be caused by several things:
+
+- You are logged in as the site administrator. Log off to see the ads.
+
+- Your site is still new and Google did not index it yet.
+
+- The maximum possible ad units to display have already been displayed. Your
+  page does not have enough content to display more than one or two units.
+
+- Check the page source for comments like this <!--adsense: ???-->. These tell
+  more what is going on, and if you know PHP you can trace those in the module's
+  source code.
 
 Bugs/Features/Patches:
 ----------------------
