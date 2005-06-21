@@ -16,6 +16,7 @@ function adsense_help($section) {
  <table>
  <tr><th>Type</th><th>Dimensions</th></tr>
  <tr><td>Banner</td><td>468x60</td></tr>
+ <tr><td>Half Banner</td><td>234x60</td></tr>
  <tr><td>Large Rectangle</td><td>336x280</td></tr>
  <tr><td>Skyscraper</td><td>120x600</td></tr>
  <tr><td>Wide Skyscraper</td><td>160x600</td></tr>
@@ -107,6 +108,14 @@ function adsense_settings() {
     variable_get('adsense_client_id', ''), 25, 25,
     t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. You must apply for an account with Google AdSense before you get this client ID. Please type it carefully. If you mistype it, your account will not get credited by Google for ads displayed on your site.'));
 
+  $output .= form_radios(t('Show Adsense on specific pages'), 'adsense_visibility',
+    variable_get('adsense_visibility', '0'), array(t('Show on every page except the listed pages.'),
+    t('Show on only the listed pages.')));
+
+  $output .= form_textarea(t('Pages'), 'adsense_access_pages',
+    variable_get('adsense_access_pages', ''), 70, 5,
+    t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."));
+
   $form_req = form_group(t('Required parameters'), $output);
 
   foreach(array(1,2,3) as $group) {
@@ -152,25 +161,31 @@ function adsense_settings() {
     variable_get('adsense_placeholder_text', t('Google AdSense ad placeholder here')), 70, 5,
     t('Enter any text to display as a placeholder when ads are disabled.'));
 
+  $output .= form_textfield(t('Ad limit per page'), 'adsense_page_ad_limit',
+    variable_get('adsense_page_ad_limit', 3) , 6, 6,
+    t('Google currently limits a page to 3 ad units'));
+  
   $form_adv = form_group(t('Advanced options'), $output);
 
   return $form_req . $form_type . $form_channel . $form_adv;
 }  
 
 function adsense_display($format = '160x600', $group = 1, $channel = 1) {
+  static $num_adsense_on_this_page;
 
   if (!_adsense_validate_dimensions($format)) {
       $ad = '<!--adsense: invalid format: ' . $format . '-->';
   }
   else {
     // This ad format is not cached, generate it
-    // Check first if disabled
-    if (_adsense_check_disable()) {
-      // Ads are disabled, check whether we have a placeholder
-      if (_adsense_check_placeholder()) {
+    // Check first if disabled or if we are at adsense limit or if this page doesn't allow adsense
+    if (_adsense_check_disable() || !_adsense_can_insert_another() || !_adsense_page_match()) {
+      // Ads are disabled, check whether we have a placeholder and can insert another ad
+      if (_adsense_check_placeholder() && _adsense_can_insert_another() && _adsense_page_match()) {
         // Display the placeholder
         $ad = '<!--adsense: placeholder-->' . _adsense_format_placeholder($format);
-      }
+        $num_adsense_on_this_page++;
+      }      
       else {
         // Display nothing
         $ad = '<!--adsense: nothing -->';
@@ -179,6 +194,7 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
     else {
       $cache_key = "adsense-$group-$format";
       $cache = cache_get($cache_key);
+      $num_adsense_on_this_page++;
       if ($cache) {
         // This ad format is cached, use it
         $ad = '<!--adsense: cached-->' . $cache->data;
@@ -262,6 +278,8 @@ function _adsense_validate_dimensions($format) {
     case '468x60':
       break;
     case '336x280':
+      break;
+    case '234x60':
       break;
     case '160x600':
       break;
@@ -347,6 +365,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
     }
 
   $output .= _adsense_add_nl('');
+  $output .= _adsense_add_nl('<div class="adsense">');
   $output .= _adsense_add_nl('<script type="text/javascript"><!--');
   $output .= _adsense_add_nl('google_ad_client = "'    . $client  . '";');
   $output .= _adsense_add_nl('google_ad_type = "'      . $type    . '";');
@@ -363,6 +382,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $output .= _adsense_add_nl('<script type="text/javascript"');
   $output .= _adsense_add_nl(' src="http://pagead2.googlesyndication.com/pagead/show_ads.js">');
   $output .= _adsense_add_nl('</script>');
+  $output .= _adsense_add_nl('</div>');
 
   return $output;
 }
@@ -371,4 +391,43 @@ function _adsense_add_nl($str) {
   return $str . "\n";
 }
 
+/**
+ * Determine if Adsense has reached limit on this page.
+ *
+ * @return
+ *   TRUE if we can insert another ad, FALSE if not allowed.
+ */
+function _adsense_can_insert_another() {
+  static $num_adsense_on_this_page;
+  return ($num_adsense_on_this_page < variable_get('adsense_page_ad_limit', 3));
+}
+
+/**
+ * Determine if Adsense has permission to be used on the current page.
+ *
+ * @return
+ *   TRUE if can render, FALSE if not allowed.
+ */
+function _adsense_page_match() {
+  $page_match = FALSE;
+  $visibility = (int)variable_get('adsense_visibility', '0'); 
+  $pages = variable_get('adsense_access_pages', '');
+  
+  if ($pages) {
+    $path = drupal_get_path_alias($_GET['q']);
+    //var_dump($path);
+    //var_dump(variable_get('site_frontpage', 'node'));
+    $regexp = '/^('. preg_replace(
+      array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), 
+      array('|', '.*', '\1'. variable_get('site_frontpage', 'node') .'\2'), 
+      preg_quote($pages, '/')) .')$/';
+    $page_match = !($visibility xor preg_match($regexp, $path));    
+  } else {
+    // Show if pages is empty and we're set to Show adsense on all pages except...
+    if ($visibility === '1')
+      $page_match = TRUE;
+  }
+  //var_dump($page_match);
+  return $page_match;
+}
 ?>
