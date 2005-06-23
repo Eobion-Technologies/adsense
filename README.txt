@@ -10,6 +10,17 @@ ads on their web site, thus earning revenue.
 The colors are customizable, as well as the type (text/image). Ads can be
 displayed from themes, blocks or other modules.
 
+Ads can be excluded from certain pages, with wild card pattern matching, like
+the one in Drupal's blocks.
+
+A limit can be placed on the number of ads displayed per page.
+
+The site admin never sees ads. This is by design.
+
+Channel support is also available.
+
+Ads are cached to reduce system load.
+
 Prerequisites
 -------------
 You must signup for a Google AdSense account. If you do not have an account,
@@ -21,6 +32,7 @@ The following ad formats are supported:
 
 Type            Dimensions
 Banner          468x60
+Half banner     234x60
 Large Rectangle 336x280
 Skyscraper      120x600
 Wide Skyscraper 160x600
