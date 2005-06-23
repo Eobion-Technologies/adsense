@@ -179,55 +179,73 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
   else {
     // This ad format is not cached, generate it
     // Check first if disabled or if we are at adsense limit or if this page doesn't allow adsense
-    if (_adsense_check_disable() || !_adsense_can_insert_another() || !_adsense_page_match()) {
-      // Ads are disabled, check whether we have a placeholder and can insert another ad
-      if (_adsense_check_placeholder() && _adsense_can_insert_another() && _adsense_page_match()) {
-        // Display the placeholder
-        $ad = '<!--adsense: placeholder-->' . _adsense_format_placeholder($format);
-        $num_adsense_on_this_page++;
-      }      
+    if (_adsense_check_if_enabled()) {
+      if (_adsense_can_insert_another()) {
+        if (_adsense_page_match()) {
+          // Ad should be displayed
+          // Check cache first
+          $num_adsense_on_this_page++;
+
+          $ad = _adsense_get_ad($format, $group, $channel);
+        }
+        else {
+          $ad = '<!--adsense: page not in match list-->';
+        }
+      }
       else {
-        // Display nothing
-        $ad = '<!--adsense: nothing -->';
+        $ad = '<!--adsense: ad limit per page reached-->';
       }
     }
     else {
-      $cache_key = "adsense-$group-$format";
-      $cache = cache_get($cache_key);
-      $num_adsense_on_this_page++;
-      if ($cache) {
-        // This ad format is cached, use it
-        $ad = '<!--adsense: cached-->' . $cache->data;
+      // Ads are disabled
+      if (_adsense_check_placeholder()) {
+        $ad = '<!--adsense: placeholder-->' . _adsense_format_placeholder($format);
       }
       else {
-        $ad = _adsense_format($format, $group, $channel);
-        cache_set($cache_key, $ad, CACHE_PERMANENT);
+        $ad = '<!--adsense: ads disabled -->';
       }
     }
   }
 
   return $ad;
 }
+function _adsense_get_ad($format, $group, $channel) {
 
-function _adsense_check_disable() {
+  $cache_key = "adsense-$group-$format";
+  $cache = cache_get($cache_key);
+  if ($cache) {
+    // This ad format is cached, use it
+    $ad = '<!--adsense: cached-->' . $cache->data;
+  }
+  else {
+    // Not cached. Format an ad
+    $ad = _adsense_format($format, $group, $channel);
+    // Add it to cache
+    cache_set($cache_key, $ad, CACHE_PERMANENT);
+  }
+
+  return $ad;
+}
+
+function _adsense_check_if_enabled() {
 
   $client_id   = variable_get('adsense_client_id', '');
   $disable_ads = variable_get('adsense_disable', '0');
 
   if (!$client_id) {
     // Google AdSense Client ID is not configured
-    return true;
+    return false;
   }
   
   if ($disable_ads) {
-    return true;
+    return false;
   }
 
   if (user_access('hide adsense')) {
-    return true;
+    return false;
   }
 
-  return false;
+  return true;
 }
 
 function _adsense_check_placeholder() {
@@ -415,19 +433,18 @@ function _adsense_page_match() {
   
   if ($pages) {
     $path = drupal_get_path_alias($_GET['q']);
-    //var_dump($path);
-    //var_dump(variable_get('site_frontpage', 'node'));
     $regexp = '/^('. preg_replace(
       array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), 
       array('|', '.*', '\1'. variable_get('site_frontpage', 'node') .'\2'), 
       preg_quote($pages, '/')) .')$/';
     $page_match = !($visibility xor preg_match($regexp, $path));    
-  } else {
-    // Show if pages is empty and we're set to Show adsense on all pages except...
-    if ($visibility === '1')
-      $page_match = TRUE;
   }
-  //var_dump($page_match);
+  else {
+    // Show if pages is empty and we're set to Show adsense on all pages except...
+    if ($visibility == 0) {
+      $page_match = true;
+    }
+  }
   return $page_match;
 }
 ?>
