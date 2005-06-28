@@ -138,6 +138,14 @@ function adsense_settings() {
     $output .= form_textfield(t('Ad URL Color'), 'adsense_color_url_' . $group,
       variable_get('adsense_color_url_' . $group, 'FF8C00'), 6, 6);
   
+    $output .= form_select(t('Alternate URL/Color'), 'adsense_alt_' . $group,
+      variable_get('adsense_alt_' . $group, 0),
+      array(t('None'), t('Alternate URL'), t('Alternate Color')));
+
+    $output .= form_textfield(t('Alternate info'), 'adsense_alt_info_' . $group,
+      variable_get('adsense_alt_info_' . $group, ''), 6, 6,
+      t('Enter either 6 letter alternate color code, or alternate URL to use'));
+
     $form_group .= form_group(t('Group ' . $group . ' Attributes'), $output);
   }
 
@@ -350,11 +358,14 @@ function _adsense_format($format, $group = 1, $channel = 1) {
 
   $client = variable_get('adsense_client_id', '');
 
-  $text   = variable_get('adsense_color_text_' .   $group, '000000');
-  $border = variable_get('adsense_color_border_' . $group, '336699');
-  $bg     = variable_get('adsense_color_bg_' .     $group, 'FFFFFF');
-  $link   = variable_get('adsense_color_link_' .   $group, '336699');
-  $url    = variable_get('adsense_color_url_' .    $group, 'FF8C00');
+  $text     = variable_get('adsense_color_text_' .   $group, '000000');
+  $border   = variable_get('adsense_color_border_' . $group, '336699');
+  $bg       = variable_get('adsense_color_bg_' .     $group, 'FFFFFF');
+  $link     = variable_get('adsense_color_link_' .   $group, '336699');
+  $url      = variable_get('adsense_color_url_' .    $group, 'FF8C00');
+
+  $alt      = variable_get('adsense_alt_' .          $group, 0);
+  $alt_info = variable_get('adsense_alt_info_' .     $group, '');
 
   $channel = variable_get('adsense_ad_channel_' . _adsense_validate_channel($channel), '');
 
@@ -385,6 +396,17 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $output .= _adsense_add_nl('');
   $output .= _adsense_add_nl('<div class="adsense">');
   $output .= _adsense_add_nl('<script type="text/javascript"><!--');
+  switch($alt) {
+    case 0:
+      // disabled
+      break;
+    case 1:
+      $output .= _adsense_add_nl('google_alternate_ad_url = "' . $alt_info . '";');
+      break;
+    case 2:
+      $output .= _adsense_add_nl('google_alternate_color = "' . $alt_info . '";');
+      break;
+  }
   $output .= _adsense_add_nl('google_ad_client = "'    . $client  . '";');
   $output .= _adsense_add_nl('google_ad_type = "'      . $type    . '";');
   $output .= _adsense_add_nl('google_ad_channel = "'   . $channel . '";');
