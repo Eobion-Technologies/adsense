@@ -37,6 +37,8 @@ Large Rectangle 336x280
 Skyscraper      120x600
 Wide Skyscraper 160x600
 Ad Links        120x90
+Ad Links        468x15
+Ad Links        728x15
 Wide Ad Links   160x90
 
 Installation

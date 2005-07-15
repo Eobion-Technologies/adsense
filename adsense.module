@@ -21,6 +21,8 @@ function adsense_help($section) {
  <tr><td>Skyscraper</td><td>120x600</td></tr>
  <tr><td>Wide Skyscraper</td><td>160x600</td></tr>
  <tr><td>Ad Links</td><td>120x90</td></tr>
+ <tr><td>Ad Links</td><td>468x15</td></tr>
+ <tr><td>Ad Links</td><td>728x15</td></tr>
  <tr><td>Wide Ad Links</td><td>160x90</td></tr>
  </table>
 <h2>Configuring adsense module</h2>
@@ -314,6 +316,10 @@ function _adsense_validate_dimensions($format) {
     case '120x90':
       break;
     case '160x90':
+      break;
+    case '468x15':
+      break;
+    case '728x15':
       break;
     default:
       $ret = false;
