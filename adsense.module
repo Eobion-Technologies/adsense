@@ -469,7 +469,7 @@ function _adsense_page_match() {
   }
   else {
     // Show if pages is empty and we're set to Show adsense on all pages except...
-    if ($visibility == 0) {
+    if ($visibility === 1) {
       $page_match = true;
     }
   }
