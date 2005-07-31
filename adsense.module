@@ -460,6 +460,7 @@ function _adsense_page_match() {
   $pages = variable_get('adsense_access_pages', '');
   
   if ($pages) {
+    // Specific pages are configured
     $path = drupal_get_path_alias($_GET['q']);
     $regexp = '/^('. preg_replace(
       array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), 
@@ -468,9 +469,10 @@ function _adsense_page_match() {
     $page_match = !($visibility xor preg_match($regexp, $path));    
   }
   else {
-    // Show if pages is empty and we're set to Show adsense on all pages except...
-    if ($visibility === 1) {
-      $page_match = true;
+    // No pages are configured
+    if ($visibility === 0) {
+      // We are set to "Show on every pages except..."
+      $page_match = TRUE;
     }
   }
   return $page_match;
