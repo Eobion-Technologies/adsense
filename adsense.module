@@ -145,7 +145,7 @@ function adsense_settings() {
       array(t('None'), t('Alternate URL'), t('Alternate Color')));
 
     $output .= form_textfield(t('Alternate info'), 'adsense_alt_info_' . $group,
-      variable_get('adsense_alt_info_' . $group, ''), 6, 6,
+      variable_get('adsense_alt_info_' . $group, ''), 100, 100,
       t('Enter either 6 letter alternate color code, or alternate URL to use'));
 
     $form_group .= form_group(t('Group ' . $group . ' Attributes'), $output);
