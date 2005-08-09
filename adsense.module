@@ -95,6 +95,7 @@ function adsense_menu($may_cache) {
       'callback' => '',
       'title'    => '',
       'access'   => user_access('hide adsense'),
+      'type'     => MENU_CALLBACK,
       'weight'   => 0);
    }
    return $items;
