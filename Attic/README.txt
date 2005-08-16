@@ -28,18 +28,7 @@ go to http://www.google.com/adsense to apply for one.
 
 Supported Formats
 -----------------
-The following ad formats are supported:
-
-Type            Dimensions
-Banner          468x60
-Half banner     234x60
-Large Rectangle 336x280
-Skyscraper      120x600
-Wide Skyscraper 160x600
-Ad Links        120x90
-Ad Links        468x15
-Ad Links        728x15
-Wide Ad Links   160x90
+See the included help on the setting page for all supported ad formats.
 
 Installation
 ------------
