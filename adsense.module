@@ -191,7 +191,7 @@ function adsense_settings() {
   $output = '';
   foreach(array(1,2,3,4,5) as $channel) {
     $output .= form_textfield(t('Custom Channel ID'), 'adsense_ad_channel_' . $channel, 
-      variable_get('adsense_ad_channel_' . $channel, ''), 50, 50);
+      variable_get('adsense_ad_channel_' . $channel, ''), 30, 30);
     }
 
   $form_channel = form_group(t('Custom Channels'), $output, t('Enter up to 5 custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'));
