@@ -28,7 +28,10 @@ go to http://www.google.com/adsense to apply for one.
 
 Supported Formats
 -----------------
-See the included help on the setting page for all supported ad formats.
+Many of Google's AdSense formats are supported, but not all of them.
+
+Upon enabling the module, go to administer -> settings -> adsense, and you
+will see a list of supported ad formats.
 
 Installation
 ------------

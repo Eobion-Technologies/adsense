@@ -4,30 +4,62 @@
 
 // Copyright 2005 Khalid Baheyeldin http://2bits.com
 
+/**
+ * This is the array that holds all ad formats.
+ * All it has is a multi-dimensional array containing the dimensions as a key, then
+ * the description and suffix of Google's javascript ad code.
+ * Currently, we do not support duplicate dimensions in ad formats (for example,
+ * the same ad dimension cannot repeat for text and graphics, or for ads and ad links
+ *
+ * To ad a new code:
+ * - Make sure the dimensions are not in use by a different format
+ * - Go to Google AdSense 
+ *   . Get the dimensions
+ *   . Get the code (suffix after the dimensions) 
+ * - Add it below in ascending order (width first, then height)
+ * @return returns an array of supported ad formats (desc: description, code: Google Ad code suffix)
+ * 
+ */
+function adsense_ad_formats() {
+  return array (
+    '120x90'  =>  array('desc' => 'Ad Links 4-links 120x90',      'code' => '_0ads_al'),
+    '120x240' =>  array('desc' => 'Vertical Banner',              'code' => '_as'),
+    '120x600' =>  array('desc' => 'Skyscraper',                   'code' => '_as'),
+    '125x125' =>  array('desc' => 'Button',                       'code' => '_as'),
+    '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
+    '160x90'  =>  array('desc' => 'Ad Links 4-links 160x90',      'code' => '_0ads_al'),
+    '160x600' =>  array('desc' => 'Wide Skyscraper',              'code' => '_as'),
+    '180x90'  =>  array('desc' => 'Ad Links 4-links 180x90',      'code' => '_0ads_al'),
+    '336x280' =>  array('desc' => 'Large Rectangle',              'code' => '_as'),
+    '468x15'  =>  array('desc' => 'Banner Ad Links 4-links',      'code' => '_0ads_al'),
+    '468x60'  =>  array('desc' => 'Banner',                       'code' => '_as'),
+    '728x15'  =>  array('desc' => 'Wide Banner Ad Links 4-links', 'code' => '_0ads_al')
+    );
+}
+
+function adsense_get_ad_code($format) {
+  $all_ads = adsense_ad_formats();
+  return $all_ads[$format]['code'];
+}
+
 function adsense_help($section) {
+  global $all_ads;
   switch ($section) {
     case 'admin/modules#description':
       $output = t('Google AdSense module');
       break;
     case 'admin/settings/adsense':
+      $headers = array(t('Ad Type'), t('Dimensions'));
+      $rows = array();
+
+      foreach(adsense_ad_formats() as $format => $data) {
+        $rows[] = array($data['desc'], $format);
+        }
       $output = t('This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.
 <h2>Supported Formats</h2>
-<p>The following ad formats are supported:</p>
- <table>
- <tr><th>Type</th><th>Dimensions</th></tr>
- <tr><td>Banner</td><td>468x60</td></tr>
- <tr><td>Half Banner</td><td>234x60</td></tr>
- <tr><td>Large Rectangle</td><td>336x280</td></tr>
- <tr><td>Skyscraper</td><td>120x600</td></tr>
- <tr><td>Wide Skyscraper</td><td>160x600</td></tr>
- <tr><td>Ad Links</td><td>120x90</td></tr>
- <tr><td>Button</td><td>125x125</td></tr>
- <tr><td>Vertical Banner</td><td>120x240</td></tr>
- <tr><td>Ad Links</td><td>468x15</td></tr>
- <tr><td>Ad Links</td><td>728x15</td></tr>
- <tr><td>Wide Ad Links</td><td>160x90</td></tr>
- </table>
-<h2>Configuring adsense module</h2>
+<p>The following ad formats are supported:</p>'
+. theme('table', $headers, $rows) .
+'<h2>Configuring adsense module</h2>
 <p>To use this module, configure the parameters below. The only required parameter is the your Google account Client ID. You can customize the colors and format if you want.</p>
 <h2>Displaying AdSense Ads</h2>
 <p>Ads can be displayed in blocks or in any phptemplate based theme.</p>
@@ -302,26 +334,17 @@ function _adsense_get_width($format) {
 }
 
 function _adsense_validate_dimensions($format) {
+  $all_ads = adsense_ad_formats();
 
-  $ret = true;
+  $ret = false;
 
-  switch($format) {
-    case '468x60':
-    case '336x280':
-    case '234x60':
-    case '160x600':
-    case '120x600':
-    case '120x90':
-    case '125x125':
-    case '120x240':
-    case '160x90':
-    case '468x15':
-    case '728x15':
-      break;
-    default:
-      $ret = false;
-      break;
+  if ($all_ads[$format]['desc']) {
+    $ret = true;
   }
+  else {
+    $ret = false;
+  }
+
   return $ret;
 }
 
@@ -387,14 +410,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $width  = _adsense_get_width($format);
   $height = _adsense_get_height($format);
 
-  switch ($height) {
-    case '90':
-      $format = $width . 'x' . $height . '_0ads_al_s';
-      break;
-    default:
-      $format = $width . 'x' . $height . '_as';
-      break;
-    }
+  $format = $width . 'x' . $height . adsense_get_ad_code($format);
 
   $output .= _adsense_add_nl('');
   $output .= _adsense_add_nl('<div class="adsense">');
