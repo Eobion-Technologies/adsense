@@ -256,7 +256,7 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
 }
 function _adsense_get_ad($format, $group, $channel) {
 
-  $cache_key = "adsense-$group-$format";
+  $cache_key = "adsense-$group-$format-$channel";
   $cache = cache_get($cache_key);
   if ($cache) {
     // This ad format is cached, use it
