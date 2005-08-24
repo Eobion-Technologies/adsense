@@ -488,6 +488,15 @@ function _adsense_page_match() {
       $page_match = TRUE;
     }
   }
+
+  // Do not show ads on secure pages.
+  // This is for two reasons:
+  // Google would most probably not have indexed secure pages
+  // and it also prevents warnings about mixed-content
+  // Thanks to Brad Konia http://drupal.org/node/29585
+  if (isset($_SERVER['HTTPS'])) {
+    $page_match = FALSE;
+  }
   return $page_match;
 }
 ?>
