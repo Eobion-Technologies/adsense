@@ -33,7 +33,7 @@ function adsense_ad_formats() {
     '336x280' =>  array('desc' => 'Large Rectangle',              'code' => '_as'),
     '468x15'  =>  array('desc' => 'Banner Ad Links 4-links',      'code' => '_0ads_al'),
     '468x60'  =>  array('desc' => 'Banner',                       'code' => '_as'),
-    '728x15'  =>  array('desc' => 'Wide Banner Ad Links 4-links', 'code' => '_0ads_al')
+    '728x15'  =>  array('desc' => 'Wide Banner Ad Links 4-links', 'code' => '_0ads_al'),
     '728x90'  =>  array('desc' => 'Leaderboard',                  'code' => '_as')
     );
 }
