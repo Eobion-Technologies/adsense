@@ -500,4 +500,63 @@ function _adsense_page_match() {
   }
   return $page_match;
 }
-?>
+
+function adsense_filter($op, $delta = 0, $format = -1, $text = '') {
+  switch ($op) {
+    case 'list':
+      return array(0 => t('Adsense tag'));
+      break;
+
+    case 'description':
+      return t('Substitutes an adsense special tag with an ad.');
+      break;
+
+    case 'prepare':
+      return $text;
+      break;
+
+    case 'process':
+      return _adsense_process_tags($text);
+      break;
+  }
+}
+
+function _adsense_process_tags($text) {
+  $patterns = array(
+    'flexi' => '/\[adsense:flexiblock:(\d+)\]/x',
+    'tags'  => '/\[adsense:(\w+):(\d+):(\d+)\]/x');
+
+  foreach($patterns as $mode => $pattern) {
+    if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
+      foreach($matches as $match) {
+        if ($mode == 'flexi') {
+          $ad = _adsense_flexiblock($match[1]);
+        }
+        else {
+          // Tag is in [adsense:468x60:1:1] format
+          $ad = adsense_display($match[1], $match[2], $match[3]);
+        }
+      $text = str_replace($match[0], $ad, $text);
+      }
+    }
+  }
+  return $text;
+}
+
+function _adsense_flexiblock($location) {
+  if (module_exist('flexiblock')) {
+    // Tag is in [adsense:flexiblock:1] format
+    $blocks = theme('flexiblock_blocks', $location);
+    foreach ($blocks as $block) {
+      $ad = $block['content'];
+    }
+  }
+  else {
+     $ad = '<!--adsense: flexiblock not installed -->';
+  }
+  return $ad;
+}
+
+function adsense_filter_tips($delta, $format, $long = false) {
+  return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense Ads.');
+}
