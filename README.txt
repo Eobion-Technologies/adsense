@@ -53,7 +53,7 @@ type groups can be configured. This means that you can have ads in
 different colors in different places on your pages. This is useful
 if your theme uses different color schemes for different areas, such 
 as content, left sidebar, and right sidebar.
-You can alsoi have an image ad in some place, and a text ad in another,
+You can also have an image ad in some place, and a text ad in another,
 or you can make the ads contrast with your theme, or blends with it.
 
 If you are using Custom Channels, you can configure up to 5 custom
@@ -121,6 +121,28 @@ if (module_exist("adsense"))
  print adsense_display("120x600", 2, 4);
 }
 ?>
+
+Tags:
+-----
+A new feature has been added to allow placing ads in any place in the
+content. The new tag syntax comes in two variants:
+
+1. [adsense:format:group:channel]
+   where
+   - format: one of the supported ad formats (e.g. 468x60)
+   - group: numeric ad group this ad belongs to, determines colors
+   - channel: numberic ad channel
+
+   All fields are required
+
+2. [adsense:flexiblock:location]
+   where
+   - location: numeric location of a flexiblock that contains the call
+     to the adsense_display() function. This allows visibility control
+     via the block mechanism. flexiblock must be installed and configured.
+
+To enable this tags feature, you have to enable the AdSense filter in
+the input format you are using, then the appropriate tag in your content.
 
 Notes:
 ------
