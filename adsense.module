@@ -95,14 +95,14 @@ if (module_exist("adsense"))
 }
 </code></pre>
 <h3>Tags</h3>
-<p>A new feature has been added to allow placing ads in any place in the content. The new tag syntax comes in two variants:</p>
+<p>The tags feature allows placement of ads in any place in the content. The new tag syntax comes in two variants:</p>
 <dt>1. [adsense:<em>format:group:channel</em>]</dt>
 <p>Where:</p>
 <ul>
  <li> format: one of the supported ad formats (e.g. 468x60)</li>
  <li> group: a number corresponding to the ad group this ad belongs to, determines colors</li>
  <li> channel: a number corresponding to the ad channel</li>
-<p>All fields are required</p>
+<p>All fields are required, unlike when using the adsense_display() function above.</p>
 <p>Example:</p>
 <pre>[adsense:468x60:1:2]</pre>
 <p>Display a 468x60 banner with the colors defined in group 1, and with channel ID 2</p>
@@ -117,7 +117,8 @@ if (module_exist("adsense"))
 <pre>[adsense:flexiblock:2]</pre>
 <p>Display the contents of the flexiblock in location 2</p>
 
-<p>To enable the tags feature, you have to enable the AdSense filter in the input format you are using (e.g. Full HTML or Filtered HTML) from Administer >> Input Formats. Then you have to insert the appropriate tag in your content.</p>
+<p>To enable the tags feature, you have to enable the AdSense filter in the input format you are using (e.g. Full HTML or Filtered HTML) from Administer >> Input Formats. Then you have to insert the appropriate tag anywhere in your node where you like the ad to appear.</p>
+<p>Note that filters sometimes may have conflicts, and changing the order can make adsense work in some cases.</p>
 
 <h2>Notes</h2>
 <p>
