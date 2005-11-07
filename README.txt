@@ -21,10 +21,20 @@ Channel support is also available.
 
 Ads are cached to reduce system load.
 
+Resources
+---------
+You can read the module author's collection  of articles on resources for using
+Google Adsense with Drupal. They contain hints and tips on how to use the module,
+as well as Adsense in general.
+
+http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html
+
 Prerequisites
 -------------
 You must signup for a Google AdSense account. If you do not have an account,
-go to http://www.google.com/adsense to apply for one.
+please consider using the author's referral link for signup at the following
+URL:
+http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html
 
 Supported Formats
 -----------------
