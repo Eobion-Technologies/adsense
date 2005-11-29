@@ -56,12 +56,17 @@ function adsense_help($section) {
       foreach(adsense_ad_formats() as $format => $data) {
         $rows[] = array($data['desc'], $format);
         }
-      $output = t('This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.
+      $output = t('
+<h2>Overview<h2>
+<p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
+<h2>Prerequisites</h2>
+<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <h2>Supported Formats</h2>
 <p>The following ad formats are supported:</p>'
 . theme('table', $headers, $rows) .
 '<h2>Configuring adsense module</h2>
-<p>To use this module, configure the parameters below. The only required parameter is the your Google account Client ID. You can customize the colors and format if you want.</p>
+<p>To use this module, configure the parameters below.</p>
+<p>The only required configuration parameter is the your Google account Client ID. You can customize the colors and format if you want.</p>
 <h2>Displaying AdSense Ads</h2>
 <p>Ads can be displayed in blocks or in any phptemplate based theme.</p>
 <p>To display ads, you call a function <code>adsense_display</code> and supply it with the following arguments.</p>
