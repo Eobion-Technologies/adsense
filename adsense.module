@@ -57,7 +57,7 @@ function adsense_help($section) {
         $rows[] = array($data['desc'], $format);
         }
       $output = t('
-<h2>Overview<h2>
+<h2>Overview</h2>
 <p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
 <h2>Prerequisites</h2>
 <p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
@@ -107,6 +107,7 @@ if (module_exist("adsense"))
  <li> format: one of the supported ad formats (e.g. 468x60)</li>
  <li> group: a number corresponding to the ad group this ad belongs to, determines colors</li>
  <li> channel: a number corresponding to the ad channel</li>
+</ul>
 <p>All fields are required, unlike when using the adsense_display() function above.</p>
 <p>Example:</p>
 <pre>[adsense:468x60:1:2]</pre>
@@ -116,6 +117,7 @@ if (module_exist("adsense"))
 <p>Where:</p>
 <ul>
  <li> location: a number corresponding to a location in flexiblock that contains only one block with the call to the adsense_display() function.  This allows visibility control via the block mechanism. flexiblock must be installed and configured. The title of the flexiblock will not be displayed.</li>
+</ul>
 <p>All fields are required</p>
 
 <p>Example:</p>
@@ -242,6 +244,10 @@ function adsense_settings() {
     variable_get('adsense_page_ad_limit', 3) , 6, 6,
     t('Google currently limits a page to 3 ad units'));
   
+  $output .= form_checkbox (t('Enable Adsense Section targeting?'), 'adsense_section_targeting', 1,
+    variable_get('adsense_section_targeting', 1),
+    t('This better targets Google Ads to the teaser and body of nodes.'));
+
   $form_adv = form_group(t('Advanced options'), $output);
 
   return $form_req . $form_type . $form_channel . $form_adv;
@@ -590,4 +596,22 @@ function _adsense_flexiblock($location) {
 
 function adsense_filter_tips($delta, $format, $long = false) {
   return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense Ads.');
+}
+
+function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
+
+define(ADSENSE_START, "<!-- google_ad_section_start -->\n");
+define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
+
+  switch($op) {
+    case 'view':
+      if (variable_get('adsense_section_targeting', 1)) {
+        if ($teaser) {
+          $node->teaser = ADSENSE_START . $node->teaser . ADSENSE_END;
+        }
+        else {
+          $node->body = ADSENSE_START . $node->body . ADSENSE_END;
+        }
+      }
+  }
 }
