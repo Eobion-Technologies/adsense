@@ -29,14 +29,14 @@ You can read the module author's collection  of articles on resources for using
 Google Adsense with Drupal. They contain hints and tips on how to use the module,
 as well as Adsense in general.
 
-http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html
+http://baheyeldin.com/click/476/0
 
 Prerequisites
 -------------
 You must signup for a Google AdSense account. If you do not have an account,
 please consider using the author's referral link for signup at the following
 URL:
-http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html
+http://baheyeldin.com/click/476/0
 
 Supported Formats
 -----------------
