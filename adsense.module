@@ -4,6 +4,9 @@
 
 // Copyright 2005 Khalid Baheyeldin http://2bits.com
 
+define(ADSENSE_MAX_GROUPS,   3);
+define(ADSENSE_MAX_CHANNELS, 5);
+
 /**
  * This is the array that holds all ad formats.
  * All it has is a multi-dimensional array containing the dimensions as a key, then
@@ -175,82 +178,189 @@ function adsense_perm() {
 
 function adsense_settings() {
   cache_clear_all('adsense', TRUE);
-  $output .= form_textfield(t('Google AdSense Client ID'), 'adsense_client_id',
-    variable_get('adsense_client_id', ''), 25, 25,
-    t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. You must apply for an account with Google AdSense before you get this client ID. Please type it carefully. If you mistype it, your account will not get credited by Google for ads displayed on your site.'));
-
-  $output .= form_radios(t('Show Adsense on specific pages'), 'adsense_visibility',
-    variable_get('adsense_visibility', '0'), array(t('Show on every page except the listed pages.'),
-    t('Show on only the listed pages.')));
-
-  $output .= form_textarea(t('Pages'), 'adsense_access_pages',
-    variable_get('adsense_access_pages', ''), 70, 5,
-    t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."));
-
-  $form_req = form_group(t('Required parameters'), $output);
-
-  foreach(array(1,2,3) as $group) {
-
-    $output = form_radios(t('Ad Type'), 'adsense_ad_type_' . $group, 
-      variable_get('adsense_ad_type_' . $group, '000000'), array(t('Text'), t('Image'), t('Both')));
-
-    $output .= form_textfield(t('Ad Text Color'), 'adsense_color_text_' . $group,
-      variable_get('adsense_color_text_' . $group, '000000'), 6, 6);
-
-    $output .= form_textfield(t('Ad Border Color'), 'adsense_color_border_' . $group,
-      variable_get('adsense_color_border_' . $group, '336699'), 6, 6);
-
-    $output .= form_textfield(t('Ad Background Color'), 'adsense_color_bg_' . $group,
-      variable_get('adsense_color_bg_' . $group, 'FFFFFF'), 6, 6);
-
-    $output .= form_textfield(t('Ad Title Color'), 'adsense_color_link_' . $group,
-      variable_get('adsense_color_link_' . $group, '336699'), 6, 6);
-
-    $output .= form_textfield(t('Ad URL Color'), 'adsense_color_url_' . $group,
-      variable_get('adsense_color_url_' . $group, 'FF8C00'), 6, 6);
   
-    $output .= form_select(t('Alternate URL/Color'), 'adsense_alt_' . $group,
-      variable_get('adsense_alt_' . $group, 0),
-      array(t('None'), t('Alternate URL'), t('Alternate Color')));
+  $form['required'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#title' => t('Required parameters'),
+  );
+  
+  $form['required']['adsense_client_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google AdSense Client ID'),
+    '#default_value' => variable_get('adsense_client_id', ''),
+    '#size' => 25,
+    '#maxlength' => 25,
+    '#description' => t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. You must apply for an account with Google AdSense before you get this client ID. Please type it carefully. If you mistype it, your account will not get credited by Google for ads displayed on your site.'),
+  );
+  
+  $form['general'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#title' => t('General parameters'),
+  );
 
-    $output .= form_textfield(t('Alternate info'), 'adsense_alt_info_' . $group,
-      variable_get('adsense_alt_info_' . $group, ''), 100, 100,
-      t('Enter either 6 letter alternate color code, or alternate URL to use'));
+  $form['general']['adsense_visibility'] = array(
+    '#type' => 'radios',
+    '#title' => t('Show Adsense on specific pages'),
+    '#default_value' => variable_get('adsense_visibility', '0'),
+    '#options' => array(t('Show on every page except the listed pages.'),
+      t('Show on only the listed pages.')),
+  );
 
-    $form_group .= form_group(t('Group ' . $group . ' Attributes'), $output);
+  $form['general']['adsense_access_pages'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Pages'),
+    '#default_value' => variable_get('adsense_access_pages', ''),
+    '#cols' => 70,
+    '#rows' => 5,
+    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."),
+  );
+
+  $form['types_colors'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#title' => t('Ad Type and Colors'),
+  );
+  
+  for($group=1; $group<ADSENSE_MAX_GROUPS+1; $group++) {
+    
+    $form['types_colors']['groups'][$group] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => true,
+      '#title' => t('Group ' . $group . ' Attributes'),
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_ad_type_' . $group] = array(
+      '#type' => 'radios',
+      '#title' => t('Ad Type'),
+      '#default_value' => variable_get('adsense_ad_type_' . $group, '000000'),
+      '#options' => array(t('Text'), t('Image'), t('Both')),
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_color_text_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Ad Text Color'),
+      '#default_value' => variable_get('adsense_color_text_' . $group, '000000'),
+      '#size' => 6,
+      '#maxlength' => 6,
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_color_border_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Ad Border Color'),
+      '#default_value' => variable_get('adsense_color_border_' . $group, '336699'),
+      '#size' => 6,
+      '#maxlength' => 6,
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_color_bg_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Ad Background Color'),
+      '#default_value' => variable_get('adsense_color_bg_' . $group, 'FFFFFF'),
+      '#size' => 6,
+      '#maxlength' => 6,
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_color_link_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Ad Title Color'),
+      '#default_value' => variable_get('adsense_color_link_' . $group, '336699'),
+      '#size' => 6,
+      '#maxlength' => 6,
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_color_url_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Ad URL Color'),
+      '#default_value' => variable_get('adsense_color_url_' . $group, 'FF8C00'),
+      '#size' => 6,
+      '#maxlength' => 6,
+    );
+  
+    $form['types_colors']['groups'][$group]['adsense_alt_' . $group] = array(
+      '#type' => 'select',
+      '#title' => t('Alternate URL/Color'),
+      '#default_value' => variable_get('adsense_alt_' . $group, 0),
+      '#options' => array(t('None'), t('Alternate URL'), t('Alternate Color')),
+    );
+
+    $form['types_colors']['groups'][$group]['adsense_alt_info_' . $group] = array(
+      '#type' => 'textfield',
+      '#title' => t('Alternate info'),
+      '#default_value' => variable_get('adsense_alt_info_' . $group, ''),
+      '#size' => 100,
+      '#maxlength' => 100,
+      '#description' => t('Enter either 6 letter alternate color code, or alternate URL to use'),
+    );
   }
 
-  $form_type = form_group(t('Ad Type and Colors'), $form_group);
+  $form['channels'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#title' => t('Custom Channels'),
+    '#description' => t('Enter up to ' .  ADSENSE_MAX_CHANNELS . ' custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'),
+  );
 
-  $output = '';
-  foreach(array(1,2,3,4,5) as $channel) {
-    $output .= form_textfield(t('Custom Channel ID'), 'adsense_ad_channel_' . $channel, 
-      variable_get('adsense_ad_channel_' . $channel, ''), 30, 30);
-    }
-
-  $form_channel = form_group(t('Custom Channels'), $output, t('Enter up to 5 custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'));
-
-  $output = form_checkbox (t('Disable Google AdSense ads?'), 'adsense_disable', 1,
-    variable_get('adsense_disable', '0'), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
-
-  $output .= form_checkbox (t('Placeholder when ads are disabled?'), 'adsense_placeholder', 1,
-    variable_get('adsense_placeholder', '1'), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
-
-  $output .= form_textarea(t('Placeholder Text to display'), 'adsense_placeholder_text',
-    variable_get('adsense_placeholder_text', t('Google AdSense ad placeholder here')), 70, 5,
-    t('Enter any text to display as a placeholder when ads are disabled.'));
-
-  $output .= form_textfield(t('Ad limit per page'), 'adsense_page_ad_limit',
-    variable_get('adsense_page_ad_limit', 3) , 6, 6,
-    t('Google currently limits a page to 3 ad units'));
+  for($channel=1; $channel<ADSENSE_MAX_CHANNELS+1; $channel++) {
+    $form['channels']['adsense_ad_channel_' . $channel] = array(
+      '#type' => 'textfield',
+      '#title' => t('Custom Channel ID'),
+      '#default_value' => variable_get('adsense_ad_channel_' . $channel, ''),
+      '#size' => 30,
+      '#maxlength' => 30,
+    );
+  }
   
-  $output .= form_checkbox (t('Enable Adsense Section targeting?'), 'adsense_section_targeting', 1,
-    variable_get('adsense_section_targeting', 1),
-    t('This better targets Google Ads to the teaser and body of nodes.'));
+  $form['advanced'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#title' => t('Advanced options'),
+  );
 
-  $form_adv = form_group(t('Advanced options'), $output);
+  $form['advanced']['adsense_disable'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable Google AdSense ads?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get('adsense_disable', '0'),
+    '#description' => t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'),
+  );
 
-  return $form_req . $form_type . $form_channel . $form_adv;
+  $form['advanced']['adsense_placeholder'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Placeholder when ads are disabled?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get('adsense_placeholder', '1'),
+    '#description' => t('This causes an empty box to be displayed in place of the ads when they are disabled.'),
+  );
+
+  $form['advanced']['adsense_placeholder_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Placeholder Text to display'),
+    '#default_value' => variable_get('adsense_placeholder_text', t('Google AdSense ad placeholder here')),
+    '#cols' => 70,
+    '#rows' => 5,
+    '#description' => t('Enter any text to display as a placeholder when ads are disabled.'),
+  );
+
+  $form['advanced']['adsense_page_ad_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ad limit per page'),
+    '#default_value' => variable_get('adsense_page_ad_limit', 4),
+    '#size' => 6,
+    '#maxlength' => 6,
+    '#description' => t('Google currently limits a page to 3 ad units, in addition to one ad links unit'),
+  );
+  
+  $form['advanced']['adsense_section_targeting'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Adsense Section targeting?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get('adsense_section_targeting', 1),
+    '#description' => t('This better targets Google Ads to the teaser and body of nodes.'),
+  );
+
+  return $form;
 }  
 
 function adsense_display($format = '160x600', $group = 1, $channel = 1) {

@@ -2,6 +2,8 @@ $Id$
 
 Copyright 2005 http://2bits.com
 
+Drupal 4.7 update sponsored by http://scribendi.com
+
 Description
 -----------
 This module provides web site admins the factility to display Google AdSense
