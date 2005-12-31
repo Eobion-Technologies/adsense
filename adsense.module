@@ -38,6 +38,31 @@ function adsense_ad_formats() {
     );
 }
 
+define(ADSENSE_MAX_GROUP,         3);
+define(ADSENSE_MAX_CHANNEL,       5);
+
+define(ADSENSE_PROFILE_CLIENT_ID, 'profile_google_adsense_client');
+define(ADSENSE_CLIENT_ID,         'adsense_client_id');
+define(ADSENSE_VISIBILITY,        'adsense_visibility');
+define(ADSENSE_ACCESS_PAGES,      'adsense_access_pages');
+define(ADSENSE_AD_TYPE,           'adsense_ad_type_');
+define(ADSENSE_COLOR_TEXT,        'adsense_color_text_');
+define(ADSENSE_COLOR_BORDER,      'adsense_color_border_');
+define(ADSENSE_COLOR_BG,          'adsense_color_bg_');
+define(ADSENSE_COLOR_LINK,        'adsense_color_link_');
+define(ADSENSE_COLOR_URL,         'adsense_color_url_');
+define(ADSENSE_ALT,               'adsense_alt_');
+define(ADSENSE_ALT_INFO,          'adsense_alt_info_');
+define(ADSENSE_AD_CHANNEL,        'adsense_ad_channel_');
+define(ADSENSE_REVENUE_ENABLE,    'adsense_revenue_enable');
+define(ADSENSE_PERCENTAGE,        'adsense_percentage');
+define(ADSENSE_NODE_TYPE,         'adsense_node_type_');
+define(ADSENSE_DISABLE,           'adsense_disable');
+define(ADSENSE_PLACEHOLDER,       'adsense_placeholder');
+define(ADSENSE_PLACEHOLDER_TEXT,  'adsense_placeholder_text');
+define(ADSENSE_PAGE_AD_LIMIT,     'adsense_page_ad_limit');
+define(ADSENSE_SECTION_TARGETING, 'adsense_section_targeting');
+
 function adsense_get_ad_code($format) {
   $all_ads = adsense_ad_formats();
   return $all_ads[$format]['code'];
@@ -127,6 +152,11 @@ if (module_exist("adsense"))
 <p>To enable the tags feature, you have to enable the AdSense filter in the input format you are using (e.g. Full HTML or Filtered HTML) from Administer >> Input Formats. Then you have to insert the appropriate tag anywhere in your node where you like the ad to appear.</p>
 <p>Note that filters sometimes may have conflicts, and changing the order can make adsense work in some cases.</p>
 
+<h2>Revenue Sharing</h2>
+<p>For revenue sharing, each author gets an predefined share of ad revenue from clicks occuring on nodes they authored.</p>
+<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
+<p>You must setup a profile text field called <b>profile_google_adsense_client</b>. The user must enter the Google Adsense client ID in their profile.</p>
+
 <h2>Notes</h2>
 <p>
 The site administrator will not see ads displayed as long as they are logged in.
@@ -175,46 +205,45 @@ function adsense_perm() {
 
 function adsense_settings() {
   cache_clear_all('adsense', TRUE);
-  $output .= form_textfield(t('Google AdSense Client ID'), 'adsense_client_id',
-    variable_get('adsense_client_id', ''), 25, 25,
+  $output .= form_textfield(t('Google AdSense Client ID'), ADSENSE_CLIENT_ID,
+    variable_get(ADSENSE_CLIENT_ID, ''), 25, 25,
     t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. You must apply for an account with Google AdSense before you get this client ID. Please type it carefully. If you mistype it, your account will not get credited by Google for ads displayed on your site.'));
 
-  $output .= form_radios(t('Show Adsense on specific pages'), 'adsense_visibility',
-    variable_get('adsense_visibility', '0'), array(t('Show on every page except the listed pages.'),
+  $output .= form_radios(t('Show Adsense on specific pages'), ADSENSE_VISIBILITY,
+    variable_get(ADSENSE_VISIBILITY, '0'), array(t('Show on every page except the listed pages.'),
     t('Show on only the listed pages.')));
 
-  $output .= form_textarea(t('Pages'), 'adsense_access_pages',
-    variable_get('adsense_access_pages', ''), 70, 5,
+  $output .= form_textarea(t('Pages'), ADSENSE_ACCESS_PAGES,
+    variable_get(ADSENSE_ACCESS_PAGES, ''), 70, 5,
     t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."));
 
   $form_req = form_group(t('Required parameters'), $output);
 
-  foreach(array(1,2,3) as $group) {
+  for($group=1; $group<ADSENSE_MAX_GROUP+1; $group++) {
+    $output = form_radios(t('Ad Type'), ADSENSE_AD_TYPE . $group, 
+      variable_get(ADSENSE_AD_TYPE . $group, '000000'), array(t('Text'), t('Image'), t('Both')));
 
-    $output = form_radios(t('Ad Type'), 'adsense_ad_type_' . $group, 
-      variable_get('adsense_ad_type_' . $group, '000000'), array(t('Text'), t('Image'), t('Both')));
+    $output .= form_textfield(t('Ad Text Color'), ADSENSE_COLOR_TEXT . $group,
+      variable_get(ADSENSE_COLOR_TEXT . $group, '000000'), 6, 6);
 
-    $output .= form_textfield(t('Ad Text Color'), 'adsense_color_text_' . $group,
-      variable_get('adsense_color_text_' . $group, '000000'), 6, 6);
+    $output .= form_textfield(t('Ad Border Color'), ADSENSE_COLOR_BORDER . $group,
+      variable_get(ADSENSE_COLOR_BORDER . $group, '336699'), 6, 6);
 
-    $output .= form_textfield(t('Ad Border Color'), 'adsense_color_border_' . $group,
-      variable_get('adsense_color_border_' . $group, '336699'), 6, 6);
+    $output .= form_textfield(t('Ad Background Color'), ADSENSE_COLOR_BG . $group,
+      variable_get(ADSENSE_COLOR_BG . $group, 'FFFFFF'), 6, 6);
 
-    $output .= form_textfield(t('Ad Background Color'), 'adsense_color_bg_' . $group,
-      variable_get('adsense_color_bg_' . $group, 'FFFFFF'), 6, 6);
+    $output .= form_textfield(t('Ad Title Color'), ADSENSE_COLOR_LINK . $group,
+      variable_get(ADSENSE_COLOR_LINK . $group, '336699'), 6, 6);
 
-    $output .= form_textfield(t('Ad Title Color'), 'adsense_color_link_' . $group,
-      variable_get('adsense_color_link_' . $group, '336699'), 6, 6);
-
-    $output .= form_textfield(t('Ad URL Color'), 'adsense_color_url_' . $group,
-      variable_get('adsense_color_url_' . $group, 'FF8C00'), 6, 6);
+    $output .= form_textfield(t('Ad URL Color'), ADSENSE_COLOR_URL . $group,
+      variable_get(ADSENSE_COLOR_URL . $group, 'FF8C00'), 6, 6);
   
-    $output .= form_select(t('Alternate URL/Color'), 'adsense_alt_' . $group,
-      variable_get('adsense_alt_' . $group, 0),
+    $output .= form_select(t('Alternate URL/Color'), ADSENSE_ALT . $group,
+      variable_get(ADSENSE_ALT . $group, 0),
       array(t('None'), t('Alternate URL'), t('Alternate Color')));
 
-    $output .= form_textfield(t('Alternate info'), 'adsense_alt_info_' . $group,
-      variable_get('adsense_alt_info_' . $group, ''), 100, 100,
+    $output .= form_textfield(t('Alternate info'), ADSENSE_ALT_INFO . $group,
+      variable_get(ADSENSE_ALT_INFO . $group, ''), 100, 100,
       t('Enter either 6 letter alternate color code, or alternate URL to use'));
 
     $form_group .= form_group(t('Group ' . $group . ' Attributes'), $output);
@@ -223,34 +252,51 @@ function adsense_settings() {
   $form_type = form_group(t('Ad Type and Colors'), $form_group);
 
   $output = '';
-  foreach(array(1,2,3,4,5) as $channel) {
-    $output .= form_textfield(t('Custom Channel ID'), 'adsense_ad_channel_' . $channel, 
-      variable_get('adsense_ad_channel_' . $channel, ''), 30, 30);
+  for($channel=1; $channel<ADSENSE_MAX_CHANNEL+1; $channel++) {
+    $output .= form_textfield(t('Custom Channel ID'), ADSENSE_CHANNEL . $channel, 
+      variable_get(ADSENSE_CHANNEL . $channel, ''), 30, 30);
     }
 
   $form_channel = form_group(t('Custom Channels'), $output, t('Enter up to 5 custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'));
 
-  $output = form_checkbox (t('Disable Google AdSense ads?'), 'adsense_disable', 1,
-    variable_get('adsense_disable', '0'), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
+  $revenue1 = form_checkbox (t('Enable Revenue Sharing'), ADSENSE_REVENUE_ENABLE, 1,
+    variable_get(ADSENSE_REVENUE_ENABLE, 0));
 
-  $output .= form_checkbox (t('Placeholder when ads are disabled?'), 'adsense_placeholder', 1,
-    variable_get('adsense_placeholder', '1'), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
+  $percentage = drupal_map_assoc(array(0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100));
+  $revenue2 = form_select(t('Percentage of node views going to author'), ADSENSE_PERCENTAGE,
+    variable_get(ADSENSE_PERCENTAGE, 0), $percentage);
 
-  $output .= form_textarea(t('Placeholder Text to display'), 'adsense_placeholder_text',
-    variable_get('adsense_placeholder_text', t('Google AdSense ad placeholder here')), 70, 5,
+  $output = '';
+  foreach(node_list() as $type) {
+    $output .= form_checkbox (node_invoke($type, 'node_name'), ADSENSE_NODE_TYPE . $type, 1,
+    variable_get(ADSENSE_NODE_TYPE . $type, 0));
+  }
+  $revenue3 = form_group(t('Content types'), $output, t('Content types that have revenue sharing enabled.'));
+  $revenue = $revenue1 . $revenue2 . $revenue3;
+
+  $form_revenue = form_group(t('Revenue sharing options'), $revenue, t('Note that enabling this will disable adsense code caching, which can cause more resource usage for busy sites.'));
+
+  $output = form_checkbox (t('Disable Google AdSense ads?'), ADSENSE_DISABLE, 1,
+    variable_get(ADSENSE_DISABLE, '0'), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
+
+  $output .= form_checkbox (t('Placeholder when ads are disabled?'), ADSENSE_PLACEHOLDER, 1,
+    variable_get(ADSENSE_PLACEHOLDER, '1'), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
+
+  $output .= form_textarea(t('Placeholder Text to display'), ADSENSE_PLACEHOLDER_TEXT,
+    variable_get(ADSENSE_PLACEHOLDER_TEXT, t('Google AdSense ad placeholder here')), 70, 5,
     t('Enter any text to display as a placeholder when ads are disabled.'));
 
-  $output .= form_textfield(t('Ad limit per page'), 'adsense_page_ad_limit',
-    variable_get('adsense_page_ad_limit', 3) , 6, 6,
+  $output .= form_textfield(t('Ad limit per page'), ADSENSE_PAGE_AD_LIMIT,
+    variable_get(ADSENSE_PAGE_AD_LIMIT, 3) , 6, 6,
     t('Google currently limits a page to 3 ad units'));
   
-  $output .= form_checkbox (t('Enable Adsense Section targeting?'), 'adsense_section_targeting', 1,
-    variable_get('adsense_section_targeting', 1),
+  $output .= form_checkbox (t('Enable Adsense Section targeting?'), ADSENSE_SECTION_TARGETING, 1,
+    variable_get(ADSENSE_SECTION_TARGETING, 1),
     t('This better targets Google Ads to the teaser and body of nodes.'));
 
   $form_adv = form_group(t('Advanced options'), $output);
 
-  return $form_req . $form_type . $form_channel . $form_adv;
+  return $form_req . $form_type . $form_channel . $form_revenue . $form_adv;
 }  
 
 function adsense_display($format = '160x600', $group = 1, $channel = 1) {
@@ -293,7 +339,12 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
   return $ad;
 }
 function _adsense_get_ad($format, $group, $channel) {
-
+  $sharing = variable_get(ADSENSE_REVENUE_ENABLE, 0);
+  if ($sharing) {
+    $ad = _adsense_format($format, $group, $channel);
+    return $ad;
+  }
+  
   $cache_key = "adsense-$group-$format-$channel";
   $cache = cache_get($cache_key);
   if ($cache) {
@@ -311,9 +362,9 @@ function _adsense_get_ad($format, $group, $channel) {
 }
 
 function _adsense_check_if_enabled() {
+  $client_id = adsense_get_client_id();
 
-  $client_id   = variable_get('adsense_client_id', '');
-  $disable_ads = variable_get('adsense_disable', '0');
+  $disable_ads = variable_get(ADSENSE_DISABLE, '0');
 
   if (!$client_id) {
     // Google AdSense Client ID is not configured
@@ -332,7 +383,7 @@ function _adsense_check_if_enabled() {
 }
 
 function _adsense_check_placeholder() {
-  if (variable_get('adsense_placeholder', '1')) {
+  if (variable_get(ADSENSE_PLACEHOLDER, '1')) {
     // Ads are globally disabled and a place holder is set
     return true;
   }
@@ -346,7 +397,7 @@ function _adsense_format_placeholder($format) {
   $width   = _adsense_get_width($format);
   $height  = _adsense_get_height($format);
 
-  $placeholder_text = variable_get('adsense_placeholder_text', t('Google AdSense placeholder here'));
+  $placeholder_text = variable_get(ADSENSE_PLACEHOLDER_TEXT, t('Google AdSense placeholder here'));
 
   $output  = '<div style="' .
   $output .= ' width:'  . $width  . 'px;';
@@ -420,20 +471,20 @@ function _adsense_format($format, $group = 1, $channel = 1) {
 
   $group = _adsense_validate_group($group);
 
-  $client = variable_get('adsense_client_id', '');
+  $client = adsense_get_client_id();
 
-  $text     = variable_get('adsense_color_text_' .   $group, '000000');
-  $border   = variable_get('adsense_color_border_' . $group, '336699');
-  $bg       = variable_get('adsense_color_bg_' .     $group, 'FFFFFF');
-  $link     = variable_get('adsense_color_link_' .   $group, '336699');
-  $url      = variable_get('adsense_color_url_' .    $group, 'FF8C00');
+  $text     = variable_get(ADSENSE_COLOR_TEXT .   $group, '000000');
+  $border   = variable_get(ADSENSE_COLOR_BORDER . $group, '336699');
+  $bg       = variable_get(ADSENSE_COLOR_BG .     $group, 'FFFFFF');
+  $link     = variable_get(ADSENSE_COLOR_LINK .   $group, '336699');
+  $url      = variable_get(ADSENSE_COLOR_URL .    $group, 'FF8C00');
 
-  $alt      = variable_get('adsense_alt_' .          $group, 0);
-  $alt_info = variable_get('adsense_alt_info_' .     $group, '');
+  $alt      = variable_get(ADSENSE_ALT .          $group, 0);
+  $alt_info = variable_get(ADSENSE_ALT_INFO .     $group, '');
 
-  $channel = variable_get('adsense_ad_channel_' . _adsense_validate_channel($channel), '');
+  $channel = variable_get(ADSENSE_CHANNEL . _adsense_validate_channel($channel), '');
 
-  switch (variable_get('adsense_ad_type_' . $group, '0')) {
+  switch (variable_get(ADSENSE_AD_TYPE . $group, '0')) {
     case 2:
       $type = 'text_image';
       break;
@@ -496,7 +547,7 @@ function _adsense_add_nl($str) {
  */
 function _adsense_can_insert_another() {
   static $num_adsense_on_this_page;
-  return ($num_adsense_on_this_page < variable_get('adsense_page_ad_limit', 3));
+  return ($num_adsense_on_this_page < variable_get(ADSENSE_PAGE_AD_LIMIT, 3));
 }
 
 /**
@@ -507,8 +558,8 @@ function _adsense_can_insert_another() {
  */
 function _adsense_page_match() {
   $page_match = FALSE;
-  $visibility = (int)variable_get('adsense_visibility', '0'); 
-  $pages = variable_get('adsense_access_pages', '');
+  $visibility = (int)variable_get(ADSENSE_VISIBILITY, '0'); 
+  $pages = variable_get(ADSENSE_ACCESS_PAGES, '');
   
   if ($pages) {
     // Specific pages are configured
@@ -605,7 +656,7 @@ define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
 
   switch($op) {
     case 'view':
-      if (variable_get('adsense_section_targeting', 1)) {
+      if (variable_get(ADSENSE_SECTION_TARGETING, 1)) {
         if ($teaser) {
           $node->teaser = ADSENSE_START . $node->teaser . ADSENSE_END;
         }
@@ -613,5 +664,84 @@ define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
           $node->body = ADSENSE_START . $node->body . ADSENSE_END;
         }
       }
+
+      if ($page) {
+        adsense_get_client_id($node->uid, $node->type);
+      }
+      else {
+        if ($uid = _adsense_check_blog()) {
+          adsense_get_client_id($uid, 'blog');
+        }
+      }
+
   }
 }
+
+function _adsense_check_blog() {
+  // Special handling for the path /blog/uid or its aliases
+  $path = explode('/', drupal_get_normal_path($_GET['q']));
+  if (is_array($path)) {
+    if (count($path) == 2) {
+      if ($path[0] == 'blog') {
+        if (is_numeric($path[1])) {
+          return $path[1];
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function adsense_get_client_id($uid = '', $type = '') {
+  static $client;
+
+  if ($client) {
+    // Use the cached client id
+    return $client;
+  }
+
+  // Get the site wide client ID
+  $site_client = variable_get(ADSENSE_CLIENT_ID, '');
+
+  // Check if revenue sharing is enabled
+  $revenue = variable_get(ADSENSE_REVENUE_ENABLE, 0);
+  if (!$revenue) {
+    // If not enabled, cache the site wide client ID
+    $client = $site_client;
+    return $client;
+  }
+
+  // Check the content type we are displaying
+  $content = variable_get(ADSENSE_NODE_TYPE . $type, 0);
+  if (!$content) {
+    // Revenue sharing is disabled for this content, use the site wide client id
+    $client = $site_client;
+  }
+
+  // Get the profile field that has the author client ID
+  $result = db_query('SELECT v.value FROM {profile_fields} f INNER JOIN {profile_values} v USING(fid)
+    WHERE f.name = "%s" AND uid = %d', ADSENSE_PROFILE_CLIENT_ID, $uid);
+  while($row = db_fetch_object($result)) {
+    $author_client = $row->value;
+  }
+    
+  // Check the percentage and choose one
+  $client = _adsense_choose_client($site_client, $author_client);
+
+  return $client;
+}
+
+function _adsense_choose_client($site_client, $author_client) {
+  $percentage = variable_get(ADSENSE_PERCENTAGE, 0);
+  if (!$percentage) {
+    return $site_client;
+  }
+
+  // Toss the dice and see who gets their ad displayed
+  if (mt_rand(1,100) <= $percentage) {
+    return $author_client;
+  }
+
+  return $site_client;
+}
+
