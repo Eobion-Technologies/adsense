@@ -209,7 +209,7 @@ function adsense_settings() {
     t('This is the <strong>google_ad_client</strong> line in your Ad code, without the quotes. You must apply for an account with Google AdSense before you get this client ID. Please type it carefully. If you mistype it, your account will not get credited by Google for ads displayed on your site.'));
 
   $output .= form_radios(t('Show Adsense on specific pages'), ADSENSE_VISIBILITY,
-    variable_get(ADSENSE_VISIBILITY, '0'), array(t('Show on every page except the listed pages.'),
+    variable_get(ADSENSE_VISIBILITY, 0), array(t('Show on every page except the listed pages.'),
     t('Show on only the listed pages.')));
 
   $output .= form_textarea(t('Pages'), ADSENSE_ACCESS_PAGES,
@@ -276,10 +276,10 @@ function adsense_settings() {
   $form_revenue = form_group(t('Revenue sharing options'), $revenue, t('Note that enabling this will disable adsense code caching, which can cause more resource usage for busy sites.'));
 
   $output = form_checkbox (t('Disable Google AdSense ads?'), ADSENSE_DISABLE, 1,
-    variable_get(ADSENSE_DISABLE, '0'), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
+    variable_get(ADSENSE_DISABLE, 0), t('This disables all display of Google AdSense Ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'));
 
   $output .= form_checkbox (t('Placeholder when ads are disabled?'), ADSENSE_PLACEHOLDER, 1,
-    variable_get(ADSENSE_PLACEHOLDER, '1'), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
+    variable_get(ADSENSE_PLACEHOLDER, 1), t('This causes an empty box to be displayed in place of the ads when they are disabled.'));
 
   $output .= form_textarea(t('Placeholder Text to display'), ADSENSE_PLACEHOLDER_TEXT,
     variable_get(ADSENSE_PLACEHOLDER_TEXT, t('Google AdSense ad placeholder here')), 70, 5,
