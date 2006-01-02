@@ -38,9 +38,8 @@ function adsense_ad_formats() {
     );
 }
 
-define(ADSENSE_MAX_GROUP,         3);
-define(ADSENSE_MAX_CHANNEL,       5);
-
+define(ADSENSE_MAX_GROUPS,         3);
+define(ADSENSE_MAX_CHANNELS,       5);
 define(ADSENSE_PROFILE_CLIENT_ID, 'profile_google_adsense_client');
 define(ADSENSE_CLIENT_ID,         'adsense_client_id');
 define(ADSENSE_VISIBILITY,        'adsense_visibility');
@@ -219,7 +218,7 @@ function adsense_settings() {
 
   $form_req = form_group(t('Required parameters'), $output);
 
-  for($group=1; $group<ADSENSE_MAX_GROUP+1; $group++) {
+  for($group=1; $group<ADSENSE_MAX_GROUPS+1; $group++) {
     $output = form_radios(t('Ad Type'), ADSENSE_AD_TYPE . $group, 
       variable_get(ADSENSE_AD_TYPE . $group, '000000'), array(t('Text'), t('Image'), t('Both')));
 
@@ -252,9 +251,9 @@ function adsense_settings() {
   $form_type = form_group(t('Ad Type and Colors'), $form_group);
 
   $output = '';
-  for($channel=1; $channel<ADSENSE_MAX_CHANNEL+1; $channel++) {
-    $output .= form_textfield(t('Custom Channel ID'), ADSENSE_CHANNEL . $channel, 
-      variable_get(ADSENSE_CHANNEL . $channel, ''), 30, 30);
+  for($channel=1; $channel<ADSENSE_MAX_CHANNELS+1; $channel++) {
+    $output .= form_textfield(t('Custom Channel ID'), ADSENSE_AD_CHANNEL . $channel, 
+      variable_get(ADSENSE_AD_CHANNEL . $channel, ''), 30, 30);
     }
 
   $form_channel = form_group(t('Custom Channels'), $output, t('Enter up to 5 custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'));
