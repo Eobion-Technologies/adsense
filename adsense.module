@@ -717,7 +717,7 @@ function adsense_get_client_id($uid = '', $type = '') {
 
 function _adsense_choose_client($site_client, $author_client) {
   $percentage = variable_get(ADSENSE_PERCENTAGE, 0);
-  if (!$percentage) {
+  if (!$percentage || !$author_client) {
     return $site_client;
   }
 
