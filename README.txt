@@ -23,6 +23,12 @@ Channel support is also available.
 
 Ads are cached to reduce system load.
 
+If you have the referral module installed, you can specify a percentage
+that goes to the author's referring user as well.
+
+If you have the referral module installed, you can specify a percentage
+that goes to the author's referring user as well.
+
 Resources
 ---------
 You can read the module author's collection  of articles on resources for using
