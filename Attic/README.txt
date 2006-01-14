@@ -25,6 +25,9 @@ Ad Revenue sharing features are included in this version, whereby the admin
 can specify a certain percentage of ad views will be assigned to the node
 author. The node types are also configurable.
 
+If you have the referral module installed, you can specify a percentage
+that goes to the author's referring user as well.
+
 Resources
 ---------
 You can read the module author's collection  of articles on resources for using
