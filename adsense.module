@@ -26,10 +26,11 @@ function adsense_ad_formats() {
     '120x240' =>  array('desc' => 'Vertical Banner',              'code' => '_as'),
     '120x600' =>  array('desc' => 'Skyscraper',                   'code' => '_as'),
     '125x125' =>  array('desc' => 'Button',                       'code' => '_as'),
-    '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
     '160x90'  =>  array('desc' => 'Ad Links 4-links 160x90',      'code' => '_0ads_al'),
     '160x600' =>  array('desc' => 'Wide Skyscraper',              'code' => '_as'),
     '180x90'  =>  array('desc' => 'Ad Links 4-links 180x90',      'code' => '_0ads_al'),
+    '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
+    '300x250' =>  array('desc' => 'Medium Rectangle',             'code' => '_as'),
     '336x280' =>  array('desc' => 'Large Rectangle',              'code' => '_as'),
     '468x15'  =>  array('desc' => 'Banner Ad Links 4-links',      'code' => '_0ads_al'),
     '468x60'  =>  array('desc' => 'Banner',                       'code' => '_as'),
@@ -238,7 +239,7 @@ function adsense_settings() {
 
   $output = '';
   for($channel=1; $channel<ADSENSE_MAX_CHANNELS+1; $channel++) {
-    $output .= form_textfield(t('Custom Channel ID'), ADSENSE_AD_CHANNEL . $channel, 
+    $output .= form_textfield(t('Custom Channel ID ') . $channel, ADSENSE_AD_CHANNEL . $channel, 
       variable_get(ADSENSE_AD_CHANNEL . $channel, ''), 30, 30);
     }
 
@@ -426,33 +427,19 @@ function _adsense_validate_dimensions($format) {
 }
 
 function _adsense_validate_group($group = 1) {
-  switch($group) {
-    case 1:
-    case 2:
-    case 3:
-      return $group;
-      break;
-    default:
-      // Default to 1 if an invalid group is supplied
-      return 1;
-      break;
+  if ($group < 1 || $group > ADSENSE_MAX_GROUPS) {
+    // Default to 1 if an invalid group is supplied
+    return 1;
   }
+  return $group;
 }
 
 function _adsense_validate_channel($channel = 1) {
-  switch($channel) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return $channel;
-      break;
-    default:
-      // Default to 1 if an invalid group is supplied
-      return 1;
-      break;
+  if ($group < 1 || $group > ADSENSE_MAX_CHANNELS) {
+    // Default to 1 if an invalid channel is supplied
+    return 1;
   }
+  return $channel;
 }
 
 function _adsense_format($format, $group = 1, $channel = 1) {
@@ -470,7 +457,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $alt      = variable_get(ADSENSE_ALT .          $group, 0);
   $alt_info = variable_get(ADSENSE_ALT_INFO .     $group, '');
 
-  $channel = variable_get(ADSENSE_CHANNEL . _adsense_validate_channel($channel), '');
+  $channel = variable_get(ADSENSE_AD_CHANNEL . _adsense_validate_channel($channel), '');
 
   switch (variable_get(ADSENSE_AD_TYPE . $group, '0')) {
     case 2:
