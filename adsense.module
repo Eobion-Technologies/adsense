@@ -435,7 +435,7 @@ function _adsense_validate_group($group = 1) {
 }
 
 function _adsense_validate_channel($channel = 1) {
-  if ($group < 1 || $group > ADSENSE_MAX_CHANNELS) {
+  if ($group < 1 || $channel > ADSENSE_MAX_CHANNELS) {
     // Default to 1 if an invalid channel is supplied
     return 1;
   }
