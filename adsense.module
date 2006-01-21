@@ -20,16 +20,18 @@
  * @return returns an array of supported ad formats (desc: description, code: Google Ad code suffix)
  * 
  */
+
 function adsense_ad_formats() {
   return array (
     '120x90'  =>  array('desc' => 'Ad Links 4-links 120x90',      'code' => '_0ads_al'),
     '120x240' =>  array('desc' => 'Vertical Banner',              'code' => '_as'),
     '120x600' =>  array('desc' => 'Skyscraper',                   'code' => '_as'),
     '125x125' =>  array('desc' => 'Button',                       'code' => '_as'),
-    '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
     '160x90'  =>  array('desc' => 'Ad Links 4-links 160x90',      'code' => '_0ads_al'),
     '160x600' =>  array('desc' => 'Wide Skyscraper',              'code' => '_as'),
     '180x90'  =>  array('desc' => 'Ad Links 4-links 180x90',      'code' => '_0ads_al'),
+    '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
+    '300x250' =>  array('desc' => 'Medium Rectangle',             'code' => '_as'),
     '336x280' =>  array('desc' => 'Large Rectangle',              'code' => '_as'),
     '468x15'  =>  array('desc' => 'Banner Ad Links 4-links',      'code' => '_0ads_al'),
     '468x60'  =>  array('desc' => 'Banner',                       'code' => '_as'),
@@ -38,30 +40,30 @@ function adsense_ad_formats() {
     );
 }
 
-define(ADSENSE_MAX_GROUPS,        3);
-define(ADSENSE_MAX_CHANNELS,      5);
-define(ADSENSE_PROFILE_CLIENT_ID, 'profile_google_adsense_client');
-define(ADSENSE_CLIENT_ID,         'adsense_client_id');
-define(ADSENSE_VISIBILITY,        'adsense_visibility');
-define(ADSENSE_ACCESS_PAGES,      'adsense_access_pages');
-define(ADSENSE_AD_TYPE,           'adsense_ad_type_');
-define(ADSENSE_COLOR_TEXT,        'adsense_color_text_');
-define(ADSENSE_COLOR_BORDER,      'adsense_color_border_');
-define(ADSENSE_COLOR_BG,          'adsense_color_bg_');
-define(ADSENSE_COLOR_LINK,        'adsense_color_link_');
-define(ADSENSE_COLOR_URL,         'adsense_color_url_');
-define(ADSENSE_ALT,               'adsense_alt_');
-define(ADSENSE_ALT_INFO,          'adsense_alt_info_');
-define(ADSENSE_AD_CHANNEL,        'adsense_ad_channel_');
-define(ADSENSE_REVENUE_ENABLE,    'adsense_revenue_enable');
-define(ADSENSE_PERCENTAGE_AUTHOR, 'adsense_percentage_author');
-define(ADSENSE_PERCENTAGE_REFER,  'adsense_percentage_refer');
-define(ADSENSE_NODE_TYPE,         'adsense_node_type_');
-define(ADSENSE_DISABLE,           'adsense_disable');
-define(ADSENSE_PLACEHOLDER,       'adsense_placeholder');
-define(ADSENSE_PLACEHOLDER_TEXT,  'adsense_placeholder_text');
-define(ADSENSE_PAGE_AD_LIMIT,     'adsense_page_ad_limit');
-define(ADSENSE_SECTION_TARGETING, 'adsense_section_targeting');
+define('ADSENSE_MAX_GROUPS',        3);
+define('ADSENSE_MAX_CHANNELS',      5);
+define('ADSENSE_PROFILE_CLIENT_ID', 'profile_google_adsense_client');
+define('ADSENSE_CLIENT_ID',         'adsense_client_id');
+define('ADSENSE_VISIBILITY',        'adsense_visibility');
+define('ADSENSE_ACCESS_PAGES',      'adsense_access_pages');
+define('ADSENSE_AD_TYPE',           'adsense_ad_type_');
+define('ADSENSE_COLOR_TEXT',        'adsense_color_text_');
+define('ADSENSE_COLOR_BORDER',      'adsense_color_border_');
+define('ADSENSE_COLOR_BG',          'adsense_color_bg_');
+define('ADSENSE_COLOR_LINK',        'adsense_color_link_');
+define('ADSENSE_COLOR_URL',         'adsense_color_url_');
+define('ADSENSE_ALT',               'adsense_alt_');
+define('ADSENSE_ALT_INFO',          'adsense_alt_info_');
+define('ADSENSE_AD_CHANNEL',        'adsense_ad_channel_');
+define('ADSENSE_REVENUE_ENABLE',    'adsense_revenue_enable');
+define('ADSENSE_PERCENTAGE_AUTHOR', 'adsense_percentage_author');
+define('ADSENSE_PERCENTAGE_REFER',  'adsense_percentage_refer');
+define('ADSENSE_NODE_TYPE',         'adsense_node_type_');
+define('ADSENSE_DISABLE',           'adsense_disable');
+define('ADSENSE_PLACEHOLDER',       'adsense_placeholder');
+define('ADSENSE_PLACEHOLDER_TEXT',  'adsense_placeholder_text');
+define('ADSENSE_PAGE_AD_LIMIT',     'adsense_page_ad_limit');
+define('ADSENSE_SECTION_TARGETING', 'adsense_section_targeting');
 
 function adsense_get_ad_code($format) {
   $all_ads = adsense_ad_formats();
@@ -317,7 +319,7 @@ function adsense_settings() {
   for($channel=1; $channel<ADSENSE_MAX_CHANNELS+1; $channel++) {
     $form['channels'][ADSENSE_AD_CHANNEL . $channel] = array(
       '#type' => 'textfield',
-      '#title' => t('Custom Channel ID'),
+      '#title' => t('Custom Channel ID ') . $channel,
       '#default_value' => variable_get(ADSENSE_AD_CHANNEL . $channel, ''),
       '#size' => 30,
       '#maxlength' => 30,
@@ -558,33 +560,19 @@ function _adsense_validate_dimensions($format) {
 }
 
 function _adsense_validate_group($group = 1) {
-  switch($group) {
-    case 1:
-    case 2:
-    case 3:
-      return $group;
-      break;
-    default:
-      // Default to 1 if an invalid group is supplied
-      return 1;
-      break;
+  if ($group < 1 || $group > ADSENSE_MAX_GROUPS) {
+    // Default to 1 if an invalid group is supplied
+    return 1;
   }
+  return $group;
 }
 
 function _adsense_validate_channel($channel = 1) {
-  switch($channel) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return $channel;
-      break;
-    default:
-      // Default to 1 if an invalid group is supplied
-      return 1;
-      break;
+  if ($channel < 1 || $channel > ADSENSE_MAX_CHANNELS) {
+    // Default to 1 if an invalid channel is supplied
+    return 1;
   }
+  return $channel;
 }
 
 function _adsense_format($format, $group = 1, $channel = 1) {
@@ -602,7 +590,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $alt      = variable_get(ADSENSE_ALT .          $group, 0);
   $alt_info = variable_get(ADSENSE_ALT_INFO .     $group, '');
 
-  $channel = variable_get(ADSENSE_CHANNEL . _adsense_validate_channel($channel), '');
+  $channel = variable_get(ADSENSE_AD_CHANNEL . _adsense_validate_channel($channel), '');
 
   switch (variable_get(ADSENSE_AD_TYPE . $group, '0')) {
     case 2:
