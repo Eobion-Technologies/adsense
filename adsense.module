@@ -74,9 +74,12 @@ function adsense_help($section) {
   global $all_ads;
   switch ($section) {
     case 'admin/modules#description':
-      $output = t('Google AdSense module');
+      $output = t('Display Google AdSense ads on your site to earn revenue.');
       break;
     case 'admin/settings/adsense':
+      $output = t('Before you start using the Google Adsense module, please read the <a href="%link">help and instructions</a> on configuring the module, supported ad formats, and how to display ads on specific parts of your site.', array('%link' => url('admin/help/adsense')));
+      break;
+    case 'admin/help#adsense':
       $headers = array(t('Ad Type'), t('Dimensions'));
       $rows = array();
 
@@ -156,7 +159,7 @@ if (module_exist("adsense"))
 
 <h2>Revenue Sharing</h2>
 <p>For revenue sharing, each author gets an predefined share of ad revenue from clicks occuring on nodes they authored.</p>
-<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
+<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <p>You must setup a profile text field called <b>profile_google_adsense_client</b>. The user must enter the Google Adsense client ID in their profile.</p>
 
 <h2>Notes</h2>
@@ -196,6 +199,7 @@ function adsense_settings() {
   $form['required'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Required parameters'),
   );
   
@@ -211,6 +215,7 @@ function adsense_settings() {
   $form['general'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('General parameters'),
   );
 
@@ -234,6 +239,7 @@ function adsense_settings() {
   $form['types_colors'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Ad Type and Colors'),
   );
   
@@ -242,6 +248,7 @@ function adsense_settings() {
     $form['types_colors']['groups'][$group] = array(
       '#type' => 'fieldset',
       '#collapsible' => true,
+      '#collapsed' => true,
       '#title' => t('Group ' . $group . ' Attributes'),
     );
 
@@ -312,6 +319,7 @@ function adsense_settings() {
   $form['channels'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Custom Channels'),
     '#description' => t('Enter up to ' .  ADSENSE_MAX_CHANNELS . ' custom channels that you have configured in Google AdSense. If you are not using Custom Channels, or you are only using URL channels, then leave this empty'),
   );
@@ -329,6 +337,7 @@ function adsense_settings() {
   $form['revenue'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Revenue sharing options'),
     );
 
@@ -357,6 +366,7 @@ function adsense_settings() {
   $form['revenue']['content'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Content types'),
     '#description' => t('Content types that have revenue sharing enabled.'),
     );
@@ -373,6 +383,7 @@ function adsense_settings() {
   $form['advanced'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
+    '#collapsed' => true,
     '#title' => t('Advanced options'),
   );
 
