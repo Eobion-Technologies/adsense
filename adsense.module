@@ -86,7 +86,7 @@ function adsense_help($section) {
 <h2>Overview</h2>
 <p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
+<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <h2>Supported Formats</h2>
 <p>The following ad formats are supported:</p>'
 . theme('table', $headers, $rows) .
@@ -155,7 +155,7 @@ if (module_exist("adsense"))
 
 <h2>Revenue Sharing</h2>
 <p>For revenue sharing, each author gets an predefined share of ad revenue from clicks occuring on nodes they authored.</p>
-<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/drupal/resources-for-using-google-adsense-with-drupal.html">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
+<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <p>You must setup a profile text field called <b>profile_google_adsense_client</b>. The user must enter the Google Adsense client ID in their profile.</p>
 
 <h2>Notes</h2>
