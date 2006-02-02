@@ -71,13 +71,12 @@ function adsense_get_ad_code($format) {
 }
 
 function adsense_help($section) {
-  global $all_ads;
   switch ($section) {
     case 'admin/modules#description':
-      $output = t('Display Google AdSense ads on your site to earn revenue.');
+      return t('Display Google AdSense ads on your site to earn revenue.');
       break;
     case 'admin/settings/adsense':
-      $output = t('Before you start using the Google Adsense module, please read the <a href="%link">help and instructions</a> on configuring the module, supported ad formats, and how to display ads on specific parts of your site.', array('%link' => url('admin/help/adsense')));
+      return t('Before you start using the Google Adsense module, please read the <a href="%link">help and instructions</a> on configuring the module, supported ad formats, and how to display ads on specific parts of your site.', array('%link' => url('admin/help/adsense')));
       break;
     case 'admin/help#adsense':
       $headers = array(t('Ad Type'), t('Dimensions'));
@@ -86,7 +85,7 @@ function adsense_help($section) {
       foreach(adsense_ad_formats() as $format => $data) {
         $rows[] = array($data['desc'], $format);
         }
-      $output = t('
+      return t('
 <h2>Overview</h2>
 <p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
 <h2>Prerequisites</h2>
@@ -183,10 +182,7 @@ If ads are not displayed, that could be caused by several things:</p>
  source code.</li>
 </ul>
 ');
-      break;
   }
-
-  return $output;
 }
   
 function adsense_perm() {
@@ -532,7 +528,7 @@ function _adsense_format_placeholder($format) {
 
   $placeholder_text = variable_get(ADSENSE_PLACEHOLDER_TEXT, t('Google AdSense placeholder here'));
 
-  $output  = '<div style="' .
+  $output  = '<div style="';
   $output .= ' width:'  . $width  . 'px;';
   $output .= ' height:' . $height . 'px;';
   $output .= ' border:solid 1px">' . $placeholder_text . '</div>';
