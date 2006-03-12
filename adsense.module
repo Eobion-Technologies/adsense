@@ -714,13 +714,20 @@ function _get_referral_uid($uid) {
 }
 
 function _adsense_choose_client($uid) {
+
+  $revenue_enable   = variable_get(ADSENSE_REVENUE_ENABLE, 0);
   $percent_author   = variable_get(ADSENSE_PERCENTAGE_AUTHOR, 0);
   $percent_referral = variable_get(ADSENSE_PERCENTAGE_REFER, 0);
   $site_client      = variable_get(ADSENSE_CLIENT_ID, '');
+
   $author_client    = _get_profile_client_id($uid);
   $referral_client  = _get_profile_client_id(_get_referral_uid($uid));
 
-  if (!$percent_author || !$percent_referral || !$author_client) {
+  if (!$revenue_enable) {
+    return $site_client;
+  }
+
+  if (!$percent_author || !$author_client) {
     return $site_client;
   }
 
@@ -729,10 +736,15 @@ function _adsense_choose_client($uid) {
   if ($random <= $percent_author) {
     $client = $author_client;
   }
-  elseif ($random <= $percent_author + $percent_referral) {
+  elseif ($random <= ($percent_author + $percent_referral)) {
     $client = $referral_client;
   }
   else {
+    $client = $site_client;
+  }
+
+  // Last check to see that we have a valid client
+  if (!$client) {
     $client = $site_client;
   }
 
