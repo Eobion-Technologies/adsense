@@ -853,7 +853,7 @@ function _get_referral_uid($uid) {
   return $referral_uid;
 }
 
-function _adsense_choose_client($site_client, $author_client, $referral_client = false) {
+function _adsense_choose_client($uid) {
 
   $revenue_enable   = variable_get(ADSENSE_REVENUE_ENABLE, 0);
   $percent_author   = variable_get(ADSENSE_PERCENTAGE_AUTHOR, 0);
