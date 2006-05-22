@@ -21,13 +21,15 @@ The site admin never sees ads. This is by design.
 
 Channel support is also available.
 
-Ads are cached to reduce system load.
+Ads are cached to reduce system load (when revenue sharing is disabled).
 
 If you have the referral module installed, you can specify a percentage
 that goes to the author's referring user as well.
 
 If you have the referral module installed, you can specify a percentage
 that goes to the author's referring user as well.
+
+It is now able to do Adsense click tracking.
 
 Resources
 ---------

@@ -64,6 +64,7 @@ define('ADSENSE_PLACEHOLDER',       'adsense_placeholder');
 define('ADSENSE_PLACEHOLDER_TEXT',  'adsense_placeholder_text');
 define('ADSENSE_PAGE_AD_LIMIT',     'adsense_page_ad_limit');
 define('ADSENSE_SECTION_TARGETING', 'adsense_section_targeting');
+define('ADSENSE_CLICK_TRACKING',     'adsense_click_tracking');
 
 function adsense_get_ad_code($format) {
   $all_ads = adsense_ad_formats();
@@ -76,8 +77,6 @@ function adsense_help($section) {
       return t('Display Google AdSense ads on your site to earn revenue.');
       break;
     case 'admin/settings/adsense':
-      return t('Before you start using the Google Adsense module, please read the <a href="%link">help and instructions</a> on configuring the module, supported ad formats, and how to display ads on specific parts of your site.', array('%link' => url('admin/help/adsense')));
-      break;
     case 'admin/help#adsense':
       $headers = array(t('Ad Type'), t('Dimensions'));
       $rows = array();
@@ -161,6 +160,9 @@ if (module_exist("adsense"))
 <p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <p>You must setup a profile text field called <b>profile_google_adsense_client</b>. The user must enter the Google Adsense client ID in their profile.</p>
 
+<h2>Adsense Clicks</h2>
+<p>Adsense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection.</p>
+
 <h2>Notes</h2>
 <p>
 The site administrator will not see ads displayed as long as they are logged in.
@@ -184,9 +186,32 @@ If ads are not displayed, that could be caused by several things:</p>
 ');
   }
 }
+
+function adsense_menu($may_cache) {
+  $items = array();
   
+  $access = user_access('view clicks');
+  if ($may_cache) {
+     $items[] = array(
+      'path'     => 'admin/logs/adsense',
+      'title'    => t('adsense clicks'), 
+      'callback' => 'adsense_click_log',
+      'access'   => $access,
+      );
+   }
+   else {
+     $items[] = array(
+       'path'     => 'adsense/counter',
+       'callback' => 'adsense_counter', 
+       'access'   => true,
+       'type'     => MENU_CALLBACK,
+      );
+   }
+   return $items;
+}
+
 function adsense_perm() {
-  return array ('hide adsense');
+  return array ('hide adsense', 'view clicks');
 }
 
 function adsense_settings() {
@@ -424,6 +449,14 @@ function adsense_settings() {
     '#default_value' => variable_get(ADSENSE_SECTION_TARGETING, 1),
     '#description' => t('This better targets Google Ads to the teaser and body of nodes.'),
   );
+  
+  $form['advanced'][ADSENSE_CLICK_TRACKING] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Adsense click tracking?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, 0),
+    '#description' => t('Logs IP and time of ' . l('Adsense clicks','admin/logs/adsense')),
+  );  
 
   return $form;
 }  
@@ -788,7 +821,6 @@ define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
           adsense_get_client_id($uid, 'blog');
         }
       }
-
   }
 }
 
@@ -899,4 +931,52 @@ function _get_profile_client_id($uid) {
     $client = $row->value;
   }
   return $client;
+}
+
+/* 
+ *
+ * Adsense click tracking functions
+ *
+ */
+
+function adsense_footer($main = 0) {
+  global $base_url;
+
+  if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
+    $path = $base_url . base_path() . drupal_get_path('module', 'adsense') . '/adsense_click.js';
+    $js = '<script type="text/javascript" src="'. $path .'"></script>';
+    return $js;
+  }
+}
+
+function adsense_counter() {
+  if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
+    db_query("INSERT INTO {adsense_clicks} (ip,timestamp) values('%s', %d)", $_SERVER['REMOTE_ADDR'], time());
+  }
+}
+
+/**
+ * Menu callback; presents the "Adsense" log page.
+ */
+function adsense_click_log($type = 'all', $id = 0) {
+  if (!variable_get(ADSENSE_CLICK_TRACKING, 0)) {
+    drupal_set_message('Adsense click tracking is disabled in '. l('advanced options','admin/settings/adsense'). '.');
+  }
+  
+  $header = array(
+    array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
+    array('data' => t('IP'), 'field' => 'ip'),
+    array('data' => t('Hostname'))
+  );
+
+  $sql = 'SELECT aid, timestamp, ip FROM {adsense_clicks} ' . tablesort_sql($header);
+
+  $result = pager_query($sql, 50);
+  while ($log = db_fetch_object($result)) {
+    $rows[] = array(
+      array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
+      $log->ip, gethostbyaddr($log->ip));
+  }
+
+  return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
