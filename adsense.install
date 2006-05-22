@@ -1,0 +1,32 @@
+<?php
+
+function adsense_install() {
+  drupal_set_message('Installing Adsense');
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $success = db_query("CREATE TABLE {adsense_clicks} (
+        aid int(10) NOT NULL auto_increment,
+        ip varchar(15) default '0',
+        timestamp int(11) unsigned NOT NULL default '0',
+        PRIMARY KEY  (aid),
+        KEY (timestamp)
+        ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      break;
+    case 'pgsql':
+      db_query("CREATE TABLE {adsense_statistics} (
+        aid SERIAL,
+        ip varchar(15) default '0',
+        timestamp integer NOT NULL default '0',
+        PRIMARY KEY  (aid));");
+      db_query("CREATE INDEX {timestamp} ON {adsense_clicks} (timestamp);");                    
+      break;
+  }
+  
+  if ($success) {
+    drupal_set_message(t('Adsense module installed tables successfully.'));
+  }
+  else {
+    drupal_set_message(t('Adsense module table creation was unsuccessful.'), 'error');
+  }  
+}
