@@ -139,14 +139,15 @@ function adsense_settings() {
     '#value' => adsense_help_text($help_text),
   );
 
+  $error_flag = false;
   if (!module_exist('profile')) {
     drupal_set_message('The profile module is not enabled. Please enable it and define a field as per instructions.', 'error');
-    return $form;
+    $error_flag = true;
   }
 
   if (!_get_site_owner_client_id()) {
-    drupal_set_message('There is no site owner Google Adsense Client ID defined. Please define one for user id 1 as per instructions.', 'error');
-    return $form;
+    drupal_set_message('There is no site owner Google Adsense Client ID defined. Please define a profile field, and select it below as per instructions, and enter a value for user id 1 as explained below.', 'error');
+    $error_flag = true;
   }
 
   $form['required'] = array(
@@ -164,6 +165,10 @@ function adsense_settings() {
     '#required'      => true,
     '#description'   => t('This is the profile field that holds the Adsense Client ID for the site owner(s) as well as for site users who (optionally) participate in revenue sharing. You must enabled the profile module and create a new field for this.'),
   );
+
+  if ($error_flag) {
+    return $form;
+  }
 
   $form['types_colors'] = array(
     '#type' => 'fieldset',
