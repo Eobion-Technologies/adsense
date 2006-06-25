@@ -13,14 +13,14 @@ return t('
 <p>The following ad formats are supported:</p>'
 . $formats .
 '<h2>Configuration</h2>
-<p>To use this module, you need to enable the profile module, and create a new field of type "single line textfield". This is a required configuration parameter. At a minimum you should enter this field for user 1.</p>
+<p>To use this module, you need to enable the profile module, and create a new field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.</p>
 <p>The field should have the following settings:</p>
 <ul>
-<li>Public field, content shown on profile page but not used on member list pages.</li>
+<li>Private field, content only available to privileged users.</li>
 <li>The user must enter a value.</li>
 <li>Visible in user registration form.</li>
 </ul>
-<p>If you plan to use revenue sharing, you should enter a descriptive explanation as well.</p>
+<p>If you plan to use revenue sharing, you should enter a descriptive explanation so users know what to enter in this field.</p>
 
 <h2>Displaying AdSense Ads</h2>
 <p>There are several ways to display ads, summarized as follows:</p>
