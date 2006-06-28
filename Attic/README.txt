@@ -28,13 +28,14 @@ Installation
 ------------
 This module requires no database changes.
 
-To install, copy the adsense.module to your module directory.
+To install, copy the adsense directory and all its contents to your modules
+directory.
 
 Configuration
 -------------
-To enable this module, visit Admin -> Modules, and enable adsense.
+To enable this module, visit administer -> modules, and enable adsense.
 
-To configure it, go to Admin -> Settings -> AdSense.
+To configure it, go to administer -> settings -> adSense.
 
 Follow the online instructions on that page on how to display ads
 and the various ways to do so.
