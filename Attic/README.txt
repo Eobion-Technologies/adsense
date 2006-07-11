@@ -26,8 +26,6 @@ http://baheyeldin.com/click/476/0
 
 Installation
 ------------
-This module requires no database changes.
-
 To install, copy the adsense directory and all its contents to your modules
 directory.
 
