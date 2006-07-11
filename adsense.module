@@ -1022,7 +1022,9 @@ function adsense_footer($main = 0) {
 
 function adsense_counter() {
   if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
-    db_query("INSERT INTO {adsense_clicks} (ip,timestamp) values('%s', %d)", $_SERVER['REMOTE_ADDR'], time());
+    $path = $_GET['u'];
+    db_query("INSERT INTO {adsense_clicks} (ip, timestamp, path) values('%s', %d, '%s')",
+      $_SERVER['REMOTE_ADDR'], time(), $path);
   }
 }
 
@@ -1033,21 +1035,33 @@ function adsense_click_log($type = 'all', $id = 0) {
   if (!variable_get(ADSENSE_CLICK_TRACKING, 0)) {
     drupal_set_message('Adsense click tracking is disabled in '. l('advanced options','admin/settings/adsense'). '.');
   }
-  
+
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
-    array('data' => t('IP'), 'field' => 'ip'),
-    array('data' => t('Hostname'))
+    array('data' => t('Path'),      'field' => 'path'),
+    array('data' => t('IP'),        'field' => 'ip'),
+    array('data' => t('Hostname')),
   );
 
-  $sql = 'SELECT aid, timestamp, ip FROM {adsense_clicks} ' . tablesort_sql($header);
+  $sql = 'SELECT timestamp, ip, path FROM {adsense_clicks} ' . tablesort_sql($header);
 
   $result = pager_query($sql, 50);
   while ($log = db_fetch_object($result)) {
     $rows[] = array(
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
-      $log->ip, gethostbyaddr($log->ip));
+      _adsense_format_path($log->path),
+      $log->ip,
+      gethostbyaddr($log->ip)
+      );
   }
 
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
+
+function _adsense_format_path($path, $width = 35) {
+  global $base_url;
+  $short_path = ereg_replace("$base_url", '', $path);
+  $title = truncate_utf8($short_path, $width, FALSE, TRUE);
+  return l($title, $path);
+}
+
