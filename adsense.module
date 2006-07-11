@@ -67,6 +67,7 @@ define('ADSENSE_SECTION_TARGETING',       'adsense_section_targeting');
 define('ADSENSE_CLICK_TRACKING',          'adsense_click_tracking');
 define('ADSENSE_CLIENT_ID_PROFILE_FIELD', 'adsense_client_id_profile_field');
 define('ADSENSE_AD_BLOCK',                'adsense_ad_block_');
+define('ADSENSE_CLICK_TRACKING_NAME_RESOLVE', 'adsense_click_tracking_name_resolve');
 
 function adsense_get_ad_code($format) {
   $all_ads = adsense_ad_formats();
@@ -346,6 +347,29 @@ function adsense_settings() {
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."),
   );
 
+  $form['click_tracking'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => true,
+    '#collapsed' => true,
+    '#title' => t('Click tracking'),
+  );
+
+  $form['click_tracking'][ADSENSE_CLICK_TRACKING] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Adsense click tracking?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, 0),
+    '#description' => t('Logs IP and time of ' . l('Adsense clicks','admin/logs/adsense') . '. ' . t('This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.')),
+  );  
+
+  $form['click_tracking'][ADSENSE_CLICK_TRACKING_NAME_RESOLVE] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable name resolution of IP Addresses?'),
+    '#return_value' => 1,
+    '#default_value' => variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0),
+    '#description' => t('Display the name instead of the IP address. This can slow down the display of the logs page and tie up a PHP process for several seconds. It may not be available on some hosting providers as well.'),
+  );  
+
   $form['advanced'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
@@ -403,13 +427,6 @@ function adsense_settings() {
     '#description' => t('This better targets Google Ads to the teaser and body of nodes.'),
   );
   
-  $form['advanced'][ADSENSE_CLICK_TRACKING] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable Adsense click tracking?'),
-    '#return_value' => 1,
-    '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, 0),
-    '#description' => t('Logs IP and time of ' . l('Adsense clicks','admin/logs/adsense') . '. ' . t('This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.')),
-  );  
 
   return $form;
 }  
@@ -1032,27 +1049,35 @@ function adsense_counter() {
  * Menu callback; presents the "Adsense" log page.
  */
 function adsense_click_log($type = 'all', $id = 0) {
-  if (!variable_get(ADSENSE_CLICK_TRACKING, 0)) {
-    drupal_set_message('Adsense click tracking is disabled in '. l('advanced options','admin/settings/adsense'). '.');
-  }
-
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
     array('data' => t('Path'),      'field' => 'path'),
-    array('data' => t('IP'),        'field' => 'ip'),
-    array('data' => t('Hostname')),
+    array('data' => t('IP/Host'),   'field' => 'ip'),
   );
 
-  $sql = 'SELECT timestamp, ip, path FROM {adsense_clicks} ' . tablesort_sql($header);
+  if (!variable_get(ADSENSE_CLICK_TRACKING, 0)) {
+    drupal_set_message('Adsense click tracking is disabled in '. l('advanced options','admin/settings/adsense'). '.');
+    return theme('table', $header, array());
+  }
+
+  $name_resolve = variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0);
+
+  $sql = 'SELECT * FROM {adsense_clicks} ' . tablesort_sql($header);
 
   $result = pager_query($sql, 50);
   while ($log = db_fetch_object($result)) {
+    if ($name_resolve) {
+      $host = gethostbyaddr($log->ip);
+    }
+    else {
+      $host = $log->ip;
+    }
+
     $rows[] = array(
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
       _adsense_format_path($log->path),
-      $log->ip,
-      gethostbyaddr($log->ip)
-      );
+      l($host, 'http://whois.domaintools.com/' . $log->ip),
+    );
   }
 
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
