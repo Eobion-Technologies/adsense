@@ -88,12 +88,31 @@ function adsense_menu($may_cache) {
   
   $access = user_access('view clicks');
   if ($may_cache) {
-     $items[] = array(
-      'path'     => 'admin/logs/adsense',
-      'title'    => t('adsense clicks'), 
-      'callback' => 'adsense_click_log',
-      'access'   => $access,
-      );
+    if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
+      $items[] = array(
+        'path'     => 'admin/logs/adsense',
+        'title'    => t('adsense clicks'), 
+        'callback' => 'adsense_click_log',
+        'type'     => MENU_NORMAL_ITEM,
+        'access'   => $access,
+        );
+
+      $items[] = array(
+        'path'      => 'admin/logs/adsense/top_pages',
+        'title'     => t('Top pages'),
+        'callback'  => 'adsense_click_top_pages',
+        'type'     => MENU_NORMAL_ITEM,
+        'access'    => $access,
+        );
+
+      $items[] = array(
+        'path'      => 'admin/logs/adsense/by_day',
+        'title'     => t('By day'),
+        'callback'  => 'adsense_click_by_day',
+        'type'     => MENU_NORMAL_ITEM,
+        'access'    => $access,
+        );
+     }
    }
    else {
      $items[] = array(
@@ -1048,17 +1067,12 @@ function adsense_counter() {
 /**
  * Menu callback; presents the "Adsense" log page.
  */
-function adsense_click_log($type = 'all', $id = 0) {
+function adsense_click_log() {
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
     array('data' => t('Path'),      'field' => 'path'),
     array('data' => t('IP/Host'),   'field' => 'ip'),
   );
-
-  if (!variable_get(ADSENSE_CLICK_TRACKING, 0)) {
-    drupal_set_message('Adsense click tracking is disabled in '. l('advanced options','admin/settings/adsense'). '.');
-    return theme('table', $header, array());
-  }
 
   $name_resolve = variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0);
 
@@ -1077,6 +1091,48 @@ function adsense_click_log($type = 'all', $id = 0) {
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
       _adsense_format_path($log->path),
       l($host, 'http://whois.domaintools.com/' . $log->ip),
+    );
+  }
+
+  return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
+}
+
+function adsense_click_top_pages() {
+  $header = array(
+    array('data' => t('Path'),   'field' => 'path'),
+    array('data' => t('Clicks'), 'field' => 'count', 'sort' => 'desc'),
+    array('data' => t('Last'),   'field' => 'last'),
+  );
+
+  $sql = 'SELECT path, COUNT(*) AS count, MAX(timestamp) AS last FROM {adsense_clicks} GROUP BY path' .
+    tablesort_sql($header);
+
+  $result = pager_query($sql, 50);
+  while ($log = db_fetch_object($result)) {
+    $rows[] = array(
+      array('data' => _adsense_format_path($log->path)),
+      array('data' => $log->count, 'align' => 'right'),
+      array('data' => format_date($log->last, 'small'), 'nowrap' => 'nowrap'),
+    );
+  }
+
+  return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
+}
+
+function adsense_click_by_day() {
+  $header = array(
+    array('data' => t('Day'),    'field' => 'day', 'sort' => 'desc'),
+    array('data' => t('Clicks'), 'field' => 'count'),
+  );
+
+  $sql = 'SELECT date(FROM_UNIXTIME(timestamp)) AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day' . 
+    tablesort_sql($header);
+
+  $result = pager_query($sql, 50);
+  while ($log = db_fetch_object($result)) {
+    $rows[] = array(
+      $log->day,
+      array('data' => $log->count, 'align' => 'right'),
     );
   }
 
