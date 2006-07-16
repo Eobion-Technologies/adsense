@@ -113,7 +113,7 @@ if (module_exist("adsense"))
 <p>Each user must enter their Google Adsense Client ID in the profile field you defined above.</p>
 
 <h2>Adsense Clicks</h2>
-<p>Adsense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection.</p>
+<p>Adsense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection. There are three reports under administer -> logs: the default one shows click details, the by date shows the number of clicks per day by day, and the top pages shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>
 
 <h2>Notes</h2>
 <p>
