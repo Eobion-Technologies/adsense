@@ -1143,7 +1143,7 @@ function adsense_click_by_day() {
 
 function _adsense_format_path($path, $width = 35) {
   global $base_url;
-  $short_path = ereg_replace("/$base_url/", '', $path);
+  $short_path = str_replace($base_url, '', $path);
   $title = truncate_utf8($short_path, $width, FALSE, TRUE);
   return l($title, $path);
 }
