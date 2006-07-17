@@ -1125,10 +1125,12 @@ function adsense_click_by_day() {
     array('data' => t('Clicks'), 'field' => 'count'),
   );
 
+  $sql_count = 'SELECT COUNT(DISTINCT(date(FROM_UNIXTIME(timestamp)))) FROM {adsense_clicks}';
+
   $sql = 'SELECT date(FROM_UNIXTIME(timestamp)) AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day' . 
     tablesort_sql($header);
 
-  $result = pager_query($sql, 50);
+  $result = pager_query($sql, 50, 0, $sql_count);
   while ($log = db_fetch_object($result)) {
     $rows[] = array(
       $log->day,
@@ -1141,7 +1143,7 @@ function adsense_click_by_day() {
 
 function _adsense_format_path($path, $width = 35) {
   global $base_url;
-  $short_path = ereg_replace("$base_url", '', $path);
+  $short_path = ereg_replace("/$base_url/", '', $path);
   $title = truncate_utf8($short_path, $width, FALSE, TRUE);
   return l($title, $path);
 }
