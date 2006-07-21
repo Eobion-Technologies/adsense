@@ -14,9 +14,12 @@ return t('
 . $formats .
 '<h2>Configuration</h2>
 <p>To use this module, you need to enable the profile module, and create a new field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.</p>
-<p>The field should have the following settings:</p>
+<p>The field must be setup as follows:</p>
 <ul>
 <li>Private field, content only available to privileged users.</li>
+</ul>
+<p>If you want to use revenue sharing and force users to enter a value when they signup, then use the following settings:</p>
+<ul>
 <li>The user must enter a value.</li>
 <li>Visible in user registration form.</li>
 </ul>
