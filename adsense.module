@@ -1125,10 +1125,9 @@ function adsense_click_by_day() {
     array('data' => t('Clicks'), 'field' => 'count'),
   );
 
-  $sql_count = 'SELECT COUNT(DISTINCT(date(FROM_UNIXTIME(timestamp)))) FROM {adsense_clicks}';
+  $sql_count = "SELECT COUNT(DISTINCT(FROM_UNIXTIME(timestamp, '%y-%m-%%d'))) FROM {adsense_clicks}";
 
-  $sql = 'SELECT date(FROM_UNIXTIME(timestamp)) AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day' . 
-    tablesort_sql($header);
+  $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
 
   $result = pager_query($sql, 50, 0, $sql_count);
   while ($log = db_fetch_object($result)) {
