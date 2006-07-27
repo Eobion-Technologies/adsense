@@ -4,7 +4,7 @@ function adsense_install() {
   switch ($GLOBALS['db_type']) {
     case 'mysql':
     case 'mysqli':
-      $success = db_query("CREATE TABLE {adsense_clicks} (
+      $success = db_query("CREATE TABLE IF NOT EXISTS {adsense_clicks} (
         aid       INT(10)     NOT NULL AUTO_INCREMENT,
         ip        VARCHAR(15) DEFAULT '0',
         timestamp INT(11)     unsigned NOT NULL DEFAULT '0',
