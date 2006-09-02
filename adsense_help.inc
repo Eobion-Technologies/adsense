@@ -13,17 +13,19 @@ return t('
 <p>The following ad formats are supported:</p>'
 . $formats .
 '<h2>Configuration</h2>
-<p>To use this module, you need to enable the profile module, and create a new field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.</p>
-<p>The field must be setup as follows:</p>
+<p>To use this module, you need to do the following first:</p>
 <ul>
-<li>Private field, content only available to privileged users.</li>
-</ul>
-<p>If you want to use revenue sharing and force users to enter a value when they signup, then use the following settings:</p>
+<li>Go to administer -> modules and enable the profile module.</li>
+<li>Go to administer -> settings -> profile and create a new profile field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.
+<p>Note that the new profile field must be setup as: "Private field, content only available to privileged users". All other values are either insecure or will not work, so do not use any of them.</p>
+<p>If you want to use revenue sharing and force users to enter a value when they signup, then check the following settings:</p>
 <ul>
 <li>The user must enter a value.</li>
 <li>Visible in user registration form.</li>
 </ul>
-<p>If you plan to use revenue sharing, you should enter a descriptive explanation so users know what to enter in this field.</p>
+<p>Also, you should enter a descriptive explanation for the Google Adsense Client ID, so users know what to enter in this field.</p></li>
+<li>Go to "my account" -> edit, then click on the category that you defined the Google Adsense Client ID under, and then enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>
+</ul>
 
 <h2>Displaying AdSense Ads</h2>
 <p>There are several ways to display ads, summarized as follows:</p>
