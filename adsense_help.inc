@@ -18,7 +18,7 @@ return t('
 <li>Go to administer -> modules and enable the profile module.</li>
 <li>Go to administer -> settings -> profile and create a new profile field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.
 <p>Note that the new profile field must be setup as: "Private field, content only available to privileged users". All other values are either insecure or will not work, so do not use any of them.</p>
-<p>If you want to use revenue sharing and force users to enter a value when they signup, then check the following settings:</p>
+<p>If you want to use revenue sharing and force users to enter a value when they register, then check the following settings:</p>
 <ul>
 <li>The user must enter a value.</li>
 <li>Visible in user registration form.</li>
@@ -116,6 +116,7 @@ if (module_exist("adsense"))
 <p>For revenue sharing, each author gets an predefined share of ad revenue from clicks occuring on nodes they authored.</p>
 <p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 <p>Each user must enter their Google Adsense Client ID in the profile field you defined above.</p>
+<p>Note that turning on the Drupal cache may cause revenue sharing to not work properly, since all of the page HTML will be cached, including the adsense ad code.</p>
 
 <h2>Adsense Clicks</h2>
 <p>Adsense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection. There are three reports under administer -> logs: the default one shows click details, the by date shows the number of clicks per day by day, and the top pages shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>
