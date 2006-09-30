@@ -31,6 +31,7 @@ function adsense_ad_formats() {
     '160x600' =>  array('desc' => 'Wide Skyscraper',              'code' => '_as'),
     '180x90'  =>  array('desc' => 'Ad Links 4-links 180x90',      'code' => '_0ads_al'),
     '180x150' =>  array('desc' => 'Small rectangle',              'code' => '_as'),
+    '200x200' =>  array('desc' => 'Small Square',                 'code' => '_as'),
     '234x60'  =>  array('desc' => 'Half Banner',                  'code' => '_as'),
     '300x250' =>  array('desc' => 'Medium Rectangle',             'code' => '_as'),
     '336x280' =>  array('desc' => 'Large Rectangle',              'code' => '_as'),
