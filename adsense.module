@@ -13,12 +13,12 @@
  *
  * To ad a new code:
  * - Make sure the dimensions are not in use by a different format
- * - Go to Google AdSense 
+ * - Go to Google AdSense
  *   . Get the dimensions
- *   . Get the code (suffix after the dimensions) 
+ *   . Get the code (suffix after the dimensions)
  * - Add it below in ascending order (width first, then height)
  * @return returns an array of supported ad formats (desc: description, code: Google Ad code suffix)
- * 
+ *
  */
 
 function adsense_ad_formats() {
@@ -78,8 +78,6 @@ function adsense_get_ad_code($format) {
 
 function adsense_help($section) {
   switch ($section) {
-    case 'admin/modules#description':
-      return t('Display Google AdSense ads on your site to earn revenue.');
     case 'admin/settings/adsense':
       return t('<p>$Revision$ $Date$</p>');
   }
@@ -87,13 +85,13 @@ function adsense_help($section) {
 
 function adsense_menu($may_cache) {
   $items = array();
-  
+
   $access = user_access('view clicks');
   if ($may_cache) {
     if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
       $items[] = array(
         'path'     => 'admin/logs/adsense',
-        'title'    => t('adsense clicks'), 
+        'title'    => t('adsense clicks'),
         'callback' => 'adsense_click_log',
         'type'     => MENU_NORMAL_ITEM,
         'access'   => $access,
@@ -103,7 +101,7 @@ function adsense_menu($may_cache) {
         'path'      => 'admin/logs/adsense/top_pages',
         'title'     => t('Top pages'),
         'callback'  => 'adsense_click_top_pages',
-        'type'     => MENU_NORMAL_ITEM,
+        'type'      => MENU_NORMAL_ITEM,
         'access'    => $access,
         );
 
@@ -111,15 +109,24 @@ function adsense_menu($may_cache) {
         'path'      => 'admin/logs/adsense/by_day',
         'title'     => t('By day'),
         'callback'  => 'adsense_click_by_day',
-        'type'     => MENU_NORMAL_ITEM,
+        'type'      => MENU_NORMAL_ITEM,
         'access'    => $access,
         );
+                                    
      }
+     $items[] = array(             
+       'path' => 'admin/adsense/settings',
+       'title' => t('Settings'),
+       'callback' => 'drupal_get_form',
+       'callback arguments' => 'adsense_admin_settings',
+       'access' => user_access('administer site configuration'),
+       'type' => MENU_NORMAL_ITEM,
+     );
    }
    else {
      $items[] = array(
        'path'     => 'adsense/counter',
-       'callback' => 'adsense_counter', 
+       'callback' => 'adsense_counter',
        'access'   => true,
        'type'     => MENU_CALLBACK,
       );
@@ -131,9 +138,9 @@ function adsense_perm() {
   return array ('hide adsense', 'view clicks');
 }
 
-function adsense_settings() {
-  cache_clear_all('adsense', TRUE);
-  
+function adsense_admin_settings() {
+  $form = array();
+  cache_clear_all('adsense', 'cache', TRUE);
 
   // We only load the help text if we are in settings, to save memory
   include_once(drupal_get_path('module', 'adsense') . '/adsense_help.inc');
@@ -155,14 +162,14 @@ function adsense_settings() {
     '#collapsed' => true,
     '#title' => t('Help and Instructions'),
   );
-  
+
   $form['help']['help'] = array(
     '#type'  => 'markup',
     '#value' => adsense_help_text($help_text),
   );
 
   $error_flag = false;
-  if (!module_exist('profile')) {
+  if (!module_exists('profile')) {
     drupal_set_message('The profile module is not enabled. Please enable it and define a field as per instructions.', 'error');
     $error_flag = true;
   }
@@ -178,7 +185,7 @@ function adsense_settings() {
     '#collapsed' => false,
     '#title' => t('Required parameters'),
   );
-  
+
   $form['required'][ADSENSE_CLIENT_ID_PROFILE_FIELD] = array(
     '#type'          => 'select',
     '#title'         => t('Google Adsense Client ID Profile Field'),
@@ -189,7 +196,7 @@ function adsense_settings() {
   );
 
   if ($error_flag) {
-    return $form;
+    return system_settings_form($form);
   }
 
   $form['types_colors'] = array(
@@ -198,9 +205,9 @@ function adsense_settings() {
     '#collapsed' => true,
     '#title' => t('Ad Groups'),
   );
-  
+
   for($group=1; $group<ADSENSE_MAX_GROUPS+1; $group++) {
-    
+
     $form['types_colors']['groups'][$group] = array(
       '#type' => 'fieldset',
       '#collapsible' => true,
@@ -254,7 +261,7 @@ function adsense_settings() {
       '#size' => 6,
       '#maxlength' => 6,
     );
-  
+
     $form['types_colors']['groups'][$group][ADSENSE_ALT . $group] = array(
       '#type' => 'select',
       '#title' => t('Alternate URL/Color'),
@@ -289,7 +296,7 @@ function adsense_settings() {
       '#maxlength' => 30,
     );
   }
-  
+
   $form['revenue'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
@@ -311,8 +318,8 @@ function adsense_settings() {
     '#default_value' => variable_get(ADSENSE_PERCENTAGE_AUTHOR, 0),
     '#options' => drupal_map_assoc(array(0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100)),
     );
-  
-  if (module_exist('referral')) {
+
+  if (module_exists('referral')) {
     $list = drupal_map_assoc(array(0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100));
   }
   else {
@@ -326,7 +333,7 @@ function adsense_settings() {
     '#options' => $list,
     '#description' => t('This feature requires the referral module to be installed.')
     );
-  
+
   $form['revenue']['content'] = array(
     '#type' => 'fieldset',
     '#collapsible' => true,
@@ -381,7 +388,7 @@ function adsense_settings() {
     '#return_value' => 1,
     '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, 0),
     '#description' => t('Logs IP and time of ' . l('Adsense clicks','admin/logs/adsense') . '. ' . t('This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.')),
-  );  
+  );
 
   $form['click_tracking'][ADSENSE_CLICK_TRACKING_NAME_RESOLVE] = array(
     '#type' => 'checkbox',
@@ -389,7 +396,7 @@ function adsense_settings() {
     '#return_value' => 1,
     '#default_value' => variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0),
     '#description' => t('Display the name instead of the IP address. This can slow down the display of the logs page and tie up a PHP process for several seconds. It may not be available on some hosting providers as well.'),
-  );  
+  );
 
   $form['advanced'] = array(
     '#type' => 'fieldset',
@@ -439,7 +446,7 @@ function adsense_settings() {
     '#maxlength' => 6,
     '#description' => t('Google currently limits a page to 3 ad units, in addition to one ad links unit'),
   );
-  
+
   $form['advanced'][ADSENSE_SECTION_TARGETING] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable Adsense Section targeting?'),
@@ -447,10 +454,9 @@ function adsense_settings() {
     '#default_value' => variable_get(ADSENSE_SECTION_TARGETING, 1),
     '#description' => t('This better targets Google Ads to the teaser and body of nodes.'),
   );
-  
 
-  return $form;
-}  
+  return system_settings_form($form);
+}
 
 function adsense_display($format = '160x600', $group = 1, $channel = 1) {
   static $num_adsense_on_this_page;
@@ -497,7 +503,7 @@ function _adsense_get_ad($format, $group, $channel) {
     $ad = _adsense_format($format, $group, $channel);
     return $ad;
   }
-  
+
   $cache_key = "adsense-$group-$format-$channel";
   $cache = cache_get($cache_key);
   if ($cache) {
@@ -508,7 +514,7 @@ function _adsense_get_ad($format, $group, $channel) {
     // Not cached. Format an ad
     $ad = _adsense_format($format, $group, $channel);
     // Add it to cache
-    cache_set($cache_key, $ad, CACHE_PERMANENT);
+    cache_set($cache_key, 'cache', $ad, CACHE_PERMANENT);
   }
 
   return $ad;
@@ -523,7 +529,7 @@ function _adsense_check_if_enabled() {
     // Google AdSense Client ID is not configured
     return false;
   }
-  
+
   if ($disable_ads) {
     return false;
   }
@@ -705,17 +711,17 @@ function _adsense_can_insert_another() {
  */
 function _adsense_page_match() {
   $page_match = FALSE;
-  $visibility = (int)variable_get(ADSENSE_VISIBILITY, '0'); 
+  $visibility = (int)variable_get(ADSENSE_VISIBILITY, '0');
   $pages = variable_get(ADSENSE_ACCESS_PAGES, '');
-  
+
   if ($pages) {
     // Specific pages are configured
     $path = drupal_get_path_alias($_GET['q']);
     $regexp = '/^('. preg_replace(
-      array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), 
-      array('|', '.*', '\1'. variable_get('site_frontpage', 'node') .'\2'), 
+      array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'),
+      array('|', '.*', '\1'. variable_get('site_frontpage', 'node') .'\2'),
       preg_quote($pages, '/')) .')$/';
-    $page_match = !($visibility xor preg_match($regexp, $path));    
+    $page_match = !($visibility xor preg_match($regexp, $path));
   }
   else {
     // No pages are configured
@@ -794,7 +800,7 @@ function _adsense_tag_block($bid) {
 }
 
 function _adsense_tag_flexiblock($location) {
-  if (module_exist('flexiblock')) {
+  if (module_exists('flexiblock')) {
     // Tag is in [adsense:flexiblock:1] format
     $blocks = theme('flexiblock_blocks', $location);
     foreach ($blocks as $block) {
@@ -900,12 +906,7 @@ define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
   switch($op) {
     case 'view':
       if (variable_get(ADSENSE_SECTION_TARGETING, 1)) {
-        if ($teaser) {
-          $node->teaser = ADSENSE_START . $node->teaser . ADSENSE_END;
-        }
-        else {
-          $node->body = ADSENSE_START . $node->body . ADSENSE_END;
-        }
+        $node->content['body']['#value'] = ADSENSE_START . $node->content['body']['#value'] . ADSENSE_END;
       }
 
       if ($page) {
@@ -967,7 +968,7 @@ function adsense_get_client_id($uid = false, $type = false) {
 }
 
 function _get_referral_uid($uid) {
-  if (!module_exist('referral')) {
+  if (!module_exists('referral')) {
     return $uid;
   }
 
@@ -986,14 +987,14 @@ function _adsense_choose_client($uid) {
   $percent_author   = variable_get(ADSENSE_PERCENTAGE_AUTHOR, 0);
   $percent_referral = variable_get(ADSENSE_PERCENTAGE_REFER, 0);
   $site_client      = _get_site_owner_client_id();
- 
+
   $author_client    = _get_profile_client_id($uid);
   $referral_client  = _get_profile_client_id(_get_referral_uid($uid));
 
   if (!$revenue_enable) {
     return $site_client;
   }
- 
+
   if (!$percent_author || !$author_client) {
     return $site_client;
   }
@@ -1030,7 +1031,7 @@ function _get_site_owner_client_id() {
 function _get_profile_client_id($uid = 0) {
   // Get the profile field for a certain user
   $profile_field = variable_get(ADSENSE_CLIENT_ID_PROFILE_FIELD, 0);
-  $client_id = db_result(db_query('SELECT value FROM {profile_values} 
+  $client_id = db_result(db_query('SELECT value FROM {profile_values}
     WHERE fid = %d AND uid = %d', $profile_field, $uid));
   return $client_id;
 }
@@ -1044,9 +1045,9 @@ function _adsense_get_profile_fields() {
   }
 
   return $profile;
-}  
+}
 
-/* 
+/*
  *
  * Adsense click tracking functions
  *
