@@ -906,7 +906,8 @@ define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
   switch($op) {
     case 'view':
       if (variable_get(ADSENSE_SECTION_TARGETING, 1)) {
-        $node->content['body']['#value'] = ADSENSE_START . $node->content['body']['#value'] . ADSENSE_END;
+        $node->content['adsense_start'] = array('#value' => ADSENSE_START, '#weight' => -1);
+        $node->content['adsense_end'] = array('#value' => ADSENSE_END, '#weight' => 1);
       }
 
       if ($page) {
