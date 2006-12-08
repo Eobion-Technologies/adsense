@@ -21,16 +21,16 @@ function adsense_install() {
         timestamp INTEGER NOT NULL DEFAULT '0',
         path      VARCHAR(255) DEFAULT '',
         PRIMARY KEY  (aid));");
-      $success = db_query("CREATE INDEX {timestamp} ON {adsense_clicks} (timestamp);");                    
+      $success = db_query("CREATE INDEX {timestamp} ON {adsense_clicks} (timestamp);");
       break;
   }
-  
+
   if ($success) {
     drupal_set_message(t('Adsense module table creation successful.'));
   }
   else {
     drupal_set_message(t('Adsense module table creation was unsuccessful.'), 'error');
-  }  
+  }
 }
 
 /**

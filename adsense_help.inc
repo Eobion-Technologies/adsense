@@ -148,3 +148,4 @@ If ads are not displayed, that could be caused by several things:</p>
  source code.</li>
 </ul>');
 }
+

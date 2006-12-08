@@ -112,9 +112,9 @@ function adsense_menu($may_cache) {
         'type'      => MENU_NORMAL_ITEM,
         'access'    => $access,
         );
-                                    
+
      }
-     $items[] = array(             
+     $items[] = array(
        'path' => 'admin/adsense/settings',
        'title' => t('Google AdSense'),
        'callback' => 'drupal_get_form',
