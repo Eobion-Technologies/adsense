@@ -732,7 +732,7 @@ function _adsense_page_match() {
   // Thanks to Brad Konia http://drupal.org/node/29585
   // Should be restricted when running on Apache only
   if (function_exists('apache_get_version')) {
-    if (isset($_SERVER['HTTPS'])) {
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
       $page_match = FALSE;
     }
   }
