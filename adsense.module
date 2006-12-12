@@ -879,7 +879,7 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view':
       $ad = _adsense_get_block_config($delta);
       $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2]) : t('Adsense unconfigured block. ') . l(t('click to configure'), 'admin/block/configure/adsense/' . $delta);
+      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2]) : t('Adsense unconfigured block. ') . l(t('click to configure'), 'admin/build/block/configure/adsense/' . $delta);
 
       break;
     }

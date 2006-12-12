@@ -33,7 +33,7 @@ return t('
 
 <h3>Using Blocks</h3>
 <p>The easiest way to get started with this module is to use one or more of the pre-defined blocks.</p>
-<p>Visit the '. l(t('blocks'), 'admin/block') .' configuration page, and click on the <strong>configure</strong> link of one of the adsense blocks. You have to select a format, a group, and a channel.</p>
+<p>Visit the '. l(t('blocks'), 'admin/build/block') .' configuration page, and click on the <strong>configure</strong> link of one of the adsense blocks. You have to select a format, a group, and a channel.</p>
 <p>Enable the block, and specify a region it would be displayed in.</p>
 
 <h3>Using Custom PHP code</h3>
