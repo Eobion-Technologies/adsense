@@ -1126,14 +1126,21 @@ function adsense_click_top_pages() {
 }
 
 function adsense_click_by_day() {
+  global $db_type;
   $header = array(
     array('data' => t('Day'),    'field' => 'day', 'sort' => 'desc'),
     array('data' => t('Clicks'), 'field' => 'count'),
   );
 
-  $sql_count = "SELECT COUNT(DISTINCT(FROM_UNIXTIME(timestamp, '%y-%m-%%d'))) FROM {adsense_clicks}";
-
-  $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
+  switch ($db_type) {
+    case 'mysql':
+    case 'mysqli':
+      $sql_count = "SELECT COUNT(DISTINCT(FROM_UNIXTIME(timestamp, '%y-%m-%%d'))) FROM {adsense_clicks}";
+      $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
+    case 'pgsql':
+     $sql_count = "SELECT COUNT(DISTINCT(TO_CHAR(timestamp, 'YYYY-MM-DD'))) FROM {adsense_clicks}";
+      $sql = "SELECT TO_CHAR(timestamp, 'YYYY-MM-DD') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
+  }
 
   $result = pager_query($sql, 50, 0, $sql_count);
   while ($log = db_fetch_object($result)) {
