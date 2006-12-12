@@ -671,7 +671,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $output .= _adsense_add_nl('google_color_link = "'   . $link    . '";');
   $output .= _adsense_add_nl('google_color_url = "'    . $url     . '";');
   $output .= _adsense_add_nl('google_color_text = "'   . $text    . '";');
-  $output .= _adsense_add_nl('--></script>');
+  $output .= _adsense_add_nl('//--></script>');
   $output .= _adsense_add_nl('<script type="text/javascript"');
   $output .= _adsense_add_nl(' src="http://pagead2.googlesyndication.com/pagead/show_ads.js">');
   $output .= _adsense_add_nl('</script>');
