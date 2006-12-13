@@ -7,36 +7,36 @@ return t('
 <p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
 
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
+<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on AdSense, and how to optimize your site for it.</p>
 
-<h2>Supported Formats</h2>
+<h2>Supported formats</h2>
 <p>The following ad formats are supported:</p>'
 . $formats .
 '<h2>Configuration</h2>
 <p>To use this module, you need to do the following first:</p>
 <ul>
-<li>Go to administer -> modules and enable the profile module.</li>
-<li>Go to administer -> settings -> profile and create a new profile field of type "single line textfield". Name this field something like "Google Adsense Client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.
+<li>Go to Administer -> Site building -> Modules and enable the profile module.</li>
+<li>Go to Administer -> User management -> Profiles and create a new profile field of type "single-line textfield". Name this field something like "Google AdSense client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.
 <p>Note that the new profile field must be setup as: "Private field, content only available to privileged users". All other values are either insecure or will not work, so do not use any of them.</p>
 <p>If you want to use revenue sharing and force users to enter a value when they signup, then check the following settings:</p>
 <ul>
 <li>The user must enter a value.</li>
 <li>Visible in user registration form.</li>
 </ul>
-<p>Also, you should enter a descriptive explanation for the Google Adsense Client ID, so users know what to enter in this field.</p></li>
-<li>Go to "my account" -> edit, then click on the category that you defined the Google Adsense Client ID under, and then enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>
+<p>Also, you should enter a descriptive explanation for the Google AdSense client ID, so users know what to enter in this field.</p></li>
+<li>Go to My account -> Edit, then click on the category that you defined the Google AdSense client ID under, and then enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>
 </ul>
 
-<h2>Displaying AdSense Ads</h2>
+<h2>Displaying AdSense ads</h2>
 <p>There are several ways to display ads, summarized as follows:</p>
 <p>Ads can be displayed in pre-defined blocks, in custom blocks, in content or in any phptemplate based theme.</p>
 
-<h3>Using Blocks</h3>
+<h3>Using blocks</h3>
 <p>The easiest way to get started with this module is to use one or more of the pre-defined blocks.</p>
-<p>Visit the '. l(t('blocks'), 'admin/build/block') .' configuration page, and click on the <strong>configure</strong> link of one of the adsense blocks. You have to select a format, a group, and a channel.</p>
+<p>Visit the '. l(t('blocks'), 'admin/build/block') .' configuration page, and click on the <strong>configure</strong> link of one of the AdSense blocks. You have to select a format, a group, and a channel.</p>
 <p>Enable the block, and specify a region it would be displayed in.</p>
 
-<h3>Using Custom PHP code</h3>
+<h3>Using custom PHP code</h3>
 <p>To display ads, you call a function <code>adsense_display</code> and supply it with the following arguments.</p>
 <ul>
 <li>Format: This is a string of two numbers with an "x" in between. It can be any valid combination from the list provided above. If not specified, then 160x600 is assumed.</li>
@@ -44,11 +44,11 @@ return t('
 <li>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out.</li>
 </ul>
 
-<p>You can also To display ads in blocks, add a new block, make its type "PHP", and enclose it in php tags.</p>
+<p>To display ads in blocks, add a new block, make its type "PHP", and enclose it in PHP tags.</p>
 <pre><code>
 print adsense_display("120x600", 1, 2);
 </code></pre>
-<p>If you want to make sure that you do not get errors if adsense module is accidentally disabled or deleted, then use the longer form:</p>
+<p>If you want to make sure that you do not get errors if the AdSense module is accidentally disabled or deleted, then use the longer form:</p>
 <pre><code>
 if (module_exist("adsense"))
 {
@@ -56,12 +56,12 @@ if (module_exist("adsense"))
 }
 </code></pre>
 
-<h3>Using Themes</h3>
+<h3>Using themes</h3>
 <p>You must use a phptemplate based theme to display ads from within the theme. This requires some familiarity with PHP. Edit the appropriate <strong>.tpl.php</strong> file in your theme directory, and add:</p>
 <pre><code>
 print adsense_display("468x60");
 </code></pre>
-<p>Make sure you enclose it in php tags.</p>
+<p>Make sure you enclose it in PHP tags.</p>
 <p>You could also use the longer format that protects you against deleting or disabling the module:<pre><code>
 if (module_exist("adsense"))
 {
@@ -69,10 +69,10 @@ if (module_exist("adsense"))
 }
 </code></pre>
 
-<h3>Using Tags</h3>
+<h3>Using tags</h3>
 <p>The tags feature allows placement of ads in any place in the content. Please note that content here means any part that is passed through Drupal\'s filter system. Text in the slogan, mission, and footer is normally not filtered the same was as text in nodes, so you cannot put tags in those places.</p>
 <p>To enable the tags feature, you have to enable the "AdSense tag" filter in the input format you are using (e.g. Full HTML or Filtered HTML) from Administer >> Input Formats. Then you have to insert the appropriate tag anywhere in your node where you like the ad to appear.</p>
-<p>Note that filters sometimes may have conflicts, and changing the order can make adsense work in some cases.</p>
+<p>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</p>
 <p>The tag syntax comes in these variants:</p>
 <dt>1. [adsense:<em>format:group:channel</em>]</dt>
 <p>Where:</p>
@@ -112,13 +112,13 @@ if (module_exist("adsense"))
 <p>Display the contents of the flexiblock in location 2</p>
 
 
-<h2>Revenue Sharing</h2>
+<h2>Revenue sharing</h2>
 <p>For revenue sharing, each author gets an predefined share of ad revenue from clicks occuring on nodes they authored.</p>
-<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
-<p>Each user must enter their Google Adsense Client ID in the profile field you defined above.</p>
+<p>In order for the user to be credited they must have a Google AdSense account before getting ad revenue. As a site admin, please advertise <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on AdSense, and how to optimize your site for it.</p>
+<p>Each user must enter their Google AdSense client ID in the profile field you defined above.</p>
 
-<h2>Adsense Clicks</h2>
-<p>Adsense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection. There are three reports under administer -> logs: the default one shows click details, the by date shows the number of clicks per day by day, and the top pages shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>
+<h2>AdSense clicks</h2>
+<p>AdSense clicks are now tracked, and the IP address and timestamp recorded for each click. This should help with fraud detection. There are three reports under administer -> logs: the default one shows click details, the by date shows the number of clicks per day by day, and the top pages shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>
 <p>Note that there are some potential limitations with click tracking, such as:</p>
 <ul>
 <li>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox are appreciated.</li>
