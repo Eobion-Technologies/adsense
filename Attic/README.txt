@@ -4,10 +4,12 @@ Copyright 2005 http://2bits.com
 
 Drupal 4.7 update sponsored by http://scribendi.com
 
+
 Description
 -----------
 This module provides web site admins the factility to display Google AdSense
 ads on their web site, thus earning revenue.
+
 
 Resources
 ---------
@@ -17,6 +19,7 @@ the module, as well as Adsense in general.
 
 http://baheyeldin.com/click/476/0
 
+
 Prerequisites
 -------------
 You must signup for a Google AdSense account. If you do not have an account,
@@ -24,25 +27,30 @@ please consider using the author's referral link for signup at the following
 URL:
 http://baheyeldin.com/click/476/0
 
+
 Installation
 ------------
 To install, copy the adsense directory and all its contents to your modules
 directory.
 
+
 Configuration
 -------------
-To enable this module, visit administer -> modules, and enable adsense.
+To enable this module, visit Administer -> Site building -> Modules, and
+enable adsense.
 
-To configure it, go to administer -> settings -> adSense.
+To configure it, go to Administer -> Site configuration -> Google AdSense.
 
 Follow the online instructions on that page on how to display ads and the
 various ways to do so.
+
 
 Bugs/Features/Patches:
 ----------------------
 If you want to report bugs, feature requests, or submit a patch, please do
 so at the project page on the Drupal web site.
 http://drupal.org/project/adsense
+
 
 Author
 ------
