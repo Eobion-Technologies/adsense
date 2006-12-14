@@ -39,33 +39,33 @@ function adsense_ad_formats() {
     );
 }
 
-define('ADSENSE_MAX_GROUPS',              5);
-define('ADSENSE_MAX_CHANNELS',            7);
-define('ADSENSE_MAX_BLOCKS',              5);
-define('ADSENSE_VISIBILITY',              'adsense_visibility');
-define('ADSENSE_ACCESS_PAGES',            'adsense_access_pages');
-define('ADSENSE_AD_TYPE',                 'adsense_ad_type_');
-define('ADSENSE_COLOR_TEXT',              'adsense_color_text_');
-define('ADSENSE_COLOR_BORDER',            'adsense_color_border_');
-define('ADSENSE_COLOR_BG',                'adsense_color_bg_');
-define('ADSENSE_COLOR_LINK',              'adsense_color_link_');
-define('ADSENSE_COLOR_URL',               'adsense_color_url_');
-define('ADSENSE_ALT',                     'adsense_alt_');
-define('ADSENSE_ALT_INFO',                'adsense_alt_info_');
-define('ADSENSE_AD_CHANNEL',              'adsense_ad_channel_');
-define('ADSENSE_REVENUE_ENABLE',          'adsense_revenue_enable');
-define('ADSENSE_PERCENTAGE_AUTHOR',       'adsense_percentage_author');
-define('ADSENSE_PERCENTAGE_REFER',        'adsense_percentage_refer');
-define('ADSENSE_NODE_TYPE',               'adsense_node_type_');
-define('ADSENSE_DISABLE',                 'adsense_disable');
-define('ADSENSE_TEST_MODE',               'adsense_test_mode');
-define('ADSENSE_PLACEHOLDER',             'adsense_placeholder');
-define('ADSENSE_PLACEHOLDER_TEXT',        'adsense_placeholder_text');
-define('ADSENSE_PAGE_AD_LIMIT',           'adsense_page_ad_limit');
-define('ADSENSE_SECTION_TARGETING',       'adsense_section_targeting');
-define('ADSENSE_CLICK_TRACKING',          'adsense_click_tracking');
-define('ADSENSE_CLIENT_ID_PROFILE_FIELD', 'adsense_client_id_profile_field');
-define('ADSENSE_AD_BLOCK',                'adsense_ad_block_');
+define('ADSENSE_MAX_GROUPS',                  5);
+define('ADSENSE_MAX_CHANNELS',                7);
+define('ADSENSE_MAX_BLOCKS',                  5);
+define('ADSENSE_VISIBILITY',                  'adsense_visibility');
+define('ADSENSE_ACCESS_PAGES',                'adsense_access_pages');
+define('ADSENSE_AD_TYPE',                     'adsense_ad_type_');
+define('ADSENSE_COLOR_TEXT',                  'adsense_color_text_');
+define('ADSENSE_COLOR_BORDER',                'adsense_color_border_');
+define('ADSENSE_COLOR_BG',                    'adsense_color_bg_');
+define('ADSENSE_COLOR_LINK',                  'adsense_color_link_');
+define('ADSENSE_COLOR_URL',                   'adsense_color_url_');
+define('ADSENSE_ALT',                         'adsense_alt_');
+define('ADSENSE_ALT_INFO',                    'adsense_alt_info_');
+define('ADSENSE_AD_CHANNEL',                  'adsense_ad_channel_');
+define('ADSENSE_REVENUE_ENABLE',              'adsense_revenue_enable');
+define('ADSENSE_PERCENTAGE_AUTHOR',           'adsense_percentage_author');
+define('ADSENSE_PERCENTAGE_REFER',            'adsense_percentage_refer');
+define('ADSENSE_NODE_TYPE',                   'adsense_node_type_');
+define('ADSENSE_DISABLE',                     'adsense_disable');
+define('ADSENSE_TEST_MODE',                   'adsense_test_mode');
+define('ADSENSE_PLACEHOLDER',                 'adsense_placeholder');
+define('ADSENSE_PLACEHOLDER_TEXT',            'adsense_placeholder_text');
+define('ADSENSE_PAGE_AD_LIMIT',               'adsense_page_ad_limit');
+define('ADSENSE_SECTION_TARGETING',           'adsense_section_targeting');
+define('ADSENSE_CLICK_TRACKING',              'adsense_click_tracking');
+define('ADSENSE_CLIENT_ID_PROFILE_FIELD',     'adsense_client_id_profile_field');
+define('ADSENSE_AD_BLOCK',                    'adsense_ad_block_');
 define('ADSENSE_CLICK_TRACKING_NAME_RESOLVE', 'adsense_click_tracking_name_resolve');
 
 function adsense_get_ad_code($format) {
@@ -79,7 +79,7 @@ function adsense_get_ad_code($format) {
 function adsense_help($section) {
   switch ($section) {
     case 'admin/settings/adsense':
-      return t('<p>$Revision$ $Date$</p>');
+      return t('<p>@revision @date</p>', array('@revision' => trim('$Revision$', ' $'), '@date' => trim('$Date$', ' $')));
   }
 }
 
@@ -93,27 +93,28 @@ function adsense_menu($may_cache) {
   if ($may_cache) {
     if (variable_get(ADSENSE_CLICK_TRACKING, 0)) {
       $items[] = array(
-        'path'     => 'admin/logs/adsense',
-        'title'    => t('AdSense clicks'),
+        'path' => 'admin/logs/adsense',
+        'title' => t('AdSense clicks'),
+        'description' => t('Track AdSense clicks.'),
         'callback' => 'adsense_click_log',
-        'type'     => MENU_NORMAL_ITEM,
-        'access'   => $access,
+        'type' => MENU_NORMAL_ITEM,
+        'access' => $access,
         );
 
       $items[] = array(
-        'path'      => 'admin/logs/adsense/top_pages',
-        'title'     => t('Top pages'),
-        'callback'  => 'adsense_click_top_pages',
-        'type'      => MENU_NORMAL_ITEM,
-        'access'    => $access,
+        'path' => 'admin/logs/adsense/top_pages',
+        'title' => t('Top pages'),
+        'callback' => 'adsense_click_top_pages',
+        'type' => MENU_NORMAL_ITEM,
+        'access' => $access,
         );
 
       $items[] = array(
-        'path'      => 'admin/logs/adsense/by_day',
-        'title'     => t('By day'),
-        'callback'  => 'adsense_click_by_day',
-        'type'      => MENU_NORMAL_ITEM,
-        'access'    => $access,
+        'path' => 'admin/logs/adsense/by_day',
+        'title' => t('By day'),
+        'callback' => 'adsense_click_by_day',
+        'type' => MENU_NORMAL_ITEM,
+        'access' => $access,
         );
 
      }
@@ -199,7 +200,7 @@ function adsense_admin_settings() {
     '#default_value' => variable_get(ADSENSE_CLIENT_ID_PROFILE_FIELD, 0),
     '#options'       => _adsense_get_profile_fields(),
     '#required'      => true,
-    '#description'   => t('This is the profile field that holds the AdSense Client ID for the site owner(s) as well as for site users who (optionally) participate in revenue sharing. You must enabled the profile module and create a new field for this.'),
+    '#description'   => t('This is the profile field that holds the AdSense Client ID for the site owner as well as (optionally) for site users who participate in revenue sharing. You must enabled the profile module and create a new field for this.'),
   );
 
   if ($error_flag) {
@@ -219,7 +220,7 @@ function adsense_admin_settings() {
       '#type' => 'fieldset',
       '#collapsible' => true,
       '#collapsed' => true,
-      '#title' => t('Group ' . $group . ' attributes'),
+      '#title' => t('Group @group attributes', array('@group' => $group)),
     );
 
     $form['types_colors']['groups'][$group][ADSENSE_AD_TYPE . $group] = array(
@@ -291,7 +292,7 @@ function adsense_admin_settings() {
     '#collapsible' => true,
     '#collapsed' => true,
     '#title' => t('Custom channels'),
-    '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty', array('!channels' => ADSENSE_MAX_CHANNELS)),
+    '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.', array('!channels' => ADSENSE_MAX_CHANNELS)),
   );
 
   for($channel=1; $channel<ADSENSE_MAX_CHANNELS+1; $channel++) {
@@ -352,7 +353,7 @@ function adsense_admin_settings() {
   foreach(node_get_types() as $type => $name) {
     $form['revenue']['content'][ADSENSE_NODE_TYPE . $type] = array(
       '#type' => 'checkbox',
-      '#title' => $name,
+      '#title' => $name->name,
       '#return_value' => 1,
       '#default_value' =>  variable_get(ADSENSE_NODE_TYPE . $type, 0),
     );
@@ -394,7 +395,7 @@ function adsense_admin_settings() {
     '#title' => t('Enable AdSense click tracking?'),
     '#return_value' => 1,
     '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, 0),
-    '#description' => t('Logs IP and time of <a href="!url">AdSense clicks</a>. This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.', array('!url' => url('admin/logs/adsense'))),
+    '#description' => t('Logs IP and time of <a href=!url>AdSense clicks</a>. This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.', array('!url' => url('admin/logs/adsense'))),
   );
 
   $form['click_tracking'][ADSENSE_CLICK_TRACKING_NAME_RESOLVE] = array(
@@ -402,7 +403,7 @@ function adsense_admin_settings() {
     '#title' => t('Enable name resolution of IP addresses?'),
     '#return_value' => 1,
     '#default_value' => variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0),
-    '#description' => t('Display the name instead of the IP address. This can slow down the display of the logs page and tie up a PHP process for several seconds. It may not be available on some hosting providers as well.'),
+    '#description' => t('Display the domain name instead of the IP address. This can slow down the display of the logs page and tie up a PHP process for several seconds. On some hosting providers it may not be available.'),
   );
 
   $form['advanced'] = array(
@@ -417,7 +418,7 @@ function adsense_admin_settings() {
     '#title' => t('Enable test mode?'),
     '#return_value' => 1,
     '#default_value' => variable_get(ADSENSE_TEST_MODE, 0),
-    '#description' => t('This enables you to test the AdSense module settings. This can be useful in some situations, for example, whether revenue sharing is working properly or not, without having to display real ads on your site. It is best to test this after you log out.'),
+    '#description' => t('This enables you to test the AdSense module settings. This can be useful in some situations: for example, testing whether revenue sharing is working properly or not without having to display real ads on your site. It is best to test this after you log out.'),
   );
 
   $form['advanced'][ADSENSE_DISABLE] = array(
@@ -892,7 +893,7 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view':
       $ad = _adsense_get_block_config($delta);
       $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2]) : t('AdSense unconfigured block. <a href="!url">Click to configure.</a>', array('!url' => 'admin/build/block/configure/adsense/'. $delta));
+      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2]) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => 'admin/build/block/configure/adsense/'. $delta));
 
       break;
     }
