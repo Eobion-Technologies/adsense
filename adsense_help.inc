@@ -1,4 +1,5 @@
 <?php
+// $Id$
 
 function adsense_help_text($formats = '') {
   $output = '';
