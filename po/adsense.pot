@@ -1,7 +1,8 @@
 # LANGUAGE translation of Drupal (adsense_help.inc)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  adsense.module,v 1.50.2.9 2006/12/13 23:41:14 darrenoh
+#  adsense_help.inc,v 1.7.2.6 2006/12/14 05:09:22 darrenoh
+#  adsense.module,v 1.50.2.10 2006/12/14 04:24:31 darrenoh
 #  adsense.info,v 1.1.2.1 2006/12/08 18:10:47 darrenoh
 #  adsense.install,v 1.5.2.1 2006/12/08 18:10:47 darrenoh
 #
@@ -9,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2006-12-13 23:10-0500\n"
+"POT-Creation-Date: 2006-12-14 00:11-0500\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -18,303 +19,303 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: adsense_help.inc:5
+#: adsense_help.inc:6
 msgid "<h2>Overview</h2>"
 msgstr ""
 
-#: adsense_help.inc:6
+#: adsense_help.inc:7
 msgid "<p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>"
 msgstr ""
 
-#: adsense_help.inc:7
+#: adsense_help.inc:8
 msgid "<h2>Prerequisites</h2>"
 msgstr ""
 
-#: adsense_help.inc:8
+#: adsense_help.inc:9
 msgid "<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using <a href=!url>the modules author's referral link</a>, which provides us with a referral fee from Google at absolutely no cost to you. This page also contains various useful links and resources on AdSense, and how to optimize your site for it.</p>"
 msgstr ""
 
-#: adsense_help.inc:9
+#: adsense_help.inc:10
 msgid "<h2>Supported formats</h2>"
 msgstr ""
 
-#: adsense_help.inc:10
+#: adsense_help.inc:11
 msgid "<p>The following ad formats are supported:</p>"
 msgstr ""
 
-#: adsense_help.inc:12
+#: adsense_help.inc:13
 msgid "<h2>Configuration</h2>"
 msgstr ""
 
-#: adsense_help.inc:13
+#: adsense_help.inc:14
 msgid "<p>To use this module, you need to do the following first:</p>"
 msgstr ""
 
-#: adsense_help.inc:15
+#: adsense_help.inc:16
 msgid "<li>Go to Administer -> Site building -> Modules and enable the profile module.</li>"
 msgstr ""
 
-#: adsense_help.inc:16
+#: adsense_help.inc:17
 msgid "<li>Go to Administer -> User management -> Profiles and create a new profile field of type \"single-line textfield\". Name this field something like \"Google AdSense client ID\", and form name \"profile_google_adsense_client_id\". This is a required configuration parameter. At a minimum you should enter this field for user 1."
 msgstr ""
 
-#: adsense_help.inc:17
+#: adsense_help.inc:18
 msgid "<p>Note that the new profile field must be setup as: \"Private field, content only available to privileged users\". All other values are either insecure or will not work, so do not use any of them.</p>"
 msgstr ""
 
-#: adsense_help.inc:18
+#: adsense_help.inc:19
 msgid "<p>If you want to use revenue sharing and force users to enter a value when they sign up, then check the following settings:</p>"
 msgstr ""
 
-#: adsense_help.inc:20
+#: adsense_help.inc:21
 msgid "<li>The user must enter a value.</li>"
 msgstr ""
 
-#: adsense_help.inc:21
+#: adsense_help.inc:22
 msgid "<li>Visible in user registration form.</li>"
 msgstr ""
 
-#: adsense_help.inc:23
+#: adsense_help.inc:24
 msgid "<p>Also, you should enter a descriptive explanation for the Google AdSense client ID, so users know what to enter in this field.</p></li>"
 msgstr ""
 
-#: adsense_help.inc:24
+#: adsense_help.inc:25
 msgid "<li>Go to My account -> Edit, then click on the category that you defined for the Google AdSense client ID and enter your Google ID, which is something like \"pub-9999999999999\", and click Submit.</li>"
 msgstr ""
 
-#: adsense_help.inc:26
+#: adsense_help.inc:27
 msgid "<h2>Displaying AdSense ads</h2>"
 msgstr ""
 
-#: adsense_help.inc:27
+#: adsense_help.inc:28
 msgid "<p>There are several ways to display ads, summarized as follows:</p>"
 msgstr ""
 
-#: adsense_help.inc:28
+#: adsense_help.inc:29
 msgid "<p>Ads can be displayed in pre-defined blocks, in custom blocks, in content or in any phptemplate based theme.</p>"
 msgstr ""
 
-#: adsense_help.inc:29
+#: adsense_help.inc:30
 msgid "<h3>Using blocks</h3>"
 msgstr ""
 
-#: adsense_help.inc:30
+#: adsense_help.inc:31
 msgid "<p>The easiest way to get started with this module is to use one or more of the pre-defined blocks.</p>"
 msgstr ""
 
-#: adsense_help.inc:31
+#: adsense_help.inc:32
 msgid "<p>Visit the <a href=!url>blocks</a> configuration page, and click on the <strong>configure</strong> link of one of the AdSense blocks. You must select a format, a group, and a channel.</p>"
 msgstr ""
 
-#: adsense_help.inc:32
+#: adsense_help.inc:33
 msgid "<p>Enable the block, and specify a region for it to be displayed in.</p>"
 msgstr ""
 
-#: adsense_help.inc:33
+#: adsense_help.inc:34
 msgid "<h3>Using custom PHP code</h3>"
 msgstr ""
 
-#: adsense_help.inc:34
+#: adsense_help.inc:35
 msgid "<p>To display ads, you call the function @function and supply it with the following arguments.</p>"
 msgstr ""
 
-#: adsense_help.inc:36
+#: adsense_help.inc:37
 msgid "<li>Format: This is a string of two numbers with an \"x\" in between. It can be any valid combination from the list provided above. If not specified, then 160x600 is assumed.</li>"
 msgstr ""
 
-#: adsense_help.inc:37
+#: adsense_help.inc:38
 msgid "<li>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1, 2 or 3. If not specified, then 1 is assumed.</li>"
 msgstr ""
 
-#: adsense_help.inc:38
+#: adsense_help.inc:39
 msgid "<li>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out.</li>"
 msgstr ""
 
-#: adsense_help.inc:40
+#: adsense_help.inc:41
 msgid "<p>To display ads in blocks, add a new block, make its type \"PHP\", and enclose it in PHP tags.</p>"
 msgstr ""
 
-#: adsense_help.inc:44
+#: adsense_help.inc:45
 msgid "<p>If you want to make sure that you do not get errors if the AdSense module is accidentally disabled or deleted, then use the longer form:</p>"
 msgstr ""
 
-#: adsense_help.inc:50
+#: adsense_help.inc:51
 msgid "<h3>Using themes</h3>"
 msgstr ""
 
-#: adsense_help.inc:51
+#: adsense_help.inc:52
 msgid "<p>You must use a phptemplate-based theme to display ads from within the theme. This requires some familiarity with PHP. Edit the appropriate <strong>.tpl.php</strong> file in your theme directory, and add:</p>"
 msgstr ""
 
-#: adsense_help.inc:55
+#: adsense_help.inc:56
 msgid "<p>Make sure you enclose it in PHP tags.</p>"
 msgstr ""
 
-#: adsense_help.inc:56
+#: adsense_help.inc:57
 msgid "<p>You could also use the longer format that protects you against deleting or disabling the module:</p>"
 msgstr ""
 
-#: adsense_help.inc:62
+#: adsense_help.inc:63
 msgid "<h3>Using tags</h3>"
 msgstr ""
 
-#: adsense_help.inc:63
+#: adsense_help.inc:64
 msgid "<p>The tags feature allows placement of ads anywhere in the content. Please note that content here means any part that is passed through Drupal's filter system. Text in the slogan, mission, and footer is normally not filtered the same way as text in nodes, so you cannot put tags in those places.</p>"
 msgstr ""
 
-#: adsense_help.inc:64
+#: adsense_help.inc:65
 msgid "<p>To enable the tags feature, you have to enable the \"AdSense tag\" filter in the input format you are using (such as Full HTML or Filtered HTML) from Administer -> Site configuration -> Input formats. Then you have to insert the appropriate tag in your node where you would like the ad to appear.</p>"
 msgstr ""
 
-#: adsense_help.inc:65
+#: adsense_help.inc:66
 msgid "<p>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</p>"
 msgstr ""
 
-#: adsense_help.inc:66
+#: adsense_help.inc:67
 msgid "<p>The tag syntax comes in these variants:</p>"
 msgstr ""
 
-#: adsense_help.inc:67
+#: adsense_help.inc:68
 msgid "<dt>1. [adsense:<em>format:group:channel</em>]</dt>"
 msgstr ""
 
-#: adsense_help.inc:68;79;91
+#: adsense_help.inc:69;80;92
 msgid "<p>Where:</p>"
 msgstr ""
 
-#: adsense_help.inc:70
+#: adsense_help.inc:71
 msgid "One of the supported ad formats (such as 468x60)."
 msgstr ""
 
-#: adsense_help.inc:71
+#: adsense_help.inc:72
 msgid "A number corresponding to the ad group this ad belongs to, determines colors."
 msgstr ""
 
-#: adsense_help.inc:72
+#: adsense_help.inc:73
 msgid "A number corresponding to the ad channel."
 msgstr ""
 
-#: adsense_help.inc:74
+#: adsense_help.inc:75
 msgid "<p>All fields are required, unlike when using the @function function above.</p>"
 msgstr ""
 
-#: adsense_help.inc:75;85;96
+#: adsense_help.inc:76;86;97
 msgid "<p>Example:</p>"
 msgstr ""
 
-#: adsense_help.inc:77
+#: adsense_help.inc:78
 msgid "<p>Display a 468x60 banner with the colors defined in group 1, and with channel ID 2</p>"
 msgstr ""
 
-#: adsense_help.inc:78
+#: adsense_help.inc:79
 msgid "<dt>2. [adsense:block:<em>block_id</em>]</dt>"
 msgstr ""
 
-#: adsense_help.inc:81
+#: adsense_help.inc:82
 msgid "The block ID of a custom block with input format of PHP with a call to the @function function."
 msgstr ""
 
-#: adsense_help.inc:83
+#: adsense_help.inc:84
 msgid "<p>This allows more fine grained visibility control via the block mechanism. The block does not need to be enabled, and therefore will be hidden from the sidebars and other regions. The title of the block will not be displayed.</p>"
 msgstr ""
 
-#: adsense_help.inc:84;95
+#: adsense_help.inc:85;96
 msgid "<p>All fields are required.</p>"
 msgstr ""
 
-#: adsense_help.inc:87
+#: adsense_help.inc:88
 msgid "<p>Display the ad code of the block with ID 7.</p>"
 msgstr ""
 
-#: adsense_help.inc:90
+#: adsense_help.inc:91
 msgid "<p>This is provided for backward compatibility, but will be deprecated in a future release. Use the normal block filter instead.</p>"
 msgstr ""
 
-#: adsense_help.inc:93
+#: adsense_help.inc:94
 msgid "A number corresponding to a location in flexiblock that contains only one block with the call to the @function function.  This allows visibility control via the block mechanism. flexiblock must be installed and configured. The title of the flexiblock will not be displayed."
 msgstr ""
 
-#: adsense_help.inc:98
+#: adsense_help.inc:99
 msgid "<p>Display the contents of the flexiblock in location 2</p>"
 msgstr ""
 
-#: adsense_help.inc:99
+#: adsense_help.inc:100
 msgid "<h2>Revenue sharing</h2>"
 msgstr ""
 
-#: adsense_help.inc:100
+#: adsense_help.inc:101
 msgid "<p>For revenue sharing, each author gets a predefined share of ad revenue from clicks occuring on nodes they authored.</p>"
 msgstr ""
 
-#: adsense_help.inc:101
+#: adsense_help.inc:102
 msgid "<p>In order for the user to be credited they must have a Google AdSense account. As a site admin, please advertise <a href=!url>the module author's referral link</a>, which provides us with a referral fee from Google, at absolutely no cost to you. This page also contains various useful links and resources on AdSense and how to optimize your site for it.</p>"
 msgstr ""
 
-#: adsense_help.inc:102
+#: adsense_help.inc:103
 msgid "<p>Each user must enter their Google AdSense client ID in the profile field you defined above.</p>"
 msgstr ""
 
-#: adsense_help.inc:103
+#: adsense_help.inc:104
 msgid "<h2>AdSense clicks</h2>"
 msgstr ""
 
-#: adsense_help.inc:104
+#: adsense_help.inc:105
 msgid "<p>AdSense clicks are now tracked, and the IP address and timestamp are recorded for each click. This should help with fraud detection. There are three reports under Administer -> Logs: the default one shows click details, \"By date\" shows the number of clicks per day by day, and \"Top pages\" shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>"
 msgstr ""
 
-#: adsense_help.inc:105
+#: adsense_help.inc:106
 msgid "<p>Note that there are some potential limitations with click tracking:</p>"
 msgstr ""
 
-#: adsense_help.inc:106
+#: adsense_help.inc:107
 msgid "<ul>"
 msgstr ""
 
-#: adsense_help.inc:107
+#: adsense_help.inc:108
 msgid "<li>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox would be appreciated.</li>"
 msgstr ""
 
-#: adsense_help.inc:108
+#: adsense_help.inc:109
 msgid "<li>Google throws out what it sees as invalid clicks.</li>"
 msgstr ""
 
-#: adsense_help.inc:109
+#: adsense_help.inc:110
 msgid "<li>There is a lag of 15 to 20 minutes before Google records the click.</li>"
 msgstr ""
 
-#: adsense_help.inc:110
+#: adsense_help.inc:111
 msgid "<li>When using AdLinks, the click on the link is recorded but any subsequent click on links is not recorded (since it is not actually on your site anymore)."
 msgstr ""
 
-#: adsense_help.inc:112
+#: adsense_help.inc:113
 msgid "<h2>Notes</h2>"
 msgstr ""
 
-#: adsense_help.inc:113
+#: adsense_help.inc:114
 msgid "<p>The site administrator will not see ads displayed as long as they are logged in. This is by design, in order not to skew the page views, and not to accidentally click on ads (against Google's policy). Log out to see the ads.</p>"
 msgstr ""
 
-#: adsense_help.inc:114
+#: adsense_help.inc:115
 msgid "<p>You can use the advanced options to disable ads and configure a placeholder when you are developing or theming to know where the ads will appear.</p>"
 msgstr ""
 
-#: adsense_help.inc:115
+#: adsense_help.inc:116
 msgid "<p>If ads are not displayed, that could be caused by several things:</p>"
 msgstr ""
 
-#: adsense_help.inc:117
+#: adsense_help.inc:118
 msgid "<li>You are logged in as the site administrator. Log off to see the ads.</li>"
 msgstr ""
 
-#: adsense_help.inc:118
+#: adsense_help.inc:119
 msgid "<li>Your site is still new and Google has not indexed it yet.</li>"
 msgstr ""
 
-#: adsense_help.inc:119
+#: adsense_help.inc:120
 msgid "<li>The maximum number of ad units has already been displayed. Your page does not have enough content to display more than one or two units.</li>"
 msgstr ""
 
-#: adsense_help.inc:120
+#: adsense_help.inc:121
 msgid "<li>Check the page source for comments like this: @comment. These give hints to what is going on, and if you know PHP you can trace those in the module's source code.</li>"
 msgstr ""
 
