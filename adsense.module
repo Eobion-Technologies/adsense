@@ -30,6 +30,7 @@ function adsense_ad_formats() {
     '180x150' =>  array('desc' => t('Small rectangle'),              'code' => '_as'),
     '200x200' =>  array('desc' => t('Small square'),                 'code' => '_as'),
     '234x60'  =>  array('desc' => t('Half banner'),                  'code' => '_as'),
+    '250x250' =>  array('desc' => t('Square'),                       'code' => '_as'),
     '300x250' =>  array('desc' => t('Medium rectangle'),             'code' => '_as'),
     '336x280' =>  array('desc' => t('Large rectangle'),              'code' => '_as'),
     '468x15'  =>  array('desc' => t('Banner ad links 4-links'),      'code' => '_0ads_al'),
