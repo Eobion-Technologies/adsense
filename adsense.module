@@ -1048,10 +1048,13 @@ function _get_site_owner_client_id() {
 }
 
 function _get_profile_client_id($uid = 0) {
-  // Get the profile field for a certain user
-  $profile_field = variable_get(ADSENSE_CLIENT_ID_PROFILE_FIELD, 0);
-  $client_id = db_result(db_query('SELECT value FROM {profile_values}
-    WHERE fid = %d AND uid = %d', $profile_field, $uid));
+  $client_id = '';
+  if (module_exists('profile')) {
+    // Get the profile field for a certain user
+    $profile_field = variable_get(ADSENSE_CLIENT_ID_PROFILE_FIELD, 0);
+    $client_id = db_result(db_query('SELECT value FROM {profile_values}
+      WHERE fid = %d AND uid = %d', $profile_field, $uid));
+  }
   return $client_id;
 }
 
