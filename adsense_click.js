@@ -1,4 +1,6 @@
-/*
+/* $Id */
+
+/**
  * adsense_click.js - fires counter to log adsense clicks
  */
 var lastStatus = '';
@@ -23,3 +25,4 @@ for (var i = 0; i < elements.length; i++) {
     iframeObj = elements[i];
   }
 }
+

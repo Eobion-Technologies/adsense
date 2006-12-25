@@ -2,3 +2,4 @@
 name = AdSense
 description = Display Google AdSense ads on your site to earn revenue.
 dependencies = profile
+
