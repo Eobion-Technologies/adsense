@@ -68,6 +68,9 @@ define('ADSENSE_CLICK_TRACKING',              'adsense_click_tracking');
 define('ADSENSE_CLIENT_ID_PROFILE_FIELD',     'adsense_client_id_profile_field');
 define('ADSENSE_AD_BLOCK',                    'adsense_ad_block_');
 define('ADSENSE_CLICK_TRACKING_NAME_RESOLVE', 'adsense_click_tracking_name_resolve');
+define('ADSENSE_SECTION_START',               '<!-- google_ad_section_start -->');
+define('ADSENSE_SECTION_IGNORE',              '<!-- google_ad_section_start(weight=ignore) -->');
+define('ADSENSE_SECTION_END',                 '<!-- google_ad_section_end -->');
 
 function adsense_get_ad_code($format) {
   $all_ads = adsense_ad_formats();
@@ -918,14 +921,11 @@ function adsense_filter_tips($delta, $format, $long = false) {
  */
 function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
 
-  define(ADSENSE_START, "<!-- google_ad_section_start -->\n");
-  define(ADSENSE_END,   "<!-- google_ad_section_end -->\n");
-
   switch($op) {
     case 'view':
       if (variable_get(ADSENSE_SECTION_TARGETING, 1)) {
-        $node->content['adsense_start'] = array('#value' => ADSENSE_START, '#weight' => -1);
-        $node->content['adsense_end'] = array('#value' => ADSENSE_END, '#weight' => 1);
+        $node->content['adsense_start'] = array('#value' => ADSENSE_SECTION_START, '#weight' => -1);
+        $node->content['adsense_end'] = array('#value' => ADSENSE_SECTION_END, '#weight' => 1);
       }
 
       if ($page) {
