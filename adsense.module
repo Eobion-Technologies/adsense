@@ -484,11 +484,13 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
     }
     else {
       // Ads are disabled
-      if (_adsense_check_placeholder()) {
-        $ad = '<!--adsense: placeholder-->' . _adsense_format_placeholder($format);
-      }
-      else {
-        $ad = '<!--adsense: ads disabled -->';
+      if (_adsense_page_match()) {
+        if (_adsense_check_placeholder()) {
+          $ad = '<!--adsense: placeholder-->' . _adsense_format_placeholder($format);
+        }
+        else {
+          $ad = '<!--adsense: ads disabled -->';
+        }
       }
     }
   }
