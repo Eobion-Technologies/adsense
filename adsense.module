@@ -186,7 +186,7 @@ function adsense_admin_settings() {
     $error_flag = true;
   }
 
-  if (!_get_site_owner_client_id()) {
+  if (!_adsense_get_site_owner_client_id()) {
     drupal_set_message('There is no site owner Google AdSense client ID defined. Please define a profile field, and select it below as per instructions, and enter a value for user id 1 as explained below.', 'error');
     $error_flag = true;
   }
@@ -965,7 +965,7 @@ function adsense_get_client_id($uid = false, $type = false) {
   }
 
   // Get the site wide client ID
-  $site_client = _get_site_owner_client_id();
+  $site_client = _adsense_get_site_owner_client_id();
 
   // Check if revenue sharing is enabled
   $revenue = variable_get(ADSENSE_REVENUE_ENABLE, 0);
@@ -988,7 +988,7 @@ function adsense_get_client_id($uid = false, $type = false) {
   return $client;
 }
 
-function _get_referral_uid($uid) {
+function _adsense_get_referral_uid($uid) {
   if (!module_exists('referral')) {
     return $uid;
   }
@@ -1007,10 +1007,10 @@ function _adsense_choose_client($uid) {
   $revenue_enable   = variable_get(ADSENSE_REVENUE_ENABLE, 0);
   $percent_author   = variable_get(ADSENSE_PERCENTAGE_AUTHOR, 0);
   $percent_referral = variable_get(ADSENSE_PERCENTAGE_REFER, 0);
-  $site_client      = _get_site_owner_client_id();
+  $site_client      = _adsense_get_site_owner_client_id();
 
-  $author_client    = _get_profile_client_id($uid);
-  $referral_client  = _get_profile_client_id(_get_referral_uid($uid));
+  $author_client    = _adsense_get_profile_client_id($uid);
+  $referral_client  = _adsense_get_profile_client_id(_adsense_get_referral_uid($uid));
 
   if (!$revenue_enable) {
     return $site_client;
@@ -1040,16 +1040,16 @@ function _adsense_choose_client($uid) {
   return $client;
 }
 
-function _get_site_owner_client_id() {
+function _adsense_get_site_owner_client_id() {
   // TODO
   // This should be expanded in the future to allow multiple site owners
   // identified by sharing a specific role. The percentage for each user
   // should be stored somewhere (profile?)
   // For the meantime, the first Drupal user is the owner of the site.
-  return _get_profile_client_id(1);
+  return _adsense_get_profile_client_id(1);
 }
 
-function _get_profile_client_id($uid = 0) {
+function _adsense_get_profile_client_id($uid = 0) {
   $client_id = '';
   if (module_exists('profile')) {
     // Get the profile field for a certain user
