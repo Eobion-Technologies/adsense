@@ -1,5 +1,9 @@
 <?php
 
+// Copyright 2005-2007 Khalid Baheyeldin http://2bits.com
+
+// $Id$
+
 function adsense_install() {
   switch ($GLOBALS['db_type']) {
     case 'mysql':
