@@ -45,7 +45,7 @@ function adsense_ad_formats() {
 
 define('ADSENSE_MAX_GROUPS',              5);
 define('ADSENSE_MAX_CHANNELS',            7);
-define('ADSENSE_MAX_BLOCKS',              5);
+define('ADSENSE_MAX_BLOCKS',              8);
 define('ADSENSE_VISIBILITY',              'adsense_visibility');
 define('ADSENSE_ACCESS_PAGES',            'adsense_access_pages');
 define('ADSENSE_AD_TYPE',                 'adsense_ad_type_');
@@ -748,21 +748,20 @@ function _adsense_page_match() {
 
 function adsense_filter($op, $delta = 0, $format = -1, $text = '') {
   switch ($op) {
+    case 'no cache':
+      return TRUE;
+
     case 'list':
       return array(0 => t('Adsense tag'));
-      break;
 
     case 'description':
       return t('Substitutes an adsense special tag with an ad.');
-      break;
 
     case 'prepare':
       return $text;
-      break;
 
     case 'process':
       return _adsense_process_tags($text);
-      break;
   }
 }
 
