@@ -770,19 +770,15 @@ function adsense_filter($op, $delta = 0, $format = -1, $text = '') {
 
     case 'list':
       return array(0 => t('AdSense tag'));
-      break;
 
     case 'description':
       return t('Substitutes an AdSense special tag with an ad.');
-      break;
 
     case 'prepare':
       return $text;
-      break;
 
     case 'process':
       return _adsense_process_tags($text);
-      break;
   }
 }
 
