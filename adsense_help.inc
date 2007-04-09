@@ -1,8 +1,8 @@
 <?php
+// $Id$
 
 function adsense_help_text($formats = '') {
-
-return t('
+  return t('
 <h2>Overview</h2>
 <p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>
 
@@ -10,9 +10,9 @@ return t('
 <p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using  <a href="http://baheyeldin.com/click/476/1">the module\'s author referral link</a>, which provides us with a referral fee from Google, with absolutely no cost to you. This page also contains various useful links and resources on Adsense, and how to optimize your site for it.</p>
 
 <h2>Supported Formats</h2>
-<p>The following ad formats are supported:</p>'
-. $formats .
-'<h2>Configuration</h2>
+<p>The following ad formats are supported:</p>
+  '. $formats .'
+<h2>Configuration</h2>
 <p>To use this module, you need to do the following first:</p>
 <ul>
 <li>Go to administer -> modules and enable the profile module.</li>
@@ -146,5 +146,6 @@ If ads are not displayed, that could be caused by several things:</p>
 <li>Check the page source for comments like this <!--adsense: ???-->. These tell
  more what is going on, and if you know PHP you can trace those in the module\'s
  source code.</li>
-</ul>');
+</ul>
+  ');
 }
