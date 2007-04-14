@@ -1,0 +1,419 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (adsense.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: adsense.module,v 1.50.2.18 2007/03/30 03:21:34 kbahey
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2007-04-14 00:49-0400\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: adsense.module:23
+msgid "Ad links 4-links 120x90"
+msgstr ""
+
+#: adsense.module:24
+msgid "Vertical banner"
+msgstr ""
+
+#: adsense.module:25
+msgid "Skyscraper"
+msgstr ""
+
+#: adsense.module:26
+msgid "Button"
+msgstr ""
+
+#: adsense.module:27
+msgid "Ad links 4-links 160x90"
+msgstr ""
+
+#: adsense.module:28
+msgid "Wide skyscraper"
+msgstr ""
+
+#: adsense.module:29
+msgid "Ad links 4-links 180x90"
+msgstr ""
+
+#: adsense.module:30
+msgid "Small rectangle"
+msgstr ""
+
+#: adsense.module:31
+msgid "Small square"
+msgstr ""
+
+#: adsense.module:32
+msgid "Half banner"
+msgstr ""
+
+#: adsense.module:33
+msgid "Square"
+msgstr ""
+
+#: adsense.module:34
+msgid "Medium rectangle"
+msgstr ""
+
+#: adsense.module:35
+msgid "Large rectangle"
+msgstr ""
+
+#: adsense.module:36
+msgid "Banner ad links 4-links"
+msgstr ""
+
+#: adsense.module:37
+msgid "Banner"
+msgstr ""
+
+#: adsense.module:38
+msgid "Wide banner ad links 4-links"
+msgstr ""
+
+#: adsense.module:39
+msgid "Leaderboard"
+msgstr ""
+
+#: adsense.module:86
+msgid "<p>@revision @date</p>"
+msgstr ""
+
+#: adsense.module:101
+msgid "AdSense clicks"
+msgstr ""
+
+#: adsense.module:102
+msgid "Track AdSense clicks."
+msgstr ""
+
+#: adsense.module:110
+msgid "Top pages"
+msgstr ""
+
+#: adsense.module:118
+msgid "By day"
+msgstr ""
+
+#: adsense.module:127;447;573
+msgid "Google AdSense"
+msgstr ""
+
+#: adsense.module:128
+msgid "Configure Google AdSense."
+msgstr ""
+
+#: adsense.module:161;232
+msgid "Ad type"
+msgstr ""
+
+#: adsense.module:161
+msgid "Dimensions"
+msgstr ""
+
+#: adsense.module:175
+msgid "Help and instructions"
+msgstr ""
+
+#: adsense.module:198
+msgid "Required parameters"
+msgstr ""
+
+#: adsense.module:203
+msgid "Google AdSense client ID profile field"
+msgstr ""
+
+#: adsense.module:207
+msgid "This is the profile field that holds the AdSense Client ID for the site owner as well as (optionally) for site users who participate in revenue sharing. You must enabled the profile module and create a new field for this."
+msgstr ""
+
+#: adsense.module:218
+msgid "Ad groups"
+msgstr ""
+
+#: adsense.module:227
+msgid "Group @group attributes"
+msgstr ""
+
+#: adsense.module:234
+msgid "Text"
+msgstr ""
+
+#: adsense.module:234
+msgid "Image"
+msgstr ""
+
+#: adsense.module:234
+msgid "Both"
+msgstr ""
+
+#: adsense.module:239
+msgid "Ad text color"
+msgstr ""
+
+#: adsense.module:247
+msgid "Ad border color"
+msgstr ""
+
+#: adsense.module:255
+msgid "Ad background color"
+msgstr ""
+
+#: adsense.module:263
+msgid "Ad title color"
+msgstr ""
+
+#: adsense.module:271
+msgid "Ad URL color"
+msgstr ""
+
+#: adsense.module:279
+msgid "Alternate URL color"
+msgstr ""
+
+#: adsense.module:281;852
+msgid "None"
+msgstr ""
+
+#: adsense.module:281
+msgid "Alternate URL"
+msgstr ""
+
+#: adsense.module:281
+msgid "Alternate color"
+msgstr ""
+
+#: adsense.module:286
+msgid "Alternate info"
+msgstr ""
+
+#: adsense.module:290
+msgid "Enter either 6 letter alternate color code, or alternate URL to use"
+msgstr ""
+
+#: adsense.module:298
+msgid "Custom channels"
+msgstr ""
+
+#: adsense.module:299
+msgid "Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty."
+msgstr ""
+
+#: adsense.module:305
+msgid "Custom channel ID "
+msgstr ""
+
+#: adsense.module:316
+msgid "Revenue sharing options"
+msgstr ""
+
+#: adsense.module:321
+msgid "Enable revenue sharing"
+msgstr ""
+
+#: adsense.module:324
+msgid "Note that enabling this will disable AdSense code caching, which can cause more resource usage for busy sites. The referral feature requires the referral module to be installed."
+msgstr ""
+
+#: adsense.module:329
+msgid "Percentage of node views going to author"
+msgstr ""
+
+#: adsense.module:338
+msgid "Disabled"
+msgstr ""
+
+#: adsense.module:343
+msgid "Percentage of node views going to user who referred the author"
+msgstr ""
+
+#: adsense.module:346
+msgid "This feature requires the referral module to be installed."
+msgstr ""
+
+#: adsense.module:353
+msgid "Content types"
+msgstr ""
+
+#: adsense.module:354
+msgid "Content types that have revenue sharing enabled."
+msgstr ""
+
+#: adsense.module:370
+msgid "Visibility"
+msgstr ""
+
+#: adsense.module:375
+msgid "Show AdSense on specific pages"
+msgstr ""
+
+#: adsense.module:377
+msgid "Show on every page except the listed pages."
+msgstr ""
+
+#: adsense.module:378
+msgid "Show on only the listed pages."
+msgstr ""
+
+#: adsense.module:383
+msgid "Pages"
+msgstr ""
+
+#: adsense.module:387
+msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."
+msgstr ""
+
+#: adsense.module:394
+msgid "Click tracking"
+msgstr ""
+
+#: adsense.module:399
+msgid "Enable AdSense click tracking?"
+msgstr ""
+
+#: adsense.module:402
+msgid "Logs IP and time of <a href=!url>AdSense clicks</a>. This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected."
+msgstr ""
+
+#: adsense.module:407
+msgid "Enable name resolution of IP addresses?"
+msgstr ""
+
+#: adsense.module:410
+msgid "Display the domain name instead of the IP address. This can slow down the display of the logs page and tie up a PHP process for several seconds. On some hosting providers it may not be available."
+msgstr ""
+
+#: adsense.module:417
+msgid "Advanced options"
+msgstr ""
+
+#: adsense.module:422
+msgid "Enable test mode?"
+msgstr ""
+
+#: adsense.module:425
+msgid "This enables you to test the AdSense module settings. This can be useful in some situations: for example, testing whether revenue sharing is working properly or not without having to display real ads on your site. It is best to test this after you log out."
+msgstr ""
+
+#: adsense.module:430
+msgid "Disable Google AdSense ads?"
+msgstr ""
+
+#: adsense.module:433
+msgid "This disables all display of Google AdSense ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes."
+msgstr ""
+
+#: adsense.module:438
+msgid "Placeholder when ads are disabled?"
+msgstr ""
+
+#: adsense.module:441
+msgid "This causes an empty box to be displayed in place of the ads when they are disabled."
+msgstr ""
+
+#: adsense.module:446
+msgid "Placeholder text to display"
+msgstr ""
+
+#: adsense.module:450
+msgid "Enter any text to display as a placeholder when ads are disabled."
+msgstr ""
+
+#: adsense.module:455
+msgid "Ad limit per page"
+msgstr ""
+
+#: adsense.module:459
+msgid "Google currently limits a page to 3 ad units, in addition to one ad links unit"
+msgstr ""
+
+#: adsense.module:464
+msgid "Enable AdSense section targeting?"
+msgstr ""
+
+#: adsense.module:467
+msgid "This better targets Google ads to the teaser and body of nodes."
+msgstr ""
+
+#: adsense.module:772
+msgid "AdSense tag"
+msgstr ""
+
+#: adsense.module:775
+msgid "Substitutes an AdSense special tag with an ad."
+msgstr ""
+
+#: adsense.module:840
+msgid "AdSense: "
+msgstr ""
+
+#: adsense.module:843
+msgid "AdSense: unconfigured "
+msgstr ""
+
+#: adsense.module:867
+msgid "Ad format"
+msgstr ""
+
+#: adsense.module:874
+msgid "Group"
+msgstr ""
+
+#: adsense.module:881
+msgid "Channel"
+msgstr ""
+
+#: adsense.module:901
+msgid "AdSense unconfigured block. <a href=!url>Click to configure.</a>"
+msgstr ""
+
+#: adsense.module:917
+msgid "Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense ads."
+msgstr ""
+
+#: adsense.module:1101
+msgid "Timestamp"
+msgstr ""
+
+#: adsense.module:1102;1131
+msgid "Path"
+msgstr ""
+
+#: adsense.module:1103
+msgid "IP/host"
+msgstr ""
+
+#: adsense.module:1132;1155
+msgid "Clicks"
+msgstr ""
+
+#: adsense.module:1133
+msgid "Last"
+msgstr ""
+
+#: adsense.module:1154
+msgid "Day"
+msgstr ""
+
+#: adsense.module:150
+msgid "hide adsense"
+msgstr ""
+
+#: adsense.module:150
+msgid "view clicks"
+msgstr ""
+
+#: adsense.module:0
+msgid "adsense"
+msgstr ""
+
