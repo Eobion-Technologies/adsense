@@ -955,6 +955,7 @@ function adsense_get_client_id($uid = false, $type = false) {
   if (!$content) {
     // Revenue sharing is disabled for this content, use the site wide client id
     $client = $site_client;
+    return $client;
   }
 
   // Check the percentage and choose one
