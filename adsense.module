@@ -921,20 +921,25 @@ function adsense_filter_tips($delta, $format, $long = false) {
  * Implemenation of hook_nodeapi().
  */
 function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
-
   switch($op) {
     case 'view':
       if (variable_get(ADSENSE_SECTION_TARGETING, 1)) {
-        $node->content['adsense_start'] = array('#value' => ADSENSE_SECTION_START, '#weight' => -1);
-        $node->content['adsense_end'] = array('#value' => ADSENSE_SECTION_END, '#weight' => 1);
+        $node->content['adsense_start'] = array(
+          '#value' => ADSENSE_SECTION_START,
+          '#weight' => -1,
+          );
+        $node->content['adsense_end'] = array(
+          '#value' => ADSENSE_SECTION_END,
+          '#weight' => 1,
+          );
       }
 
       if ($page) {
-        adsense_get_client_id($node->uid, $node->type);
+        adsense_get_client_id();
       }
       else {
         if ($uid = _adsense_check_blog()) {
-          adsense_get_client_id($uid, 'blog');
+          adsense_get_client_id();
         }
       }
   }
@@ -955,7 +960,7 @@ function _adsense_check_blog() {
   return false;
 }
 
-function adsense_get_client_id($uid = false, $type = false) {
+function adsense_get_client_id() {
   static $client = false;
 
   if ($client) {
@@ -970,12 +975,20 @@ function adsense_get_client_id($uid = false, $type = false) {
   $revenue = variable_get(ADSENSE_REVENUE_ENABLE, 0);
   if (!$revenue) {
     // If not enabled, cache the site wide client ID
-    $client = $site_client;
-    return $client;
+    return $site_client;
   }
 
+  // Revenue sharing is enabled, need to now the node
+  $path = explode('/', drupal_get_normal_path($_GET['q']));
+  if (is_array($path) && ($path[0] == 'node') && (is_numeric($path[1]))) {
+    $node = node_load($path[1]);
+  }
+  else {
+    return $site_client;
+  }
+  
   // Check the content type we are displaying
-  $content = variable_get(ADSENSE_NODE_TYPE . $type, 0);
+  $content = variable_get(ADSENSE_NODE_TYPE . $node->type, 0);
   if (!$content) {
     // Revenue sharing is disabled for this content, use the site wide client id
     $client = $site_client;
@@ -983,7 +996,7 @@ function adsense_get_client_id($uid = false, $type = false) {
   }
 
   // Check the percentage and choose one
-  $client = _adsense_choose_client($uid);
+  $client = _adsense_choose_client($node->uid);
 
   return $client;
 }
