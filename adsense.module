@@ -20,25 +20,29 @@
  */
 function adsense_ad_formats() {
   return array (
-    '120x90'  =>  array('desc' => t('Ad links 4-links 120x90'),      'code' => '_0ads_al'),
-    '120x240' =>  array('desc' => t('Vertical banner'),              'code' => '_as'),
-    '120x600' =>  array('desc' => t('Skyscraper'),                   'code' => '_as'),
-    '125x125' =>  array('desc' => t('Button'),                       'code' => '_as'),
-    '160x90'  =>  array('desc' => t('Ad links 4-links 160x90'),      'code' => '_0ads_al'),
-    '160x600' =>  array('desc' => t('Wide skyscraper'),              'code' => '_as'),
-    '180x90'  =>  array('desc' => t('Ad links 4-links 180x90'),      'code' => '_0ads_al'),
-    '180x150' =>  array('desc' => t('Small rectangle'),              'code' => '_as'),
-    '200x200' =>  array('desc' => t('Small square'),                 'code' => '_as'),
-    '234x60'  =>  array('desc' => t('Half banner'),                  'code' => '_as'),
-    '250x250' =>  array('desc' => t('Square'),                       'code' => '_as'),
-    '300x250' =>  array('desc' => t('Medium rectangle'),             'code' => '_as'),
-    '336x280' =>  array('desc' => t('Large rectangle'),              'code' => '_as'),
-    '468x15'  =>  array('desc' => t('Banner ad links 4-links'),      'code' => '_0ads_al'),
-    '468x60'  =>  array('desc' => t('Banner'),                       'code' => '_as'),
-    '728x15'  =>  array('desc' => t('Wide banner ad links 4-links'), 'code' => '_0ads_al'),
-    '728x90'  =>  array('desc' => t('Leaderboard'),                  'code' => '_as')
+    '120x90'  =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Ad links 4-links 120x90'),      'code' => '_0ads_al'),
+    '120x240' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Vertical banner'),              'code' => '_as'),
+    '120x600' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Skyscraper'),                   'code' => '_as'),
+    '125x125' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Button'),                       'code' => '_as'),
+    '160x90'  =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Ad links 4-links 160x90'),      'code' => '_0ads_al'),
+    '160x600' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Wide skyscraper'),              'code' => '_as'),
+    '180x90'  =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Ad links 4-links 180x90'),      'code' => '_0ads_al'),
+    '180x150' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Small rectangle'),              'code' => '_as'),
+    '200x200' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Small square'),                 'code' => '_as'),
+    '234x60'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Half banner'),                  'code' => '_as'),
+    '250x250' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Square'),                       'code' => '_as'),
+    '300x250' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Medium rectangle'),             'code' => '_as'),
+    '336x280' =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Large rectangle'),              'code' => '_as'),
+    '468x15'  =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Banner ad links 4-links'),      'code' => '_0ads_al'),
+    '468x60'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Banner'),                       'code' => '_as'),
+    '728x15'  =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Wide banner ad links 4-links'), 'code' => '_0ads_al'),
+    '728x90'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Leaderboard'),                  'code' => '_as')
     );
 }
+
+// Ad types, link or ad
+define('ADSENSE_TYPE_LINK',                   1);
+define('ADSENSE_TYPE_AD',                     2);
 
 define('ADSENSE_MAX_GROUPS',                  5);
 define('ADSENSE_MAX_CHANNELS',                7);
@@ -62,7 +66,6 @@ define('ADSENSE_DISABLE',                     'adsense_disable');
 define('ADSENSE_TEST_MODE',                   'adsense_test_mode');
 define('ADSENSE_PLACEHOLDER',                 'adsense_placeholder');
 define('ADSENSE_PLACEHOLDER_TEXT',            'adsense_placeholder_text');
-define('ADSENSE_PAGE_AD_LIMIT',               'adsense_page_ad_limit');
 define('ADSENSE_SECTION_TARGETING',           'adsense_section_targeting');
 define('ADSENSE_CLICK_TRACKING',              'adsense_click_tracking');
 define('ADSENSE_CLIENT_ID_PROFILE_FIELD',     'adsense_client_id_profile_field');
@@ -333,18 +336,14 @@ function adsense_admin_settings() {
 
   if (module_exists('referral')) {
     $list = drupal_map_assoc(array(0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100));
-  }
-  else {
-    $list = array(0 => t('Disabled'));
-  }
-
-  $form['revenue'][ADSENSE_PERCENTAGE_REFER] = array(
-    '#type' => 'select',
-    '#title' => t('Percentage of node views going to user who referred the author'),
-    '#default_value' => variable_get(ADSENSE_PERCENTAGE_REFER, 0),
-    '#options' => $list,
-    '#description' => t('This feature requires the referral module to be installed.')
+    $form['revenue'][ADSENSE_PERCENTAGE_REFER] = array(
+      '#type' => 'select',
+      '#title' => t('Percentage of node views going to user who referred the author'),
+      '#default_value' => variable_get(ADSENSE_PERCENTAGE_REFER, 0),
+      '#options' => $list,
+      '#description' => t('This feature requires the referral module to be installed.')
     );
+  }
 
   $form['revenue']['content'] = array(
     '#type' => 'fieldset',
@@ -450,15 +449,6 @@ function adsense_admin_settings() {
     '#description' => t('Enter any text to display as a placeholder when ads are disabled.'),
   );
 
-  $form['advanced'][ADSENSE_PAGE_AD_LIMIT] = array(
-    '#type' => 'textfield',
-    '#title' => t('Ad limit per page'),
-    '#default_value' => variable_get(ADSENSE_PAGE_AD_LIMIT, 4),
-    '#size' => 6,
-    '#maxlength' => 6,
-    '#description' => t('Google currently limits a page to 3 ad units, in addition to one ad links unit'),
-  );
-
   $form['advanced'][ADSENSE_SECTION_TARGETING] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable AdSense section targeting?'),
@@ -471,8 +461,6 @@ function adsense_admin_settings() {
 }
 
 function adsense_display($format = '160x600', $group = 1, $channel = 1) {
-  static $num_adsense_on_this_page;
-
   if (!_adsense_validate_dimensions($format)) {
       $ad = '<!--adsense: invalid format: ' . $format . '-->';
   }
@@ -480,12 +468,10 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
     // This ad format is not cached, generate it
     // Check first if disabled or if we are at adsense limit or if this page doesn't allow adsense
     if (_adsense_check_if_enabled()) {
-      if (_adsense_can_insert_another()) {
+      if (_adsense_can_insert_another($format)) {
         if (_adsense_page_match()) {
           // Ad should be displayed
           // Check cache first
-          $num_adsense_on_this_page++;
-
           $ad = _adsense_get_ad($format, $group, $channel);
         }
         else {
@@ -493,7 +479,7 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
         }
       }
       else {
-        $ad = '<!--adsense: ad limit per page reached-->';
+        $ad = '<!--adsense: ad limit reached for type-->';
       }
     }
     else {
@@ -541,18 +527,21 @@ function _adsense_check_if_enabled() {
 
   if (!$client_id) {
     // Google AdSense Client ID is not configured
-    return false;
+    return FALSE;
   }
 
   if ($disable_ads) {
-    return false;
+    return FALSE;
   }
 
+  if (variable_get(ADSENSE_TEST_MODE, 0)) {
+    return TRUE;
+  }
   if (user_access('hide adsense')) {
-    return false;
+    return FALSE;
   }
 
-  return true;
+  return TRUE;
 }
 
 function _adsense_check_placeholder() {
@@ -707,14 +696,29 @@ function _adsense_add_nl($str) {
 }
 
 /**
- * Determine if AdSense has reached limit on this page.
+ * Determine if AdSense has reached limit on this page. As per Google's
+ * policies, a page can have up to 3 ad units and 3 link units.
  *
  * @return
  *   TRUE if we can insert another ad, FALSE if not allowed.
  */
-function _adsense_can_insert_another() {
-  static $num_adsense_on_this_page;
-  return ($num_adsense_on_this_page < variable_get(ADSENSE_PAGE_AD_LIMIT, 3));
+function _adsense_can_insert_another($format = '160x600') {
+  static $num_ads = array(
+    ADSENSE_TYPE_AD   => 0,
+    ADSENSE_TYPE_LINK => 0,
+    );
+
+  $ad_list = adsense_ad_formats();
+  $type = $ad_list[$format]['type'];
+  if ($num_ads[$type] < 3) {
+    $num_ads[$type]++;
+    $ret = TRUE;
+  }
+  else {
+    $ret = FALSE;
+  }
+
+  return $ret;
 }
 
 /**
@@ -802,7 +806,10 @@ function _adsense_process_tags($text) {
             // Tag is in [adsense:468x60:1:1] format
             $ad = adsense_display($match[1], $match[2], $match[3]);
         }
-      $text = str_replace($match[0], $ad, $text);
+      // Replace the first occurance of the tag, in case we have the same
+      // tag more than once.
+      $str = '/\\' . $match[0] .'/';
+      $text = preg_replace($str, $ad, $text, 1);
       }
     }
   }
