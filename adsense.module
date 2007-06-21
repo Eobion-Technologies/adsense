@@ -45,7 +45,7 @@ define('ADSENSE_TYPE_LINK',                   1);
 define('ADSENSE_TYPE_AD',                     2);
 
 define('ADSENSE_MAX_GROUPS',                  5);
-define('ADSENSE_MAX_CHANNELS',                7);
+define('ADSENSE_MAX_CHANNELS',                10);
 define('ADSENSE_MAX_BLOCKS',                  8);
 define('ADSENSE_VISIBILITY',                  'adsense_visibility');
 define('ADSENSE_ACCESS_PAGES',                'adsense_access_pages');
