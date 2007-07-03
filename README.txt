@@ -45,11 +45,43 @@ Follow the online instructions on that page on how to display ads and the
 various ways to do so.
 
 
-Bugs/Features/Patches:
-----------------------
+Bugs/Features/Patches
+---------------------
 If you want to report bugs, feature requests, or submit a patch, please do
 so at the project page on the Drupal web site.
 http://drupal.org/project/adsense
+
+
+Hacks/Workarounds
+-----------------
+If you would prefer the Adsense ID field in Profiles to be invisible to all
+users except the admin, here's a workaround:
+
+1) Log in as User 1. Set up the profile field as described in the help text
+   ("Private field, content only available to privileged users") and enter
+   your account number. Press save. This will store the record in the
+   profile_values table. This is where the Adsense module expects to find
+   the ID value.
+
+2) Once saved, you can then set the field to "hidden profile field, only
+   accessible by administrators, modules and themes." While this option
+   stores the ID in a completely different table, the original value in the
+   profile_values table DOES NOT get deleted. The Adsense module will
+   continue to find and load the ID value properly. However, the field will
+   now be invisible to other users.
+
+NOTE: Just keep in mind that if you need to change the ID value later, you
+will first need to:
+
+1) Set the field option back to "Private field, content only available to
+   privileged users"
+2) Put in the new value and save
+3) Then set the field option to "hidden profile field, only accessible by
+   administrators, modules and themes"
+
+You can check to make sure the Adsense module is picking up the proper value
+by viewing the source of a page with the ads and checking the javascript
+code. You should see the value of your account ID there.
 
 
 Author
