@@ -2,6 +2,7 @@
 // $Id$
 
 function adsense_help_text($formats = '') {
+  global $user;
   $output = '';
   $output .= t('<h2>Overview</h2>') ."\n";
   $output .= t('<p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>') ."\n";
@@ -13,8 +14,7 @@ function adsense_help_text($formats = '') {
   $output .= t('<h2>Configuration</h2>') ."\n";
   $output .= t('<p>To use this module, you need to do the following first:</p>') ."\n";
   $output .= "<ul>\n";
-  $output .= t('<li>Go to Administer -> Site building -> Modules and enable the profile module.</li>') ."\n";
-  $output .= t('<li>Go to Administer -> User management -> Profiles and create a new profile field of type "single-line textfield". Name this field something like "Google AdSense client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.') ."\n";
+  $output .= '<li>'. t('Go to !link and create a new profile field of type "single-line textfield". Name this field something like "Google AdSense client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.', array('!link' => l(t('Administer -> User management -> Profiles'), 'admin/user/profile'))) ."\n";
   $output .= t('<p>Note that the new profile field must be setup as: "Private field, content only available to privileged users". All other values are either insecure or will not work, so do not use any of them.</p>') ."\n";
   $output .= t('<p>If you want to use revenue sharing and force users to enter a value when they sign up, then check the following settings:</p>') ."\n";
   $output .= "<ul>\n";
@@ -22,7 +22,8 @@ function adsense_help_text($formats = '') {
   $output .= t('<li>Visible in user registration form.</li>') ."\n";
   $output .= "</ul>\n";
   $output .= t('<p>Also, you should enter a descriptive explanation for the Google AdSense client ID, so users know what to enter in this field.</p></li>') ."\n";
-  $output .= t('<li>Go to My account -> Edit, then click on the category that you defined for the Google AdSense client ID and enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>') ."\n";
+  $output .= t('<li>Go to !link, then click on the category that you defined for the Google AdSense client ID and enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>',
+  array('!link' => l(t('My account -> Edit'), 'user/'. $user->uid .'/edit'))) ."\n";
   $output .= "</ul>\n";
   $output .= t('<h2>Displaying AdSense ads</h2>') ."\n";
   $output .= t('<p>There are several ways to display ads, summarized as follows:</p>') ."\n";
