@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: adsense\n"
 "POT-Creation-Date: 2007/01/16 10:39:46\n"
-"PO-Revision-Date: 2007-02-16 02:43+0600\n"
-"Last-Translator: Maynichev <maynich@gmail.com>\n"
+"PO-Revision-Date: 2007-09-09 15:21+0300\n"
+"Last-Translator: Julia <juliachina@mail.ru>\n"
 "Language-Team: Maynichev <maynich@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -163,23 +163,23 @@ msgstr "Оба"
 
 #: modules/adsense/adsense.module:239
 msgid "Ad text color"
-msgstr "Цвет текста рекламы"
+msgstr "Цвет текста"
 
 #: modules/adsense/adsense.module:247
 msgid "Ad border color"
-msgstr "Цвет ссылок рекламы"
+msgstr "Цвет границы"
 
 #: modules/adsense/adsense.module:255
 msgid "Ad background color"
-msgstr "Цвет фона рекламы"
+msgstr "Цвет фона"
 
 #: modules/adsense/adsense.module:263
 msgid "Ad title color"
-msgstr "Цвет заголовка рекламы"
+msgstr "Цвет заголовка"
 
 #: modules/adsense/adsense.module:271
 msgid "Ad URL color"
-msgstr "Цвет рекламных ссылок"
+msgstr "Цвет ссылок"
 
 #: modules/adsense/adsense.module:279
 msgid "Alternate URL color"
