@@ -1637,7 +1637,7 @@ function _adsense_get_searchbox($group = 1, $channel = 1) {
 
   $output .= _adsense_add_nl('<form method="get" action="/adsense/search" target="_top" style="text-align:left;">');
   $output .= _adsense_add_nl('<input type="hidden" name="domains" value="'    . $domain  . '"></input>');
-  $output .= _adsense_add_nl('<input type="text" name="as_q" size="'          . $textbox_length . '" maxlength="255" value="' . $_GET['as_q'] . '"></input>');
+  $output .= _adsense_add_nl('<input type="text" name="as_q" size="'          . $textbox_length . '" maxlength="255" value="' . $_GET['as_q'] . '" class="form-text"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="sitesearch" value="' . $domain  . '"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="client" value="'     . $client  . '"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="channel" value="'    . $channel . '"></input>');
@@ -1655,7 +1655,7 @@ function _adsense_get_searchbox($group = 1, $channel = 1) {
                                                                  . ';GIMP:'          . $light
                                                                  . ';FORID:11"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="hl" value="' . $language   . '"></input>');
-  $output .= _adsense_add_nl('<input type="submit" name="sa" value="' . t('Search') . '"></input>');
+  $output .= _adsense_add_nl('<input type="submit" name="sa" value="' . t('Search') . '" class="form-submit"></input>');
   $output .= _adsense_add_nl('</form>');
 
   return $output;
