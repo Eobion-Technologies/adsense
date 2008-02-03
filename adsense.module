@@ -1795,7 +1795,7 @@ function _adsense_get_searchbox($group = 1, $channel = 1) {
     elseif ($box_background_color == ADSENSE_SEARCH_COLOR_GRAY) {
       $logo_color = 'gry';
     }
-    $output .= _adsense_add_nl('<img src="http://www.google.com/logos/Logo_25'. $logo_color .'.gif" border="0" alt="Google" align="middle"></img></a>');
+    $output .= _adsense_add_nl('<img src="http://www.google.com/logos/Logo_25'. $logo_color .'.gif" border="0" alt="Google" align="middle" /></a>');
   }
 
   if ($logo == ADSENSE_SEARCH_LOGO_GOOGLE) {
@@ -1806,7 +1806,7 @@ function _adsense_get_searchbox($group = 1, $channel = 1) {
     $output .= _adsense_add_nl('<br/>');
   }
 
-  $output .= _adsense_add_nl('<input type="hidden" name="domains" value="'. $domain .'"></input>');
+  $output .= _adsense_add_nl('<input type="hidden" name="domains" value="'. $domain .'" />');
   $output .= _adsense_add_nl('<label for="sbi" style="display: none">'. t('Enter your search terms') .'</label>');
   $output .= _adsense_add_nl('<input type="text" name="as_q" size="'. $textbox_length .'" maxlength="255" value="" id="sbi"></input>');
 
