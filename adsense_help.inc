@@ -1,126 +1,179 @@
 <?php
 // $Id$
 
-function adsense_help_text($formats = '') {
+// Copyright 2005-2008 Khalid Baheyeldin - http://2bits.com
+
+function adsense_help_text() {
   global $user;
-  $output = '';
-  $output .= t('<h2>Overview</h2>') ."\n";
-  $output .= t('<p>This module provides web site admins the factility to display Google AdSense ads on their web site, thus earning revenue.</p>') ."\n";
-  $output .= t('<h2>Prerequisites</h2>') ."\n";
-  $output .= t('<p>You must have a Google AdSense account before using this module. If you do not have an account, then please consider using <a href=!url>the modules author\'s referral link</a>, which provides us with a referral fee from Google at absolutely no cost to you. This page also contains various useful links and resources on AdSense, and how to optimize your site for it.</p>', array('!url' => 'http://baheyeldin.com/click/476/1')) ."\n";
-  $output .= t('<h2>Supported formats</h2>') ."\n";
-  $output .= t('<p>The following ad formats are supported:</p>') ."\n";
-  $output .= $formats ."\n";
-  $output .= t('<h2>Configuration</h2>') ."\n";
-  $output .= t('<p>To use this module, you need to do the following first:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= '<li>'. t('Go to !link and create a new profile field of type "single-line textfield". Name this field something like "Google AdSense client ID", and form name "profile_google_adsense_client_id". This is a required configuration parameter. At a minimum you should enter this field for user 1.', array('!link' => l(t('Administer -> User management -> Profiles'), 'admin/user/profile'))) ."\n";
-  $output .= t('<p>Note that the new profile field must be setup as: "Private field, content only available to privileged users". All other values are either insecure or will not work, so do not use any of them.</p>') ."\n";
-  $output .= t('<p>If you want to use revenue sharing and force users to enter a value when they sign up, then check the following settings:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= t('<li>The user must enter a value.</li>') ."\n";
-  $output .= t('<li>Visible in user registration form.</li>') ."\n";
-  $output .= "</ul>\n";
-  $output .= t('<p>Also, you should enter a descriptive explanation for the Google AdSense client ID, so users know what to enter in this field.</p></li>') ."\n";
-  $output .= t('<li>Go to !link, then click on the category that you defined for the Google AdSense client ID and enter your Google ID, which is something like "pub-9999999999999", and click Submit.</li>',
-  array('!link' => l(t('My account -> Edit'), 'user/'. $user->uid .'/edit'))) ."\n";
-  $output .= "</ul>\n";
-  $output .= t('<h2>Displaying AdSense ads</h2>') ."\n";
-  $output .= t('<p>There are several ways to display ads, summarized as follows:</p>') ."\n";
-  $output .= t('<p>Ads can be displayed in pre-defined blocks, in custom blocks, in content or in any phptemplate based theme.</p>') ."\n";
-  $output .= t('<h3>Using blocks</h3>') ."\n";
-  $output .= t('<p>The easiest way to get started with this module is to use one or more of the pre-defined blocks.</p>') ."\n";
-  $output .= t('<p>Visit the <a href=!url>blocks</a> configuration page, and click on the <strong>configure</strong> link of one of the AdSense blocks. You must select a format, a group, and a channel.</p>', array('!url' => url('admin/build/block'))) ."\n";
-  $output .= t('<p>Enable the block, and specify a region for it to be displayed in.</p>') ."\n";
-  $output .= t('<h3>Using custom PHP code</h3>') ."\n";
-  $output .= t('<p>To display ads, you call the function @function and supply it with the following arguments.</p>', array('@function' => 'adsense_display()')) ."\n";
-  $output .= "<ul>\n";
-  $output .= t('<li>Format: This is a string of two numbers with an "x" in between. It can be any valid combination from the list provided above. If not specified, then 160x600 is assumed.</li>') ."\n";
-  $output .= t('<li>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1, 2 or 3. If not specified, then 1 is assumed.</li>') ."\n";
-  $output .= t('<li>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out.</li>') ."\n";
-  $output .= "</ul>\n";
-  $output .= t('<p>To display ads in blocks, add a new block, make its type "PHP", and enclose it in PHP tags.</p>') ."\n";
-  $output .= "<pre><code>\n";
-  $output .= "print adsense_display('120x600', 1, 2);\n";
-  $output .= "</code></pre>\n";
-  $output .= t('<p>If you want to make sure that you do not get errors if the AdSense module is accidentally disabled or deleted, then use the longer form:</p>') ."\n";
-  $output .= "<pre><code>\n";
-  $output .= "if (module_exists('adsense')) {\n";
-  $output .= "  print adsense_display('120x600', 2, 4);\n";
-  $output .= "}\n";
-  $output .= "</code></pre>\n";
-  $output .= t('<h3>Using themes</h3>') ."\n";
-  $output .= t('<p>You must use a phptemplate-based theme to display ads from within the theme. This requires some familiarity with PHP. Edit the appropriate <strong>.tpl.php</strong> file in your theme directory, and add:</p>') ."\n";
-  $output .= "<pre><code>\n";
-  $output .= "print adsense_display('468x60');\n";
-  $output .= "</code></pre>\n";
-  $output .= t('<p>Make sure you enclose it in PHP tags.</p>') ."\n";
-  $output .= t('<p>You could also use the longer format that protects you against deleting or disabling the module:</p>') ."\n";
-  $output .= "<pre><code>\n";
-  $output .= "if (module_exists('adsense')) {\n";
-  $output .= "  print adsense_display('120x600', 2, 4);\n";
-  $output .= "}\n";
-  $output .= "</code></pre>\n";
-  $output .= t('<h3>Using tags</h3>') ."\n";
-  $output .= t('<p>The tags feature allows placement of ads anywhere in the content. Please note that content here means any part that is passed through Drupal\'s filter system. Text in the slogan, mission, and footer is normally not filtered the same way as text in nodes, so you cannot put tags in those places.</p>') ."\n";
-  $output .= t('<p>To enable the tags feature, you have to enable the "AdSense tag" filter in the input format you are using (such as Full HTML or Filtered HTML) from Administer -> Site configuration -> Input formats. Then you have to insert the appropriate tag in your node where you would like the ad to appear.</p>') ."\n";
-  $output .= t('<p>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</p>') ."\n";
-  $output .= t('<p>The tag syntax comes in these variants:</p>');
-  $output .= t('<dt>1. [adsense:<em>format:group:channel</em>]</dt>') ."\n";
-  $output .= t('<p>Where:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= '<li>format: '. t('One of the supported ad formats (such as 468x60).') ."</li>\n";
-  $output .= '<li>group: '. t('A number corresponding to the ad group this ad belongs to, determines colors.') ."</li>\n";
-  $output .= '<li>channel: '. t('A number corresponding to the ad channel.') ."</li>\n";
-  $output .= "</ul>\n";
-  $output .= t('<p>All fields are required, unlike when using the @function function above.</p>', array('@function' => 'adsense_display()')) ."\n";
-  $output .= t('<p>Example:</p>') ."\n";
-  $output .= "<pre>[adsense:468x60:1:2]</pre>\n";
-  $output .= t('<p>Display a 468x60 banner with the colors defined in group 1, and with channel ID 2</p>') ."\n";
-  $output .= t('<dt>2. [adsense:block:<em>block_id</em>]</dt>') ."\n";
-  $output .= t('<p>Where:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= '<li>block_id: '. t('The block ID of a custom block with input format of PHP with a call to the @function function.', array('@function' => 'adsense_display()')) ."</li>\n";
-  $output .= "</ul>\n";
-  $output .= t('<p>This allows more fine grained visibility control via the block mechanism. The block does not need to be enabled, and therefore will be hidden from the sidebars and other regions. The title of the block will not be displayed.</p>') ."\n";
-  $output .= t('<p>All fields are required.</p>') ."\n";
-  $output .= t('<p>Example:</p>') ."\n";
-  $output .= "<pre>[adsense:block:7]</pre>\n";
-  $output .= t('<p>Display the ad code of the block with ID 7.</p>') ."\n";
-  $output .= "</ul>\n";
-  $output .= "<dt>3. [adsense:flexiblock:<em>location</em>]</dt>\n";
-  $output .= t('<p>This is provided for backward compatibility, but will be deprecated in a future release. Use the normal block filter instead.</p>') ."\n";
-  $output .= t('<p>Where:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= '<li>location: '. t('A number corresponding to a location in flexiblock that contains only one block with the call to the @function function.  This allows visibility control via the block mechanism. flexiblock must be installed and configured. The title of the flexiblock will not be displayed.', array('@function' => 'adsense_display()')) ."</li>\n";
-  $output .= "</ul>\n";
-  $output .= t('<p>All fields are required.</p>') ."\n";
-  $output .= t('<p>Example:</p>') ."\n";
-  $output .= "<pre>[adsense:flexiblock:2]</pre>\n";
-  $output .= t('<p>Display the contents of the flexiblock in location 2</p>') ."\n";
-  $output .= t('<h2>Revenue sharing</h2>') ."\n";
-  $output .= t('<p>For revenue sharing, each author gets a predefined share of ad revenue from clicks occuring on nodes they authored.</p>') ."\n";
-  $output .= t('<p>In order for the user to be credited they must have a Google AdSense account. As a site admin, please advertise <a href=!url>the module author\'s referral link</a>, which provides us with a referral fee from Google, at absolutely no cost to you. This page also contains various useful links and resources on AdSense and how to optimize your site for it.</p>', array('!url' => 'http://baheyeldin.com/click/476/1')) ."\n";
-  $output .= t('<p>Each user must enter their Google AdSense client ID in the profile field you defined above.</p>') ."\n";
-  $output .= t('<h2>AdSense clicks</h2>') ."\n";
-  $output .= t('<p>AdSense clicks are now tracked, and the IP address and timestamp are recorded for each click. This should help with fraud detection. There are three reports under Administer -> Logs: the default one shows click details, "By date" shows the number of clicks per day by day, and "Top pages" shows the top pages of a site that get clicks, the total number of clicks it got, and the last click date/time.</p>') ."\n";
-  $output .= t('<p>Note that there are some potential limitations with click tracking:</p>') ."\n";
-  $output .= t('<ul>') ."\n";
-  $output .= t('<li>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox would be appreciated.</li>') ."\n";
-  $output .= t('<li>Google throws out what it sees as invalid clicks.</li>') ."\n";
-  $output .= t('<li>There is a lag of 15 to 20 minutes before Google records the click.</li>') ."\n";
-  $output .= t('<li>When using AdLinks, the click on the link is recorded but any subsequent click on links is not recorded (since it is not actually on your site anymore).') ."\n";
-  $output .= "</li>\n";
-  $output .= t('<h2>Notes</h2>') ."\n";
-  $output .= t('<p>The site administrator will not see ads displayed as long as they are logged in. This is by design, in order not to skew the page views, and not to accidentally click on ads (against Google\'s policy). Log out to see the ads.</p>') ."\n";
-  $output .= t('<p>You can use the advanced options to disable ads and configure a placeholder when you are developing or theming to know where the ads will appear.</p>') ."\n";
-  $output .= t('<p>If ads are not displayed, that could be caused by several things:</p>') ."\n";
-  $output .= "<ul>\n";
-  $output .= t('<li>You are logged in as the site administrator. Log off to see the ads.</li>') ."\n";
-  $output .= t('<li>Your site is still new and Google has not indexed it yet.</li>') ."\n";
-  $output .= t('<li>The maximum number of ad units has already been displayed. Your page does not have enough content to display more than one or two units.</li>') ."\n";
-  $output .= t('<li>Check the page source for comments like this: @comment. These give hints to what is going on, and if you know PHP you can trace those in the module\'s source code.</li>', array('@comment' => '<!--adsense: ???-->')) ."\n";
-  $output .= "</ul>\n";
+
+  $uid = $user->uid;
+
+  // Get the ad formats
+  $headers = array(t('Ad type'), t('Dimensions'));
+  $rows = array();
+  foreach (adsense_ad_formats() as $format => $data) {
+    $rows[] = array($data['desc'], $format);
+  }
+  // Create the ad format text
+  $ad_formats_text = theme('table', $headers, $rows);
+
+  $referral_link = 'http://baheyeldin.com/click/476/1';
+
+  $output = <<<EOF
+<H2>Overview</H2>
+<P>This module provides web site admins the factility to display Google AdSense ads on their web site,
+thus earning revenue.</P>
+
+<H2>Prerequisites</H2>
+<P>You must have a Google AdSense account before using this module.  If you do not have an account,
+then please consider using <A HREF="$referral_link">the modules author's referral
+link</A>, which provides us with a referral fee from Google at absolutely no cost to you. This page
+also contains various useful links and resources on AdSense, and how to optimize your site for it.</P>
+
+<H2>Configuration</H2>
+<P>To use this module, you need to select one of the Adsense Client ID selection modules first, and configure
+it correctly. See below for a list of available modules, and their settings page.</P>
+
+<H2>Supported formats</H2>
+<P>Most of Adsense's ad formats are supported.</P>
+$ad_formats_text
+
+<H2>Displaying AdSense ads</H2>
+<P>There are several ways to display ads, summarized as follows:</P>
+<P>Ads can be displayed in pre-defined blocks, in custom blocks, in content or in any phptemplate based theme.</P>
+
+<H3>Using blocks</H3>
+<P>The easiest way to get started with this module is to use one or more of the pre-defined blocks.</P>
+<P>Visit the <A HREF="/admin/build/block">blocks</A> configuration page, and click on the <STRONG>configure</STRONG>
+link of one of the AdSense blocks. You must select a format, a group, and a channel.</P>
+<P>Enable the block, and specify a region for it to be displayed in.</P>
+
+<H3>Using custom PHP code</H3>
+<P>To display ads, you call the function adsense_display() and supply
+it with the following arguments.</P>
+<UL>
+	<LI>Format: This is a string of two numbers with an &quot;x&quot; in between. It can be any valid
+	combination from the list provided above. If not specified, then 160x600 is assumed. 
+	<LI>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1,
+	2 or 3. If not specified, then 1 is assumed. 
+	<LI>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter
+  and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out. 
+</UL>
+<P>To display ads in blocks, add a new block, make its type &quot;PHP&quot;, and enclose it in PHP tags.</P>
+<PRE>
+<CODE>print adsense_display('120x600', 1, 2);</CODE></PRE><P>
+If you want to make sure that you do not get errors if the AdSense module is accidentally disabled or deleted, then
+use the longer form:</P>
+<PRE>
+<CODE>if (module_exists('adsense')) {</CODE>
+<CODE>  print adsense_display('120x600', 2, 4);</CODE>
+<CODE>}</CODE>
+</PRE>
+
+<H3>Using themes</H3>
+<P>You must use a phptemplate-based theme to display ads from within the theme. This requires some familiarity
+with PHP. Edit the appropriate <STRONG>.tpl.php</STRONG> file in your theme directory,
+and add:</P>
+<PRE>
+<CODE>print adsense_display('468x60');</CODE>
+</PRE>
+<P>Make sure you enclose it in PHP tags.</P>
+<P>You could also use the longer format that protects you against deleting or disabling the module:</P>
+<PRE>
+<CODE>if (module_exists('adsense')) {</CODE>
+<CODE>  print adsense_display('120x600', 2, 4);</CODE>
+<CODE>}</CODE>
+</PRE>
+
+<H3>Using tags</H3>
+<P>The tags feature allows placement of ads anywhere in the content.  Please note that content here means any
+part that is passed through Drupal's filter system. Text in the slogan, mission, and footer is normally not
+filtered the same way as text in nodes, so you cannot put tags in those places.</P>
+<P>To enable the tags feature, you have to enable the &quot;AdSense tag&quot; filter in the input format you
+are using (such as Full HTML or Filtered HTML) from Administer -&gt; Site configuration -&gt; Input formats.
+Then you have to insert the appropriate tag in your node where you would like the ad to appear.</P>
+<P>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</P>
+<P>The tag syntax comes in these variants:</P>
+<DL>
+	<DT>1. [adsense:<EM>format:group:channel</EM>]</DT>
+</DL>
+<P>Where:</P>
+<UL>
+	<LI>format: One of the supported ad formats (such as 468x60).
+	<LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
+	<LI>channel: A number corresponding to the ad channel.
+</UL>
+<P>All fields are required, unlike when using the adsense_display()
+function above.</P>
+<P>Example:</P>
+<PRE>[adsense:468x60:1:2]</PRE><P>
+Display a 468x60 banner with the colors defined in group 1, and with
+channel ID 2</P>
+<DL>
+	<DT>2. [adsense:block:<EM>block_id</EM>]</DT>
+</DL>
+<P>Where:</P>
+<UL>
+	<LI>block_id: The block ID of a custom block with input format of PHP with a call to the adsense_display() function.
+</UL>
+<P>This allows more fine grained visibility control via the block mechanism. The block does not need to be
+enabled, and therefore will be hidden from the sidebars and other regions. The title of the block will not be
+displayed.</P>
+<P>All fields are required.</P>
+<P>Example:</P>
+<PRE>[adsense:block:7]</PRE>
+<P>Display the ad code of the block with ID 7.</P>
+<DL>
+	<DT>3. [adsense:flexiblock:<EM>location</EM>]</DT>
+</DL>
+<P>
+This is provided for backward compatibility, but will be deprecated
+in a future release. Use the normal block filter instead.</P>
+<P>Where:</P>
+<UL>
+	<LI>location: A number corresponding to a location in flexiblock that contains only one block with
+  the call to the adsense_display() function. This allows visibility control via the block mechanism.
+	flexiblock must be installed and configured. The title of the flexiblock will not be displayed. 
+</UL>
+<P>All fields are required.</P>
+<P>Example:</P>
+<PRE>[adsense:flexiblock:2]</PRE><P>
+Display the contents of the flexiblock in location 2</P>
+
+<H2>AdSense clicks</H2>
+<P>AdSense clicks are now tracked, and the IP address and timestamp are recorded for each click.
+This should help with fraud detection.  There are three reports under Administer -&gt; Logs: the
+default one shows click details, &quot;By date&quot; shows the number of clicks per day by day,
+and &quot;Top pages&quot; shows the top pages of a site that get clicks, the total number of clicks
+it got, and the last click date/time.</P>
+<P>Note that there are some potential limitations with click tracking:</P>
+<UL>
+	<LI>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox
+	would be appreciated. 
+	<LI>Google throws out what it sees as invalid clicks. 
+	<LI>There is a lag of 15 to 20 minutes before Google records the click. 
+	<LI>When using AdLinks, the click on the link is recorded but any subsequent click on links is not recorded
+  (since it is not actually on your site anymore). 
+</UL>
+
+<H2>Notes</H2>
+<UL>
+  <P>The site administrator will not see ads displayed as long as they are logged in. This is by design, in
+  order not to skew the page views, and not to accidentally click on ads (against Google's policy). Log out
+  to see the ads.</P>
+  <P>You can use the advanced options to disable ads and configure a placeholder when you are developing or
+  theming to know where the ads will appear.</P>
+  <P>If ads are not displayed, that could be caused by several things:</P>
+  <UL>
+	  <LI>You are logged in as the site administrator. Log off to see the ads. 
+	  <LI>Your site is still new and Google has not indexed it yet. 
+	  <LI>The maximum number of ad units has already been displayed. Your page does not have enough content
+	  to display more than one or two units. 
+	  <LI>Check the page source for comments like this: &lt;!--adsense: ???--&gt;. These give hints to what
+    is going on, and if you know PHP you can trace those in the module's source code. 
+	</UL>
+</UL>
+EOF;
   return $output;
 }
 

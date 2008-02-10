@@ -1,0 +1,7 @@
+; $Id$
+; Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
+
+name = Adsense basic
+description = Configuration for Adsense for a basic single owner site, with no revenue sharing.
+dependencies = adsense
+package = Adsense

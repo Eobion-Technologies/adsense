@@ -1,5 +1,7 @@
 <?php
 // $Id$
+//
+// Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
 
 function adsense_install() {
   switch ($GLOBALS['db_type']) {
@@ -38,6 +40,7 @@ function adsense_install() {
  */
 function adsense_uninstall() {
   db_query('DROP TABLE {adsense_clicks}');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'adsense_%'");
 }
 
 function adsense_update_1() {
