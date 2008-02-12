@@ -125,7 +125,8 @@ function revenue_sharing_basic_client_id() {
   if (!count($node_info)) {
     $uid = NULL;
   }
-  list($uid, $type) = $node_info;
+  $uid  = $node_info['uid'];
+  $type = $node_info['uid'];
 
   return revenue_sharing_basic_choose_client($uid);
 }
@@ -141,7 +142,6 @@ function revenue_sharing_basic_choose_client($uid = NULL) {
   $percent_referral = variable_get(REVENUE_SHARING_BASIC_PERCENTAGE_REFER, 0);
   $author_client    = revenue_sharing_basic_get_profile_client_id($uid);
   $referral_client  = revenue_sharing_basic_get_profile_client_id(revenue_sharing_basic_get_referral_uid($uid));
-
 
   if (!$percent_author || !$author_client) {
     return $site_client;
