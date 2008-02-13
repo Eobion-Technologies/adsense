@@ -8,29 +8,37 @@ define('REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR',       'revenue_sharing_basic_p
 define('REVENUE_SHARING_BASIC_PERCENTAGE_REFER',        'revenue_sharing_basic_percentage_refer');
 define('REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD', 'revenue_sharing_basic_client_id_profile_field');
 
-function revenue_sharing_basic_adsense($op, $args = array()) {
-  if ($op == 'settings') {
-    return revenue_sharing_basic_settings();
-  }
+define('REVENUE_SHARING_BASIC_ERROR_CACHING_ENABLED',       1);
+define('REVENUE_SHARING_BASIC_ERROR_PROFILE_NOT_ENABLED',   2);
+define('REVENUE_SHARING_BASIC_ERROR_NOT_CONFIGURED',        3);
 
-  if ($op == 'client_id') {
-    return revenue_sharing_basic_client_id();
+function revenue_sharing_basic_adsense($op, $args = array()) {
+  switch ($op) {
+    case 'status' :
+      $error_flag = FALSE;
+      if (variable_get('cache', 0)) {
+        revenue_sharing_basic_error(REVENUE_SHARING_BASIC_ERROR_CACHING_ENABLED);
+      }
+      if (!module_exists('profile')) {
+        revenue_sharing_basic_error(REVENUE_SHARING_BASIC_ERROR_PROFILE_NOT_ENABLED);
+        $error_flag = TRUE;
+      }
+      if (!revenue_sharing_basic_get_profile_client_id(1)) {
+        revenue_sharing_basic_error(REVENUE_SHARING_BASIC_ERROR_NOT_CONFIGURED);
+        $error_flag = TRUE;
+      }
+      return $error_flag;
+
+    case 'settings':
+      return revenue_sharing_basic_settings();
+
+    case 'client_id':
+      return revenue_sharing_basic_client_id();
   }
 }
 
 function revenue_sharing_basic_settings() {
   $form = array();
-
-  $error_flag = FALSE;
-  if (!module_exists('profile')) {
-    drupal_set_message('The profile module is not enabled. Please enable it and define a field as per the help instructions.', 'error');
-    $error_flag = TRUE;
-  }
-
-  if (!revenue_sharing_basic_get_profile_client_id(1)) {
-    adsense_error(ADSENSE_ERROR_NOT_CONFIGURED);
-    $error_flag = TRUE;
-  }
 
   $module = 'revenue_sharing_basic';
   include_once(drupal_get_path('module', $module) .'/'. $module .'_help.inc');
@@ -64,6 +72,7 @@ function revenue_sharing_basic_settings() {
     '#description'   => t('This is the profile field that holds the AdSense Client ID for the site owner as well as (optionally) for site users who participate in revenue sharing. You must enabled the profile module and create a new field for this.'),
   );
 
+  $error_flag = revenue_sharing_basic_adsense('status');
   if ($error_flag) {
     return $form;
   }
@@ -271,3 +280,25 @@ function revenue_sharing_basic_get_node_info() {
   }
   return array();
 }
+
+function revenue_sharing_basic_error($error_code) {
+  switch($error_code) {
+    case REVENUE_SHARING_BASIC_ERROR_CACHING_ENABLED:
+      $text = t('Drupal page cache is enabled. This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.');
+      break;
+
+    case REVENUE_SHARING_BASIC_ERROR_PROFILE_NOT_ENABLED:
+      $text = t('The profile module is not enabled. Please enable it and define a field as per the help instructions.');
+      break;
+
+    case REVENUE_SHARING_BASIC_ERROR_NOT_CONFIGURED:
+      $text = t('Could not determine a Google Adsense Client ID. The module is not configured correctly. Please check your settings.');
+      break;
+
+    default:
+      $text = t('Unknown revenue sharing basic error.');
+      break;
+  }
+  drupal_set_message($text, 'error');
+}
+

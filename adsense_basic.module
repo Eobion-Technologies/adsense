@@ -5,12 +5,23 @@
 
 define('ADSENSE_BASIC_ID', 'adsense_basic_id');
 
+define('ADSENSE_BASIC_ERROR_NOT_CONFIGURED', 1);
+
 function adsense_basic_adsense($op, $args = array()) {
-  if ($op == 'settings') {
-    return adsense_basic_settings();
-  }
-  if ($op == 'client_id') {
-    return adsense_basic_client_id();
+  switch ($op) {
+    case 'status':
+      $error_flag = FALSE;
+      if (!variable_get(ADSENSE_BASIC_ID, '')) {
+        adsense_basic_error(ADSENSE_BASIC_ERROR_NOT_CONFIGURED);
+        $error_flag = TRUE;
+      }
+      return $error_flag;
+
+    case 'settings':
+      return adsense_basic_settings();
+
+    case 'client_id':
+      return adsense_basic_client_id();
   }
 }
 
@@ -19,6 +30,9 @@ function adsense_basic_settings() {
   $module = 'adsense_basic';
   include_once(drupal_get_path('module', $module) .'/'. $module .'_help.inc');
   
+  $function = $module . '_adsense';
+  $error_flag = $function('status');
+
   $form['help'] = array(
     '#type'        => 'fieldset',
     '#collapsible' => TRUE,
@@ -45,4 +59,18 @@ function adsense_basic_settings() {
 function adsense_basic_client_id() {
   $client = variable_get(ADSENSE_BASIC_ID, '');
   return $client;
+}
+
+function adsense_basic_error($code) {
+  switch ($code) {
+    case ADSENSE_BASIC_ERROR_NOT_CONFIGURED:
+      $text = t('Adsense basic is not correctly configured. Please check your settings.');
+      break;
+
+    default:
+      $text = t('Unknown Adsense basic error.');
+      break;
+  }
+
+  drupal_set_message($text, 'error');
 }

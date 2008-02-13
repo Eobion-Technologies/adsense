@@ -48,8 +48,8 @@ define('ADSENSE_TYPE_SEARCH',                 3);
 
 define('ADSENSE_ID_MODULE',                   'adsense_id_module');
 
-define('ADSENSE_ERROR_NOT_CONFIGURED',        1);
-define('ADSENSE_ERROR_NO_MODULE',             2);
+define('ADSENSE_ERROR_NO_MODULE',             1);
+define('ADSENSE_ERROR_NOT_CONFIGURED',        2);
 
 define('ADSENSE_MAX_GROUPS',                  5);
 define('ADSENSE_MAX_CHANNELS',                10);
@@ -214,6 +214,11 @@ function adsense_admin_module_settings($module) {
 }
 
 function adsense_admin_settings() {
+  // force a display of errors, if any
+  $module = variable_get(ADSENSE_ID_MODULE, 'adsense_basic');
+  $function = $module . '_adsense';
+  $error = $function('status');
+
   $form = array();
   cache_clear_all('adsense', 'cache', TRUE);
 
@@ -1463,12 +1468,14 @@ function adsense_get_client_id() {
 
 function adsense_error($error_code) {
   switch($error_code) {
-    case ADSENSE_ERROR_NOT_CONFIGURED:
-      $text = t('The Adsense module cannot get a valid Google AdSense client ID. This may be due to no Adsense client ID selection modules being selected, or a misconfiguration in the selected module. Please enable one of the Adsense client ID selection or Revenue Sharing selection modules, and make sure it is configured correctly.');
-      break;
     case ADSENSE_ERROR_NO_MODULE:
-      $text = t('No Google Adsense client ID choosing module is enabled. Please check your configuration.');
+      $text = t('No Google Adsense client ID choosing module is enabled. Please check your settings.');
       break;
+
+    case ADSENSE_ERROR_NOT_CONFIGURED:
+      $text = t('Could not determine Google Adsense Client ID. Please check your settings.');
+      break;
+
     default:
       $text = t('Unknown Google Adsense error.');
       break;
