@@ -156,23 +156,43 @@ it got, and the last click date/time.</P>
   (since it is not actually on your site anymore). 
 </UL>
 
-<H2>Notes</H2>
-<UL>
+<H2>Hints and Tips</H2>
+  <P>This section has a collection of tips and hints. Please read it before submitting support requests.
+  Also, if you find a useful hint or tip relating to using this module, consider submitting a patch to 
+  the adsense_help.inc file so the community would benefit from it.</P>
+
+  <H3>Visibility of Ads</H3>
   <P>The site administrator will not see ads displayed as long as they are logged in. This is by design, in
   order not to skew the page views, and not to accidentally click on ads (against Google's policy). Log out
   to see the ads.</P>
+
   <P>You can use the advanced options to disable ads and configure a placeholder when you are developing or
   theming to know where the ads will appear.</P>
+
+  <P>Also, the test mode for ads would help with showing what parameters are used for an ad.</P>
+
+  <H3>Ads not showing</H3>
   <P>If ads are not displayed, that could be caused by several things:</P>
   <UL>
 	  <LI>You are logged in as the site administrator. Log off to see the ads. 
 	  <LI>Your site is still new and Google has not indexed it yet. 
+	  <LI>Your site has been blacklisted by Google.
 	  <LI>The maximum number of ad units has already been displayed. Your page does not have enough content
 	  to display more than one or two units. 
 	  <LI>Check the page source for comments like this: &lt;!--adsense: ???--&gt;. These give hints to what
     is going on, and if you know PHP you can trace those in the module's source code. 
 	</UL>
-</UL>
+
+  <H3>Module Weight</H3></p>
+  <P>Unless configured otherwise, Drupal normally calls modules in alphabetical order. Insofar as Adsense starts
+  with "a," this may occasionally cause conflicts with other installed modules. For example, with <strong>image_attach</strong>
+  (a function of the <a href = "http://drupal.org/project/image">image</a> module), Adsense will normally be invoked
+  <strong>first</strong> ("a" coming before "i"); this may interfere with inline styling of images attached to posts.</P>
+
+  <P><strong>Solution:</strong> Install and configure the <a href = "http://drupal.org/project/moduleweight">Module Weight</a>
+  module and configure modules to load in the desired order. In this case, giving Image Attach a weight of -1 should resolve the
+  issue.</P>
+
 EOF;
   return $output;
 }
