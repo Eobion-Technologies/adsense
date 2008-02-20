@@ -229,6 +229,7 @@ function revenue_sharing_basic_get_client_id() {
   $revenue = variable_get(REVENUE_SHARING_BASIC_ENABLE, 0);
   if (!$revenue) {
     // If not enabled, cache the site wide client ID
+    $client = $site_client;
     return $site_client;
   }
 
@@ -242,6 +243,8 @@ function revenue_sharing_basic_get_client_id() {
       $uid = arg(1);
     }
     else {
+      // Cache it
+      $client = $site_client;
       return $site_client;
     }
   }
@@ -252,6 +255,7 @@ function revenue_sharing_basic_get_client_id() {
   $content = variable_get(REVENUE_SHARING_BASIC_NODE_TYPE . $type, 0);
   if (!$content) {
     // Revenue sharing is disabled for this content, use the site wide client id
+    // Cache it
     $client = $site_client;
     return $client;
   }
