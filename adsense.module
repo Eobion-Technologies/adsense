@@ -217,7 +217,9 @@ function adsense_admin_settings() {
   // force a display of errors, if any
   $module = variable_get(ADSENSE_ID_MODULE, 'adsense_basic');
   $function = $module . '_adsense';
-  $error = $function('status');
+  if (function_exists($function)) {
+    $error = $function('status');
+  }
 
   $form = array();
   cache_clear_all('adsense', 'cache', TRUE);
