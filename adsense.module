@@ -65,6 +65,9 @@ define('ADSENSE_COLOR_URL',                   'adsense_color_url_');
 define('ADSENSE_ALT',                         'adsense_alt_');
 define('ADSENSE_ALT_INFO',                    'adsense_alt_info_');
 define('ADSENSE_AD_CHANNEL',                  'adsense_ad_channel_');
+define('ADSENSE_AD_SLOT',                     'adsense_ad_slot_');
+define('ADSENSE_AD_REFERRAL',                 'adsense_ad_referral_');
+define('ADSENSE_CPA_CHOICE',                  'adsense_cpa_choice_');
 define('ADSENSE_PERCENTAGE_AUTHOR',           'adsense_percentage_author');
 define('ADSENSE_PERCENTAGE_REFER',            'adsense_percentage_refer');
 define('ADSENSE_NODE_TYPE',                   'adsense_node_type_');
@@ -956,7 +959,7 @@ function adsense_admin_settings() {
   return system_settings_form($form);
 }
 
-function adsense_display($format = '160x600', $group = 1, $channel = 1) {
+function adsense_display($format = '160x600', $group = 1, $channel = 1, $slot = '', $referral = 0, $cpa = '') {
   if (!_adsense_validate_dimensions($format)) {
     $ad = '<!--adsense: invalid format: '. $format .'-->';
   }
@@ -969,8 +972,8 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
           // Ad should be displayed
           // Check cache first
           $ad = $format != ADSENSE_SEARCH_BOX
-              ? _adsense_get_ad($format, $group, $channel)
-              : _adsense_get_searchbox($group, $channel);
+              ? _adsense_get_ad($format, $group, $channel, $slot, $referral, $cpa)
+              : _adsense_get_searchbox($group, $channel, $slot, $referral, $cpa);
         }
         else {
           $ad = '<!--adsense: page not in match list-->';
@@ -995,15 +998,15 @@ function adsense_display($format = '160x600', $group = 1, $channel = 1) {
 
   return $ad;
 }
-function _adsense_get_ad($format, $group, $channel) {
+function _adsense_get_ad($format, $group, $channel, $slot, $referral, $cpa) {
   $module = variable_get(ADSENSE_ID_MODULE, 'adsense_basic');
   if ($module != 'adsense_basic') {
     // Do not serve the ads from the adsense cache
-    $ad = _adsense_format($format, $group, $channel);
+    $ad = _adsense_format($format, $group, $channel, $slot, $referral, $cpa);
     return $ad;
   }
 
-  $cache_key = "adsense-$group-$format-$channel";
+  $cache_key = "adsense-$group-$format-$channel-$slot-$referral-$cpa";
   $cache = cache_get($cache_key);
   if ($cache) {
     // This ad format is cached, use it
@@ -1011,7 +1014,8 @@ function _adsense_get_ad($format, $group, $channel) {
   }
   else {
     // Not cached. Format an ad
-    $ad = _adsense_format($format, $group, $channel);
+    $ad = _adsense_format($format, $group, $channel, $slot, $referral, $cpa);
+
     // Add it to cache
     cache_set($cache_key, 'cache', $ad, CACHE_PERMANENT);
   }
@@ -1114,7 +1118,7 @@ function _adsense_validate_channel($channel = 1) {
   return $channel;
 }
 
-function _adsense_format($format, $group = 1, $channel = 1) {
+function _adsense_format($format, $group = 1, $channel = 1, $slot = '', $referral = 0, $cpa = '') {
 
   $client = adsense_get_client_id();
 
@@ -1165,8 +1169,14 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $output .= _adsense_add_nl('google_ad_client = "'. $client  .'";');
   $output .= _adsense_add_nl('google_ad_type = "'. $type    .'";');
   $output .= _adsense_add_nl('google_ad_channel = "'. $channel .'";');
+  $output .= _adsense_add_nl('google_ad_slot = "'. $slot .'";');
   $output .= _adsense_add_nl('google_ad_width = '. $width   .';');
   $output .= _adsense_add_nl('google_ad_height = '. $height  .';');
+  
+  // Only add the CPA for a Referral Ad. As of 2/26/08, it is needed even if it's empty.
+  if ($referral) { 
+     $output .= _adsense_add_nl('google_cpa_choice = "'. $cpa .'";');  
+  }
   $output .= _adsense_add_nl('google_ad_format = "'. $format  .'";');
   $output .= _adsense_add_nl('google_color_border = "'. $border  .'";');
   $output .= _adsense_add_nl('google_color_bg = "'. $bg      .'";');
@@ -1180,7 +1190,7 @@ function _adsense_format($format, $group = 1, $channel = 1) {
   $output .= _adsense_add_nl('</div>');
 
   if (variable_get(ADSENSE_TEST_MODE, 0)) {
-    $text = "client=$client format=$format group=$group channel=$channel type=$type";
+    $text = "client=$client format=$format group=$group channel=$channel slot=$slot referral=$referral cpa=$cpa type=$type";
     $output  = '<div style="';
     $output .= ' width:'. $width  .'px;';
     $output .= ' height:'. $height .'px;';
@@ -1296,7 +1306,9 @@ function _adsense_process_tags($text) {
   $patterns = array(
     'flexi' => '/\[adsense:flexiblock:(\d+)\]/x',
     'block' => '/\[adsense:block:(\d+)\]/x',
-    'tags'  => '/\[adsense:(\w+):(\d+):(\d+)\]/x');
+    'tags'  => '/\[adsense:(\w+):(\d+):(\d+)\]/x',
+    'refer' => '/\[adsense:referrer:(\w+):(\d+):(\d+):(\w*):(\w*)\]/x'
+ );
 
   foreach ($patterns as $mode => $pattern) {
     if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
@@ -1309,8 +1321,10 @@ function _adsense_process_tags($text) {
             $ad = _adsense_tag_block($match[1]);
             break;
           case 'tags':
-            // Tag is in [adsense:468x60:1:1] format
-            $ad = adsense_display($match[1], $match[2], $match[3]);
+      $ad = adsense_display($match[1], $match[2], $match[3]);
+        break;
+      case 'refer':
+       $ad = adsense_display($match[1], $match[2], $match[3], $match[4], 1, $match[5]);
         }
       // Replace the first occurance of the tag, in case we have the same
       // tag more than once.
@@ -1397,6 +1411,31 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
         '#options' => $channel_list,
       );
 
+      $form['ad_slot'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Slot'),
+         '#default_value' => ($ad) ? $ad[3] : t(''),
+        '#size' => 60,
+        '#maxlength' => 64,
+      );
+
+     $form['ad_referral'] = array(
+        '#title' => t('Referral'),
+        '#type' => 'radios',
+         '#default_value' => ($ad) ? $ad[4] : 0,
+        '#options' => array('1' => t('Yes'), '0' => t('No')),
+         '#description'   => t('If your ad ID is of the referral type, you must select \'Yes\'.'),
+      );
+
+    $form['ad_cpa'] = array(
+        '#type' => 'textfield',
+        '#title' => t('CPA Choice'),
+         '#default_value' => ($ad) ? $ad[5] : t(''),
+        '#size' => 100,
+        '#maxlength' => 104,
+         '#description'   => t('If your ad ID is of the referral type, you may optionally provide a CPA value.'),
+      );
+
       return $form;
 
     case 'save':
@@ -1405,6 +1444,9 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
           $edit['ad_format'],
           $edit['ad_group'],
           $edit['ad_channel'],
+          $edit['ad_slot'],
+          $edit['ad_referral'],
+          $edit['ad_cpa'],
           ));
       variable_set(ADSENSE_AD_BLOCK . $delta, $data);
       return;
@@ -1412,7 +1454,7 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view':
       $ad = _adsense_get_block_config($delta);
       $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2]) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense/'. $delta)));
+      $block['content'] = ($ad) ? adsense_display($ad[0], $ad[1], $ad[2], $ad[3], $ad[4], $ad[5]) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense/'. $delta)));
 
       break;
     }
@@ -1428,7 +1470,7 @@ function _adsense_get_block_config($delta = 0) {
 }
 
 function adsense_filter_tips($delta, $format, $long = FALSE) {
-  return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense ads.');
+  return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:referral:<em>format</em>:<em>group</em>:<em>channel</em>:<em>slot</em>:<em>CPA</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense ads.');
 }
 
 /**
@@ -1600,7 +1642,7 @@ function _adsense_format_path($path, $width = 35) {
   return l($title, $path);
 }
 
-function _adsense_get_searchbox($group = 1, $channel = 1) {
+function _adsense_get_searchbox($group = 1, $channel = 1, $slot ='', $referral = 0, $cpa = '') {
 
   $client = adsense_get_client_id();
 
@@ -1722,6 +1764,8 @@ function _adsense_get_searchbox($group = 1, $channel = 1) {
   $output .= _adsense_add_nl('<input type="hidden" name="client" value="'. $client .'"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="forid" value="1"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="channel" value="'. $channel .'"></input>');
+  $output .= _adsense_add_nl('<input type="hidden" name="slot" value="'. $slot .'"></input>');
+  $output .= _adsense_add_nl('<input type="hidden" name="cpa" value="'. $cpa .'"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="ie" value="'. $encoding .'"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="oe" value="'. $encoding .'"></input>');
   $output .= _adsense_add_nl('<input type="hidden" name="cof" value="GALT:#'. $url .';GL:1;DIV:#'. $border .';VLC:#'. $visited .';AH:center;BGC:#'. $bg .';LBGC:#'. $bg .';ALC:#'. $title .';LC:#'. $title .';T:#'. $text .';GFNT:#'. $light .';GIMP:#'. $light .';FORID:11"></input>');
