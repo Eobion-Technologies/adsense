@@ -37,7 +37,7 @@ function adsense_ad_formats() {
     '468x60'           =>  array('type' => ADSENSE_TYPE_AD,     'desc' => t('Banner'),                       'code' => '_as'),
     '728x15'           =>  array('type' => ADSENSE_TYPE_LINK,   'desc' => t('Wide banner ad links 4-links'), 'code' => '_0ads_al'),
     '728x90'           =>  array('type' => ADSENSE_TYPE_AD,     'desc' => t('Leaderboard'),                  'code' => '_as'),
-    ADSENSE_SEARCH_BOX =>  array('type' => ADSENSE_TYPE_SEARCH, 'desc' => t('AdSense for Search'),                  'code' => '')
+    ADSENSE_SEARCH_BOX =>  array('type' => ADSENSE_TYPE_SEARCH, 'desc' => t('AdSense for Search'),           'code' => '')
     );
 }
 
