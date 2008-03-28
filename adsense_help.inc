@@ -95,20 +95,20 @@ Then you have to insert the appropriate tag in your node where you would like th
 <P>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</P>
 <P>The tag syntax comes in these variants:</P>
 <DL>
-	<DT>1. [adsense:<EM>format:group:channel</EM>]</DT>
+	<DT>1. [adsense:<EM>format:group:channel:slot</EM>]</DT>
 </DL>
 <P>Where:</P>
 <UL>
 	<LI>format: One of the supported ad formats (such as 468x60).
 	<LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
 	<LI>channel: A number corresponding to the ad channel.
+        <LI>slot: Your ad's slot ID as provided by Google.
 </UL>
-<P>All fields are required, unlike when using the adsense_display()
+<P>All fields are required, except the slot field unlike when using the adsense_display()
 function above.</P>
 <P>Example:</P>
-<PRE>[adsense:468x60:1:2]</PRE><P>
-Display a 468x60 banner with the colors defined in group 1, and with
-channel ID 2</P>
+<PRE>[adsense:468x60:1:2:0123456789]</PRE><P>
+Display a 468x60 banner with the colors defined in group 1, channel ID 2 and with slot ID 0123456789.</P>
 <DL>
 	<DT>2. [adsense:block:<EM>block_id</EM>]</DT>
 </DL>
@@ -124,7 +124,22 @@ displayed.</P>
 <PRE>[adsense:block:7]</PRE>
 <P>Display the ad code of the block with ID 7.</P>
 <DL>
-	<DT>3. [adsense:flexiblock:<EM>location</EM>]</DT>
+	<DT>3. [adsense:referral:<EM>format:group:channel:slot:CPA</EM>]</DT>
+</DL>
+<P>Where:</P>
+<UL>
+	<LI>format: One of the supported ad formats (such as 468x60).
+	<LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
+	<LI>channel: A number corresponding to the ad channel.
+        <LI>slot: Your ad's slot ID as provided by Google.
+        <LI>CPA: Your referral link CPA value.
+</UL>
+<P>Example:</P>
+<PRE>[adsense:referral:468x60:1:2:0123456789:CAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]</PRE><P>
+Display a 468x60 banner with the colors defined in group 1, channel ID 2, slot ID 0123456789
+and with CPA value CAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</P>
+<DL>
+	<DT>4. [adsense:flexiblock:<EM>location</EM>]</DT>
 </DL>
 <P>
 This is provided for backward compatibility, but will be deprecated

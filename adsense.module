@@ -1306,8 +1306,8 @@ function _adsense_process_tags($text) {
   $patterns = array(
     'flexi' => '/\[adsense:flexiblock:(\d+)\]/x',
     'block' => '/\[adsense:block:(\d+)\]/x',
-    'tags'  => '/\[adsense:(\w+):(\d+):(\d+)\]/x',
-    'refer' => '/\[adsense:referrer:(\w+):(\d+):(\d+):(\w*):(\w*)\]/x'
+    'tags'  => '/\[adsense:([^:]+):(\d+):(\d+):?(\w*)\]/x',
+    'refer' => '/\[adsense:referral:(\w+):(\d+):(\d+):(\w*):(\w*)\]/x'
  );
 
   foreach ($patterns as $mode => $pattern) {
@@ -1321,7 +1321,7 @@ function _adsense_process_tags($text) {
             $ad = _adsense_tag_block($match[1]);
             break;
           case 'tags':
-      $ad = adsense_display($match[1], $match[2], $match[3]);
+      $ad = adsense_display($match[1], $match[2], $match[3], $match[4]);
         break;
       case 'refer':
        $ad = adsense_display($match[1], $match[2], $match[3], $match[4], 1, $match[5]);
@@ -1470,7 +1470,7 @@ function _adsense_get_block_config($delta = 0) {
 }
 
 function adsense_filter_tips($delta, $format, $long = FALSE) {
-  return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>] or [adsense:referral:<em>format</em>:<em>group</em>:<em>channel</em>:<em>slot</em>:<em>CPA</em>] or [adsense:flexiblock:<em>location</em>] to display Google AdSense ads.');
+  return t('Use the special tag [adsense:<em>format</em>:<em>group</em>:<em>channel</em>:<em>slot</em>] or [adsense:referral:<em>format</em>:<em>group</em>:<em>channel</em>:<em>slot</em>:<em>CPA</em>] or [adsense:block:<em>location</em>] to display Google AdSense ads.');
 }
 
 /**
