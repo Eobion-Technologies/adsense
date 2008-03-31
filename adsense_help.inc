@@ -52,11 +52,11 @@ link of one of the AdSense blocks. You must select a format, a group, and a chan
 <P>To display ads, you call the function adsense_display() and supply
 it with the following arguments.</P>
 <UL>
-	<LI>Format: This is a string of two numbers with an &quot;x&quot; in between. It can be any valid
-	combination from the list provided above. If not specified, then 160x600 is assumed. 
-	<LI>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1,
-	2 or 3. If not specified, then 1 is assumed. 
-	<LI>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter
+  <LI>Format: This is a string of two numbers with an &quot;x&quot; in between. It can be any valid
+  combination from the list provided above. If not specified, then 160x600 is assumed. 
+  <LI>Group: This is the group that denotes the type (text or image) and color of the ad. This can be 1,
+  2 or 3. If not specified, then 1 is assumed. 
+  <LI>Channel: This is the Custom Channel for the ad, as configured in AdSense. This is an optional parameter
   and if not specified, then 1 is assumed. If you did not configure any channels, then leave this parameter out. 
 </UL>
 <P>To display ads in blocks, add a new block, make its type &quot;PHP&quot;, and enclose it in PHP tags.</P>
@@ -95,42 +95,39 @@ Then you have to insert the appropriate tag in your node where you would like th
 <P>Note that filters sometimes may have conflicts, and changing the order can make AdSense work in some cases.</P>
 <P>The tag syntax comes in these variants:</P>
 <DL>
-	<DT>1. [adsense:<EM>format:group:channel:slot</EM>]</DT>
+  <DT>1. [adsense:<EM>format:group:channel:slot</EM>]</DT>
 </DL>
 <P>Where:</P>
 <UL>
-	<LI>format: One of the supported ad formats (such as 468x60).
-	<LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
-	<LI>channel: A number corresponding to the ad channel.
+  <LI>format: One of the supported ad formats (such as 468x60). (required)
+  <LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
+  <LI>channel: A number corresponding to the ad channel.
         <LI>slot: Your ad's slot ID as provided by Google.
 </UL>
-<P>All fields are required, except the slot field unlike when using the adsense_display()
-function above.</P>
 <P>Example:</P>
 <PRE>[adsense:468x60:1:2:0123456789]</PRE><P>
 Display a 468x60 banner with the colors defined in group 1, channel ID 2 and with slot ID 0123456789.</P>
 <DL>
-	<DT>2. [adsense:block:<EM>block_id</EM>]</DT>
+  <DT>2. [adsense:block:<EM>block_id</EM>]</DT>
 </DL>
 <P>Where:</P>
 <UL>
-	<LI>block_id: The block ID of a custom block with input format of PHP with a call to the adsense_display() function.
+  <LI>block_id: The block ID of a custom block with input format of PHP with a call to the adsense_display() function. (required)
 </UL>
 <P>This allows more fine grained visibility control via the block mechanism. The block does not need to be
 enabled, and therefore will be hidden from the sidebars and other regions. The title of the block will not be
 displayed.</P>
-<P>All fields are required.</P>
 <P>Example:</P>
 <PRE>[adsense:block:7]</PRE>
 <P>Display the ad code of the block with ID 7.</P>
 <DL>
-	<DT>3. [adsense:referral:<EM>format:group:channel:slot:CPA</EM>]</DT>
+  <DT>3. [adsense:referral:<EM>format:group:channel:slot:CPA</EM>]</DT>
 </DL>
 <P>Where:</P>
 <UL>
-	<LI>format: One of the supported ad formats (such as 468x60).
-	<LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
-	<LI>channel: A number corresponding to the ad channel.
+  <LI>format: One of the supported ad formats (such as 468x60). (required)
+  <LI>group: A number corresponding to the ad group this ad belongs to, determines colors.
+  <LI>channel: A number corresponding to the ad channel.
         <LI>slot: Your ad's slot ID as provided by Google.
         <LI>CPA: Your referral link CPA value.
 </UL>
@@ -139,18 +136,17 @@ displayed.</P>
 Display a 468x60 banner with the colors defined in group 1, channel ID 2, slot ID 0123456789
 and with CPA value CAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</P>
 <DL>
-	<DT>4. [adsense:flexiblock:<EM>location</EM>]</DT>
+  <DT>4. [adsense:flexiblock:<EM>location</EM>]</DT>
 </DL>
 <P>
 This is provided for backward compatibility, but will be deprecated
 in a future release. Use the normal block filter instead.</P>
 <P>Where:</P>
 <UL>
-	<LI>location: A number corresponding to a location in flexiblock that contains only one block with
+  <LI>location: A number corresponding to a location in flexiblock that contains only one block with
   the call to the adsense_display() function. This allows visibility control via the block mechanism.
-	flexiblock must be installed and configured. The title of the flexiblock will not be displayed. 
+  flexiblock must be installed and configured. The title of the flexiblock will not be displayed. (required)
 </UL>
-<P>All fields are required.</P>
 <P>Example:</P>
 <PRE>[adsense:flexiblock:2]</PRE><P>
 Display the contents of the flexiblock in location 2</P>
@@ -163,11 +159,11 @@ and &quot;Top pages&quot; shows the top pages of a site that get clicks, the tot
 it got, and the last click date/time.</P>
 <P>Note that there are some potential limitations with click tracking:</P>
 <UL>
-	<LI>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox
-	would be appreciated. 
-	<LI>Google throws out what it sees as invalid clicks. 
-	<LI>There is a lag of 15 to 20 minutes before Google records the click. 
-	<LI>When using AdLinks, the click on the link is recorded but any subsequent click on links is not recorded
+  <LI>The javascript code does not work in Firefox, and perhaps Opera. Patches to make it work on Firefox
+  would be appreciated. 
+  <LI>Google throws out what it sees as invalid clicks. 
+  <LI>There is a lag of 15 to 20 minutes before Google records the click. 
+  <LI>When using AdLinks, the click on the link is recorded but any subsequent click on links is not recorded
   (since it is not actually on your site anymore). 
 </UL>
 
@@ -189,14 +185,14 @@ it got, and the last click date/time.</P>
   <H3>Ads not showing</H3>
   <P>If ads are not displayed, that could be caused by several things:</P>
   <UL>
-	  <LI>You are logged in as the site administrator. Log off to see the ads. 
-	  <LI>Your site is still new and Google has not indexed it yet. 
-	  <LI>Your site has been blacklisted by Google.
-	  <LI>The maximum number of ad units has already been displayed. Your page does not have enough content
-	  to display more than one or two units. 
-	  <LI>Check the page source for comments like this: &lt;!--adsense: ???--&gt;. These give hints to what
+    <LI>You are logged in as the site administrator. Log off to see the ads. 
+    <LI>Your site is still new and Google has not indexed it yet. 
+    <LI>Your site has been blacklisted by Google.
+    <LI>The maximum number of ad units has already been displayed. Your page does not have enough content
+    to display more than one or two units. 
+    <LI>Check the page source for comments like this: &lt;!--adsense: ???--&gt;. These give hints to what
     is going on, and if you know PHP you can trace those in the module's source code. 
-	</UL>
+  </UL>
 
   <H3>Module Weight</H3></p>
   <P>Unless configured otherwise, Drupal normally calls modules in alphabetical order. Insofar as Adsense starts
