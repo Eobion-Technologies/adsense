@@ -211,7 +211,7 @@ function adsense_perm() {
 }
 
 function adsense_admin_module_settings($module) {
-  $function = $module . '_adsense';
+  $function = $module .'_adsense';
   $form = $function('settings');
 
   return system_settings_form($form);
@@ -220,7 +220,7 @@ function adsense_admin_module_settings($module) {
 function adsense_admin_settings() {
   // force a display of errors, if any
   $module = variable_get(ADSENSE_ID_MODULE, 'adsense_basic');
-  $function = $module . '_adsense';
+  $function = $module .'_adsense';
   if (function_exists($function)) {
     $error = $function('status');
   }
@@ -1135,7 +1135,8 @@ function _adsense_format($format, $group = 1, $channel = 1, $slot = '', $referra
 
   if (!empty($slot)) {
     $output .= _adsense_add_nl('google_ad_slot = "'. $slot .'";');
-  } else {
+  }
+  else {
   $group = _adsense_validate_group($group);
 
   $text     = variable_get(ADSENSE_COLOR_TEXT .   $group, '000000');
@@ -1510,7 +1511,7 @@ function adsense_get_client_id() {
   $module = variable_get(ADSENSE_ID_MODULE, 'adsense_basic');
 
   // Compose the function to be called
-  $function = $module . '_adsense';
+  $function = $module .'_adsense';
   // Call the function
   if (!function_exists($function)) {
     adsense_error(ADSENSE_ERROR_NO_MODULE);
@@ -1524,7 +1525,7 @@ function adsense_get_client_id() {
 }
 
 function adsense_error($error_code) {
-  switch($error_code) {
+  switch ($error_code) {
     case ADSENSE_ERROR_NO_MODULE:
       $text = t('No Google Adsense client ID choosing module is enabled. Please check your settings.');
       break;

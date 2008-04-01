@@ -286,7 +286,7 @@ function revenue_sharing_basic_get_node_info() {
 }
 
 function revenue_sharing_basic_error($error_code) {
-  switch($error_code) {
+  switch ($error_code) {
     case REVENUE_SHARING_BASIC_ERROR_CACHING_ENABLED:
       $text = t('Drupal page cache is enabled. This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.');
       break;

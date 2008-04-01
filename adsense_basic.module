@@ -30,7 +30,7 @@ function adsense_basic_settings() {
   $module = 'adsense_basic';
   include_once(drupal_get_path('module', $module) .'/'. $module .'_help.inc');
   
-  $function = $module . '_adsense';
+  $function = $module .'_adsense';
   $error_flag = $function('status');
 
   $form['help'] = array(
