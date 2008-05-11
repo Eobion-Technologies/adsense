@@ -64,6 +64,7 @@ define('ADSENSE_COLOR_BG',                    'adsense_color_bg_');
 define('ADSENSE_COLOR_LINK',                  'adsense_color_link_');
 define('ADSENSE_COLOR_URL',                   'adsense_color_url_');
 define('ADSENSE_ALT',                         'adsense_alt_');
+define('ADSENSE_GROUP_TITLE',                 'adsense_group_title_');
 define('ADSENSE_ALT_INFO',                    'adsense_alt_info_');
 define('ADSENSE_AD_CHANNEL',                  'adsense_ad_channel_');
 define('ADSENSE_AD_SLOT',                     'adsense_ad_slot_');
@@ -278,12 +279,23 @@ function adsense_admin_settings() {
   );
 
   for ($group=1; $group<ADSENSE_MAX_GROUPS+1; $group++) {
-
+  
+    $title = $group .' '. variable_get(ADSENSE_GROUP_TITLE . $group, '');
+  
     $form['types_colors']['groups'][$group] = array(
       '#type' => 'fieldset',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
-      '#title' => t('Group @group attributes', array('@group' => $group)),
+      '#title' => t('Group @group attributes', array('@group' => $title)),
+    );
+  
+    $form['types_colors']['groups'][$group][ADSENSE_GROUP_TITLE . $group] = array(
+      '#type'          => 'textfield',
+      '#title'         => t('Title'),
+      '#default_value' => variable_get(ADSENSE_GROUP_TITLE . $group, ''),
+      '#size'          => 100,
+      '#maxlength'     => 100,
+      '#description'   => t('Title of the group.'),
     );
 
     $form['types_colors']['groups'][$group][ADSENSE_AD_TYPE . $group] = array(
@@ -1396,7 +1408,8 @@ function adsense_block($op = 'list', $delta = 0, $edit = array()) {
       }
 
       for ($group=1; $group<ADSENSE_MAX_GROUPS+1; $group++) {
-        $group_list[$group] = 'Group '. $group;
+        $title = $group .' '. variable_get(ADSENSE_GROUP_TITLE . $group, '');
+        $group_list[$group] = t('Group '). $title;
       }
       $group_list[$group] = ADSENSE_SEARCH_BOX;
 
