@@ -1,0 +1,7 @@
+; $Id$
+
+name = Revenue sharing by role
+description = Revenue sharing by role for the Google Adsense module
+dependencies = adsense profile
+package = Adsense
+
