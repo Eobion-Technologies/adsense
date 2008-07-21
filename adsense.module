@@ -1,0 +1,446 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Displays Google AdSense ads on Drupal pages
+ *
+ * This is the core module of the AdSense package, with the Drupal hooks
+ * and other administrative functions.
+ */
+
+// Ad types, link or ad
+define('ADSENSE_TYPE_LINK',   1);
+define('ADSENSE_TYPE_AD',     2);
+define('ADSENSE_TYPE_SEARCH', 3);
+
+define('ADSENSE_MAX_CHANNELS', 10);
+
+/**
+ * This is the array that holds all ad formats.
+ * All it has is a multi-dimensional array containing the dimensions as a key, then
+ * the description and suffix of Google's javascript ad code.
+ * Currently, we do not support duplicate dimensions in ad formats (for example,
+ * the same ad dimension cannot repeat for text and graphics, or for ads and ad links
+ *
+ * To add a new code:
+ * - Make sure the dimensions are not in use by a different format
+ * - Go to Google AdSense
+ *   . Get the dimensions
+ *   . Get the code (suffix after the dimensions)
+ * - Add it below in ascending order (width first, then height)
+ * @return returns an array of supported ad formats (desc: description, code: Google Ad code suffix)
+ */
+function adsense_ad_formats($key = NULL) {
+  $ads = array(
+    '120x90'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 120x90'),   'code' => '120x90_0ads_al',   'width' => 120, 'height' =>  90),
+    '160x90'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 160x90'),   'code' => '160x90_0ads_al',   'width' => 160, 'height' =>  90),
+    '180x90'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 180x90'),   'code' => '180x90_0ads_al',   'width' => 180, 'height' =>  90),
+    '200x90'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 200x90'),   'code' => '200x90_0ads_al',   'width' => 200, 'height' =>  90),
+    '468x15'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 468x15'),   'code' => '468x15_0ads_al',   'width' => 468, 'height' =>  15),
+    '728x15'   =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links 728x15'),   'code' => '728x15_0ads_al',   'width' => 728, 'height' =>  15),
+    '120x90_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 120x90'),   'code' => '120x90_0ads_al_s', 'width' => 120, 'height' =>  90),
+    '160x90_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 160x90'),   'code' => '160x90_0ads_al_s', 'width' => 160, 'height' =>  90),
+    '180x90_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 180x90'),   'code' => '180x90_0ads_al_s', 'width' => 180, 'height' =>  90),
+    '200x90_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 200x90'),   'code' => '200x90_0ads_al_s', 'width' => 200, 'height' =>  90),
+    '468x15_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 468x15'),   'code' => '468x15_0ads_al_s', 'width' => 468, 'height' =>  15),
+    '728x15_5' =>  array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links 728x15'),   'code' => '728x15_0ads_al_s', 'width' => 728, 'height' =>  15),
+    '120x240'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Vertical banner'),  'code' => '120x240_as',       'width' => 120, 'height' => 240),
+    '120x600'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Skyscraper'),       'code' => '120x600_as',       'width' => 120, 'height' => 600),
+    '125x125'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Button'),           'code' => '125x125_as',       'width' => 125, 'height' => 125),
+    '160x600'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Wide Skyscraper'),  'code' => '160x600_as',       'width' => 160, 'height' => 600),
+    '180x150'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Small Rectangle'),  'code' => '180x150_as',       'width' => 180, 'height' => 150),
+    '200x200'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Small Square'),     'code' => '200x200_as',       'width' => 200, 'height' => 200),
+    '234x60'   =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Half Banner'),      'code' => '234x60_as',        'width' => 234, 'height' =>  60),
+    '250x250'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Square'),           'code' => '250x250_as',       'width' => 250, 'height' => 250),
+    '300x250'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Medium Rectangle'), 'code' => '300x250_as',       'width' => 300, 'height' => 250),
+    '336x280'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Large Rectangle'),  'code' => '336x280_as',       'width' => 336, 'height' => 280),
+    '468x60'   =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Banner'),           'code' => '468x60_as',        'width' => 468, 'height' =>  60),
+    '728x90'   =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Leaderboard'),      'code' => '728x90_as',        'width' => 728, 'height' =>  90),
+  );
+
+  if (!empty($key)) {
+    if (array_key_exists($key, $ads)) {
+      return $ads[$key];
+    }
+    elseif ($key == 'Search Box') {
+      return array('type' => ADSENSE_TYPE_SEARCH, 'desc' => t('AdSense for Search'));
+    }
+    else {
+      return NULL;
+    }
+  }
+
+  return $ads;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function adsense_perm() {
+  return array('administer adsense', 'hide adsense');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function adsense_menu() {
+  $items = array();
+
+  $items['admin/settings/adsense'] = array(
+    'title' => 'AdSense',
+    'description' => 'Configure Google AdSense Ads.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('adsense_main_settings'),
+    'access arguments'  => array('administer adsense'),
+    'file' => 'adsense.admin.inc',
+  );
+  $items['admin/settings/adsense/main'] = array(
+    'title' => 'Settings',
+    'weight' => 10,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/settings/adsense/id'] = array(
+    'title' => 'Publisher ID',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('adsense_id_settings'),
+    'access arguments'  => array('administer adsense'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'adsense.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function adsense_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  switch ($phase) {
+    // At runtime, make sure that we have a publisher ID
+    case 'runtime':
+      $basic_id = variable_get('adsense_basic_id', '');
+      if (empty($basic_id)) {
+        $requirements['adsense_basic_id'] = array(
+          'title' => $t('AdSense'),
+          'value' => $t('Publisher ID is not set. Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/id'))),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+      break;
+  }
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_help().
+ */
+function adsense_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#adsense':
+      return '<p>'. trim('$Revision$', ' $') .' '. trim('$Date$', ' $') .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_filter().
+ */
+function adsense_filter($op, $delta = 0, $format = -1, $text = '') {
+  switch ($op) {
+    case 'list':
+      return array(0 => t('AdSense tag'));
+    case 'no cache':
+      return TRUE;
+    case 'description':
+      return t('Substitutes an AdSense special tag with an ad.');
+    case 'process':
+      return _adsense_process_tags($text);
+    default:
+      return $text;
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
+  switch ($op) {
+    case 'view':
+      if (variable_get('adsense_section_targeting', 1)) {
+        $node->content['adsense_start'] = array(
+          '#value' => '<!-- google_ad_section_start -->',
+          '#weight' => -1,
+          );
+        $node->content['adsense_end'] = array(
+          '#value' => '<!-- google_ad_section_end -->',
+          '#weight' => 1,
+          );
+      }
+  }
+}
+
+/**
+ * Implementation of hook_filter_tips().
+ */
+function adsense_filter_tips($delta, $format, $long = FALSE) {
+  return t('Use the special tag [adsense:<em>format</em>:<em>slot</em>] or [adsense:<em>format</em>:<em>[group]</em>:<em>[channel]</em><em>[:slot]</em>] or [adsense:block:<em>location</em>] to display Google AdSense ads.');
+}
+
+function _adsense_process_tags($text) {
+  $patterns = array(
+    'block'  => '/\[adsense:block:([^\]]+)\]/x',
+    'oldtag' => '/\[adsense:([^:]+):(\d*):(\d*):?(\w*)\]/x',
+    'tag'    => '/\[adsense:([^:]+):([^\]]+)\]/x',
+ );
+
+  foreach ($patterns as $mode => $pattern) {
+    if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
+      foreach ($matches as $match) {
+        switch ($mode) {
+          case 'block':
+            $mods = array (
+              'adsense_managed',
+              'adsense_cse',
+              'adsense_oldcode',
+              'adsense_search',
+            );
+            foreach ($mods as $module) {
+              $module_blocks = module_invoke($module, 'block', 'list');
+              if ($module_blocks) {
+                foreach ($module_blocks as $delta => $block) {
+                  if ($block['info'] == $match[1]) {
+                    // Found the block with the same name as the passed arg
+                    $block = module_invoke($module, 'block', 'view', $delta);
+                    $ad = $block['content'];
+                  }
+                }
+              }
+            }
+            break;
+          case 'oldtag':
+            // If not specified, default group and channel to 1
+            if (empty($match[2])) {
+              $match[2] = 1;
+            }
+            if (empty($match[3])) {
+              $match[3] = 1;
+            }
+            $args = array(
+              'format'  => $match[1],
+              'group'   => $match[2],
+              'channel' => $match[3],
+              'slot'    => $match[4],
+            );
+            $ad = adsense_display($args);
+            unset($args);
+            break;
+          case 'tag':
+            $args = array(
+              'format'  => $match[1],
+              'slot'    => $match[2],
+            );
+            $ad = adsense_display($args);
+            unset($args);
+            break;
+        }
+        // Replace the first occurance of the tag, in case we have the same
+        // tag more than once.
+        $str = '/\\'. $match[0] .'/';
+        $text = preg_replace($str, $ad, $text, 1);
+      }
+    }
+  }
+
+  // In Drupal <= 6.3 we need to remove any HTML comments as the HTML corrector has a bug
+  sscanf(VERSION, "%d.%d", $major, $minor);
+  if (($major == 6) && ($minor <= 3)) {
+    $text = preg_replace('/<!--.*?-->/', '', $text);
+  }
+
+  return $text;
+}
+
+function adsense_get_client_id() {
+  // Get the configured module
+  $module = variable_get('adsense_id_module', 'adsense_basic');
+
+  if ($module == 'adsense_basic') {
+    return variable_get('adsense_basic_id', '');
+  }
+  else {
+    // Compose the function to be called
+    $function = $module .'_adsense';
+    // Call the function
+    if (function_exists($function)) {
+      $client_id = $function('client_id');
+
+      return $client_id;
+    }
+  }
+}
+
+function adsense_display() {
+  $numargs = func_num_args();
+  if (($numargs == 1) && is_array(func_get_arg(0))) {
+    $args = func_get_arg(0);
+  }
+  else {
+    // handle the 'old' method of calling this function
+    // adsense_display($format = '160x600', $group = 1, $channel = 1, $slot = '', $referral = 0, $cpa = '')
+
+    $args['format'] = '160x600';
+    $args['group'] = 1;
+    $args['channel'] = 1;
+    switch ($numargs) {
+      case 6:
+        // cpa isn't used anymore
+      case 5:
+        // referral is obsolete
+      case 4:
+        $args['slot'] = func_get_arg(3);
+      case 3:
+        $args['channel'] = func_get_arg(2);
+      case 2:
+        $args['group'] = func_get_arg(1);
+      case 1:
+        $args['format'] = func_get_arg(0);
+    }
+  }
+
+  $ad = adsense_ad_formats($args['format']);
+
+  if ($ad === NULL) {
+    $ad = '<!--adsense: invalid format: '. $args['format'] .'-->';
+  }
+  elseif (!_adsense_page_match()) {
+    // Check first if disabled or if we are at adsense limit or if this page doesn't allow adsense
+    $ad = '<!--adsense: page not in match list-->';
+  }
+  elseif (!_adsense_check_if_enabled()) {
+    // Ads are disabled
+    if (variable_get('adsense_placeholder', '1')) {
+      $ad = "<!--adsense: placeholder-->\n". _adsense_format_placeholder($ad);
+    }
+    else {
+      $ad = '<!--adsense: ads disabled -->';
+    }
+  }
+  elseif (!_adsense_can_insert_another($ad['type'])) {
+    $ad = '<!--adsense: ad limit reached for type-->';
+  }
+  else {
+    // Ad should be displayed
+    switch ($args['format']) {
+      case 'Search Box':
+        if (!empty($args['slot']) && module_exists('adsense_cse')) {
+          $ad = _adsense_cse_get_searchbox($args['slot']);
+        }
+        elseif (module_exists('adsense_search')) {
+          $ad = _adsense_search_get_searchbox($args['channel']);
+        }
+        else {
+          $ad = '<!--adsense: no AdSense for Search module found-->';
+        }
+        break;
+      default:
+        if (!empty($args['slot']) && module_exists('adsense_managed')) {
+          $ad = _adsense_managed_get_ad($args['format'], $args['slot']);
+        }
+        elseif (module_exists('adsense_oldcode')) {
+          $ad = _adsense_oldcode_get_ad($args['format'], $args['group'], $args['channel']);
+        }
+        else {
+          $ad = '<!--adsense: no AdSense for Content module found-->';
+        }
+
+        if (variable_get('adsense_test_mode', 0)) {
+          $ad = preg_replace("/^(google_ad_client.*;)$/m", "\\1\ngoogle_adtest = 'on';", $ad);
+        }
+        break;
+    }
+  }
+
+  return $ad;
+}
+
+function _adsense_check_if_enabled() {
+  if (!adsense_get_client_id()) {
+    // Google AdSense Client ID is not configured
+    return FALSE;
+  }
+  if (variable_get('adsense_disable', '0')) {
+    return FALSE;
+  }
+  if (variable_get('adsense_test_mode', 0)) {
+    return TRUE;
+  }
+  if (user_access('hide adsense')) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Determine if AdSense has reached limit on this page. As per Google's
+ * policies, a page can have up to 3 ad units and 3 link units.
+ *
+ * @return
+ *   TRUE if we can insert another ad, FALSE if not allowed.
+ */
+function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
+  static $num_ads = array(
+    ADSENSE_TYPE_AD     => 0,
+    ADSENSE_TYPE_LINK   => 0,
+    ADSENSE_TYPE_SEARCH => 0,
+  );
+
+  $max_ads = array(
+    ADSENSE_TYPE_AD     => 3,
+    ADSENSE_TYPE_LINK   => 3,
+    ADSENSE_TYPE_SEARCH => 2,
+  );
+
+  if ($num_ads[$type] < $max_ads[$type]) {
+    $num_ads[$type]++;
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Determine if AdSense has permission to be used on the current page.
+ *
+ * @return
+ *   TRUE if can render, FALSE if not allowed.
+ */
+function _adsense_page_match() {
+  // Do not show ads on secure pages.
+  // This is for two reasons:
+  // Google would most probably not have indexed secure pages
+  // and it also prevents warnings about mixed-content
+  // Thanks to Brad Konia http://drupal.org/node/29585
+  // Should be restricted when running on Apache only
+  if (function_exists('apache_get_version') && isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
+    return FALSE;
+  }
+
+  $visibility = variable_get('adsense_visibility', 0);
+  $pages = variable_get('adsense_access_pages', '');
+  $path = drupal_get_path_alias($_GET['q']);
+
+  return !($visibility xor drupal_match_path($path, $pages));
+}
+
+function _adsense_format_placeholder($ad) {
+  $width = $ad['width'];
+  $height = $ad['height'];
+  $dimensions = ((!empty($width)) && (!empty($height)))
+                ? " width:". $width ."px; height:". $height ."px;" : "";
+
+  return "<div style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', t('Google AdSense')) ." {$ad['desc']}</div>";
+}
