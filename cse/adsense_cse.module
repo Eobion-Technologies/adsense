@@ -73,6 +73,7 @@ function adsense_cse_block($op = 'list', $delta = 0, $edit = array()) {
         '#title' => t('Ad Slot ID'),
         '#default_value' => ($ad) ? $ad[1] : '',
         '#description' => t('This is the provided by the AdSense site in the Search Box Code "cx" field. This is usually provided in the form partner-<em>Publisher ID</em>:<em>Slot Id</em>. If the code provided is, for example, partner-pub-0123456789:<strong>abcdef-ghij</strong>, then insert only <strong>abcdef-ghij</strong> here.'),
+        '#required' => TRUE,
       );
       return $form;
 
