@@ -69,6 +69,7 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
         '#default_value' => ($ad) ? $ad[1] : '250x250',
         '#options' => $ad_list,
         '#description' => t('Select the ad dimensions you want for this block.'),
+        '#required' => TRUE,
       );
 
       $form['ad_slot'] = array(
@@ -76,6 +77,7 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
         '#title' => t('Ad Slot ID'),
         '#default_value' => ($ad) ? $ad[2] : '',
         '#description' => t('This is the Ad Slot ID from your Google Adsense account, such as 0123456789.'),
+        '#required' => TRUE,
       );
       return $form;
 
@@ -85,9 +87,10 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
       return;
 
     case 'view':
-      $ad = _adsense_managed_get_block_config($delta);
-      $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'slot' => $ad[2])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_managed/'. $delta)));
+      if (_adsense_page_match()) {
+        $ad = _adsense_managed_get_block_config($delta);
+        $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'slot' => $ad[2])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_managed/'. $delta)));
+      }
       break;
     }
   return $block;

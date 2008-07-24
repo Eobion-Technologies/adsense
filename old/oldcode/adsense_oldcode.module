@@ -104,9 +104,10 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
       return;
 
     case 'view':
-      $ad = _adsense_oldcode_get_block_config($delta);
-      $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_oldcode/'. $delta)));
+      if (_adsense_page_match()) {
+        $ad = _adsense_oldcode_get_block_config($delta);
+        $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_oldcode/'. $delta)));
+      }
       break;
     }
   return $block;
