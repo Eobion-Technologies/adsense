@@ -87,9 +87,10 @@ function adsense_search_block($op = 'list', $delta = 0, $edit = array()) {
       return;
 
     case 'view':
-      $ad = _adsense_search_get_block_config($delta);
-      $block['subject'] = '';
-      $block['content'] = ($ad) ? adsense_display(array('format' => 'Search Box', 'channel' => $ad[1])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_search/'. $delta)));
+      if (_adsense_page_match()) {
+        $ad = _adsense_search_get_block_config($delta);
+        $block['content'] = ($ad) ? adsense_display(array('format' => 'Search Box', 'channel' => $ad[1])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_search/'. $delta)));
+      }
       break;
     }
   return $block;
