@@ -429,11 +429,22 @@ function _adsense_page_match() {
     return FALSE;
   }
 
-  $visibility = variable_get('adsense_visibility', 0);
   $pages = variable_get('adsense_access_pages', '');
-  $path = drupal_get_path_alias($_GET['q']);
 
-  return !($visibility xor drupal_match_path($path, $pages));
+  if ($pages) {
+    $visibility = variable_get('adsense_visibility', 0);
+
+    $path = drupal_get_path_alias($_GET['q']);
+    $page_match = drupal_match_path($path, $pages);
+    if ($path != $_GET['q']) {
+      $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+    }
+
+    return !($visibility xor $page_match);
+  }
+  else {
+    return TRUE;
+  }
 }
 
 function _adsense_format_placeholder($ad) {
