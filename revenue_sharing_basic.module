@@ -130,14 +130,26 @@ function revenue_sharing_basic_settings() {
 }
 
 function revenue_sharing_basic_client_id() {
+  static $client_id = NULL;
+
+  if ($client_id) {
+    // We have cached the client ID from previous calls on this page load
+    // so we use that one, to make sure all of the client IDs on one page
+    // are the same
+    return $client_id;
+  }
+
   $node_info = revenue_sharing_basic_get_node_info();
   if (!count($node_info)) {
     $uid = NULL;
   }
-  $uid  = $node_info['uid'];
-  $type = $node_info['uid'];
+  else {
+    $uid  = $node_info['uid'];
+  }
 
-  return revenue_sharing_basic_choose_client($uid);
+  // Cache the client ID
+  $client_id = revenue_sharing_basic_choose_client($uid);
+  return $client_id;
 }
 
 function revenue_sharing_basic_choose_client($uid = NULL) {
@@ -286,7 +298,7 @@ function revenue_sharing_basic_get_node_info() {
 }
 
 function revenue_sharing_basic_error($error_code) {
-  switch ($error_code) {
+  switch($error_code) {
     case REVENUE_SHARING_BASIC_ERROR_CACHING_ENABLED:
       $text = t('Drupal page cache is enabled. This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.');
       break;
