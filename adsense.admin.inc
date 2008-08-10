@@ -15,6 +15,20 @@
  * @ingroup forms
  */
 function adsense_main_settings() {
+  include_once(drupal_get_path('module', 'adsense') .'/help/adsense.help.inc');
+
+  $form['help'] = array(
+    '#type'        => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed'   => TRUE,
+    '#title'       => t('Help and instructions'),
+  );
+
+  $form['help']['help'] = array(
+    '#type'  => 'markup',
+    '#value' => adsense_help_text(),
+  );
+
   $form['visibility'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -115,6 +129,9 @@ function adsense_id_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_id_settings form.
+ */
 function _adsense_id_settings_validate($form, &$form_state) {
   $form_state['values']['adsense_basic_id'] = trim($form_state['values']['adsense_basic_id']);
 }

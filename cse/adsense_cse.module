@@ -92,6 +92,14 @@ function adsense_cse_block($op = 'list', $delta = 0, $edit = array()) {
   return $block;
 }
 
+/**
+ * Configuration of the provided block
+ *
+ * @param $delta
+ *   block number
+ * @return
+ *   array with the block configuration or FALSE if no such block was found
+ */
 function _adsense_cse_get_block_config($delta = 0) {
   if ($data = variable_get('adsense_cse_ad_block_'. $delta, '')) {
     $ad = explode(':', $data);
@@ -102,6 +110,14 @@ function _adsense_cse_get_block_config($delta = 0) {
   return FALSE;
 }
 
+/**
+ * Generates the CSE search box
+ *
+ * @param $slot
+ *   Slot Id for the AdSense for Search
+ * @return
+ *   HTML with the search input form
+ */
 function _adsense_cse_get_searchbox($slot = NULL) {
   global $base_url;
 

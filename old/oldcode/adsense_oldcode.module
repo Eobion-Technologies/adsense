@@ -113,6 +113,14 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
   return $block;
 }
 
+/**
+ * Configuration of the provided block
+ *
+ * @param $delta
+ *   block number
+ * @return
+ *   array with the block configuration or FALSE if no such block was found
+ */
 function _adsense_oldcode_get_block_config($delta = 0) {
   if ($data = variable_get('adsense_oldcode_ad_block_'. $delta, '')) {
     $ad = explode(':', $data);
@@ -123,6 +131,18 @@ function _adsense_oldcode_get_block_config($delta = 0) {
   return FALSE;
 }
 
+/**
+ * Generates the AdSense ad
+ *
+ * @param $format
+ *   format of the ad
+ * @param $group
+ *   (optional) Group ID of the configured color attributes group
+ * @param $channel
+ *   (optional) Channel ID of the configured Ad Channel
+ * @return
+ *   JavaScript that embeds the Google AdSense ad
+ */
 function _adsense_oldcode_get_ad($format, $group = 1, $channel = 1) {
   $ad = adsense_ad_formats($format);
 
