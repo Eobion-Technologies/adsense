@@ -15,6 +15,20 @@
  * @ingroup forms
  */
 function adsense_main_settings() {
+  include_once(drupal_get_path('module', 'adsense') .'/help/adsense.help.inc');
+
+  $form['help'] = array(
+    '#type'        => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed'   => TRUE,
+    '#title'       => t('Help and instructions'),
+  );
+
+  $form['help']['help'] = array(
+    '#type'  => 'markup',
+    '#value' => adsense_help_text(),
+  );
+
   $form['visibility'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
