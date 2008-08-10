@@ -257,6 +257,9 @@ function adsense_search_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_search_settings form.
+ */
 function _adsense_search_settings_validate($form, &$form_state) {
   $textbox_length = $form_state['values']['adsense_search_textbox_length'];
   $min = 8;

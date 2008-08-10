@@ -15,7 +15,7 @@
  * @ingroup forms
  */
 function adsense_managed_settings() {
-  include_once(drupal_get_path('module', 'adsense') .'/help/adsense_managed_help.inc');
+  include_once(drupal_get_path('module', 'adsense_managed') .'/help/adsense_managed.help.inc');
 
   $form['help'] = array(
     '#type'        => 'fieldset',
@@ -49,6 +49,9 @@ function adsense_managed_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_managed_settings form.
+ */
 function _adsense_managed_settings_validate($form, &$form_state) {
   $number_blocks = $form_state['values']['adsense_managed_number_blocks'];
   if ($number_blocks < 0) {

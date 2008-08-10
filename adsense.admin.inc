@@ -115,6 +115,9 @@ function adsense_id_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_id_settings form.
+ */
 function _adsense_id_settings_validate($form, &$form_state) {
   $form_state['values']['adsense_basic_id'] = trim($form_state['values']['adsense_basic_id']);
 }

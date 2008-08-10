@@ -6,6 +6,12 @@
  * Helper functions used by AdSense for Search configuration forms
  */
 
+/**
+ * Helper function to supply the available encodings for the search configuration forms
+ *
+ * @return
+ *   array of encoding options with the key used by Google and its description
+ */
 function _adsense_search_options_encoding() {
   return array(
     'ISO-8859-1'   =>  t('West European Latin-1 (ISO-8859-1)'),
@@ -39,6 +45,12 @@ function _adsense_search_options_encoding() {
   );
 }
 
+/**
+ * Helper function to supply the available countries for the search configuration forms
+ *
+ * @return
+ *   array of countries with the key used by Google and its description
+ */
 function _adsense_search_options_country() {
   return array(
     'www.google.co.uk'  => t('United Kingdom'),
@@ -283,6 +295,12 @@ function _adsense_search_options_country() {
   );
 }
 
+/**
+ * Helper function to supply the available languages for the search configuration forms
+ *
+ * @return
+ *   array of language options with the key used by Google and its description
+ */
 function _adsense_search_options_language() {
   return array(
     'ar'    => t('Arabic'),

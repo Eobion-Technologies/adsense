@@ -6,6 +6,12 @@
  * Displays the page containing the results of the Adsense for Search box
  */
 
+/**
+ * Creates the Adsense for Search search results page for site-embedded search results
+ *
+ * @return
+ *   JavaScript that embeds the Google results
+ */
 function _adsense_search_results() {
   // Log the search keys:
   watchdog('AdSense', 'Search keywords: %keyword', array('%keyword' => urldecode($_GET['as_q'])), WATCHDOG_NOTICE);

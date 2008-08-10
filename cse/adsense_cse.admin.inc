@@ -16,7 +16,20 @@
  */
 function adsense_cse_settings() {
   global $base_url;
+  include_once(drupal_get_path('module', 'adsense_cse') .'/help/adsense_cse.help.inc');
   require_once(drupal_get_path('module', 'adsense') .'/includes/adsense.search_options.inc');
+
+  $form['help'] = array(
+    '#type'        => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed'   => TRUE,
+    '#title'       => t('Help and instructions'),
+  );
+
+  $form['help']['help'] = array(
+    '#type'  => 'markup',
+    '#value' => adsense_cse_help_text(),
+  );
 
   $form['searchbox'] = array(
     '#type' => 'fieldset',
@@ -115,6 +128,9 @@ function adsense_cse_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_cse_settings form.
+ */
 function _adsense_cse_settings_validate($form, &$form_state) {
   $textbox_length = $form_state['values']['adsense_cse_textbox_length'];
   $min = 8;

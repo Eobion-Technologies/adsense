@@ -8,6 +8,12 @@
  * Helpfile for the Publisher ID tab of the adsense module configuration
  */
 
+/**
+ * Creates the help text for the Publisher ID tab
+ *
+ * @return
+ *   HTML with the help text
+ */
 function adsense_id_help_text() {
   $referral_link = 'http://baheyeldin.com/click/476/1';
 
@@ -28,4 +34,3 @@ the 'Save configuration' button.</p>
 EOF;
   return $output;
 }
-

@@ -141,6 +141,9 @@ function adsense_oldcode_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Validate adsense_oldcode_settings form.
+ */
 function _adsense_oldcode_settings_validate($form, &$form_state) {
   $number_blocks = $form_state['values']['adsense_oldcode_number_blocks'];
   if ($number_blocks < 0) {

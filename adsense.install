@@ -76,7 +76,7 @@ function adsense_update_6000() {
 
     variable_del($variable->name);
   }
-  
+
   $ret[] = update_sql("DROP TABLE {adsense_clicks}");
   return $ret;
 }
