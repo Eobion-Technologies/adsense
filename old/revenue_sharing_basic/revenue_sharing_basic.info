@@ -2,8 +2,9 @@
 ; Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
 ; Copyright 2008      Joao Ventura      http://www.venturas.org
 
-name = Ads (old)
-description = Ad unit generator module using the old format code in which the colours are specified in the ad's JavaScript.
+name = Revenue sharing basic (old)
+description = Basic revenue sharing for the Google Adsense module
 dependencies[] = adsense
+dependencies[] = profile
 package = Adsense
 core = 6.x

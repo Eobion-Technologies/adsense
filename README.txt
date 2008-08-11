@@ -63,13 +63,6 @@ following function in it. The function has an $op argument that you
 should check:
 
 function your_module_adsense($op) {
-  if ($op == 'settings') {
-    // Add here form elements for your module's settings
-    // These can also contain markup elements for help text
-    // These are standard FormAPI elements.
-    return $form;
-  }
-
   if ($op == 'client_id') {
     // Here you can use whatever logic you want to select a Google Adsense
     // client ID
