@@ -124,7 +124,7 @@ function _adsense_managed_get_block_config($delta = 0) {
  * @return
  *   JavaScript that embeds the Google AdSense ad
  */
-function _adsense_managed_get_ad($format, $slot) {
+function _adsense_managed_get_ad($format, $client, $slot) {
   $ad = adsense_ad_formats($format);
 
   if (($ad === NULL) || empty($slot)) {
@@ -133,8 +133,6 @@ function _adsense_managed_get_ad($format, $slot) {
   else {
     $width = $ad['width'];
     $height = $ad['height'];
-
-    $client = adsense_get_client_id();
 
     $output = <<<MANAGED_TXT
 <div class="adsense">

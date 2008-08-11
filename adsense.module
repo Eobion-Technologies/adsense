@@ -278,29 +278,28 @@ function _adsense_process_tags($text) {
 }
 
 /**
- * Provides the Google AdSense Publisher ID to be used in the ad
+ * Provides the Google AdSense Publisher ID / slot ID to be used in the ad
  *
  * If revenue sharing modules are installed, this function will call the
  * appropriate function in those modules.
  *
  * @param $format
- *   format of the ad being generated
+ *   format of the ad being generated (optional)
  * @return
- *   Publisher ID string
+ *   If the format parameter is supplied, array with 'client' and 'slot'
+ *   fields, otherwise just the Publisher ID string is returned
  */
-function adsense_get_client_id() {
-  // Get the configured module
-  $module = variable_get('adsense_id_module', 'adsense_basic');
-//  $module = 'revenue_sharing_basic';
+function adsense_get_client_slot_id($format = NULL) {
+  // Get the configured function
+  $function = variable_get('adsense_id_module', 'adsense_basic');
 
-  if ($module != 'adsense_basic') {
-    // Compose the function to be called
-    $function = $module .'_adsense';
+  if ($function != 'adsense_basic') {
     // Call the function
     if (function_exists($function)) {
-      $client_id = $function('client_id');
-
-      return $client_id;
+      $client_id = $function('client_id', $format);
+      if ($client_id) {
+        return $client_id;
+      }
     }
   }
   return variable_get('adsense_basic_id', '');
@@ -382,25 +381,41 @@ function adsense_display() {
     $ad = '<!--adsense: ad limit reached for type-->';
   }
   else {
+    // If site Slot ID for this ad was passed, pass the format as argument
+    // in case Publisher ID modules are enabled that can return different
+    // Slot IDs per ad format
+    $client_id_arg = empty($args['slot']) ? NULL : $args['format'];
+    $client = adsense_get_client_slot_id($client_id_arg);
+
+    if (is_array($client)) {
+      // An array was received, use that Slot ID
+      $slot = $client['slot'];
+      $client = $client['client'];
+    }
+    else {
+      // Use the original site Slot ID
+      $slot = $args['slot'];
+    }
+
     // Ad should be displayed
     switch ($args['format']) {
       case 'Search Box':
-        if (!empty($args['slot']) && module_exists('adsense_cse')) {
-          $ad = _adsense_cse_get_searchbox($args['slot']);
+        if (!empty($slot) && module_exists('adsense_cse')) {
+          $ad = _adsense_cse_get_searchbox($client, $slot);
         }
         elseif (module_exists('adsense_search')) {
-          $ad = _adsense_search_get_searchbox($args['channel']);
+          $ad = _adsense_search_get_searchbox($client, $args['channel']);
         }
         else {
           $ad = '<!--adsense: no AdSense for Search module found-->';
         }
         break;
       default:
-        if (!empty($args['slot']) && module_exists('adsense_managed')) {
-          $ad = _adsense_managed_get_ad($args['format'], $args['slot']);
+        if (!empty($slot) && module_exists('adsense_managed')) {
+          $ad = _adsense_managed_get_ad($args['format'], $client, $slot);
         }
         elseif (module_exists('adsense_oldcode')) {
-          $ad = _adsense_oldcode_get_ad($args['format'], $args['group'], $args['channel']);
+          $ad = _adsense_oldcode_get_ad($args['format'], $client, $args['group'], $args['channel']);
         }
         else {
           $ad = '<!--adsense: no AdSense for Content module found-->';
@@ -423,8 +438,8 @@ function adsense_display() {
  *   TRUE if ad display is enabled, FALSE otherwise
  */
 function _adsense_check_if_enabled() {
-  if (!adsense_get_client_id()) {
-    // Google AdSense Client ID is not configured
+  if (!variable_get('adsense_basic_id', '')) {
+    // Google AdSense Publisher ID is not configured
     return FALSE;
   }
   if (variable_get('adsense_disable', '0')) {

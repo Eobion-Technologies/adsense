@@ -122,10 +122,8 @@ function _adsense_search_get_block_config($delta = 0) {
  * @return
  *   HTML with the search input form
  */
-function _adsense_search_get_searchbox($channel = NULL) {
+function _adsense_search_get_searchbox($client, $channel = NULL) {
   global $base_url;
-
-  $client = adsense_get_client_id();
 
   $border   = variable_get('adsense_search_color_border',      '#336699');
   $title    = variable_get('adsense_search_color_title',       '#0000FF');

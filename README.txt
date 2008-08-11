@@ -62,15 +62,33 @@ Assuming your module is called: your_module.module, you will have the
 following function in it. The function has an $op argument that you
 should check:
 
-function your_module_adsense($op) {
-  if ($op == 'client_id') {
-    // Here you can use whatever logic you want to select a Google Adsense
-    // client ID
-    return $client_id;
+function your_module_adsense($op, $args = array()) {
+  static $client_id = NULL;
+
+  switch ($op) {
+    case 'settings':
+        return array(
+          'name' => 'Module name',
+          'path' => '__path_to_module_settings_form__',
+        );
+      break;
+    case 'client_id':
+      if (!$client_id) {
+        // We cache the client ID on this page load, to make sure all of the
+        // client IDs on one page are the same
+        // Here you can use whatever logic you want to select a Google
+        // Adsense client ID. 
+        // If the args parameter is not NULL, a format specific slot ID + 
+        // Publisher ID needs to be returned in an array with 'slot' and
+        // 'client' fields.
+        // If the args parameter is NULL, return only the Publisher ID as a
+        // string.
+        $client_id = your_logic($args);
+      }
+
+      return $client_id;
   }
 }
-
-See the adsense_basic.module for an example of how to write your own module.
 
 After you install the module, it should appear on the adsense module settings
 page, along with other modules. You should be able to select it, and configure

@@ -13,8 +13,7 @@ function revenue_sharing_basic_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('revenue_sharing_basic_settings'),
     'access arguments' => array('administer adsense'),
-    'weight' => 1,
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
     'file' => 'revenue_sharing_basic.admin.inc',
   );
 
@@ -46,18 +45,30 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
   static $client_id = NULL;
 
   switch ($op) {
+    case 'settings':
+        return array(
+          'name' => 'Revenue sharing (basic)',
+          'path' => 'revenue_sharing_basic',
+        );
+      break;
     case 'client_id':
       if (!$client_id) {
         // We cache the client ID on this page load, to make sure all of the
         // client IDs on one page are the same
-        $client_id = revenue_sharing_basic_choose_client();
+        $client_id = revenue_sharing_basic_choose_client($args);
       }
 
       return $client_id;
   }
 }
 
-function revenue_sharing_basic_choose_client() {
+function revenue_sharing_basic_choose_client($format) {
+  if ($format) {
+    // This module can't handle the selection of an appropriate Slot ID
+    // Give up!
+    return NULL;
+  }
+
   $site_client = variable_get('adsense_basic_id', '');
 
   if (!variable_get('revenue_sharing_basic_revenue_enable', 0)) {
