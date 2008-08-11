@@ -2,7 +2,7 @@
 ; Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
 ; Copyright 2008      Joao Ventura      http://www.venturas.org
 
-name = Old Code ads
+name = Ads (old)
 description = Ad unit generator module using the old format code in which the colours are specified in the ad's JavaScript.
 dependencies[] = adsense
 package = Adsense

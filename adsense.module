@@ -291,6 +291,7 @@ function _adsense_process_tags($text) {
 function adsense_get_client_id() {
   // Get the configured module
   $module = variable_get('adsense_id_module', 'adsense_basic');
+//  $module = 'revenue_sharing_basic';
 
   if ($module != 'adsense_basic') {
     // Compose the function to be called
@@ -498,7 +499,7 @@ function _adsense_page_match() {
     return !($visibility xor $page_match);
   }
   else {
-    return !visibility;
+    return !$visibility;
   }
 }
 
