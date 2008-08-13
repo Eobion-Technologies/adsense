@@ -3,6 +3,11 @@
 // Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
 
 /**
+ * @file
+ * Main file of the revenue_sharing_basic module
+ */
+
+/**
  * Implementation of hook_menu().
  */
 function revenue_sharing_basic_menu() {
@@ -41,6 +46,29 @@ function revenue_sharing_basic_requirements($phase) {
   return $requirements;
 }
 
+/**
+ * Interface of the Publisher ID modules
+ *
+ * This is the function that handles the calls by the adsense core to the
+ * Publisher ID modules
+ *
+ * @param $op
+ *   Operation being performed, can be one of the following:
+ *   'settings' : access to this module's settings form
+ *   'client_id': fetch the user's Publisher ID
+ * @param $args
+ *   For the 'client_id' operation, this can be the format of the ad being
+ *   generated, in case there is a need to return a user-configured Slot ID
+ * @return
+ *   This depends on the operation being performed:
+ *   'settings': return array with two fields, the name field contains the
+ *               name of this module, and the path field the function name
+ *               of the function that handles the settings for the module.
+ *   'client_id' : this can be a string with the publisher ID, when the
+ *                 $args parameter wasn't defined, or an array with two
+ *                 fields, the 'slot' field for the Slot ID and the 'client'
+ *                 field for the Publisher ID
+ */
 function revenue_sharing_basic_adsense($op, $args = array()) {
   static $client_id = NULL;
 
@@ -62,8 +90,19 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
   }
 }
 
+/**
+ * Provide the applicable Publisher ID, based on the configured probabilities
+ *
+ * @param $format
+ *   Format of the ad
+ * @return
+ *   If format is set, returns NULL. Otherwise, based on the configured 
+ *   percentage, returns either the Publisher ID of the current page's author
+ *   or of the owner of the site. When configured, it may also return the
+ *   Publisher ID of the user who referred the page author.
+ */
 function revenue_sharing_basic_choose_client($format) {
-  if ($format) {
+  if (isset($format)) {
     // This module can't handle the selection of an appropriate Slot ID
     // Give up!
     return NULL;
@@ -99,7 +138,15 @@ function revenue_sharing_basic_choose_client($format) {
   return $client;
 }
 
-function revenue_sharing_basic_get_profile_client_id($uid = NULL) {
+/**
+ * Provide the Publisher ID of the the specified user
+ *
+ * @param $uid
+ *   User ID
+ * @return
+ *   Publisher ID of the specified user in case it applies, otherwise NULL
+ */
+function revenue_sharing_basic_get_profile_client_id($uid) {
   $client_id = NULL;
 
   if ($uid) {
@@ -111,6 +158,12 @@ function revenue_sharing_basic_get_profile_client_id($uid = NULL) {
   return $client_id;
 }
 
+/**
+ * Provide the User ID of the author of the current page
+ *
+ * @return
+ *   User ID of author, or NULL if it wasn't possible to discover one
+ */
 function revenue_sharing_basic_get_node_uid() {
   static $node_uid = NULL;
 
@@ -124,6 +177,15 @@ function revenue_sharing_basic_get_node_uid() {
   return $node_uid;
 }
 
+/**
+ * Provide the Publisher ID of the user of referred the specified user
+ *
+ * @param $uid
+ *   User ID
+ * @return
+ *   Publisher ID of the referrer of the specified user in case it applies,
+ *   otherwise NULL
+ */
 function revenue_sharing_basic_get_referral_client_id($uid) {
   if (module_exists('referral')) {
     $referral_uid = referral_get_user($uid);

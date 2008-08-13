@@ -83,6 +83,14 @@ function revenue_sharing_basic_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Auxiliary function to create the list for the revenue_sharing_basic_client_id_profile_field field
+ *
+ * @return
+ *   array of fields with the field IDs as keys and the field titles as values
+ *
+ * @ingroup forms
+ */
 function revenue_sharing_basic_get_profile_fields() {
   $profile_list = array(0 => 'None');
 
