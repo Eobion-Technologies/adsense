@@ -118,11 +118,27 @@ function adsense_id_settings() {
 
   $form['adsense_basic_id'] = array(
     '#type'          => 'textfield',
-    '#title'         => t('Google AdSense Publisher ID'),
+    '#title'         => t('Site Google AdSense Publisher ID'),
     '#required'      => TRUE,
     '#default_value' => variable_get('adsense_basic_id', ''),
-    '#description'   => t('This is the Google AdSense Publisher ID for the site owner. You should get this from your Google Adsense account. It should be similar to %id.', array('%id' => 'pub-9999999999999')),
+    '#description'   => t('This is the Google AdSense Publisher ID for the site owner. It is used if no other ID is suitable. Get this in your Google Adsense account. It should be similar to %id.', array('%id' => 'pub-9999999999999')),
   );
+
+  $options = _adsense_id_settings_client_id_mods();
+  if (count($options) > 1) {
+    $form['adsense_id_module'] = array(
+      '#type'          => 'radios',
+      '#title'         => t('Publisher ID module'),
+      '#default_value' => variable_get('adsense_id_module', 'adsense_basic'),
+      '#options'       => $options,
+    );
+  }
+  else {
+    $form['adsense_id_module'] = array(
+      '#type'  => 'hidden',
+      '#value' => $options[0],
+    );
+  }
 
   $form['#validate'][] = '_adsense_id_settings_validate';
 
@@ -134,4 +150,26 @@ function adsense_id_settings() {
  */
 function _adsense_id_settings_validate($form, &$form_state) {
   $form_state['values']['adsense_basic_id'] = trim($form_state['values']['adsense_basic_id']);
+}
+
+/**
+ * Search for the available Publisher ID modules
+ * 
+ * @return
+ *   array of selectable Publisher ID functions
+ */
+function _adsense_id_settings_client_id_mods() {
+  $ret['adsense_basic'] = 'Use the site Publisher ID always';
+
+  $funcs = get_defined_functions();
+  foreach ($funcs['user'] as $func) {
+    if (preg_match('!_adsense$!', $func)) {
+       $settings = $func('settings');
+       $ret[$func] = $settings['name'];
+       if (!empty($settings['desc'])) {
+         $ret[$func] .= "<div style='margin-left: 2.5em;' class='description'>{$settings['desc']}</div>";
+       }
+    }
+  }
+  return $ret;
 }

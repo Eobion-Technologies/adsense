@@ -118,10 +118,8 @@ function _adsense_cse_get_block_config($delta = 0) {
  * @return
  *   HTML with the search input form
  */
-function _adsense_cse_get_searchbox($slot = NULL) {
+function _adsense_cse_get_searchbox($client, $slot = NULL) {
   global $base_url;
-
-  $client = adsense_get_client_id();
 
   $branding = variable_get('adsense_cse_logo', 'adsense_cse_branding_right');
   $box_background_color = variable_get('adsense_cse_color_box_background', 'FFFFFF');

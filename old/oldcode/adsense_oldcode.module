@@ -143,15 +143,13 @@ function _adsense_oldcode_get_block_config($delta = 0) {
  * @return
  *   JavaScript that embeds the Google AdSense ad
  */
-function _adsense_oldcode_get_ad($format, $group = 1, $channel = 1) {
+function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
   $ad = adsense_ad_formats($format);
 
   if ($ad === NULL) {
     $output = "";
   }
   else {
-    $client = adsense_get_client_id();
-
     if (($group < 1) || ($group > ADSENSE_MAX_GROUPS)) {
       // Default to 1 if an invalid group is supplied
       $group = 1;
