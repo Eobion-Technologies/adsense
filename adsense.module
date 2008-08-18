@@ -389,7 +389,7 @@ function adsense_display() {
     // If site Slot ID for this ad was passed, pass the format as argument
     // in case Publisher ID modules are enabled that can return different
     // Slot IDs per ad format
-    $client_id_arg = isset($args['slot']) ? NULL : $args['format'];
+    $client_id_arg = isset($args['slot']) ? $args['format'] : NULL;
     $client = adsense_get_client_slot_id($client_id_arg);
 
     if (is_array($client)) {
