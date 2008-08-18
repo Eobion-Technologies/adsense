@@ -58,7 +58,7 @@ connecting to Google's API, or anything else imaginable.
 
 To do so, your module must implement a hook called 'adsense', as follows:
 
-Assuming your module is called: your_module.module, you will have the
+Assuming your module is called: your_module.module, you must have the
 following function in it. The function has an $op argument that you
 should check:
 
@@ -69,7 +69,7 @@ function your_module_adsense($op, $args = array()) {
     case 'settings':
         return array(
           'name' => 'Module name',
-          'path' => '__path_to_module_settings_form__',
+          'desc' => 'Anything about your module',
         );
       break;
     case 'client_id':
@@ -89,6 +89,9 @@ function your_module_adsense($op, $args = array()) {
       return $client_id;
   }
 }
+
+Your module's settings form must be of type MENU_LOCAL_TASK and located in
+'admin/settings/adsense/id/your_module'.
 
 After you install the module, it should appear on the adsense module settings
 page, along with other modules. You should be able to select it, and configure

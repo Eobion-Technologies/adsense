@@ -113,6 +113,11 @@ function adsense_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'adsense.admin.inc',
   );
+  $items['admin/settings/adsense/id/site'] = array(
+    'title' => 'Site ID',
+    'weight' => -1,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
 
   return $items;
 }

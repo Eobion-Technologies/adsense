@@ -165,7 +165,10 @@ function _adsense_id_settings_client_id_mods() {
   foreach ($funcs['user'] as $func) {
     if (preg_match('!_adsense$!', $func)) {
        $settings = $func('settings');
-       $ret[$func] = "{$settings['name']} <a href='{$settings['path']}'>(settings)</a>";
+       $ret[$func] = $settings['name'];
+       if (!empty($settings['desc'])) {
+         $ret[$func] .= "<div style='margin-left: 2.5em;' class='description'>{$settings['desc']}</div>";
+       }
     }
   }
   return $ret;

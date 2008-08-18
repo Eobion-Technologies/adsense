@@ -13,12 +13,12 @@
 function revenue_sharing_basic_menu() {
   $items = array();
 
-  $items['admin/settings/adsense/revenue_sharing_basic'] = array(
+  $items['admin/settings/adsense/id/revenue_sharing_basic'] = array(
     'title' => 'Basic Revenue Sharing',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('revenue_sharing_basic_settings'),
     'access arguments' => array('administer adsense'),
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
     'file' => 'revenue_sharing_basic.admin.inc',
   );
 
@@ -61,9 +61,8 @@ function revenue_sharing_basic_requirements($phase) {
  *   generated, in case there is a need to return a user-configured Slot ID
  * @return
  *   This depends on the operation being performed:
- *   'settings': return array with two fields, the name field contains the
- *               name of this module, and the path field the function name
- *               of the function that handles the settings for the module.
+ *   'settings':   return array with two fields, the name field contains the
+ *                 name of this module, and the desc field a description.
  *   'client_id' : this can be a string with the publisher ID, when the
  *                 $args parameter wasn't defined, or an array with two
  *                 fields, the 'slot' field for the Slot ID and the 'client'
@@ -76,7 +75,7 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
     case 'settings':
         return array(
           'name' => 'Revenue sharing (basic)',
-          'path' => 'revenue_sharing_basic',
+          'desc' => 'DOES NOT WORK with new code ad units, such as "Managed Ads" or "Custom Search".',
         );
       break;
     case 'client_id':
