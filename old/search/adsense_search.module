@@ -32,8 +32,9 @@ function adsense_search_menu($may_cache) {
   );
   $items[] = array(
     'path' => ADSENSE_SEARCH_RESULTS_PATH,
-    'title' => t('AdSense Search Results'),
+    'title' => t('Search Results'),
     'callback' => '_adsense_search_results',
+    'access' => TRUE,
     'type' => MENU_CALLBACK,
   );
   }
