@@ -167,4 +167,22 @@ function _adsense_oldcode_settings_validate($form, &$form_state) {
   if ($number_blocks < 0) {
     form_set_error('adsense_oldcode_number_blocks', t("Number of blocks can't be a negative number"));
   }
+
+  $colors = array(
+    'adsense_color_border_',
+    'adsense_color_bg_',
+    'adsense_color_link_',
+    'adsense_color_url_',
+    'adsense_color_text_',
+  );
+
+  for ($group = 1; $group <= ADSENSE_MAX_GROUPS ; $group++) {
+    foreach ($colors as $field_name) {
+      $field_value = $form_state['values'][$field_name . $group];
+      $form_state['values'][$field_name . $group] = drupal_strtoupper($field_value);
+      if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
+        form_set_error($field_name . $group, t("Color must be between #000000 and #FFFFFF"));
+      }
+    }
+  }
 }
