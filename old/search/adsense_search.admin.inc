@@ -286,6 +286,7 @@ function _adsense_search_settings_validate($form_id, $form_values, $form) {
 
   foreach ($colors as $field_name) {
     $field_value = $form_values[$field_name];
+    form_set_value($form['result']['colors'][$field_name], drupal_strtoupper($field_value));
     if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
       form_set_error($field_name, t("Color must be between #000000 and #FFFFFF"));
     }
