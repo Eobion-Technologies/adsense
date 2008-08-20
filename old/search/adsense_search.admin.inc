@@ -148,11 +148,11 @@ function adsense_search_settings() {
   // Add Farbtastic color picker
   drupal_add_css('misc/farbtastic/farbtastic.css', 'module', 'all', FALSE);
   drupal_add_js('misc/farbtastic/farbtastic.js');
-  drupal_add_js('$(document).ready(function() { $("#colorpicker").farbtastic("#edit-adsense-search-color-border"); });', 'inline');
+  drupal_add_js(drupal_get_path('module', 'adsense_search') .'/adsense_search.js');
 
   $form['result']['colors']['colorpicker'] = array(
     '#type' => 'markup',
-    '#value' => '<div id="colorpicker"></div>',
+    '#value' => '<div id="colorpicker" style="float:right;"></div>',
   );
 
   $form['result']['colors']['adsense_search_color_border'] = array(

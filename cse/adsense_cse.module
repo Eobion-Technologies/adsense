@@ -27,7 +27,7 @@ function adsense_cse_menu() {
     'file' => 'adsense_cse.admin.inc',
   );
   $items[ADSENSE_CSE_RESULTS_PATH] = array(
-    'title' => 'AdSense Search Results',
+    'title' => 'Search Results',
     'page callback' => '_adsense_cse_results',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,

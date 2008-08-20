@@ -173,12 +173,13 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
     $height   = $ad['height'];
     $code     = $ad['code'];
 
-    $border   = variable_get('adsense_color_border_'. $group, '336699');
-    $bg       = variable_get('adsense_color_bg_'.     $group, 'FFFFFF');
-    $link     = variable_get('adsense_color_link_'.   $group, '336699');
-    $url      = variable_get('adsense_color_url_'.    $group, 'FF8C00');
-    $text     = variable_get('adsense_color_text_'.   $group, '000000');
+    $border   = substr(variable_get('adsense_color_border_'. $group, '#336699'), 1);
+    $bg       = substr(variable_get('adsense_color_bg_'.     $group, '#FFFFFF'), 1);
+    $link     = substr(variable_get('adsense_color_link_'.   $group, '#336699'), 1);
+    $url      = substr(variable_get('adsense_color_url_'.    $group, '#FF8C00'), 1);
+    $text     = substr(variable_get('adsense_color_text_'.   $group, '#000000'), 1);
 
+    $corner   = variable_get('adsense_ui_features_'.  $group, 'rc:0');
     $alt      = variable_get('adsense_alt_'.          $group, 0);
     $alt_info = variable_get('adsense_alt_info_'.     $group, '');
     switch ($alt) {
@@ -213,8 +214,9 @@ $part2
 google_color_border = "$border";
 google_color_bg = "$bg";
 google_color_link = "$link";
-google_color_url = "$url";
 google_color_text = "$text";
+google_color_url = "$url";
+google_ui_features = "$corner";
 //--></script>
 <script type="text/javascript"
   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
