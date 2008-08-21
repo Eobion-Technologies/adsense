@@ -47,26 +47,26 @@ function adsense_update_6000() {
   $oldsearch = 0;
   $managed = 0;
   $oldcode = 0;
-  $pos = strlen('adsense_ad_block_');
+  $pos = drupal_strlen('adsense_ad_block_');
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_ad\_block\_%'");
   while ($variable = db_fetch_object($settings)) {
     $data = explode(':', variable_get($variable->name, ''));
     if ($data[0] == 'Search Box') {
       // Block is an old search block
       // Store the name and the channel in the new block
-      $newdata = implode(':', array(substr($variable->name, $pos), $data[2]));
+      $newdata = implode(':', array(drupal_substr($variable->name, $pos), $data[2]));
       variable_set('adsense_search_ad_block_'. $oldsearch++, $newdata);
     }
     elseif (!empty($data[3])) {
       // Slot is defined, so it is a managed ad
       // Store the name, format and slot in the new block
-      $newdata = implode(':', array(substr($variable->name, $pos), $data[0], $data[3]));
+      $newdata = implode(':', array(drupal_substr($variable->name, $pos), $data[0], $data[3]));
       variable_set('adsense_managed_ad_block_'. $managed++, $newdata);
     }
     else {
       // Slot is an old code ad
       // Store the name, format, group and channel in the new block
-      $newdata = implode(':', array(substr($variable->name, $pos), $data[0], $data[1], $data[2]));
+      $newdata = implode(':', array(drupal_substr($variable->name, $pos), $data[0], $data[1], $data[2]));
       variable_set('adsense_oldcode_ad_block_'. $oldcode++, $newdata);
     }
     // Raise the number of blocks in a type, if necessary

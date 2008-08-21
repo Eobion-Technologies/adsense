@@ -41,7 +41,7 @@ function adsense_cse_settings() {
   $form['searchbox']['adsense_cse_logo'] = array(
     '#type' => 'radios',
     '#title' => t('Logo Type'),
-    '#default_value' => variable_get('adsense_cse_logo', 'adsense_cse_branding_right'),
+    '#default_value' => variable_get('adsense_cse_logo', ADSENSE_CSE_LOGO_DEFAULT),
     '#options' => array(
       'adsense_cse_branding_watermark' => t('Watermark on search box (requires JavaScript)'),
       'adsense_cse_branding_right'     => t('Next to the search box'),
@@ -52,7 +52,7 @@ function adsense_cse_settings() {
   $form['searchbox']['adsense_cse_color_box_background'] = array(
     '#type' => 'select',
     '#title' => t('Background Color'),
-    '#default_value' => variable_get('adsense_cse_color_box_background', 'FFFFFF'),
+    '#default_value' => variable_get('adsense_cse_color_box_background', ADSENSE_CSE_COLOR_BOX_BACKGROUND_DEFAULT),
     '#options' => array(
       'FFFFFF' => t('White'),
       '999999' => t('Gray'),
@@ -63,14 +63,14 @@ function adsense_cse_settings() {
   $form['searchbox']['adsense_cse_encoding'] = array(
     '#type' => 'select',
     '#title' => t('Site Encoding'),
-    '#default_value' => variable_get('adsense_cse_encoding', 'UTF-8'),
+    '#default_value' => variable_get('adsense_cse_encoding', ADSENSE_CSE_ENCODING_DEFAULT),
     '#options' => _adsense_search_options_encoding(),
   );
 
   $form['searchbox']['adsense_cse_textbox_length'] = array(
     '#type' => 'textfield',
     '#title' => t('Text Box Length'),
-    '#default_value' => variable_get('adsense_cse_textbox_length', 31),
+    '#default_value' => variable_get('adsense_cse_textbox_length', ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT),
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -85,14 +85,14 @@ function adsense_cse_settings() {
   $form['result']['adsense_cse_country'] = array(
     '#type' => 'select',
     '#title' => t('Country or territory for Google domain'),
-    '#default_value' => variable_get('adsense_cse_country', 'www.google.com'),
+    '#default_value' => variable_get('adsense_cse_country', ADSENSE_CSE_COUNTRY_DEFAULT),
     '#options' => _adsense_search_options_country(),
   );
 
   $form['result']['adsense_cse_frame_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Width of results area'),
-    '#default_value' => variable_get('adsense_cse_frame_width', 800),
+    '#default_value' => variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT),
     '#size' => 3,
     '#maxlength' => 4,
   );
@@ -100,7 +100,7 @@ function adsense_cse_settings() {
   $form['result']['adsense_cse_ad_location'] = array(
     '#type' => 'radios',
     '#title' => t('Ad Location'),
-    '#default_value' => variable_get('adsense_cse_ad_location', 'adsense_cse_loc_top_right'),
+    '#default_value' => variable_get('adsense_cse_ad_location', ADSENSE_CSE_AD_LOCATION_DEFAULT),
     '#options' => array(
       'adsense_cse_loc_top_right'  => t('Top and Right'),
       'adsense_cse_loc_top_bottom' => t('Top and Bottom'),
@@ -118,7 +118,7 @@ function adsense_cse_settings() {
   $form['blocks']['adsense_cse_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_cse_number_blocks', 2),
+    '#default_value' => variable_get('adsense_cse_number_blocks', ADSENSE_CSE_NUMBER_BLOCKS_DEFAULT),
     '#size' => 2,
     '#maxlength' => 2,
   );

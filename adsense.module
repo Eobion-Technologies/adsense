@@ -15,6 +15,17 @@ define('ADSENSE_TYPE_AD',     2);
 define('ADSENSE_TYPE_SEARCH', 3);
 
 define('ADSENSE_MAX_CHANNELS', 10);
+define('ADSENSE_AD_CHANNEL_DEFAULT', '');
+
+define('ADSENSE_ACCESS_PAGES_DEFAULT', '');
+define('ADSENSE_BASIC_ID_DEFAULT', '');
+define('ADSENSE_DISABLE_DEFAULT', 0);
+define('ADSENSE_ID_MODULE_DEFAULT', 'adsense_basic');
+define('ADSENSE_PLACEHOLDER_DEFAULT', 1);
+define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', t('Google AdSense'));
+define('ADSENSE_SECTION_TARGETING_DEFAULT', 1);
+define('ADSENSE_TEST_MODE_DEFAULT', 0);
+define('ADSENSE_VISIBILITY_DEFAULT', 0);
 
 /**
  * This is the array that holds all ad formats.
@@ -131,7 +142,7 @@ function adsense_requirements($phase) {
   switch ($phase) {
     // At runtime, make sure that we have a publisher ID
     case 'runtime':
-      $basic_id = variable_get('adsense_basic_id', '');
+      $basic_id = variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT);
       if (empty($basic_id)) {
         $requirements['adsense_basic_id'] = array(
           'title' => $t('AdSense'),
@@ -178,7 +189,7 @@ function adsense_filter($op, $delta = 0, $format = -1, $text = '') {
 function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
   switch ($op) {
     case 'view':
-      if (variable_get('adsense_section_targeting', 1)) {
+      if (variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
         $node->content['adsense_start'] = array(
           '#value' => '<!-- google_ad_section_start -->',
           '#weight' => -1,
@@ -296,9 +307,9 @@ function _adsense_process_tags($text) {
  */
 function adsense_get_client_slot_id($format = NULL) {
   // Get the configured function
-  $function = variable_get('adsense_id_module', 'adsense_basic');
+  $function = variable_get('adsense_id_module', ADSENSE_ID_MODULE_DEFAULT);
 
-  if ($function != 'adsense_basic') {
+  if ($function != ADSENSE_ID_MODULE_DEFAULT) {
     // Call the function
     if (function_exists($function)) {
       $client_id = $function('client_id', $format);
@@ -307,7 +318,7 @@ function adsense_get_client_slot_id($format = NULL) {
       }
     }
   }
-  return variable_get('adsense_basic_id', '');
+  return variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT);
 }
 
 /**
@@ -375,7 +386,7 @@ function adsense_display() {
   }
   elseif (!_adsense_check_if_enabled()) {
     // Ads are disabled
-    if (variable_get('adsense_placeholder', '1')) {
+    if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT)) {
       $ad = "<!--adsense: placeholder-->\n". _adsense_format_placeholder($ad);
     }
     else {
@@ -426,7 +437,7 @@ function adsense_display() {
           $ad = '<!--adsense: no AdSense for Content module found-->';
         }
 
-        if (variable_get('adsense_test_mode', 0)) {
+        if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
           $ad = preg_replace("/^(google_ad_client.*;)$/m", "\\1\ngoogle_adtest = 'on';", $ad);
         }
         break;
@@ -443,14 +454,14 @@ function adsense_display() {
  *   TRUE if ad display is enabled, FALSE otherwise
  */
 function _adsense_check_if_enabled() {
-  if (!variable_get('adsense_basic_id', '')) {
+  if (!variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT)) {
     // Google AdSense Publisher ID is not configured
     return FALSE;
   }
-  if (variable_get('adsense_disable', '0')) {
+  if (variable_get('adsense_disable', ADSENSE_DISABLE_DEFAULT)) {
     return FALSE;
   }
-  if (variable_get('adsense_test_mode', 0)) {
+  if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
     return TRUE;
   }
   if (user_access('hide adsense')) {
@@ -505,10 +516,10 @@ function _adsense_page_match() {
     return FALSE;
   }
 
-  $pages = variable_get('adsense_access_pages', '');
+  $pages = variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT);
 
   if ($pages) {
-    $visibility = variable_get('adsense_visibility', 0);
+    $visibility = variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT);
 
     $path = drupal_get_path_alias($_GET['q']);
     $page_match = drupal_match_path($path, $pages);
@@ -535,5 +546,5 @@ function _adsense_format_placeholder($ad) {
   $dimensions = ((!empty($width)) && (!empty($height)))
                 ? " width:". $width ."px; height:". $height ."px;" : "";
 
-  return "<div style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', t('Google AdSense')) ." {$ad['desc']}</div>";
+  return "<div style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." {$ad['desc']}</div>";
 }

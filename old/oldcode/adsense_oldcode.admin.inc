@@ -25,7 +25,7 @@ function adsense_oldcode_settings() {
   $form['blocks']['adsense_oldcode_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_oldcode_number_blocks', 3),
+    '#default_value' => variable_get('adsense_oldcode_number_blocks', ADSENSE_OLDCODE_NUMBER_BLOCKS_DEFAULT),
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -47,13 +47,13 @@ function adsense_oldcode_settings() {
       '#type' => 'fieldset',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
-      '#title' => t('Group @group attributes', array('@group' => $group .' '. variable_get('adsense_group_title_'. $group, ''))),
+      '#title' => t('Group @group attributes', array('@group' => $group .' '. variable_get('adsense_group_title_'. $group, ADSENSE_GROUP_TITLE_DEFAULT))),
     );
 
     $form['types_colors']['groups'][$group]['adsense_group_title_'. $group] = array(
       '#type'          => 'textfield',
       '#title'         => t('Title'),
-      '#default_value' => variable_get('adsense_group_title_'. $group, ''),
+      '#default_value' => variable_get('adsense_group_title_'. $group, ADSENSE_GROUP_TITLE_DEFAULT),
       '#size'          => 100,
       '#maxlength'     => 100,
       '#description'   => t('Title of the group.'),
@@ -62,7 +62,7 @@ function adsense_oldcode_settings() {
     $form['types_colors']['groups'][$group]['adsense_ad_type_'. $group] = array(
       '#type' => 'radios',
       '#title' => t('Ad type'),
-      '#default_value' => variable_get('adsense_ad_type_'. $group, 0),
+      '#default_value' => variable_get('adsense_ad_type_'. $group, ADSENSE_AD_TYPE_DEFAULT),
       '#options' => array(t('Text'), t('Image'), t('Both')),
     );
 
@@ -73,40 +73,40 @@ function adsense_oldcode_settings() {
 
     $form['types_colors']['groups'][$group]['adsense_color_text_'. $group] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad text color'),
-      '#default_value' => variable_get('adsense_color_text_'. $group, '#000000'),
+      '#title' => t('Text color'),
+      '#default_value' => variable_get('adsense_color_text_'. $group, ADSENSE_COLOR_TEXT_DEFAULT),
       '#size' => 7,
       '#maxlength' => 7,
     );
 
     $form['types_colors']['groups'][$group]['adsense_color_border_'. $group] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad border color'),
-      '#default_value' => variable_get('adsense_color_border_'. $group, '#336699'),
+      '#title' => t('Border color'),
+      '#default_value' => variable_get('adsense_color_border_'. $group, ADSENSE_COLOR_BORDER_DEFAULT),
       '#size' => 7,
       '#maxlength' => 7,
     );
 
     $form['types_colors']['groups'][$group]['adsense_color_bg_'. $group] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad background color'),
-      '#default_value' => variable_get('adsense_color_bg_'. $group, '#FFFFFF'),
+      '#title' => t('Background color'),
+      '#default_value' => variable_get('adsense_color_bg_'. $group, ADSENSE_COLOR_BG_DEFAULT),
       '#size' => 7,
       '#maxlength' => 7,
     );
 
     $form['types_colors']['groups'][$group]['adsense_color_link_'. $group] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad title color'),
-      '#default_value' => variable_get('adsense_color_link_'. $group, '#336699'),
+      '#title' => t('Title color'),
+      '#default_value' => variable_get('adsense_color_link_'. $group, ADSENSE_COLOR_LINK_DEFAULT),
       '#size' => 7,
       '#maxlength' => 7,
     );
 
     $form['types_colors']['groups'][$group]['adsense_color_url_'. $group] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad URL color'),
-      '#default_value' => variable_get('adsense_color_url_'. $group, '#FF8C00'),
+      '#title' => t('URL color'),
+      '#default_value' => variable_get('adsense_color_url_'. $group, ADSENSE_COLOR_URL_DEFAULT),
       '#size' => 7,
       '#maxlength' => 7,
     );
@@ -114,14 +114,14 @@ function adsense_oldcode_settings() {
     $form['types_colors']['groups'][$group]['adsense_alt_'. $group] = array(
       '#type' => 'select',
       '#title' => t('Alternate URL color'),
-      '#default_value' => variable_get('adsense_alt_'. $group, 0),
+      '#default_value' => variable_get('adsense_alt_'. $group, ADSENSE_ALT_DEFAULT),
       '#options' => array(t('None'), t('Alternate URL'), t('Alternate color')),
     );
 
     $form['types_colors']['groups'][$group]['adsense_alt_info_'. $group] = array(
       '#type' => 'textfield',
       '#title' => t('Alternate info'),
-      '#default_value' => variable_get('adsense_alt_info_'. $group, ''),
+      '#default_value' => variable_get('adsense_alt_info_'. $group, ADSENSE_ALT_INFO_DEFAULT),
       '#size' => 100,
       '#maxlength' => 100,
       '#description' => t('Enter either 6 letter alternate color code, or alternate URL to use'),
@@ -130,7 +130,7 @@ function adsense_oldcode_settings() {
     $form['types_colors']['groups'][$group]['adsense_ui_features_'. $group] = array(
       '#type' => 'select',
       '#title' => t('Rounded corners'),
-      '#default_value' => variable_get('adsense_ui_features_'. $group, 'rc:0'),
+      '#default_value' => variable_get('adsense_ui_features_'. $group, ADSENSE_UI_FEATURES_DEFAULT),
       '#options' => array('rc:0' => 'Square', 'rc:6' => 'Slightly rounded', 'rc:10' => 'Very rounded'),
       '#description' => t('Choose type of round corners'),
     );
@@ -148,7 +148,7 @@ function adsense_oldcode_settings() {
     $form['channels']['adsense_ad_channel_'. $channel] = array(
       '#type' => 'textfield',
       '#title' => t('Custom channel ID') .' '. $channel,
-      '#default_value' => variable_get('adsense_ad_channel_'. $channel, ''),
+      '#default_value' => variable_get('adsense_ad_channel_'. $channel, ADSENSE_AD_CHANNEL_DEFAULT),
       '#size' => 30,
       '#maxlength' => 30,
     );

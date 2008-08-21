@@ -17,10 +17,10 @@ function _adsense_cse_results() {
   watchdog('AdSense', 'Search keywords: %keyword', array('%keyword' => urldecode($_GET['as_q'])), WATCHDOG_NOTICE);
 
   // Output search results
-  $width   = variable_get('adsense_cse_frame_width', '800');
-  $country = variable_get('adsense_cse_country', 'www.google.com');
+  $width   = variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT);
+  $country = variable_get('adsense_cse_country', ADSENSE_CSE_COUNTRY_DEFAULT);
 
-  if (variable_get('adsense_test_mode', 0)) {
+  if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
     $adtest = '  var googleAdtest = "on";';
   }
 
