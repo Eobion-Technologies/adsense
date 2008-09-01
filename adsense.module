@@ -517,10 +517,9 @@ function _adsense_page_match() {
   }
 
   $pages = variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT);
+  $visibility = variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT);
 
   if ($pages) {
-    $visibility = variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT);
-
     $path = drupal_get_path_alias($_GET['q']);
     $page_match = drupal_match_path($path, $pages);
     if ($path != $_GET['q']) {
