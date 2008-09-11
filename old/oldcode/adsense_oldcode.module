@@ -196,15 +196,16 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
     $alt      = variable_get('adsense_alt_'.          $group, ADSENSE_ALT_DEFAULT);
     $alt_info = variable_get('adsense_alt_info_'.     $group, ADSENSE_ALT_INFO_DEFAULT);
     switch ($alt) {
-      case 0:
-        // disabled
-        break;
       case 1:
         $part1 = "google_alternate_ad_url = \"$alt_info\";";
         break;
       case 2:
         $part1 = "google_alternate_color = \"$alt_info\";";
         break;
+      case 0:
+        // disabled
+      default:
+        $part1 = "";
     }
 
     $part2 = "";

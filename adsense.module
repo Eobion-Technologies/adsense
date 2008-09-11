@@ -408,7 +408,7 @@ function adsense_display() {
       $slot = $client['slot'];
       $client = $client['client'];
     }
-    else {
+    elseif (isset($args['slot'])) {
       // Use the original site Slot ID
       $slot = $args['slot'];
     }
