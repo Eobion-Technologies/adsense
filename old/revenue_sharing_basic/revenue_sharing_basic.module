@@ -7,6 +7,11 @@
  * Main file of the revenue_sharing_basic module
  */
 
+define('REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT', 0);
+define('REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR_DEFAULT', 0);
+define('REVENUE_SHARING_BASIC_PERCENTAGE_REFER_DEFAULT', 0);
+define('REVENUE_SHARING_BASIC_REVENUE_ENABLE_DEFAULT', 0);
+
 /**
  * Implementation of hook_menu().
  */
@@ -107,15 +112,15 @@ function revenue_sharing_basic_choose_client($format) {
     return NULL;
   }
 
-  $site_client = variable_get('adsense_basic_id', '');
+  $site_client = variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT);
 
-  if (!variable_get('revenue_sharing_basic_revenue_enable', 0)) {
+  if (!variable_get('revenue_sharing_basic_revenue_enable', REVENUE_SHARING_BASIC_REVENUE_ENABLE_DEFAULT)) {
     return $site_client;
   }
 
   $uid = revenue_sharing_basic_get_node_uid();
-  $percent_author   = variable_get('revenue_sharing_basic_percentage_author', 0);
-  $percent_referral = variable_get('revenue_sharing_basic_percentage_refer', 0);
+  $percent_author   = variable_get('revenue_sharing_basic_percentage_author', REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR_DEFAULT);
+  $percent_referral = variable_get('revenue_sharing_basic_percentage_refer', REVENUE_SHARING_BASIC_PERCENTAGE_REFER_DEFAULT);
 
   // Toss the dice and see who gets their ad displayed
   $random = mt_rand(1, 100);
@@ -150,7 +155,7 @@ function revenue_sharing_basic_get_profile_client_id($uid) {
 
   if ($uid) {
     // Get the profile field for a certain user
-    $profile_field = variable_get('revenue_sharing_basic_client_id_profile_field', 0);
+    $profile_field = variable_get('revenue_sharing_basic_client_id_profile_field', REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT);
     $client_id = db_result(db_query('SELECT value FROM {profile_values} WHERE fid = %d AND uid = %d', $profile_field, $uid));
   }
 

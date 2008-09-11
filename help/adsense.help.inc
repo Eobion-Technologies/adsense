@@ -72,9 +72,9 @@ an array containing the following fields:</p>
 <ul>
   <li>format: This can be any valid combination from the first column of the
   table above. If not specified, then 160x600 is assumed.</li>
-  <li>slot: This is the slot ID provided by Google in the 
+  <li>slot: This is the slot ID provided by Google in the
   <a href="https://www.google.com/adsense/adslots">AdSense Managed Ads
-  page</a>. Usually in the form 0123456789. Refer to the 
+  page</a>. Usually in the form 0123456789. Refer to the
   <a href="adsense/cse"> Custom Search help</a> for instructions on how to
   determine the slot ID for AdSense for Search.</li>
   <li>group: (old format only) This is the group that denotes the type (text
@@ -223,12 +223,12 @@ used for an ad.</p>
 <p>Unless configured otherwise, Drupal normally calls modules in alphabetical
 order. Insofar as Adsense starts with "a," this may occasionally cause
 conflicts with other installed modules. For example, with
-<strong>image_attach</strong> (a function of the 
+<strong>image_attach</strong> (a function of the
 <a href="http://drupal.org/project/image">image</a> module), Adsense will
 normally be invoked <strong>first</strong> ("a" coming before "i"); this may
 interfere with inline styling of images attached to posts.</p>
 
-<p><strong>Solution:</strong> Install and configure the 
+<p><strong>Solution:</strong> Install and configure the
 <a href="http://drupal.org/project/moduleweight">Module Weight</a> module and
 configure modules to load in the desired order. In this case, giving Image
 Attach a weight of -1 should resolve the issue.</p>

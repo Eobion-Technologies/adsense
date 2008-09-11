@@ -39,7 +39,7 @@ function adsense_managed_settings() {
   $form['blocks']['adsense_managed_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_managed_number_blocks', 3),
+    '#default_value' => variable_get('adsense_managed_number_blocks', ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT),
     '#size' => 2,
     '#maxlength' => 2,
   );
