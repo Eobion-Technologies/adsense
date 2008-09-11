@@ -23,7 +23,9 @@ function adsense_help_text() {
   $headers = array(t('Format'), t('Description'), t('Width'), t('Height'));
   $rows = array();
   foreach ($ads as $format => $data) {
-    $rows[] = array($format, $data['desc'], $data['width'], $data['height']);
+    $width = isset($data['width']) ? $data['width'] : '';
+    $height = isset($data['height']) ? $data['height'] : '';
+    $rows[] = array($format, $data['desc'], $width, $height);
   }
 
   // Create the ad format text

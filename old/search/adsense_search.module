@@ -198,6 +198,7 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
     }
     elseif ($logo == 'adsense_search_logo_above_textbox') {
       $part1 .=  "\n<br/>";
+      $part3 = "";
     }
   }
   else {
@@ -211,9 +212,11 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
 
   if (!$search_button) {
     $part2 = $button_html;
+    $part5 = "";
   }
   else {
     $part5 = $button_html;
+    $part2 = "";
   }
 
   // Searched domains >=1 (2 or 3)
@@ -229,11 +232,17 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
     }
     $part4 .= "\n</tr>";
   }
+  else {
+    $part4 = "";
+  }
 
   // AdSense for Search channel
   $channel  = variable_get('adsense_ad_channel_'. $channel, ADSENSE_AD_CHANNEL_DEFAULT);
   if (!empty($channel)) {
     $part6 = "<input type=\"hidden\" name=\"channel\" value=\"$channel\"></input>";
+  }
+  else {
+    $part6 = "";
   }
 
   // Is SafeSearch active?
