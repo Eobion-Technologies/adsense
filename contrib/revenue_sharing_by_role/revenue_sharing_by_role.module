@@ -39,7 +39,7 @@ function revenue_sharing_by_role_adsense($op, $args = array()) {
 function revenue_sharing_by_role_settings() {
   $form = array();
 
-  $module = 'revenue_sharing_advanced';
+  $module = 'revenue_sharing_by_role';
   include_once(drupal_get_path('module', $module) .'/'. $module .'_help.inc');
 
   $form['help'] = array(
@@ -302,7 +302,7 @@ function revenue_sharing_by_role_error($error_code) {
       break;
 
     default:
-      $text = t('Unknown revenue sharing advanced error.');
+      $text = t('Unknown revenue sharing by role error.');
       break;
   }
   drupal_set_message($text, 'error');
