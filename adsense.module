@@ -290,12 +290,6 @@ function _adsense_process_tags($text) {
     }
   }
 
-  // In Drupal <= 6.3 we need to remove any HTML comments as the HTML corrector has a bug
-  sscanf(VERSION, "%d.%d", $major, $minor);
-  if (($major == 6) && ($minor <= 3)) {
-    $text = preg_replace('/<!--.*?-->/', '', $text);
-  }
-
   return $text;
 }
 
