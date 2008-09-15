@@ -4,3 +4,4 @@
 name = AdSense Click Tracking
 description = Tracks clicks to Google Adsense
 package = Adsense
+core = 6.x
