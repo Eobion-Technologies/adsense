@@ -39,9 +39,6 @@ function adsense_uninstall() {
  * Drupal 5.x to 6.x update.
  */
 function adsense_update_6000() {
-  variable_del('adsense_click_tracking');
-  variable_del('adsense_click_tracking_name_resolve');
-
   // Convert old ad blocks to the new per-ad-gen blocks
   // New block will have the original number as the name, so that the block input tag works
   $oldsearch = 0;
@@ -77,6 +74,5 @@ function adsense_update_6000() {
     variable_del($variable->name);
   }
 
-  $ret[] = update_sql("DROP TABLE {adsense_clicks}");
   return $ret;
 }
