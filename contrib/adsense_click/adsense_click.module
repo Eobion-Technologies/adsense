@@ -7,7 +7,7 @@ define('ADSENSE_CLICK_TRACKING_NAME_RESOLVE', 'adsense_click_tracking_name_resol
 /**
  * Implementation of hook_menu().
  */
-function adsense_menu() {
+function adsense_click_menu() {
   $items = array();
 
   $items['admin/settings/adsense/click'] = array(
@@ -55,7 +55,7 @@ function adsense_menu() {
 /**
  * Implementation of hook_perm().
  */
-function adsense_perm() {
+function adsense_click_perm() {
   return array('view clicks');
 }
 
@@ -126,7 +126,7 @@ function adsense_click_log() {
 
     $rows[] = array(
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
-      _adsense_format_path($log->path),
+      _adsense_click_format_path($log->path),
       l($host, 'http://whois.domaintools.com/'. $log->ip),
     );
   }
@@ -146,7 +146,7 @@ function adsense_click_top_pages() {
   $result = pager_query($sql, 50);
   while ($log = db_fetch_object($result)) {
     $rows[] = array(
-      array('data' => _adsense_format_path($log->path)),
+      array('data' => _adsense_click_format_path($log->path)),
       array('data' => $log->count, 'align' => 'right'),
       array('data' => format_date($log->last, 'small'), 'nowrap' => 'nowrap'),
     );
@@ -185,3 +185,9 @@ function adsense_click_by_day() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
+function _adsense_click_format_path($path, $width = 35) {
+  global $base_url;
+  $short_path = str_replace($base_url, '', $path);
+  $title = truncate_utf8($short_path, $width, FALSE, TRUE);
+  return l($title, $path);
+}
