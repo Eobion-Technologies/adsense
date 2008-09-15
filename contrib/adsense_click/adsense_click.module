@@ -98,7 +98,7 @@ function adsense_click_footer($main = 0) {
   global $base_url;
 
   if (variable_get(ADSENSE_CLICK_TRACKING, TRUE)) {
-    $path = base_path() . drupal_get_path('module', 'adsense') .'/adsense_click.js';
+    $path = base_path() . drupal_get_path('module', 'adsense_click') .'/adsense_click.js';
     $js = '<script type="text/javascript" src="'. $path .'"></script>';
     return $js;
   }
