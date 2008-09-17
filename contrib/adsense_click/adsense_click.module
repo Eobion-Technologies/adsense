@@ -133,7 +133,7 @@ function adsense_click_log() {
 
     $rows[] = array(
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
-      _adsense_click_format_path($log->path, $log->path),
+      _adsense_click_format_path($log->path, $log->title),
       l($host, 'http://whois.domaintools.com/'. $log->ip),
       l($log->referrer, $log->referrer),
     );
@@ -201,8 +201,7 @@ function _adsense_click_format_path($path, $title = '', $width = 35) {
     $title = truncate_utf8($title, $width, FALSE, TRUE);
   }
   else {
-    $short_path = str_replace($base_url, '', $path);
-    $title = truncate_utf8($short_path, $width, FALSE, TRUE);
+    $title = truncate_utf8(str_replace($base_url, '', $path), $width, FALSE, TRUE);
   }
 
   return l($title, $path);
