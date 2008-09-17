@@ -106,8 +106,8 @@ function adsense_click_footer($main = 0) {
 
 function adsense_click_register() {
   if (variable_get(ADSENSE_CLICK_TRACKING, TRUE)) {
-    $path = $_GET['u'];
-    db_query("INSERT INTO {adsense_clicks} (ip, timestamp, path) values('%s', %d, '%s')", $_SERVER['REMOTE_ADDR'], time(), $path);
+    db_query("INSERT INTO {adsense_clicks} (ip, timestamp, path, title, referrer) values('%s', %d, '%s', '%s', '%s')",
+      $_SERVER['REMOTE_ADDR'], time(), $_GET['u'], $_GET['t'], $_GET['r']);
   }
 }
 
@@ -115,7 +115,7 @@ function adsense_click_log() {
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
     array('data' => t('Path'),      'field' => 'path'),
-    array('data' => t('IP/host'),   'field' => 'ip'),
+    array('data' => t('Referrer'),  'field' => 'referrer'),
   );
 
   $name_resolve = variable_get(ADSENSE_CLICK_TRACKING_NAME_RESOLVE, 0);
@@ -133,8 +133,9 @@ function adsense_click_log() {
 
     $rows[] = array(
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
-      _adsense_click_format_path($log->path),
+      _adsense_click_format_path($log->path, $log->path),
       l($host, 'http://whois.domaintools.com/'. $log->ip),
+      l($log->referrer, $log->referrer),
     );
   }
 
@@ -152,8 +153,9 @@ function adsense_click_top_pages() {
 
   $result = pager_query($sql, 50);
   while ($log = db_fetch_object($result)) {
+    $title = db_result(db_query("SELECT title FROM {adsense_clicks} WHERE path = '%s'", $path));
     $rows[] = array(
-      array('data' => _adsense_click_format_path($log->path)),
+      array('data' => _adsense_click_format_path($log->path, $title)),
       array('data' => $log->count, 'align' => 'right'),
       array('data' => format_date($log->last, 'small'), 'nowrap' => 'nowrap'),
     );
@@ -173,11 +175,11 @@ function adsense_click_by_day() {
     case 'mysql':
     case 'mysqli':
       $sql_count = "SELECT COUNT(DISTINCT(FROM_UNIXTIME(timestamp, '%y-%m-%%d'))) FROM {adsense_clicks}";
-      $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
+      $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" . tablesort_sql($header);
       break;
     case 'pgsql':
       $sql_count = "SELECT COUNT(DISTINCT(TO_CHAR(timestamp, 'YYYY-MM-DD'))) FROM {adsense_clicks}";
-      $sql = "SELECT TO_CHAR(timestamp, 'YYYY-MM-DD') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" .  tablesort_sql($header);
+      $sql = "SELECT TO_CHAR(timestamp, 'YYYY-MM-DD') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" . tablesort_sql($header);
       break;
   }
 
@@ -192,9 +194,16 @@ function adsense_click_by_day() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
-function _adsense_click_format_path($path, $width = 35) {
+function _adsense_click_format_path($path, $title = '', $width = 35) {
   global $base_url;
-  $short_path = str_replace($base_url, '', $path);
-  $title = truncate_utf8($short_path, $width, FALSE, TRUE);
+
+  if ($title) {
+    $title = truncate_utf8($title, $width, FALSE, TRUE);
+  }
+  else {
+    $short_path = str_replace($base_url, '', $path);
+    $title = truncate_utf8($short_path, $width, FALSE, TRUE);
+  }
+
   return l($title, $path);
 }
