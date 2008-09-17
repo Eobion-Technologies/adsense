@@ -115,6 +115,7 @@ function adsense_click_log() {
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
     array('data' => t('Path'),      'field' => 'path'),
+    array('data' => t('IP/Host'),   'field' => 'ip'),
     array('data' => t('Referrer'),  'field' => 'referrer'),
   );
 
@@ -135,7 +136,7 @@ function adsense_click_log() {
       array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
       _adsense_click_format_path($log->path, $log->title),
       l($host, 'http://whois.domaintools.com/'. $log->ip),
-      l($log->referrer, $log->referrer),
+      _adsense_click_format_path($log->referrer),
     );
   }
 
@@ -194,15 +195,17 @@ function adsense_click_by_day() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
-function _adsense_click_format_path($path, $title = '', $width = 35) {
+function _adsense_click_format_path($path, $title = '', $width = 32) {
   global $base_url;
 
   if ($title) {
-    $title = truncate_utf8($title, $width, FALSE, TRUE);
+    $title = $title;
+    $short_title = truncate_utf8($title, $width, FALSE, TRUE);
   }
   else {
-    $title = truncate_utf8(str_replace($base_url, '', $path), $width, FALSE, TRUE);
+    $title = $path;
+    $short_title = truncate_utf8(str_replace($base_url, '', $path), $width, FALSE, TRUE);
   }
 
-  return l($title, $path);
+  return l($short_title, $path, array('title' => $title));
 }
