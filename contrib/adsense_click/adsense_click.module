@@ -192,12 +192,12 @@ function _adsense_click_format_path($path, $title = '', $width = 32) {
   global $base_url;
 
   if ($title) {
-    $title = $title;
     $short_title = truncate_utf8($title, $width, FALSE, TRUE);
   }
   else {
     $title = $path;
-    $short_title = truncate_utf8(str_replace($base_url, '', $path), $width, FALSE, TRUE);
+    $short_path = preg_replace('?^' . $base_url. '?', '', $path);
+    $short_title = truncate_utf8($short_path, $width, FALSE, TRUE);
   }
 
   return l($short_title, $path, array('title' => $title));
