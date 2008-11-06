@@ -32,6 +32,15 @@ function adsense_help_text() {
   $ad_formats_text = theme('table', $headers, $rows);
 
   $referral_link = 'http://baheyeldin.com/click/476/1';
+  if (module_exists('adsense_cse')) {
+    $custom_search_link = l(t('Custom search help'), '/admin/settings/adsense/cse');
+error_log(__LINE__ . ": $custom_search_link");
+  }
+  else {
+    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l('modules', 'admin/build/modules')));
+error_log(__LINE__ . ": $custom_search_link");
+  }
+    
 
   $output = <<<EOF
 <h2>Overview</h2>
@@ -62,7 +71,7 @@ in any phptemplate based theme.</p>
 <h3>Using blocks</h3>
 <p>The easiest way to get started with this module is to use one or more of
 the pre-defined blocks.</p>
-<p>Visit the <a href="$base/admin/build/block">blocks</a> configuration page,
+<p>Visit the <a href="/admin/build/block">blocks</a> configuration page,
 and click on the <strong>configure</strong> link of one of the AdSense blocks.
 You must select a format, a group, and a channel.</p>
 <p>Enable the block, and specify a region for it to be displayed in.</p>
@@ -77,7 +86,7 @@ an array containing the following fields:</p>
   <li>slot: This is the slot ID provided by Google in the
   <a href="https://www.google.com/adsense/adslots">AdSense Managed Ads
   page</a>. Usually in the form 0123456789. Refer to the
-  <a href="adsense/cse"> Custom Search help</a> for instructions on how to
+  $custom_search_link for instructions on how to
   determine the slot ID for AdSense for Search.</li>
   <li>group: (old format only) This is the group that denotes the type (text
   or image) and color of the ad. This can be 1, 2 or 3. If not specified, then
