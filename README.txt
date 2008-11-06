@@ -20,11 +20,7 @@ http://baheyeldin.com/click/476/0
 
 Prerequisites
 -------------
-You must signup for a Google AdSense account. If you do not have an account,
-please consider using the author's referral link for signup at the following
-URL:
-
-http://baheyeldin.com/click/476/0
+You must signup for a Google AdSense account.
 
 
 Installation
