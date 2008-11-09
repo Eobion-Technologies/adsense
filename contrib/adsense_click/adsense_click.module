@@ -21,7 +21,7 @@ function adsense_click_menu() {
 
   $access = array('view clicks');
 
-  $items['admin/logs/adsense'] = array(
+  $items['admin/reports/adsense'] = array(
     'title'            => t('AdSense clicks'),
     'description'      => t('Track AdSense clicks.'),
     'page callback'    => 'adsense_click_log',
@@ -29,14 +29,14 @@ function adsense_click_menu() {
     'access arguments' => $access,
   );
 
-  $items['admin/logs/adsense/top_pages'] = array(
+  $items['admin/reports/adsense/top_pages'] = array(
     'title'            => t('Top pages'),
     'page callback'    => 'adsense_click_top_pages',
     'type'             => MENU_NORMAL_ITEM,
     'access arguments' => $access,
   );
 
-  $items['admin/logs/adsense/by_day'] = array(
+  $items['admin/reports/adsense/by_day'] = array(
     'title'            => t('By day'),
     'page callback'    => 'adsense_click_by_day',
     'type'             => MENU_NORMAL_ITEM,
@@ -46,7 +46,7 @@ function adsense_click_menu() {
   $items['adsense_click'] = array(
     'page callback'    => 'adsense_click_register',
     'type'             => MENU_CALLBACK,
-    'access arguments' => TRUE,
+    'access arguments' => array('access content'),
   );
 
   return $items;
@@ -70,7 +70,7 @@ function adsense_click_admin_settings() {
     '#title'         => t('Enable AdSense click tracking?'),
     '#return_value'  => 1,
     '#default_value' => variable_get(ADSENSE_CLICK_TRACKING, TRUE),
-    '#description'   => t('Logs IP and time of <a href=!url>AdSense clicks</a>. This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.', array('!url' => url('admin/logs/adsense'))),
+    '#description'   => t('Logs IP and time of <a href=!url>AdSense clicks</a>. This can be very useful in tracking which of your pages generate the most clicks, as well as help if click fraud is suspected.', array('!url' => url('admin/reports/adsense'))),
   );
 
   $form['click_tracking'][ADSENSE_CLICK_TRACKING_NAME_RESOLVE] = array(
