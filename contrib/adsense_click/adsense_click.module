@@ -46,7 +46,7 @@ function adsense_click_menu() {
   $items['adsense_click'] = array(
     'page callback'    => 'adsense_click_register',
     'type'             => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access callback'  => TRUE,
   );
 
   return $items;
