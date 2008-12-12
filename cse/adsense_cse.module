@@ -136,7 +136,15 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
   $ad_location = variable_get('adsense_cse_ad_location', ADSENSE_CSE_AD_LOCATION_DEFAULT);
   $encoding = variable_get('adsense_cse_encoding', ADSENSE_CSE_ENCODING_DEFAULT);
   $textbox_length = variable_get('adsense_cse_textbox_length', ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT);
-  $results_path = ADSENSE_CSE_RESULTS_PATH;
+
+  if (variable_get('clean_url', 0)) {
+    $results_path = url(ADSENSE_CSE_RESULTS_PATH, array('absolute' => TRUE));
+    $hidden_q_field = '';
+  }
+  else {
+    $results_path = $base_url;
+    $hidden_q_field = '<input type="hidden" name="q" value="'. ADSENSE_CSE_RESULTS_PATH .'" />';
+  }
 
   if ($box_background_color == '000000') {
     $box_text_color = 'FFFFFF';
@@ -162,8 +170,8 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
     $script = $base_url .'/'. drupal_get_path('module', 'adsense_cse') .'/adsense_cse.js';
     // If there is a watermark, the indentation of the code makes it impossible to re-use the same text
     $output = <<<CSE_TXT1
-<form action="$base_url/$results_path" id="cse-search-box">
-  <div>
+<form action="$results_path" id="cse-search-box">
+  <div>$hidden_q_field
     <input type="hidden" name="cx" value="partner-$client:$slot" />
     <input type="hidden" name="cof" value="FORID:$forid" />
     <input type="hidden" name="ie" value="$encoding" />
@@ -188,8 +196,8 @@ CSE_TXT1;
 </style>
 <div class="$class" style="background-color:#$box_background_color;color:#$box_text_color">
   <div class="cse-branding-form">
-    <form action="$base_url/$results_path" id="cse-search-box">
-      <div>
+    <form action="$results_path" id="cse-search-box">
+      <div>$hidden_q_field
         <input type="hidden" name="cx" value="partner-$client:$slot" />
         <input type="hidden" name="cof" value="FORID:$forid" />
         <input type="hidden" name="ie" value="$encoding" />

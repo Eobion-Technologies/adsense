@@ -74,6 +74,6 @@ function adsense_update_6000() {
     variable_del($variable->name);
   }
 
-  $ret = array();
+  $ret[] = array();
   return $ret;
 }
