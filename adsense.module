@@ -120,7 +120,7 @@ function adsense_menu($may_cache) {
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
   $items[] = array(
-    'path' => 'admin/settings/adsense/id',
+    'path' => 'admin/settings/adsense/pubid',
     'title' => t('Publisher ID'),
     'callback' => 'drupal_get_form',
     'callback arguments' => array('adsense_id_settings'),
@@ -129,7 +129,7 @@ function adsense_menu($may_cache) {
     'type' => MENU_LOCAL_TASK,
   );
   $items[] = array(
-    'path' => 'admin/settings/adsense/id/site',
+    'path' => 'admin/settings/adsense/pubid/site',
     'title' => t('Site ID'),
     'weight' => -1,
     'type' => MENU_DEFAULT_LOCAL_TASK,

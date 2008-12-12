@@ -21,7 +21,7 @@ function revenue_sharing_basic_menu($may_cache) {
 
   if ($may_cache) {
   $items[] = array(
-    'path' => 'admin/settings/adsense/id/revenue_sharing_basic',
+    'path' => 'admin/settings/adsense/pubid/revenue_sharing_basic',
     'title' => t('Basic Revenue Sharing'),
     'callback' => 'drupal_get_form',
     'callback arguments' => array('revenue_sharing_basic_settings'),
