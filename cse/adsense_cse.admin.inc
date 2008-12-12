@@ -138,7 +138,7 @@ function _adsense_cse_settings_validate($form_id, $form_values, $form) {
   if (($textbox_length < $min ) || ($textbox_length > $max )) {
     form_set_error('adsense_cse_textbox_length', t("Text Box Length must be between !min and !max", array('!min' => $min, '!max' => $max)));
   }
-  $min = 795;
+  $min = ($form_values['adsense_cse_ad_location'] == 'adsense_cse_loc_top_bottom') ? 500 : 795;
   $max = 10000;
   $frame_width = $form_values['adsense_cse_frame_width'];
   if (($frame_width < $min ) || ($frame_width > $max )) {
