@@ -115,7 +115,7 @@ function adsense_menu() {
     'weight' => 10,
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
-  $items['admin/settings/adsense/id'] = array(
+  $items['admin/settings/adsense/pubid'] = array(
     'title' => 'Publisher ID',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('adsense_id_settings'),
@@ -124,7 +124,7 @@ function adsense_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'adsense.admin.inc',
   );
-  $items['admin/settings/adsense/id/site'] = array(
+  $items['admin/settings/adsense/pubid/site'] = array(
     'title' => 'Site ID',
     'weight' => -1,
     'type' => MENU_DEFAULT_LOCAL_TASK,
