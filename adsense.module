@@ -545,5 +545,5 @@ function _adsense_format_placeholder($ad) {
   $dimensions = ((!empty($width)) && (!empty($height)))
                 ? " width:". $width ."px; height:". $height ."px;" : "";
 
-  return "<div style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." {$ad['desc']}</div>";
+  return "<div class='adsense' style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." {$ad['desc']}</div>";
 }
