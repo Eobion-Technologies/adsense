@@ -18,7 +18,7 @@ function revenue_sharing_basic_help_text() {
   global $user;
   $uid = $user->uid;
 
-  $base = base_path();
+  $base = rtrim(base_path(), '/');
 
   $output = <<<EOF
 <h2>Overview</h2>
@@ -30,7 +30,9 @@ certain percentages.</p>
 <p>For revenue sharing, each author gets a predefined share of ad revenue from
 clicks occuring on nodes they authored.</p>
 <p>In order for the user to be credited they must have a Google AdSense
-account.
+account.</p>
+<p>Each user must enter their Google AdSense client ID in the profile field
+you defined above.</p>
 
 <h2>Configuration</h2>
 <p>To use this module, you need to do the following first:</p>

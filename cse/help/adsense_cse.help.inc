@@ -21,7 +21,7 @@ function adsense_cse_help_text() {
 AdSense for Search in your Drupal site.</p>
 
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module.
+<p>You must have a Google AdSense account before using this module.</p>
 
 <h2>Configuration</h2>
 <p>To use this module, simply go to
