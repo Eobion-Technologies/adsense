@@ -21,7 +21,7 @@ function adsense_id_help_text() {
 that does not need revenue sharing.</p>
 
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module.
+<p>You must have a Google AdSense account before using this module.</p>
 
 <h2>Configuration</h2>
 <p>To use this module, simply enter your Google Adsense Publisher ID in the text field, and click

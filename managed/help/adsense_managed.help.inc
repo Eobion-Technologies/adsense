@@ -21,7 +21,7 @@ function adsense_managed_help_text() {
 AdSense Managed Ads in your Drupal site.</p>
 
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module.
+<p>You must have a Google AdSense account before using this module.</p>
 
 <h2>Configuration</h2>
 <p>To use this module, simply go to
