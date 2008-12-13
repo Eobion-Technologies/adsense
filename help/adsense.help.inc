@@ -15,7 +15,7 @@
  *   HTML with the help text
  */
 function adsense_help_text() {
-  $base = base_path();
+  $base = rtrim(base_path(), '/');
 
   // Get the ad formats
   $ads = adsense_ad_formats();
@@ -31,7 +31,12 @@ function adsense_help_text() {
   // Create the ad format text
   $ad_formats_text = theme('table', $headers, $rows);
 
-  $referral_link = 'http://baheyeldin.com/click/476/1';
+  if (module_exists('adsense_cse')) {
+    $custom_search_link = l(t('Custom search help'), 'admin/settings/adsense/cse');
+  }
+  else {
+    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l('modules', 'admin/build/modules')));
+  }
 
   $output = <<<EOF
 <h2>Overview</h2>
@@ -39,11 +44,7 @@ function adsense_help_text() {
 AdSense ads on their web site, thus earning revenue.</p>
 
 <h2>Prerequisites</h2>
-<p>You must have a Google AdSense account before using this module.  If you do
-not have an account, then please consider using <a href="$referral_link">the
-modules author's referral link</a>, which provides us with a referral fee from
-Google at absolutely no cost to you. This page also contains various useful
-links and resources on AdSense, and how to optimize your site for it.</p>
+<p>You must have a Google AdSense account before using this module.</p>
 
 <h2>Configuration</h2>
 <p>To use this module, you need to select one of the Adsense Client ID
@@ -77,7 +78,7 @@ an array containing the following fields:</p>
   <li>slot: This is the slot ID provided by Google in the
   <a href="https://www.google.com/adsense/adslots">AdSense Managed Ads
   page</a>. Usually in the form 0123456789. Refer to the
-  <a href="adsense/cse"> Custom Search help</a> for instructions on how to
+  $custom_search_link for instructions on how to
   determine the slot ID for AdSense for Search.</li>
   <li>group: (old format only) This is the group that denotes the type (text
   or image) and color of the ad. This can be 1, 2 or 3. If not specified, then

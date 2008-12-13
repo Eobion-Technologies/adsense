@@ -18,9 +18,7 @@ function revenue_sharing_basic_help_text() {
   global $user;
   $uid = $user->uid;
 
-  $base = base_path();
-
-  $referral_link = 'http://baheyeldin.com/click/476/1';
+  $base = rtrim(base_path(), '/');
 
   $output = <<<EOF
 <h2>Overview</h2>
@@ -32,10 +30,7 @@ certain percentages.</p>
 <p>For revenue sharing, each author gets a predefined share of ad revenue from
 clicks occuring on nodes they authored.</p>
 <p>In order for the user to be credited they must have a Google AdSense
-account. As a site admin, please advertise <a href="$referral_link">the module
-author's referral link</a>, which provides us with a referral fee from Google,
-at absolutely no cost to you. This page also contains various useful links and
-resources on AdSense and how to optimize your site for it.</p>
+account.</p>
 <p>Each user must enter their Google AdSense client ID in the profile field
 you defined above.</p>
 
