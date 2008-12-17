@@ -93,7 +93,7 @@ function adsense_ad_formats($key = NULL) {
  * Implementation of hook_perm().
  */
 function adsense_perm() {
-  return array('administer adsense', 'hide adsense');
+  return array('administer adsense', 'hide adsense', 'use PHP for ad visibility');
 }
 
 /**
@@ -520,6 +520,9 @@ function _adsense_page_match() {
   $visibility = variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT);
 
   if ($pages) {
+    if ($visibility == 2) {
+      return drupal_eval($pages);
+    }
     $path = drupal_get_path_alias($_GET['q']);
     $page_match = drupal_match_path($path, $pages);
     if ($path != $_GET['q']) {

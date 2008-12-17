@@ -50,6 +50,17 @@ function adsense_main_settings() {
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
+  $access = user_access('use PHP for ad visibility');
+
+  if ($form['visibility']['adsense_visibility']['#default_value'] == 2 && !$access) {
+    $form['visibility']['adsense_visibility'] = array('#type' => 'value', '#value' => 2);
+    $form['visibility']['adsense_access_pages'] = array('#type' => 'value', '#value' => $form['visibility']['adsense_access_pages']['#default_value']);
+  }
+  elseif ($access) {
+    $form['visibility']['adsense_visibility']['#options'][] = t('Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only).');
+    $form['visibility']['adsense_access_pages']['#description'] .= ' '. t('If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site.', array('%php' => '<?php ?>'));
+  }
+
   $form['advanced'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
