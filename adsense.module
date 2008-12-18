@@ -115,7 +115,7 @@ function adsense_menu() {
     'weight' => 10,
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
-  $items['admin/settings/adsense/pubid'] = array(
+  $items['admin/settings/adsense/publisher'] = array(
     'title' => 'Publisher ID',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('adsense_id_settings'),
@@ -124,7 +124,7 @@ function adsense_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'adsense.admin.inc',
   );
-  $items['admin/settings/adsense/pubid/site'] = array(
+  $items['admin/settings/adsense/publisher/site'] = array(
     'title' => 'Site ID',
     'weight' => -1,
     'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -146,23 +146,13 @@ function adsense_requirements($phase) {
       if (empty($basic_id)) {
         $requirements['adsense_basic_id'] = array(
           'title' => $t('AdSense'),
-          'value' => $t('Publisher ID is not set. Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/id'))),
+          'value' => $t('Publisher ID is not set. Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/publisher'))),
           'severity' => REQUIREMENT_ERROR,
         );
       }
       break;
   }
   return $requirements;
-}
-
-/**
- * Implementation of hook_help().
- */
-function adsense_help($path, $arg) {
-  switch ($path) {
-    case 'admin/help#adsense':
-      return '<p>'. trim('$Revision$', ' $') .' '. trim('$Date$', ' $') .'</p>';
-  }
 }
 
 /**

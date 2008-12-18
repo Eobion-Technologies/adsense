@@ -78,7 +78,7 @@ function revenue_sharing_basic_settings() {
     );
   }
 
-  $form['#redirect'] = 'admin/settings/adsense/id';
+  $form['#redirect'] = 'admin/settings/adsense/publisher';
 
   return system_settings_form($form);
 }
