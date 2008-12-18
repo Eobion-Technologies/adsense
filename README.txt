@@ -87,7 +87,7 @@ function your_module_adsense($op, $args = array()) {
 }
 
 Your module's settings form must be of type MENU_LOCAL_TASK and located in
-'admin/settings/adsense/id/your_module'.
+'admin/settings/adsense/publisher/your_module'.
 
 After you install the module, it should appear on the adsense module settings
 page, along with other modules. You should be able to select it, and configure
