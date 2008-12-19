@@ -14,7 +14,7 @@
  */
 function _adsense_cse_results() {
   // Log the search keys:
-  watchdog('AdSense search', 'Search keywords: ' . urldecode(check_plain($_GET['as_q'])));
+  watchdog('AdSense search', 'Search keywords: '. urldecode(check_plain($_GET['as_q'])));
 
   // Output search results
   $width   = variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT);
