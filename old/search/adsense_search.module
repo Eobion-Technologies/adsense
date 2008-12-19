@@ -229,7 +229,7 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
 
   // Searched domains >=1 (2 or 3)
   if ($domain_1) {
-   $part4 = "<tr>\n<td>\n<input type=\"radio\" name=\"sitesearch\" value=\"$domain_1\" id=\"ss2\"></input>\n" .
+    $part4 = "<tr>\n<td>\n<input type=\"radio\" name=\"sitesearch\" value=\"$domain_1\" id=\"ss2\"></input>\n" .
             "<label for=\"ss2\" title=\"Search $domain_1\"><font size=\"-1\" color=\"$box_text_color\">$domain_1</font></label></td>\n";
     if ($domain_2) {
       $part4 .= "<td>\n<input type=\"radio\" name=\"sitesearch\" value=\"$domain_2\" id=\"ss3\"></input>\n" .

@@ -1,7 +1,10 @@
 <?php
 // $Id$
-//
-// Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
+
+/**
+ * @file
+ * Install file of the adsense_click module
+ */
 
 function adsense_click_install() {
   switch ($GLOBALS['db_type']) {
