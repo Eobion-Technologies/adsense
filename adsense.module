@@ -22,7 +22,7 @@ define('ADSENSE_BASIC_ID_DEFAULT', '');
 define('ADSENSE_DISABLE_DEFAULT', 0);
 define('ADSENSE_ID_MODULE_DEFAULT', 'adsense_basic');
 define('ADSENSE_PLACEHOLDER_DEFAULT', 1);
-define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', t('Google AdSense'));
+define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', 'Google AdSense');
 define('ADSENSE_SECTION_TARGETING_DEFAULT', 1);
 define('ADSENSE_TEST_MODE_DEFAULT', 0);
 define('ADSENSE_VISIBILITY_DEFAULT', 0);
@@ -272,6 +272,12 @@ function _adsense_process_tags($text) {
         $text = preg_replace($str, $ad, $text, 1);
       }
     }
+  }
+
+  // In Drupal <= 6.4 we need to remove any HTML comments as the HTML corrector has a bug
+  sscanf(VERSION, "%d.%d", $major, $minor);
+  if (($major == 6) && ($minor <= 99)) {
+    $text = preg_replace('/<!--.*?-->/', '', $text);
   }
 
   return $text;
