@@ -146,7 +146,8 @@ function adsense_requirements($phase) {
       if (empty($basic_id)) {
         $requirements['adsense_basic_id'] = array(
           'title' => $t('AdSense'),
-          'value' => $t('Publisher ID is not set. Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/publisher'))),
+          'value' => $t('Publisher ID is not set.'),
+          'description' => $t('Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/publisher'))),
           'severity' => REQUIREMENT_ERROR,
         );
       }
@@ -189,6 +190,20 @@ function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
           '#weight' => 1,
           );
       }
+  }
+}
+
+/**
+ * Implementation of hook_form_filter_admin_format_form_alter().
+ */
+function adsense_form_filter_admin_format_form_alter(&$form, $form_state) {
+  // In Drupal <= 6.9 (or later) the HTML corrector has a bug that causes problems with the use of the AdSense tag filter
+  sscanf(VERSION, "%d.%d", $major, $minor);
+  if (($major == 6) && ($minor <= 99)) {
+    if ((empty($form_state['post']) && $form['filters']['adsense/0']['#default_value'] && $form['filters']['filter/3']['#default_value']) || 
+        ((!empty($form_state['post'])) && ($form_state['post']['filters']['adsense/0'] == '1') && ($form_state['post']['filters']['filter/3'] == '1'))) {
+      drupal_set_message(t('The HTML corrector filter has a bug that causes problems with the use of the AdSense tag. Disabling the HTML corrector filter is recommended.'), 'warning', TRUE);
+    }
   }
 }
 
@@ -272,12 +287,6 @@ function _adsense_process_tags($text) {
         $text = preg_replace($str, $ad, $text, 1);
       }
     }
-  }
-
-  // In Drupal <= 6.4 we need to remove any HTML comments as the HTML corrector has a bug
-  sscanf(VERSION, "%d.%d", $major, $minor);
-  if (($major == 6) && ($minor <= 99)) {
-    $text = preg_replace('/<!--.*?-->/', '', $text);
   }
 
   return $text;

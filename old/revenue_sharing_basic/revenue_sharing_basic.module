@@ -39,9 +39,10 @@ function revenue_sharing_basic_requirements($phase) {
     // At runtime, make sure that we have a publisher ID
     case 'runtime':
       if (variable_get('cache', 0)) {
-        $requirements['adsense_basic_id'] = array(
+        $requirements['revenue_sharing_nocache'] = array(
           'title' => $t('Revenue Sharing (basic)'),
-          'value' => $t('Drupal page cache is enabled. This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.'),
+          'value' => $t('Drupal page cache is enabled.'),
+          'description' => $t('This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.'),
           'severity' => REQUIREMENT_WARNING,
         );
       }
