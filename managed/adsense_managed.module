@@ -159,7 +159,6 @@ function _adsense_managed_get_ad($format, $client, $slot) {
     $height = $ad['height'];
 
     $output = <<<MANAGED_TXT
-<div class="adsense">
 <script type="text/javascript"><!--
 google_ad_client = "$client";
 /* $format */
@@ -171,7 +170,6 @@ google_ad_height = $height;
 <script type="text/javascript"
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-</div>
 MANAGED_TXT;
   }
 

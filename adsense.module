@@ -409,9 +409,11 @@ function adsense_display() {
       case 'Search Box':
         if (!empty($slot) && module_exists('adsense_cse')) {
           $ad = _adsense_cse_get_searchbox($client, $slot);
+          $module = 'adsense_cse';
         }
         elseif (module_exists('adsense_search')) {
           $ad = _adsense_search_get_searchbox($client, $args['channel']);
+          $module = 'adsense_search';
         }
         else {
           $ad = '<!--adsense: no AdSense for Search module found-->';
@@ -420,13 +422,17 @@ function adsense_display() {
       default:
         if (!empty($slot) && module_exists('adsense_managed')) {
           $ad = _adsense_managed_get_ad($args['format'], $client, $slot);
+          $module = 'adsense_managed';
         }
         elseif (module_exists('adsense_oldcode')) {
           $ad = _adsense_oldcode_get_ad($args['format'], $client, $args['group'], $args['channel']);
+          $module = 'adsense_oldcode';
         }
         else {
           $ad = '<!--adsense: no AdSense for Content module found-->';
         }
+
+        $ad = theme('adsense_ad', $ad, $module);
 
         if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
           $ad = preg_replace("/^(google_ad_client.*;)$/m", "\\1\ngoogle_adtest = 'on';", $ad);
@@ -436,6 +442,22 @@ function adsense_display() {
   }
 
   return $ad;
+}
+
+/**
+ * Default AdSense ad unit theming. Simply add a div with the adsense and $module classes
+ *
+ * @param $ad
+ *   string with the generated ad unit
+ * @param $module
+ *   module used to generate the ad
+ *
+ * @return
+ *   string with the modified ad unit
+ * @ingroup themeable
+ */
+function theme_adsense_ad($ad, $module) {
+  return "<div class='adsense $module'>\n$ad\n</div>";
 }
 
 /**

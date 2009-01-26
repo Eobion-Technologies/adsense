@@ -257,7 +257,6 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
   $part7 = variable_get('adsense_search_safe_mode', ADSENSE_SEARCH_SAFE_MODE_DEFAULT) ? '<input type="hidden" name="safe" value="active"></input>' : '';
 
   $output = <<<SEARCH_TXT
-<div class='adsense adsense_search'>
 <!-- SiteSearch Google -->
 <form method="get" action="$results_path" target="_top">
 <table border="0" bgcolor="$box_background_color">
@@ -295,7 +294,6 @@ $part7
 </td></tr></table>
 </form>
 <!-- SiteSearch Google -->
-</div>
 SEARCH_TXT;
 
   // Remove empty lines

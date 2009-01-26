@@ -237,7 +237,6 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
     }
 
     $output = <<<OLDCODE_TXT
-<div class="adsense">
 <script type="text/javascript"><!--
 google_ad_client = "$client";
 $part1
@@ -255,7 +254,6 @@ google_ui_features = "$corner";
 <script type="text/javascript"
   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-</div>
 OLDCODE_TXT;
   }
 
