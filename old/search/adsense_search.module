@@ -43,6 +43,8 @@ function adsense_search_menu($may_cache) {
   $items = array();
 
   if ($may_cache) {
+  $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+
   $items[] = array(
     'path' => 'admin/settings/adsense/search',
     'title' => t('Search'),
@@ -53,7 +55,7 @@ function adsense_search_menu($may_cache) {
     'type' => MENU_LOCAL_TASK,
   );
   $items[] = array(
-    'path' => ADSENSE_SEARCH_RESULTS_PATH,
+    'path' => $results_path,
     'title' => t('Search Results'),
     'callback' => '_adsense_search_results',
     'access' => TRUE,
@@ -183,7 +185,7 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
   }
   else {
     $results_path = $base_url;
-    $hidden_q_field = '<input type="hidden" name="q" value="'. ADSENSE_SEARCH_RESULTS_PATH .'" />';
+    $hidden_q_field = '<input type="hidden" name="q" value="." />';
   }
 
   if ($logo != 'adsense_search_logo_on_button') {

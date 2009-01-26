@@ -31,6 +31,8 @@ function adsense_cse_menu($may_cache) {
   $items = array();
 
   if ($may_cache) {
+  $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+
   $items[] = array(
     'path' => 'admin/settings/adsense/cse',
     'title' => t('Custom Search'),
@@ -41,7 +43,7 @@ function adsense_cse_menu($may_cache) {
     'type' => MENU_LOCAL_TASK,
   );
   $items[] = array(
-    'path' => ADSENSE_CSE_RESULTS_PATH,
+    'path' => $results_path,
     'title' => t('Search Results'),
     'callback' => '_adsense_cse_results',
     'access' => TRUE,
@@ -148,7 +150,7 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
   }
   else {
     $results_path = $base_url;
-    $hidden_q_field = '<input type="hidden" name="q" value="'. ADSENSE_CSE_RESULTS_PATH .'" />';
+    $hidden_q_field = '<input type="hidden" name="q" value="." />';
   }
 
   if ($box_background_color == '000000') {
