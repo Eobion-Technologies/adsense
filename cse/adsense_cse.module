@@ -216,7 +216,5 @@ CSE_TXT1;
 CSE_TXT2;
   }
 
-  $output = "<div class='adsense adsense_cse'>\n$output\n</div>";
-
   return $output;
 }
