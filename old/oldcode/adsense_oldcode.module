@@ -113,10 +113,23 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
         '#options' => $channel_list,
       );
 
+      $form['ad_align'] = array(
+        '#type' => 'select',
+        '#title' => t('Ad alignment'),
+        '#default_value' => ($ad) ? $ad[4] : 'center',
+        '#options' => array(
+          '' => t('None'),
+          'left' => t('Left'),
+          'center' => t('Centered'),
+          'right' => t('Right')
+        ),
+        '#description' => t('Select the horizontal alignment of the ad within the block.'),
+      );
+
       return $form;
 
     case 'save':
-      $data = implode(':', array(urlencode($edit['info']), $edit['ad_format'], $edit['ad_group'], $edit['ad_channel']));
+      $data = implode(':', array(urlencode($edit['info']), $edit['ad_format'], $edit['ad_group'], $edit['ad_channel'], $edit['ad_align']));
       variable_set('adsense_oldcode_ad_block_'. $delta, $data);
       return;
 
@@ -124,6 +137,9 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
       if (_adsense_page_match()) {
         $ad = _adsense_oldcode_get_block_config($delta);
         $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_oldcode/'. $delta)));
+        if (!empty($ad[4])) {
+          $block['content'] = "<div style='text-align:${ad[4]}'>${block['content']}</div>";
+        }
       }
       break;
     }

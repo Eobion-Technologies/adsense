@@ -86,10 +86,24 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
         '#description' => t('This is the Ad Slot ID from your Google Adsense account, such as 0123456789.'),
         '#required' => TRUE,
       );
+
+      $form['ad_align'] = array(
+        '#type' => 'select',
+        '#title' => t('Ad alignment'),
+        '#default_value' => ($ad) ? $ad[3] : 'center',
+        '#options' => array(
+          '' => t('None'),
+          'left' => t('Left'),
+          'center' => t('Centered'),
+          'right' => t('Right')
+        ),
+        '#description' => t('Select the horizontal alignment of the ad within the block.'),
+      );
+
       return $form;
 
     case 'save':
-      $data = implode(':', array(urlencode($edit['info']), $edit['ad_format'], $edit['ad_slot']));
+      $data = implode(':', array(urlencode($edit['info']), $edit['ad_format'], $edit['ad_slot'], $edit['ad_align']));
       variable_set('adsense_managed_ad_block_'. $delta, $data);
       return;
 
@@ -97,6 +111,9 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
       if (_adsense_page_match()) {
         $ad = _adsense_managed_get_block_config($delta);
         $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'slot' => $ad[2])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_managed/'. $delta)));
+        if (!empty($ad[3])) {
+          $block['content'] = "<div style='text-align:${ad[3]}'>${block['content']}</div>";
+        }
       }
       break;
     }
