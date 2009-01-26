@@ -27,6 +27,8 @@ define('ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT', 31);
 function adsense_cse_menu() {
   $items = array();
 
+  $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+
   $items['admin/settings/adsense/cse'] = array(
     'title' => 'Custom Search',
     'page callback' => 'drupal_get_form',
@@ -36,7 +38,7 @@ function adsense_cse_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'adsense_cse.admin.inc',
   );
-  $items[ADSENSE_CSE_RESULTS_PATH] = array(
+  $items[$results_path] = array(
     'title' => 'Search Results',
     'page callback' => '_adsense_cse_results',
     'access callback' => TRUE,
@@ -143,7 +145,7 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
   }
   else {
     $results_path = $base_url;
-    $hidden_q_field = '<input type="hidden" name="q" value="'. ADSENSE_CSE_RESULTS_PATH .'" />';
+    $hidden_q_field = '<input type="hidden" name="q" value="." />';
   }
 
   if ($box_background_color == '000000') {
