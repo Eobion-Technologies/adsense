@@ -75,6 +75,13 @@ function adsense_cse_settings() {
     '#maxlength' => 2,
   );
 
+  $form['searchbox']['adsense_cse_language'] = array(
+    '#type' => 'select',
+    '#title' => t('Watermark Language'),
+    '#default_value' => variable_get('adsense_cse_language', ADSENSE_CSE_LANGUAGE_DEFAULT),
+    '#options' => _adsense_search_options_language(),
+  );
+
   $form['result'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,

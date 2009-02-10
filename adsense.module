@@ -556,8 +556,8 @@ function _adsense_page_match() {
  *   string with the placeholder HTML text
  */
 function _adsense_format_placeholder($ad) {
-  $width = $ad['width'];
-  $height = $ad['height'];
+  $width = array_key_exists('width', $ad) ? $ad['width'] : 0;
+  $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
   $dimensions = ((!empty($width)) && (!empty($height)))
                 ? " width:". $width ."px; height:". $height ."px;" : "";
 
