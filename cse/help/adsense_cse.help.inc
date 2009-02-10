@@ -30,6 +30,11 @@ and create your AdSense for Search ad. The generated code will contain a
 field with partner-<em>Publisher ID</em>:<em>Slot Id</em>. If the code
 provided is, for example, partner-pub-0123456789:<strong>abcdef-ghij
 </strong>, the Slot Id for that ad is <strong>abcdef-ghij</strong>.</p>
+<p>When you create your ad in your Google Adsense account, it generally
+takes less than 30 minutes before they start showing in your site, but it
+can take as long as 48 hours. See the <a
+href="https://www.google.com/adsense/support/bin/answer.py?answer=44511">
+AdSense Code Implementation Guide</a> for more details.</p>
 EOF;
   return $output;
 }

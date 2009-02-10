@@ -18,6 +18,7 @@ function adsense_cse_uninstall() {
   variable_del('adsense_cse_logo');
   variable_del('adsense_cse_number_blocks');
   variable_del('adsense_cse_textbox_length');
+  variable_del('adsense_cse_language');
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_cse\_ad\_block\_%'");
   while ($variable = db_fetch_object($settings)) {
     variable_del($variable->name);

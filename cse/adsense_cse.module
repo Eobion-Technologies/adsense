@@ -20,6 +20,7 @@ define('ADSENSE_CSE_FRAME_WIDTH_DEFAULT', 800);
 define('ADSENSE_CSE_LOGO_DEFAULT', 'adsense_cse_branding_right');
 define('ADSENSE_CSE_NUMBER_BLOCKS_DEFAULT', 2);
 define('ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT', 31);
+define('ADSENSE_CSE_LANGUAGE_DEFAULT', 'en');
 
 /**
  * Implementation of hook_menu().
@@ -138,6 +139,9 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
   $ad_location = variable_get('adsense_cse_ad_location', ADSENSE_CSE_AD_LOCATION_DEFAULT);
   $encoding = variable_get('adsense_cse_encoding', ADSENSE_CSE_ENCODING_DEFAULT);
   $textbox_length = variable_get('adsense_cse_textbox_length', ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT);
+  $language = variable_get('adsense_cse_language', ADSENSE_CSE_LANGUAGE_DEFAULT);
+  $search = t('Search');
+  $custom_search = t('Custom Search');
 
   if (variable_get('clean_url', 0)) {
     $results_path = url(ADSENSE_CSE_RESULTS_PATH, array('absolute' => TRUE));
@@ -172,13 +176,17 @@ function _adsense_cse_get_searchbox($client, $slot = NULL) {
     $script = $base_url .'/'. drupal_get_path('module', 'adsense_cse') .'/adsense_cse.js';
     // If there is a watermark, the indentation of the code makes it impossible to re-use the same text
     $output = <<<CSE_TXT1
+<script type="text/javascript"><!--
+drupal_adsense_cse_lang = '$language';
+//-->
+</script>
 <form action="$results_path" id="cse-search-box">
   <div>$hidden_q_field
     <input type="hidden" name="cx" value="partner-$client:$slot" />
     <input type="hidden" name="cof" value="FORID:$forid" />
     <input type="hidden" name="ie" value="$encoding" />
     <input type="text" name="as_q" size="$textbox_length" />
-    <input type="submit" name="sa" value="Search" />
+    <input type="submit" name="sa" value="$search" />
   </div>
 </form>
 <script type="text/javascript" src="$script"></script>
@@ -204,7 +212,7 @@ CSE_TXT1;
         <input type="hidden" name="cof" value="FORID:$forid" />
         <input type="hidden" name="ie" value="$encoding" />
         <input type="text" name="as_q" size="$textbox_length" />
-        <input type="submit" name="sa" value="Search" />
+        <input type="submit" name="sa" value="$search" />
       </div>
     </form>
   </div>
@@ -212,7 +220,7 @@ CSE_TXT1;
     <img src="http://www.google.com/images/poweredby_transparent/poweredby_$box_background_color.gif" alt="Google" />
   </div>
   <div class="cse-branding-text">
-    Custom Search
+    $custom_search
   </div>
 </div>
 CSE_TXT2;
