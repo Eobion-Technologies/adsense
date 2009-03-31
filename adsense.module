@@ -29,6 +29,9 @@ define('ADSENSE_VISIBILITY_DEFAULT', 0);
 
 require_once(drupal_get_path('module', 'adsense') .'/adsense.admin.inc');
 
+define('ADSENSE_SECRET_ADTEST_DEFAULT', 0);
+define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
+
 /**
  * This is the array that holds all ad formats.
  *
@@ -331,7 +334,7 @@ function adsense_get_client_slot_id($format = NULL) {
  * @see adsense_ad_formats()
  * @see _adsense_page_match()
  * @see _adsense_check_if_enabled()
- * @see _adsense_format_placeholder()
+ * @see _adsense_format_box()
  * @see _adsense_can_insert_another()
  * @see _adsense_cse_get_searchbox()
  * @see _adsense_search_get_searchbox()
@@ -378,7 +381,11 @@ function adsense_display() {
   elseif (!_adsense_check_if_enabled()) {
     // Ads are disabled
     if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT)) {
-      $ad = "<!--adsense: placeholder-->\n". _adsense_format_placeholder($ad);
+      $width = array_key_exists('width', $ad) ? $ad['width'] : 0;
+      $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
+      $text = variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." ${ad['desc']}";
+
+      $ad = "<!--adsense: placeholder-->\n". _adsense_format_box($text, $width, $height);
     }
     else {
       $ad = '<!--adsense: ads disabled -->';
@@ -434,11 +441,10 @@ function adsense_display() {
 
         $ad = theme('adsense_ad', $ad, $module);
 
-        if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
-          $ad = preg_replace("/^(google_ad_client.*;)$/m", "\\1\ngoogle_adtest = 'on';", $ad);
-        }
         break;
     }
+    // Remove empty lines
+    $ad = str_replace("\n\n", "\n", $ad);
   }
 
   return $ad;
@@ -475,6 +481,9 @@ function _adsense_check_if_enabled() {
     return FALSE;
   }
   if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
+    return TRUE;
+  }
+  if (variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT)) {
     return TRUE;
   }
   if (user_access('hide adsense')) {
@@ -550,18 +559,16 @@ function _adsense_page_match() {
 }
 
 /**
- * Generate the placeholder to display instead of the ad when it is disabled
+ * Generate a box to display instead of the ad when it is disabled
  *
  * @return
- *   string with the placeholder HTML text
+ *   string with the HTML text to create the box
  */
-function _adsense_format_placeholder($ad) {
-  $width = array_key_exists('width', $ad) ? $ad['width'] : 0;
-  $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
+function _adsense_format_box($text, $width, $height) {
   $dimensions = ((!empty($width)) && (!empty($height)))
                 ? " width:". $width ."px; height:". $height ."px;" : "";
 
-  return "<div class='adsense' style='text-align: center; border:solid 1px;$dimensions'>". variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." {$ad['desc']}</div>";
+  return "<div class='adsense' style='text-align:center;display: table-cell;vertical-align:middle;border:solid 1px;${dimensions}'>${text}</div>";
 }
 
 /**

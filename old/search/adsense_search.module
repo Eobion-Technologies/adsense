@@ -298,8 +298,5 @@ $part7
 <!-- SiteSearch Google -->
 SEARCH_TXT;
 
-  // Remove empty lines
-  $output = str_replace("\n\n", "\n", $output);
-
   return $output;
 }

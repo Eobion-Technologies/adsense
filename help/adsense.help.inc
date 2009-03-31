@@ -35,7 +35,7 @@ function adsense_help_text() {
     $custom_search_link = l(t('Custom search help'), 'admin/settings/adsense/cse');
   }
   else {
-    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l('modules', 'admin/build/modules')));
+    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l(t('modules'), 'admin/build/modules')));
   }
 
   $output = <<<EOF
