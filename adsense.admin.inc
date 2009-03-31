@@ -16,6 +16,7 @@
  */
 function adsense_main_settings() {
   include_once(drupal_get_path('module', 'adsense') .'/help/adsense.help.inc');
+  require_once(drupal_get_path('module', 'adsense') .'/includes/adsense.search_options.inc');
 
   $form['help'] = array(
     '#type'        => 'fieldset',
@@ -64,7 +65,7 @@ function adsense_main_settings() {
   $form['advanced'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
     '#title' => t('Advanced options'),
   );
 
@@ -102,6 +103,35 @@ function adsense_main_settings() {
     '#title' => t('Enable AdSense section targeting?'),
     '#default_value' => variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT),
     '#description' => t('This better targets Google ads to the teaser and body of nodes.'),
+  );
+
+  $form['secret'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('Undocumented options'),
+    '#description' => t("Warning: Use of these options is AT YOUR OWN RISK. Google will never generate an ad with any of these options, so using one of them is a violation of Google AdSense's Terms and Conditions. USE OF THESE OPTIONS MAY RESULT IN GETTING BANNED FROM THE PROGRAM. You may lose all the revenue accumulated in your account. FULL RESPONSABILITY FOR THE USE OF THESE OPTIONS IS YOURS. In other words, don't complain to the authors about getting banned, even if using one of these options was provided as a solution to a reported problem."),
+  );
+
+  $form['secret']['agreed'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('I agree'),
+  );
+
+  $form['secret']['agreed']['adsense_secret_adtest'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("Use Google's AdSense test option?"),
+    '#default_value' => variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT),
+    '#description' => t('With this option set, Google will not count any clicks or page impressions. Revenue is not generated. Make sure that you disable this option in production servers. [!statement]', array('!statement' => l(t('Unofficial statement'), 'http://adsense-es.blogspot.com/2007/01/impresiones-de-mis-propios-anuncios-en.html'))),
+  );
+
+  $form['secret']['agreed']['adsense_secret_language'] = array(
+    '#type' => 'select',
+    '#title' => t('Language to display ads'),
+    '#default_value' => variable_get('adsense_secret_language', ADSENSE_SECRET_LANGUAGE_DEFAULT),
+    '#options' => array_merge(array(ADSENSE_SECRET_LANGUAGE_DEFAULT => 'Set by Google'), _adsense_search_options_language()),
   );
 
   return system_settings_form($form);
