@@ -110,6 +110,8 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
  *   Publisher ID of the user who referred the page author.
  */
 function revenue_sharing_basic_choose_client($format) {
+  global $user;
+
   if (isset($format)) {
     // This module can't handle the selection of an appropriate Slot ID
     // Give up!
@@ -139,7 +141,8 @@ function revenue_sharing_basic_choose_client($format) {
   }
 
   // Last check to see that we have a valid client
-  if (!$client) {
+  // Check that the current user doesn't view ads with it's own Publisher ID
+  if ((!$client) || ($client == revenue_sharing_basic_get_profile_client_id($user->uid))) {
     $client = $site_client;
   }
 
