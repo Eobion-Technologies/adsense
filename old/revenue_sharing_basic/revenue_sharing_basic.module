@@ -53,7 +53,7 @@ function revenue_sharing_basic_requirements($phase) {
     case 'runtime':
       if (variable_get('cache', 0)) {
         $requirements['revenue_sharing_nocache'] = array(
-          'title' => $t('Revenue Sharing (basic)'),
+          'title' => $t('Revenue Sharing'),
           'value' => $t('Drupal page cache is enabled.'),
           'description' => $t('This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.'),
           'severity' => REQUIREMENT_WARNING,
