@@ -51,7 +51,7 @@ function adsense_cse_settings() {
 
   $form['searchbox']['adsense_cse_color_box_background'] = array(
     '#type' => 'select',
-    '#title' => t('Background Color'),
+    '#title' => t('Background color'),
     '#default_value' => variable_get('adsense_cse_color_box_background', ADSENSE_CSE_COLOR_BOX_BACKGROUND_DEFAULT),
     '#options' => array(
       'FFFFFF' => t('White'),
