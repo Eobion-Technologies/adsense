@@ -75,7 +75,7 @@ function adsense_search_settings() {
 
   $form['searchbox']['adsense_search_color_box_background'] = array(
     '#type' => 'select',
-    '#title' => t('Background Color'),
+    '#title' => t('Background color'),
     '#default_value' => variable_get('adsense_search_color_box_background', ADSENSE_SEARCH_COLOR_BOX_BACKGROUND_DEFAULT),
     '#options' => array(
       '#FFFFFF' => t('White'),
@@ -86,7 +86,7 @@ function adsense_search_settings() {
 
   $form['searchbox']['adsense_search_color_box_text'] = array(
     '#type' => 'select',
-    '#title' => t('Text Color'),
+    '#title' => t('Text color'),
     '#default_value' => variable_get('adsense_search_color_box_text', ADSENSE_SEARCH_COLOR_BOX_TEXT_DEFAULT),
     '#options' => array(
       '#000000' => t('Black'),
