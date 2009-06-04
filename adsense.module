@@ -379,11 +379,16 @@ function adsense_display() {
     $ad = '<!--adsense: page not in match list-->';
   }
   elseif (!_adsense_check_if_enabled()) {
+    global $user;
+
     // Ads are disabled
-    if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT)) {
+    if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT) || ($user->uid == 1)) {
       $width = array_key_exists('width', $ad) ? $ad['width'] : 0;
       $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
       $text = variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) ." ${ad['desc']}";
+      if ($user->uid == 1) {
+        $text = 'Ads disabled for site admin<br />'. $text;
+      }
 
       $ad = "<!--adsense: placeholder-->\n". _adsense_format_box($text, $width, $height);
     }
