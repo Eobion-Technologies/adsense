@@ -70,6 +70,8 @@ function adsense_search_menu($may_cache) {
  * Implementation of hook_block().
  */
 function adsense_search_block($op = 'list', $delta = 0, $edit = array()) {
+  $block = NULL;
+
   switch ($op) {
     case 'list':
       $max = variable_get('adsense_search_number_blocks', ADSENSE_SEARCH_NUMBER_BLOCKS_DEFAULT);

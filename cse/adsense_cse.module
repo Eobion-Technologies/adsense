@@ -59,6 +59,8 @@ function adsense_cse_menu($may_cache) {
  * Implementation of hook_block().
  */
 function adsense_cse_block($op = 'list', $delta = 0, $edit = array()) {
+  $block = NULL;
+
   switch ($op) {
     case 'list':
       $max = variable_get('adsense_cse_number_blocks', ADSENSE_CSE_NUMBER_BLOCKS_DEFAULT);

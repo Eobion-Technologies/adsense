@@ -39,6 +39,8 @@ function adsense_managed_menu($may_cache) {
  * Implementation of hook_block().
  */
 function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
+  $block = NULL;
+
   switch ($op) {
     case 'list':
       $max = variable_get('adsense_managed_number_blocks', ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT);

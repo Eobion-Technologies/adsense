@@ -51,6 +51,8 @@ function adsense_oldcode_menu($may_cache) {
  * Implementation of hook_block().
  */
 function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
+  $block = NULL;
+
   switch ($op) {
     case 'list':
       $max = variable_get('adsense_oldcode_number_blocks', ADSENSE_OLDCODE_NUMBER_BLOCKS_DEFAULT);
