@@ -36,6 +36,7 @@ function _adsense_cse_results() {
   var googleSearchFrameWidth = $width;
   var googleSearchDomain = "$country";
   var googleSearchPath = "/cse";
+  var googleSearchQueryString = "as_q";
 $secret
 </script>
 <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
