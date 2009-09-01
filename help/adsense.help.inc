@@ -47,9 +47,8 @@ AdSense ads on their web site, thus earning revenue.</p>
 <p>You must have a Google AdSense account before using this module.</p>
 
 <h2>Configuration</h2>
-<p>To use this module, you need to select one of the Adsense Client ID
-selection modules first, and configure it correctly. See below for a list of
-available modules, and their settings page.</p>
+<p>To use this module, you need to enable at least one of the Adsense ad unit
+generator modules first, and configure it correctly.</p>
 
 <h2>Supported formats</h2>
 <p>Most of Adsense's ad formats are supported.</p>
