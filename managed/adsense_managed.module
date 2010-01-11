@@ -52,6 +52,7 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
           $title = t('AdSense: unconfigured ') . $count;
         }
         $block[$count]['info'] = $title;
+        $block[$count]['cache'] = BLOCK_NO_CACHE;
       }
       break;
 
