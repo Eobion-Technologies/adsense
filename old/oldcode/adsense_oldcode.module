@@ -60,6 +60,7 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
           $title = t('AdSense old code: unconfigured ') . $count;
         }
         $block[$count]['info'] = $title;
+        $block[$count]['cache'] = BLOCK_NO_CACHE;
       }
       break;
 

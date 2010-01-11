@@ -78,6 +78,7 @@ function adsense_search_block($op = 'list', $delta = 0, $edit = array()) {
           $title = t('AdSense Search: unconfigured ') . $count;
         }
         $block[$count]['info'] = $title;
+        $block[$count]['cache'] = BLOCK_NO_CACHE;
       }
       break;
 
