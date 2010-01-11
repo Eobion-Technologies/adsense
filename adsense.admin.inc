@@ -49,6 +49,7 @@ function adsense_main_settings() {
     '#default_value' => variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT),
     '#rows' => 3,
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#wysiwyg' => FALSE,
   );
 
   $access = user_access('use PHP for ad visibility');
