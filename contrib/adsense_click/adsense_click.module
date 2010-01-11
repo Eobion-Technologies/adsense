@@ -67,13 +67,11 @@ function adsense_click_perm() {
 }
 
 /**
- * Implementation of hook_footer().
+ * Implementation of hook_init().
  */
-function adsense_click_footer($main = 0) {
+function adsense_click_init() {
   if (variable_get('adsense_click_tracking', ADSENSE_CLICK_TRACKING_DEFAULT)) {
-    $path = base_path() . drupal_get_path('module', 'adsense_click') .'/adsense_click.js';
-    $js = '<script type="text/javascript" src="'. $path .'"></script>';
-    return $js;
+    drupal_add_js(drupal_get_path('module', 'adsense_click') .'/adsense_click.js');
   }
 }
 
