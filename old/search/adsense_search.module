@@ -43,7 +43,7 @@ function adsense_search_menu($may_cache) {
   $items = array();
 
   if ($may_cache) {
-  $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+  $results_path = variable_get('clean_url', 0) ? ADSENSE_SEARCH_RESULTS_PATH : '.';
 
   $items[] = array(
     'path' => 'admin/settings/adsense/search',
