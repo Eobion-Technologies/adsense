@@ -39,7 +39,7 @@ define('ADSENSE_SEARCH_TEXTBOX_LENGTH_DEFAULT', 31);
 function adsense_search_menu() {
   $items = array();
 
-  $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+  $results_path = variable_get('clean_url', 0) ? ADSENSE_SEARCH_RESULTS_PATH : '.';
 
   $items['admin/settings/adsense/search'] = array(
     'title' => 'Search',
