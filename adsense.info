@@ -2,6 +2,6 @@
 ; Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
 ; Copyright 2008      Joao Ventura      http://www.venturas.org
 
-name = AdSense core
-description = Displays Google AdSense ads on your site to earn revenue. Requires at least one additional ad unit generator module.
+name = "AdSense core"
+description = "Displays Google AdSense ads on your site to earn revenue. Requires at least one additional ad unit generator module."
 package = Adsense

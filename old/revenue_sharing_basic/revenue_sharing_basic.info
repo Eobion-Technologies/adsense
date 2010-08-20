@@ -3,6 +3,6 @@
 ; Copyright 2008      Joao Ventura      http://www.venturas.org
 
 name = "Revenue sharing basic (old)"
-description = Revenue sharing for the Google Adsense module
+description = "Revenue sharing for the Google Adsense module"
 dependencies = adsense profile
 package = Adsense
