@@ -16,8 +16,8 @@
  */
 function adsense_cse_settings() {
   global $base_url;
-  include_once(drupal_get_path('module', 'adsense_cse') .'/help/adsense_cse.help.inc');
-  require_once(drupal_get_path('module', 'adsense') .'/includes/adsense.search_options.inc');
+  include_once(drupal_get_path('module', 'adsense_cse') . '/help/adsense_cse.help.inc');
+  require_once(drupal_get_path('module', 'adsense') . '/includes/adsense.search_options.inc');
 
   $form['help'] = array(
     '#type'        => 'fieldset',
@@ -27,8 +27,7 @@ function adsense_cse_settings() {
   );
 
   $form['help']['help'] = array(
-    '#type'  => 'markup',
-    '#value' => adsense_cse_help_text(),
+    '#markup' => adsense_cse_help_text(),
   );
 
   $form['searchbox'] = array(

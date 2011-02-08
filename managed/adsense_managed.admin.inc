@@ -15,7 +15,7 @@
  * @ingroup forms
  */
 function adsense_managed_settings() {
-  include_once(drupal_get_path('module', 'adsense_managed') .'/help/adsense_managed.help.inc');
+  include_once(drupal_get_path('module', 'adsense_managed') . '/help/adsense_managed.help.inc');
 
   $form['help'] = array(
     '#type'        => 'fieldset',
@@ -25,8 +25,7 @@ function adsense_managed_settings() {
   );
 
   $form['help']['help'] = array(
-    '#type'  => 'markup',
-    '#value' => adsense_managed_help_text(),
+    '#markup' => adsense_managed_help_text(),
   );
 
   $form['blocks'] = array(

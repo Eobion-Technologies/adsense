@@ -6,4 +6,9 @@ name = AdSense Click Tracking
 description = Tracks clicks to Google Adsense
 dependencies[] = adsense
 package = Adsense
-core = 6.x
+core = 7.x
+
+files[] = adsense_cse.module
+files[] = adsense_cse.install
+files[] = adsense_cse.admin.inc
+files[] = adsense_click.logs.inc

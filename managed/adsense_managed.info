@@ -6,4 +6,8 @@ name = Managed ads
 description = Ad unit generator module using the new managed ads feature available in the Google AdSense site.
 dependencies[] = adsense
 package = Adsense
-core = 6.x
+core = 7.x
+
+files[] = adsense_managed.module
+files[] = adsense_managed.install
+files[] = adsense_managed.admin.inc

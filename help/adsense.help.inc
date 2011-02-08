@@ -20,22 +20,25 @@ function adsense_help_text() {
   // Get the ad formats
   $ads = adsense_ad_formats();
   $ads['Search Box'] = adsense_ad_formats('Search Box');
+
+  // Create the ad format table.
   $headers = array(t('Format'), t('Description'), t('Width'), t('Height'));
   $rows = array();
   foreach ($ads as $format => $data) {
     $width = isset($data['width']) ? $data['width'] : '';
     $height = isset($data['height']) ? $data['height'] : '';
-    $rows[] = array($format, $data['desc'], $width, $height);
+    $rows[] = array(
+      'data' => array($format, $data['desc'], $width, $height),
+    );
   }
 
-  // Create the ad format text
-  $ad_formats_text = theme('table', $headers, $rows);
+  $ad_formats_text = theme('table', array('header' => $headers, 'rows' => $rows));
 
   if (module_exists('adsense_cse')) {
-    $custom_search_link = l(t('Custom search help'), 'admin/settings/adsense/cse');
+    $custom_search_link = l(t('Custom search help'), 'admin/config/system/adsense/cse');
   }
   else {
-    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l(t('modules'), 'admin/build/modules')));
+    $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l(t('modules'), 'admin/modules')));
   }
 
   $output = <<<EOF
