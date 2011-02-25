@@ -1,4 +1,3 @@
-# $Id$
 # Russian translation of Russian Scripts
 # Copyright (c) 2007 Victor <victor.mosco@gmail.com>
 #           (c) 2007 drupal.org  Maynichev <maynich@gmail.com>

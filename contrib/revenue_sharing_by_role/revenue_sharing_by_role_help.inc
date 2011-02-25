@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function revenue_sharing_by_role_help_text() {
   global $user;
