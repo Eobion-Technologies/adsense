@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function adsense_install() {
   switch ($GLOBALS['db_type']) {
