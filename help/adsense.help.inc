@@ -1,5 +1,4 @@
 <?php
-// $Id$
 // Copyright 2005-2008 Khalid Baheyeldin - http://2bits.com
 // Copyright 2008 Joao Ventura - http://www.venturas.org
 
