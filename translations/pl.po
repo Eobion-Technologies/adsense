@@ -1,4 +1,3 @@
-# $Id$
 #
 # POLISH translation of Drupal (general)
 # Copyright 2009 MAŁYSZ <BARTLOMIEJMALYSZ@GMAIL.COM>
