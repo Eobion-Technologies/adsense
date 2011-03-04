@@ -114,7 +114,7 @@ function adsense_managed_block($op = 'list', $delta = 0, $edit = array()) {
         $ad = _adsense_managed_get_block_config($delta);
         $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'slot' => $ad[2])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_managed/'. $delta)));
         if (!empty($ad[3])) {
-          $block['content'] = "<div style='text-align:${ad[3]}'>${block['content']}</div>";
+          $block['content'] = "<div style='text-align:${ad[3]}; display: block;'>${block['content']}</div>";
         }
       }
       break;
