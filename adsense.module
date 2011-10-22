@@ -172,7 +172,7 @@ function adsense_requirements($phase) {
         $requirements['adsense_basic_id'] = array(
           'title' => $t('AdSense'),
           'value' => $t('Publisher ID is not set.'),
-          'description' => $t('Please configure it in the <a href="@url">AdSense settings page</a>.', array('@url' => url('admin/settings/adsense/publisher'))),
+          'description' => $t('Please configure it in the <a href="@url">AdSense Publisher ID settings page</a>.', array('@url' => url('admin/config/system/adsense/publisher'))),
           'severity' => REQUIREMENT_ERROR,
         );
       }
