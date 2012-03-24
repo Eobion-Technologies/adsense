@@ -177,7 +177,7 @@ function adsense_id_settings() {
   else {
     $form['adsense_id_module'] = array(
       '#type'  => 'hidden',
-      '#value' => $options[0],
+      '#value' => $options['adsense_basic'],
     );
   }
 
@@ -190,7 +190,13 @@ function adsense_id_settings() {
  * Validate adsense_id_settings form.
  */
 function _adsense_id_settings_validate($form, &$form_state) {
+  // Trim remaning whitespace.
   $form_state['values']['adsense_basic_id'] = trim($form_state['values']['adsense_basic_id']);
+
+  // Verify it's a valid Adsense publisher ID.
+  if (!preg_match('/^pub-[0-9]+$/', $form_state['values']['adsense_basic_id'])) {
+    form_set_error('adsense_basic_id', t('A valid Google AdSense Publisher ID is case sensitive and formatted like %id.', array('%id' => 'pub-9999999999999')));
+  }
 }
 
 /**
@@ -200,7 +206,7 @@ function _adsense_id_settings_validate($form, &$form_state) {
  *   array of selectable Publisher ID functions
  */
 function _adsense_id_settings_client_id_mods() {
-  $ret['adsense_basic'] = 'Use the site Publisher ID always';
+  $ret['adsense_basic'] = 'Always use the site Publisher ID.';
 
   $funcs = get_defined_functions();
   foreach ($funcs['user'] as $func) {
