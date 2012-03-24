@@ -166,7 +166,7 @@ function _adsense_managed_get_ad($format, $client, $slot) {
 
     $output = <<<MANAGED_TXT
 <script type="text/javascript"><!--
-google_ad_client = "$client";
+google_ad_client = "ca-$client";
 /* $format */
 google_ad_slot = "$slot";
 google_ad_width = ${ad['width']};
