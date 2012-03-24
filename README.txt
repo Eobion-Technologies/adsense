@@ -103,7 +103,7 @@ http://drupal.org/project/adsense
 Authors
 -------
 Khalid Baheyeldin (http://baheyeldin.com/khalid and http://2bits.com)
-Joao Ventura      (http://www.venturas.org)
+Joao Ventura      (http://venturas.org)
 
 If you use this module, find it useful, and want to send the authors a thank
 you note, then use the Feedback/Contact page at the URLs above.

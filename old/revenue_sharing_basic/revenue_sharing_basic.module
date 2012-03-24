@@ -198,7 +198,10 @@ function revenue_sharing_basic_get_node_info() {
     $node = node_load(arg(1));
 
     // Cache the results
-    $info = array('uid' => $node->uid, 'type' => $node->type);
+    $info = array(
+      'uid' => $node->uid,
+      'type' => $node->type,
+    );
   }
 
   return $info;

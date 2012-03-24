@@ -119,7 +119,7 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
           '' => t('None'),
           'left' => t('Left'),
           'center' => t('Centered'),
-          'right' => t('Right')
+          'right' => t('Right'),
         ),
         '#description' => t('Select the horizontal alignment of the ad within the block.'),
       );

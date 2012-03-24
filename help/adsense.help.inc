@@ -19,6 +19,8 @@ function adsense_help_text() {
   // Get the ad formats
   $ads = adsense_ad_formats();
   $ads['Search Box'] = adsense_ad_formats('Search Box');
+
+  // Create the ad format table.
   $headers = array(t('Format'), t('Description'), t('Width'), t('Height'));
   $rows = array();
   foreach ($ads as $format => $data) {

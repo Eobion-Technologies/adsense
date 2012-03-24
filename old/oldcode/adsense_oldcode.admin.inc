@@ -130,7 +130,11 @@ function adsense_oldcode_settings() {
       '#type' => 'select',
       '#title' => t('Rounded corners'),
       '#default_value' => variable_get('adsense_ui_features_'. $group, ADSENSE_UI_FEATURES_DEFAULT),
-      '#options' => array('rc:0' => 'Square', 'rc:6' => 'Slightly rounded', 'rc:10' => 'Very rounded'),
+      '#options' => array(
+        'rc:0' => 'Square',
+        'rc:6' => 'Slightly rounded',
+        'rc:10' => 'Very rounded',
+      ),
       '#description' => t('Choose type of round corners'),
     );
   }
