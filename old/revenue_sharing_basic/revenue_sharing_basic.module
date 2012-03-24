@@ -35,7 +35,7 @@ function revenue_sharing_basic_menu() {
 function revenue_sharing_basic_theme() {
   return array(
     'revenue_sharing_basic_author_percentage_role' => array(
-      'variables' => array('form'),
+      'render element' => 'form',
       'file' => 'revenue_sharing_basic.admin.inc',
     ),
   );
@@ -179,7 +179,7 @@ function revenue_sharing_basic_get_profile_client_id($uid) {
   if ($uid) {
     // Get the profile field for a certain user
     $profile_field = variable_get('revenue_sharing_basic_client_id_profile_field', REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT);
-    $client_id = db_query('SELECT value FROM {profile_values} WHERE fid = :fid AND uid = :uid', array(':fid' => $profile_field, ':uid' => $uid))->fetchField();
+    $client_id = db_query('SELECT value FROM {profile_value} WHERE fid = :fid AND uid = :uid', array(':fid' => $profile_field, ':uid' => $uid))->fetchField();
   }
 
   return $client_id;

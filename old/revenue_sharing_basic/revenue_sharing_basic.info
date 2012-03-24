@@ -6,7 +6,7 @@ description = Revenue sharing for the Google Adsense module
 dependencies[] = adsense
 dependencies[] = profile
 package = Adsense
-core = 6.x
+core = 7.x
 
 configure = admin/config/services/adsense/publisher/revenue_sharing_basic
 

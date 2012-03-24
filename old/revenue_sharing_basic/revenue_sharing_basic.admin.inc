@@ -115,7 +115,7 @@ function revenue_sharing_basic_settings($form, &$form_state) {
  * @ingroup themeable
  */
 function theme_revenue_sharing_basic_author_percentage_role($variables) {
-  $form = $variables['0'];
+  $form = $variables['form'];
   $output = '';
   $elements = element_children($form);
   if (!empty($elements)) {
@@ -145,8 +145,8 @@ function theme_revenue_sharing_basic_author_percentage_role($variables) {
 function revenue_sharing_basic_get_profile_fields() {
   $profile_list = array(0 => 'None');
 
-  $result = db_query("SELECT fid, title FROM {profile_fields} ORDER BY fid");
-  while ($row = db_fetch_object($result)) {
+  $result = db_query("SELECT fid, title FROM {profile_field} ORDER BY fid");
+  foreach ($result as $row) {
     $profile_list[$row->fid] = $row->title;
   }
 

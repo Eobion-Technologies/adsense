@@ -175,7 +175,7 @@ function adsense_id_settings() {
   else {
     $form['adsense_id_module'] = array(
       '#type'  => 'hidden',
-      '#value' => $options['adsense_basic'],
+      '#value' => 'adsense_basic',
     );
   }
 
