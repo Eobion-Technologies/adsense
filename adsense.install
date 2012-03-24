@@ -6,6 +6,15 @@
  */
 
 /**
+ * Implements of hook_install().
+ */
+function adsense_install() {
+  drupal_set_message(st("AdSense settings are available under !link",
+    array( '!link' => l(st('Administration > Configuration > Web services > AdSense'),  'admin/config/services/adsense' ) )
+  ));
+}
+
+/**
  * Implements hook_uninstall().
  */
 function adsense_uninstall() {
@@ -19,7 +28,8 @@ function adsense_uninstall() {
   variable_del('adsense_test_mode');
   variable_del('adsense_visibility');
 
-  // Delete all the AdSense channel variables and then clear the variable cache.
-  db_query("DELETE FROM {variable} WHERE name LIKE 'adsense\_ad\_channel\_%'");
-  cache_clear_all('variables', 'cache');
+  $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_ad\_channel\_%'");
+  foreach ($settings as $variable) {
+    variable_del($variable->name);
+  }
 }

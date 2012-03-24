@@ -26,15 +26,13 @@ function adsense_help_text() {
   foreach ($ads as $format => $data) {
     $width = isset($data['width']) ? $data['width'] : '';
     $height = isset($data['height']) ? $data['height'] : '';
-    $rows[] = array(
-      'data' => array($format, $data['desc'], $width, $height),
-    );
+    $rows[] = array($format, $data['desc'], $width, $height);
   }
 
   $ad_formats_text = theme('table', array('header' => $headers, 'rows' => $rows));
 
   if (module_exists('adsense_cse')) {
-    $custom_search_link = l(t('Custom search help'), 'admin/config/system/adsense/cse');
+    $custom_search_link = l(t('Custom search help'), 'admin/config/services/adsense/cse');
   }
   else {
     $custom_search_link = t('Adsense CSE module (which must be enabled; !link) and refer to its help', array('!link' => l(t('modules'), 'admin/modules')));
@@ -64,7 +62,7 @@ in any phptemplate based theme.</p>
 <h3>Using blocks</h3>
 <p>The easiest way to get started with this module is to use one or more of
 the pre-defined blocks.</p>
-<p>Visit the <a href="$base/admin/build/block">blocks</a> configuration page,
+<p>Visit the <a href="$base/admin/structure/block">blocks</a> configuration page,
 and click on the <strong>configure</strong> link of one of the AdSense blocks.
 You must select a format, a group, and a channel.</p>
 <p>Enable the block, and specify a region for it to be displayed in.</p>

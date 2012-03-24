@@ -1,6 +1,7 @@
+(function ($) {
 
-if (Drupal.jsEnabled) {
-  $(document).ready(function () {
+Drupal.behaviors.adSenseOldCodeColorpicker = {
+  attach: function (context) {
     // initiate farbtastic colorpicker
     var farb = $.farbtastic("#colorpicker");
     var firstField = "";
@@ -19,5 +20,7 @@ if (Drupal.jsEnabled) {
     });
 
     farb.linkTo(firstField);
-  });
-}
+  }
+};
+
+})(jQuery);

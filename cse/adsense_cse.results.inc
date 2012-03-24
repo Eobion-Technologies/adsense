@@ -23,7 +23,6 @@ function _adsense_cse_results() {
     $output = _adsense_format_box("Results<br />width = ${width}<br />country = ${country}", $width, 100);
   }
   else {
-
     $secret = variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT) ? '  var googleAdtest = "on";' : '';
 
     $output = <<<CSE_RESULTS_TXT

@@ -6,7 +6,7 @@ description = Displays Google AdSense ads on your site to earn revenue. Requires
 package = Adsense
 core = 7.x
 
-configure = admin/config/system/adsense
+configure = admin/config/services/adsense
 
 files[] = adsense.module
 files[] = adsense.install

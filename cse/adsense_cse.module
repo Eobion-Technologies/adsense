@@ -29,7 +29,7 @@ function adsense_cse_menu() {
 
   $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
 
-  $items['admin/config/system/adsense/cse'] = array(
+  $items['admin/config/services/adsense/cse'] = array(
     'title' => 'Custom Search',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('adsense_cse_settings'),
@@ -55,7 +55,6 @@ function adsense_cse_menu() {
 function adsense_cse_block_info() {
   $blocks = array();
   $max = variable_get('adsense_cse_number_blocks', ADSENSE_CSE_NUMBER_BLOCKS_DEFAULT);
-
   for ($count=0 ; $count < $max ; $count++) {
     if ($ad = _adsense_cse_get_block_config($count)) {
       $title = $ad[0];

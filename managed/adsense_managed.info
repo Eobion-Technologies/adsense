@@ -7,6 +7,8 @@ dependencies[] = adsense
 package = Adsense
 core = 7.x
 
+configure = admin/config/services/adsense/managed
+
 files[] = adsense_managed.module
 files[] = adsense_managed.install
 files[] = adsense_managed.admin.inc

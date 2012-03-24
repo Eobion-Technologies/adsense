@@ -7,7 +7,9 @@ dependencies[] = adsense
 package = Adsense
 core = 7.x
 
-files[] = adsense_cse.module
-files[] = adsense_cse.install
-files[] = adsense_cse.admin.inc
+configure = admin/config/services/adsense/click
+
+files[] = adsense_click.module
+files[] = adsense_click.install
+files[] = adsense_click.admin.inc
 files[] = adsense_click.logs.inc

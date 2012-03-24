@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function adsense_search_uninstall() {
   variable_del('adsense_search_button');
@@ -33,7 +33,7 @@ function adsense_search_uninstall() {
   variable_del('adsense_search_textbox_length');
 
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_search\_ad\_block\_%'");
-  while ($variable = db_fetch_object($settings)) {
+  foreach ($settings as $variable) {
     variable_del($variable->name);
   }
 }
