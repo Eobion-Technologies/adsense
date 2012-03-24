@@ -60,7 +60,7 @@ function adsense_cse_block_info() {
       $title = $ad[0];
     }
     else {
-      $title = t('AdSense CSE: unconfigured') . $count;
+      $title = t('AdSense CSE: unconfigured') . ' ' . $count;
     }
     $blocks[$count] = array(
       'info' => $title,

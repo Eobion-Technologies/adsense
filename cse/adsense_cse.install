@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function adsense_cse_uninstall() {
 variable_del('adsense_cse_ad_location');
