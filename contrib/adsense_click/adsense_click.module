@@ -61,7 +61,7 @@ function adsense_click_menu() {
 /**
  * Implements hook_permission().
  */
-function adsense_click_perm() {
+function adsense_click_permission() {
   return array(
     'view clicks' => array(
       'title' => 'View AdSense clicks',
