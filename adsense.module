@@ -147,6 +147,37 @@ function adsense_menu() {
 }
 
 /**
+ * Implementation of hook_block().
+ */
+function adsense_block($op = 'list', $delta = 0, $edit = array()) {
+  if (!variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
+    switch ($op) {
+      case 'list':
+        $block[0]['info'] = t('AdSense section targeting start');
+        $block[0]['cache'] = BLOCK_CACHE_GLOBAL;
+        $block[1]['info'] = t('AdSense section targeting end');
+        $block[1]['cache'] = BLOCK_CACHE_GLOBAL;
+        return $block;
+      case 'configure':
+        return '';
+      case 'save':
+        return;
+      case 'view':
+        switch ($delta) {
+          case 0:
+            $block['content'] = '<!-- google_ad_section_start -->';
+            break;
+          case 1:
+            $block['content'] = '<!-- google_ad_section_end -->';
+            break;
+        }
+        return $block;
+    }
+  }
+}
+
+
+/**
  * Implementation of hook_requirements().
  */
 function adsense_requirements($phase) {
@@ -194,13 +225,15 @@ function adsense_nodeapi(&$node, $op = 'view', $teaser, $page) {
   switch ($op) {
     case 'view':
       if (variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
+        $body_weight = isset($node->content['body']['#weight']) ? $node->content['body']['#weight'] : 0;
+
         $node->content['adsense_start'] = array(
           '#value' => '<!-- google_ad_section_start -->',
-          '#weight' => -5,
+          '#weight' => $body_weight - 1,
           );
         $node->content['adsense_end'] = array(
           '#value' => '<!-- google_ad_section_end -->',
-          '#weight' => 5,
+          '#weight' => $body_weight + 1,
           );
       }
   }
