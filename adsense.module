@@ -159,6 +159,42 @@ function adsense_menu() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function adsense_block_info() {
+  $block = array();
+
+  if (!variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
+    $block['adsense-section-start']['info'] = t('AdSense section targeting start');
+    $block['adsense-section-start']['cache'] = DRUPAL_CACHE_GLOBAL;
+    $block['adsense-section-end']['info'] = t('AdSense section targeting end');
+    $block['adsense-section-end']['cache'] = DRUPAL_CACHE_GLOBAL;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function adsense_block_view($delta = '') {
+  $block = array();
+
+  if (!variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
+    switch ($delta) {
+      case 'adsense-section-start':
+        $block['content'] = '<!-- google_ad_section_start -->';
+        break;
+      case 'adsense-section-end':
+        $block['content'] = '<!-- google_ad_section_end -->';
+        break;
+    }
+  }
+
+  return $block;
+}
+
+/**
  * Implements hook_requirements().
  */
 function adsense_requirements($phase) {
@@ -298,14 +334,16 @@ function _adsense_process_tags($text, $filter) {
  */
 function adsense_node_view($node, $view_mode, $langcode) {
   if (variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT)) {
+    $body_weight = isset($node->content['body']['#weight']) ? $node->content['body']['#weight'] : 0;
+
     $node->content['adsense_start'] = array(
       '#markup' => '<!-- google_ad_section_start -->',
-      '#weight' => -5,
+      '#weight' => $body_weight - 1,
     );
 
     $node->content['adsense_end'] = array(
       '#markup' => '<!-- google_ad_section_end -->',
-      '#weight' => 5,
+      '#weight' => $body_weight + 1,
     );
   }
 }
