@@ -504,6 +504,7 @@ function adsense_display() {
         }
         else {
           $ad = '<!--adsense: no AdSense for Content module found-->';
+          $module = '';
         }
 
         $ad = theme('adsense_ad', array('ad' => $ad, 'module' => $module));
