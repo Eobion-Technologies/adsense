@@ -14,8 +14,8 @@
  * @ingroup forms
  */
 function adsense_main_settings() {
-  include_once(drupal_get_path('module', 'adsense') . '/help/adsense.help.inc');
-  include_once(drupal_get_path('module', 'adsense') . '/includes/adsense.search_options.inc');
+  module_load_include('inc', 'adsense', 'help/adsense.help');
+  module_load_include('inc', 'adsense', 'includes/adsense.search_options');
 
   $form['help'] = array(
     '#type'        => 'fieldset',
@@ -142,7 +142,7 @@ function adsense_main_settings() {
  * @ingroup forms
  */
 function adsense_id_settings() {
-  include_once(drupal_get_path('module', 'adsense') . '/help/adsense_id_help.inc');
+  module_load_include('inc', 'adsense', 'help/adsense_id_help');
 
   $form['help'] = array(
     '#type'        => 'fieldset',

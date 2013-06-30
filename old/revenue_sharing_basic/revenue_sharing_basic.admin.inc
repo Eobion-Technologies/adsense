@@ -15,7 +15,7 @@
  * @ingroup forms
  */
 function revenue_sharing_basic_settings($form, &$form_state) {
-  include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'revenue_sharing_basic') . '/help/revenue_sharing_basic.help.inc';
+  module_load_include('inc', 'revenue_sharing_basic', 'help/revenue_sharing_basic.help');
 
   $form['help'] = array(
     '#type' => 'fieldset',

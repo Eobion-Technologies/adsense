@@ -226,7 +226,7 @@ function adsense_requirements($phase) {
 function adsense_help($path, $arg) {
   switch ($path) {
     case 'admin/help#adsense':
-      include_once(drupal_get_path('module', 'adsense') . '/help/adsense.help.inc');
+      module_load_include('inc', 'adsense', 'help/adsense.help');
       return adsense_help_text();
   }
 }
