@@ -63,7 +63,7 @@ function adsense_cse_block($op = 'list', $delta = 0, $edit = array()) {
           $title = $ad[0];
         }
         else {
-          $title = t('AdSense CSE: unconfigured ') . $count;
+          $title = t('AdSense CSE: unconfigured !d', array('!d' => $count + 1));
         }
         $block[$count]['info'] = $title;
         $block[$count]['cache'] = BLOCK_NO_CACHE;
