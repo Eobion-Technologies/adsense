@@ -107,6 +107,10 @@ function adsense_permission() {
       'title' => t('Hide AdSense'),
       'description' => t('Hide AdSense ads for this role.'),
     ),
+    'show adsense placeholders' => array(
+      'title' => t('Show AdSense placeholders'),
+      'description' => t('Show AdSense placeholders for this role.'),
+    ),
     'use PHP for ad visibility' => array(
       'title' => t('Can use PHP for AdSense visibility'),
     ),
@@ -446,12 +450,12 @@ function adsense_display() {
     global $user;
 
     // Ads are disabled
-    if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT) || ($user->uid == 1)) {
+    if (variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT) || ($user->uid == 1 || user_access('show adsense placeholders'))) {
       $width = array_key_exists('width', $ad) ? $ad['width'] : 0;
       $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
       $text = variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) . " ${ad['desc']}";
-      if ($user->uid == 1) {
-        $text = 'Ads disabled for site admin<br />' . $text;
+      if ($user->uid == 1 || user_access('show adsense placeholders')) {
+        $text = t('Ads disabled for %name', array('%name' => $user->name)) . '<br />' . $text;
       }
 
       $ad = "<!--adsense: placeholder-->\n" . _adsense_format_box($text, $width, $height);
@@ -557,6 +561,10 @@ function _adsense_check_if_enabled() {
     return TRUE;
   }
   if (user_access('hide adsense')) {
+    return FALSE;
+  }
+  if (user_access('show adsense placeholders')) {
+    // AdSense is enabled but this user should only see placeholders instead.
     return FALSE;
   }
 
