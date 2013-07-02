@@ -134,7 +134,7 @@ function adsense_oldcode_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view':
       if (_adsense_page_match()) {
         $ad = _adsense_oldcode_get_block_config($delta);
-        $block['content'] = ($ad) ? adsense_display(array('format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_oldcode/'. $delta)));
+        $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/build/block/configure/adsense_oldcode/'. $delta)));
         if (!empty($ad[4])) {
           $block['content'] = "<div style='text-align:${ad[4]}'>${block['content']}</div>";
         }
