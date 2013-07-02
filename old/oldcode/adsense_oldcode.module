@@ -53,7 +53,7 @@ function adsense_oldcode_block_info() {
       $title = $ad[0];
     }
     else {
-      $title = t('AdSense old code: unconfigured') . ' ' . $count;
+      $title = t('AdSense old code: unconfigured !d', array('!d' => $count + 1));
     }
     $blocks[$count] = array(
       'info' => $title,

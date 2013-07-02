@@ -41,7 +41,7 @@ function adsense_managed_block_info() {
       $title = $ad[0];
     }
     else {
-      $title = t('AdSense: unconfigured') . ' ' . $count;
+      $title = t('AdSense: unconfigured !d', array('!d' => $count + 1));
     }
     $blocks[$count] = array(
       'info' => $title,

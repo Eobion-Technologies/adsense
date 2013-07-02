@@ -71,7 +71,7 @@ function adsense_search_block_info() {
       $title = $ad[0];
     }
     else {
-      $title = t('AdSense Search: unconfigured') . ' ' . $count;
+      $title = t('AdSense Search: unconfigured !d', array('!d' => $count + 1));
     }
     $blocks[$count] = array(
       'info' => $title,
