@@ -145,9 +145,20 @@ function theme_revenue_sharing_basic_author_percentage_role($variables) {
 function revenue_sharing_basic_get_profile_fields() {
   $profile_list = array(0 => 'None');
 
-  $result = db_query("SELECT fid, name, title FROM {profile_field} WHERE type='textfield' ORDER BY fid");
-  foreach ($result as $row) {
-    $profile_list['profile:' . $row->name] = $row->title;
+  // Start with the Field module fields
+  if (module_exists('profile')) {
+    $fields = field_read_instances(array('entity_type' => 'user'));
+    foreach ($fields as $field) {
+      $profile_list['field:' . $field['field_name']] = $field['label'];
+    }
+  }
+
+  // Get fields from the Profile module
+  if (module_exists('profile')) {
+    $result = db_query("SELECT fid, name, title FROM {profile_field} WHERE type='textfield' ORDER BY fid");
+    foreach ($result as $row) {
+      $profile_list['profile:' . $row->name] = $row->title;
+    }
   }
 
   // Also display Profile2 fields

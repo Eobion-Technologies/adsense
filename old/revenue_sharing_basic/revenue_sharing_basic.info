@@ -4,7 +4,6 @@
 name = Revenue sharing basic (old)
 description = Revenue sharing for the Google Adsense module
 dependencies[] = adsense
-dependencies[] = profile
 package = Adsense
 core = 7.x
 

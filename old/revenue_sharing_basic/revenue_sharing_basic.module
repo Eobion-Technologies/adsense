@@ -182,6 +182,10 @@ function revenue_sharing_basic_get_profile_client_id($uid) {
     $user = user_load($uid);
 
     switch ($profile_field[0]) {
+      case 'field':
+        $fields = field_get_items('user', $user, $profile_field[1]);
+        $client_id = render(field_view_value('user', $user, $profile_field[1], $fields[0]));
+        break;
       case 'profile':
         $client_id = isset($user->{$profile_field[1]}) ? $user->{$profile_field[1]} : NULL;
         break;
