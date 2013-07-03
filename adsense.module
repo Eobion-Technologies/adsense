@@ -432,6 +432,9 @@ function adsense_display() {
     // Check first if disabled or if we are at adsense limit or if this page doesn't allow adsense
     $ad = '<!--adsense: page not in match list-->';
   }
+  elseif (!_adsense_can_insert_another($ad['type'])) {
+    $ad = '<!--adsense: ad limit reached for type-->';
+  }
   elseif (!_adsense_check_if_enabled()) {
     global $user;
 
@@ -452,9 +455,6 @@ function adsense_display() {
     else {
       $ad = '<!--adsense: ads disabled -->';
     }
-  }
-  elseif (!_adsense_can_insert_another($ad['type'])) {
-    $ad = '<!--adsense: ad limit reached for type-->';
   }
   else {
     // If site Slot ID for this ad was passed, pass the format as argument
@@ -585,7 +585,9 @@ function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
     return TRUE;
   }
 
-  return FALSE;
+  // Because of #1627846, it's better to always return TRUE
+  return TRUE;
+//  return FALSE;
 }
 
 /**
