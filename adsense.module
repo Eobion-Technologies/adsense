@@ -633,8 +633,9 @@ function _adsense_page_match() {
  *   string with the HTML text to create the box
  */
 function _adsense_format_box($text, $width, $height) {
+  drupal_add_css(drupal_get_path('module', 'adsense') .'/css/adsense.css');
   $dimensions = ((!empty($width)) && (!empty($height)))
-                ? " width:". $width ."px; height:". $height ."px;" : "";
+                ? "width: " . ($width - 2) . "px; height: " . ($height - 2) . "px;" : '';
 
-  return "<div class='adsense' style='text-align:center;display: table-cell;vertical-align:middle;border:solid 1px;${dimensions}'>${text}</div>";
+  return "<div class='adsense-placeholder' style='${dimensions}'>${text}</div>";
 }
