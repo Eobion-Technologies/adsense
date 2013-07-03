@@ -146,7 +146,7 @@ function revenue_sharing_basic_get_profile_fields() {
   $profile_list = array(0 => 'None');
 
   // Start with the Field module fields
-  if (module_exists('profile')) {
+  if (module_exists('field')) {
     $fields = field_read_instances(array('entity_type' => 'user'));
     foreach ($fields as $field) {
       $profile_list['field:' . $field['field_name']] = $field['label'];
