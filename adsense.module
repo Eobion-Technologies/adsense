@@ -109,7 +109,7 @@ function adsense_perm() {
 function adsense_theme() {
   return array(
     'adsense_ad' => array(
-      'arguments' => array('ad' => NULL, 'module' => NULL),
+      'arguments' => array('ad' => NULL, 'module' => NULL, 'format' => NULL),
     ),
     'adsense_placeholder' => array(
       'arguments' => array('text' => NULL, 'width' => 0, 'height' => 0),
