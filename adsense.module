@@ -468,7 +468,7 @@ function adsense_display() {
         $text = t('Ads disabled for %name', array('%name' => $user->name)) . '<br />' . $text;
       }
 
-      $ad = "<!--adsense: placeholder-->\n" . theme('adsense_placeholder', $text, $width, $height);
+      $ad = "<!--adsense: placeholder-->\n" . theme('adsense_placeholder', array('text' => $text, 'width' => $width, 'height' => $height));
     }
     else {
       $ad = '<!--adsense: ads disabled -->';
@@ -654,10 +654,10 @@ function _adsense_page_match() {
  *   string with the HTML text to create the box
  * @ingroup themeable
  */
-function theme_adsense_placeholder($text, $width, $height) {
+function theme_adsense_placeholder($vars) {
   // Use inline CSS, as some ad-blocking software blocks CSS files
   $style = 'border:solid 1px;display:inline-block;overflow:hidden;text-align:center;word-wrap:break-word;';
-  $style .= ((!empty($width)) && (!empty($height))) ? 'width:' . ($width - 2) . 'px;height:' . ($height - 2) . 'px;' : '';
+  $style .= ((!empty($vars['width'])) && (!empty($vars['height']))) ? 'width:' . ($vars['width'] - 2) . 'px;height:' . ($vars['height'] - 2) . 'px;' : '';
 
-  return "<div class='adsense-placeholder' style='${style}'>${text}</div>";
+  return "<div class='adsense-placeholder' style='${style}'>${vars['text']}</div>";
 }
