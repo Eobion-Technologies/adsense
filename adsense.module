@@ -110,6 +110,9 @@ function adsense_theme() {
     'adsense_ad' => array(
       'arguments' => array('ad' => NULL, 'module' => NULL),
     ),
+    'adsense_placeholder' => array(
+      'arguments' => array('text' => NULL, 'width' => 0, 'height' => 0),
+    ),
   );
 }
 
@@ -389,7 +392,7 @@ function adsense_get_client_slot_id($format = NULL) {
  * @see adsense_ad_formats()
  * @see _adsense_page_match()
  * @see _adsense_check_if_enabled()
- * @see _adsense_format_box()
+ * @see theme_adsense_placeholder()
  * @see _adsense_can_insert_another()
  * @see _adsense_cse_get_searchbox()
  * @see _adsense_search_get_searchbox()
@@ -451,7 +454,7 @@ function adsense_display() {
         $text = t('Ads disabled for %name', array('%name' => $user->name)) . '<br />' . $text;
       }
 
-      $ad = "<!--adsense: placeholder-->\n". _adsense_format_box($text, $width, $height);
+      $ad = "<!--adsense: placeholder-->\n". theme('adsense_placeholder', $text, $width, $height);
     }
     else {
       $ad = '<!--adsense: ads disabled -->';
@@ -635,11 +638,12 @@ function _adsense_page_match() {
  *
  * @return
  *   string with the HTML text to create the box
+ * @ingroup themeable
  */
-function _adsense_format_box($text, $width, $height) {
-  drupal_add_css(drupal_get_path('module', 'adsense') .'/css/adsense.css');
-  $dimensions = ((!empty($width)) && (!empty($height)))
-                ? "width: " . ($width - 2) . "px; height: " . ($height - 2) . "px;" : '';
+function theme_adsense_placeholder($text, $width, $height) {
+  // Use inline CSS, as some ad-blocking software blocks CSS files
+  $style = 'border:solid 1px;display:inline-block;overflow:hidden;text-align:center;word-wrap:break-word;';
+  $style .= ((!empty($width)) && (!empty($height))) ? 'width:'. ($width - 2) .'px;height:'. ($height - 2) .'px;' : '';
 
-  return "<div class='adsense-placeholder' style='${dimensions}'>${text}</div>";
+  return "<div class='adsense-placeholder' style='${style}'>${text}</div>";
 }
