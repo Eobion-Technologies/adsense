@@ -25,6 +25,7 @@ define('ADSENSE_PLACEHOLDER_DEFAULT', 1);
 define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', 'Google AdSense');
 define('ADSENSE_SECTION_TARGETING_DEFAULT', 1);
 define('ADSENSE_TEST_MODE_DEFAULT', 0);
+define('ADSENSE_UNBLOCK_ADS_DEFAULT', 0);
 define('ADSENSE_VISIBILITY_DEFAULT', 0);
 
 define('ADSENSE_SECRET_ADTEST_DEFAULT', 0);
@@ -124,7 +125,7 @@ function adsense_permission() {
 function adsense_theme() {
   return array(
     'adsense_ad' => array(
-      'variables' => array('ad' => NULL, 'module' => NULL),
+      'variables' => array('ad' => NULL, 'module' => NULL, 'format' => NULL),
     ),
     'adsense_placeholder' => array(
       'variables' => array('text' => NULL, 'width' => 0, 'height' => 0),
@@ -520,7 +521,11 @@ function adsense_display() {
           $module = '';
         }
 
-        $ad = theme('adsense_ad', array('ad' => $ad, 'module' => $module));
+        // Display ad-block disabling request
+        if (variable_get('adsense_unblock_ads', ADSENSE_UNBLOCK_ADS_DEFAULT)) {
+          adsense_request_unblock();
+        }
+        $ad = theme('adsense_ad', array('ad' => $ad, 'module' => $module, 'format' => $args['format']));
 
         break;
     }
@@ -529,6 +534,18 @@ function adsense_display() {
   }
 
   return $ad;
+}
+
+/**
+ * Displays a request to disable adblockers, when their use is detected
+ */
+function adsense_request_unblock() {
+  static $done = FALSE;
+
+  if (!$done) {
+    drupal_add_js(file_get_contents(drupal_get_path('module', 'adsense') .'/js/unblock.js'), 'inline');
+    $done = TRUE;
+  }
 }
 
 /**
@@ -544,7 +561,13 @@ function adsense_display() {
  * @ingroup themeable
  */
 function theme_adsense_ad($vars) {
-  return "<div class='adsense " . $vars['module'] . "'>\n" . $vars['ad'] . "\n</div>";
+  $dimensions = '';
+  if (isset($vars['format'])) {
+    $ad_fmt = adsense_ad_formats($vars['format']);
+    $dimensions = "width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;";
+  }
+
+  return "<div class='adsense ${vars['module']}_' style='display:inline-block;${dimensions}'>\n${vars['ad']}\n</div>";
 }
 
 /**
