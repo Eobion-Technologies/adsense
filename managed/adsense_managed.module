@@ -162,7 +162,7 @@ function _adsense_managed_get_ad($format, $client, $slot) {
     $output = "";
   }
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
-    $output = _adsense_format_box("client = ${client}<br />slot = ${slot}<br />width = ${ad['width']}<br />height = ${ad['height']}", $ad['width'], $ad['height']);
+    $output = theme('adsense_placeholder', "client = ${client}<br />slot = ${slot}<br />width = ${ad['width']}<br />height = ${ad['height']}", $ad['width'], $ad['height']);
   }
   else {
     $secret = '';

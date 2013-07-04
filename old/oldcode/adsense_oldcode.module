@@ -191,7 +191,7 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
     $output = "";
   }
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
-    $output = _adsense_format_box("client = ${client}<br />format = ${format}<br />width = ${ad['width']}<br />height = ${ad['height']}", $ad['width'], $ad['height']);
+    $output = theme('adsense_placeholder', "client = ${client}<br />format = ${format}<br />width = ${ad['width']}<br />height = ${ad['height']}", $ad['width'], $ad['height']);
   }
   else {
     if (($group < 1) || ($group > ADSENSE_MAX_GROUPS)) {
