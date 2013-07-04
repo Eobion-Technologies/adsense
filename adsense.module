@@ -25,6 +25,7 @@ define('ADSENSE_PLACEHOLDER_DEFAULT', 1);
 define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', 'Google AdSense');
 define('ADSENSE_SECTION_TARGETING_DEFAULT', 1);
 define('ADSENSE_TEST_MODE_DEFAULT', 0);
+define('ADSENSE_UNBLOCK_ADS_DEFAULT', 0);
 define('ADSENSE_VISIBILITY_DEFAULT', 0);
 
 define('ADSENSE_SECRET_ADTEST_DEFAULT', 0);
@@ -506,7 +507,11 @@ function adsense_display() {
           $module = '';
         }
 
-        $ad = theme('adsense_ad', $ad, $module);
+        // Display ad-block disabling request
+        if (variable_get('adsense_unblock_ads', ADSENSE_UNBLOCK_ADS_DEFAULT)) {
+          adsense_request_unblock();
+        }
+        $ad = theme('adsense_ad', $ad, $module, $args['format']);
 
         break;
     }
@@ -515,6 +520,18 @@ function adsense_display() {
   }
 
   return $ad;
+}
+
+/**
+ * Displays a request to disable adblockers, when their use is detected
+ */
+function adsense_request_unblock() {
+  static $done = FALSE;
+
+  if (!$done) {
+    drupal_add_js(file_get_contents(drupal_get_path('module', 'adsense') .'/js/unblock.js'), 'inline');
+    $done = TRUE;
+  }
 }
 
 /**
@@ -529,8 +546,14 @@ function adsense_display() {
  *   string with the modified ad unit
  * @ingroup themeable
  */
-function theme_adsense_ad($ad, $module) {
-  return "<div class='adsense $module'>\n$ad\n</div>";
+function theme_adsense_ad($ad, $module, $format = NULL) {
+  $dimensions = '';
+  if (isset($format)) {
+    $ad_fmt = adsense_ad_formats($format);
+    $dimensions = "width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;";
+  }
+
+  return "<div class='adsense $module_' style='display:inline-block;${dimensions}'>\n$ad\n</div>";
 }
 
 /**
