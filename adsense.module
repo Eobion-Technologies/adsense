@@ -20,7 +20,6 @@ define('ADSENSE_ACCESS_PAGES_DEFAULT', '');
 define('ADSENSE_BASIC_ID_DEFAULT', '');
 define('ADSENSE_DISABLE_DEFAULT', 0);
 define('ADSENSE_ID_MODULE_DEFAULT', 'adsense_basic');
-define('ADSENSE_OVER_HTTPS_DEFAULT', 0);
 define('ADSENSE_PLACEHOLDER_DEFAULT', 1);
 define('ADSENSE_PLACEHOLDER_TEXT_DEFAULT', 'Google AdSense');
 define('ADSENSE_SECTION_TARGETING_DEFAULT', 1);
@@ -624,18 +623,6 @@ function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
  *   TRUE if can render, FALSE if not allowed.
  */
 function _adsense_page_match() {
-  // Do not show ads on secure pages.
-  // This is for two reasons:
-  // Google would most probably not have indexed secure pages
-  // and it also prevents warnings about mixed-content
-  // Thanks to Brad Konia http://drupal.org/node/29585
-  // Should be restricted when running on Apache only
-  if (isset($_SERVER['SERVER_SOFTWARE']) && (stristr($_SERVER['SERVER_SOFTWARE'], 'Apache') !== FALSE) &&
-      isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on') &&
-      (!variable_get('adsense_over_https', ADSENSE_OVER_HTTPS_DEFAULT))) {
-    return FALSE;
-  }
-
   $pages = variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT);
   $visibility = variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT);
 
