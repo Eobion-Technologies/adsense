@@ -553,7 +553,7 @@ function theme_adsense_ad($ad, $module, $format = NULL) {
     $dimensions = "width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;";
   }
 
-  return "<div class='adsense $module_' style='display:inline-block;${dimensions}'>\n$ad\n</div>";
+  return "<div class='adsense' style='display:inline-block;${dimensions}'>\n$ad\n</div>";
 }
 
 /**
