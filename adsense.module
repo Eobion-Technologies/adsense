@@ -51,6 +51,7 @@ define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
  */
 function adsense_ad_formats($key = NULL) {
   $ads = array(
+    'responsive' =>  array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit (BETA)'), 'code' => 'responsive',       'width' =>   0, 'height' =>   0),
     '120x240'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Vertical Banner'),           'code' => '120x240_as',       'width' => 120, 'height' => 240),
     '120x600'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Skyscraper'),                'code' => '120x600_as',       'width' => 120, 'height' => 600),
     '125x125'  =>  array('type' => ADSENSE_TYPE_AD,   'desc' => t('Button'),                    'code' => '125x125_as',       'width' => 125, 'height' => 125),
@@ -561,13 +562,13 @@ function adsense_request_unblock() {
  * @ingroup themeable
  */
 function theme_adsense_ad($vars) {
-  $dimensions = '';
-  if (isset($vars['format'])) {
+  $style = '';
+  if (isset($vars['format']) && ($vars['format'] != 'responsive')) {
     $ad_fmt = adsense_ad_formats($vars['format']);
-    $dimensions = "width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;";
+    $style = "style='display:inline-block;width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;'";
   }
 
-  return "<div class='adsense' style='display:inline-block;${dimensions}'>\n${vars['ad']}\n</div>";
+  return "<div class='adsense' ${style}>\n${vars['ad']}\n</div>";
 }
 
 /**

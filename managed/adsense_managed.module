@@ -184,7 +184,22 @@ function _adsense_managed_get_ad($format, $client, $slot) {
       $secret .= "google_language = '$lang';";
     }
 
-    if (variable_get('adsense_managed_async', ADSENSE_MANAGED_ASYNC_DEFAULT)) {
+    if ($format == 'responsive') {
+      // Responsive smart sizing code
+      $output = <<<MANAGED_RESP_SMART_TXT
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- $format -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-$client"
+     data-ad-slot="$slot"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+MANAGED_RESP_SMART_TXT;
+    }
+    elseif (variable_get('adsense_managed_async', ADSENSE_MANAGED_ASYNC_DEFAULT)) {
       // Asynchronous code
       $output = <<<MANAGED_ASYNC_TXT
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
