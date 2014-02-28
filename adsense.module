@@ -671,5 +671,5 @@ function theme_adsense_placeholder($vars) {
   $style = 'border:solid 1px;display:inline-block;overflow:hidden;text-align:center;word-wrap:break-word;';
   $style .= ((!empty($vars['width'])) && (!empty($vars['height']))) ? 'width:' . ($vars['width'] - 2) . 'px;height:' . ($vars['height'] - 2) . 'px;' : '';
 
-  return "<div class='adsense-placeholder' style='${style}'>${vars['text']}</div>";
+  return "<div class='adsense adsense-placeholder' style='${style}'>${vars['text']}</div>";
 }
