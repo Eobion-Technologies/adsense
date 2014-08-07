@@ -90,7 +90,7 @@ for (var i = 0; i < s.length; i++) {
 
     var b = function() {
       if (q.value == '') {
-        q.style.background = '#FFFFFF url(http:\x2F\x2Fwww.google.com\x2Fcse\x2Fintl\x2F' + lang + '\x2Fimages\x2Fgoogle_custom_search_watermark.gif) left no-repeat';
+        q.style.background = '#FFFFFF url(\x2F\x2Fwww.google.com\x2Fcse\x2Fintl\x2F' + lang + '\x2Fimages\x2Fgoogle_custom_search_watermark.gif) left no-repeat';
       }
     };
 
