@@ -510,7 +510,7 @@ function adsense_display() {
         break;
       default:
         if (!empty($slot) && module_exists('adsense_managed')) {
-          $ad = _adsense_managed_get_ad($args['format'], $client, $slot);
+          $ad = _adsense_managed_get_ad($args['format'], $client, $slot, $args['shape']);
           $module = 'adsense_managed';
         }
         elseif (module_exists('adsense_oldcode')) {
@@ -526,7 +526,10 @@ function adsense_display() {
         if (variable_get('adsense_unblock_ads', ADSENSE_UNBLOCK_ADS_DEFAULT)) {
           adsense_request_unblock();
         }
-        $ad = theme('adsense_ad', array('ad' => $ad, 'module' => $module, 'format' => $args['format']));
+        // If test mode, ad is already themed
+        if (!variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
+          $ad = theme('adsense_ad', array('ad' => $ad, 'module' => $module, 'format' => $args['format']));
+        }
 
         break;
     }
