@@ -105,13 +105,6 @@ function adsense_main_settings() {
     '#description' => t('Enter any text to display as a placeholder when ads are disabled.'),
   );
 
-  $form['advanced']['adsense_section_targeting'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable AdSense section targeting?'),
-    '#default_value' => variable_get('adsense_section_targeting', ADSENSE_SECTION_TARGETING_DEFAULT),
-    '#description' => t('This better targets Google ads to the teaser and body of nodes.'),
-  );
-
   $form['secret'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
