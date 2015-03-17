@@ -23,8 +23,6 @@ function _adsense_cse_results() {
     $output = theme('adsense_placeholder', array('text' => "Results<br />width = ${width}<br />country = ${country}", 'width' => $width, 'height' => 100));
   }
   else {
-    $secret = variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT) ? '  var googleAdtest = "on";' : '';
-
     $output = <<<CSE_RESULTS_TXT
 <div id="cse-search-results"></div>
 <script type="text/javascript">
@@ -34,7 +32,6 @@ function _adsense_cse_results() {
   var googleSearchDomain = "$country";
   var googleSearchPath = "/cse";
   var googleSearchQueryString = "as_q";
-$secret
 </script>
 <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
 CSE_RESULTS_TXT;

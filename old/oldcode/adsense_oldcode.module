@@ -244,11 +244,8 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
     }
 
     $secret = '';
-    if (variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT)) {
-      $secret .= "google_adtest = 'on';\n";
-    }
     if ($lang = variable_get('adsense_secret_language', ADSENSE_SECRET_LANGUAGE_DEFAULT)) {
-      $secret .= "google_language = '$lang';";
+      $secret = "google_language = '$lang';\n";
     }
 
     $output = <<<OLDCODE_TXT
@@ -265,8 +262,7 @@ google_color_link = "$link";
 google_color_text = "$text";
 google_color_url = "$url";
 google_ui_features = "$corner";
-$secret
-//--></script>
+$secret//--></script>
 <script type="text/javascript"
   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>

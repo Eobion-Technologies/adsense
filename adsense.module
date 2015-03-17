@@ -26,7 +26,6 @@ define('ADSENSE_TEST_MODE_DEFAULT', 0);
 define('ADSENSE_UNBLOCK_ADS_DEFAULT', 0);
 define('ADSENSE_VISIBILITY_DEFAULT', 0);
 
-define('ADSENSE_SECRET_ADTEST_DEFAULT', 0);
 define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
 
 /**
@@ -537,9 +536,6 @@ function _adsense_check_if_enabled() {
     return FALSE;
   }
   if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
-    return TRUE;
-  }
-  if (variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT)) {
     return TRUE;
   }
   if (user_access('hide adsense')) {
