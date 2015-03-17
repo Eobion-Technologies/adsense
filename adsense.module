@@ -457,7 +457,8 @@ function adsense_display() {
         break;
       default:
         if (!empty($slot) && module_exists('adsense_managed')) {
-          $ad = _adsense_managed_get_ad($args['format'], $client, $slot, $args['shape']);
+          $shape = empty($args['shape']) ? 'auto' : $args['shape'];
+          $ad = _adsense_managed_get_ad($args['format'], $client, $slot, $shape);
           $module = 'adsense_managed';
         }
         elseif (module_exists('adsense_oldcode')) {
