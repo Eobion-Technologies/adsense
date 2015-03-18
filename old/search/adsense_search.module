@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Displays Google AdSense ads on Drupal pages
+ * Displays Google AdSense ads on Drupal pages.
  *
  * This is the core module of the AdSense package, with the Drupal hooks
  * and other administrative functions.
@@ -124,20 +124,22 @@ function adsense_search_block_save($delta, $edit) {
  * Implements hook_block_view().
  */
 function adsense_search_block_view($delta) {
+  $block = array();
   if (_adsense_page_match()) {
     $ad = _adsense_search_get_block_config($delta);
     $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => 'Search Box', 'channel' => $ad[1])) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/structure/block/manage/adsense_search/' . $delta)));
-
-    return $block;
   }
+
+  return $block;
 }
 
 /**
- * Configuration of the provided block
+ * Configuration of the provided block.
  *
- * @param $delta
- *   block number
- * @return
+ * @param int $delta
+ *   Block number.
+ *
+ * @return array
  *   array with the block configuration or FALSE if no such block was found
  */
 function _adsense_search_get_block_config($delta = 0) {
@@ -151,24 +153,27 @@ function _adsense_search_get_block_config($delta = 0) {
 }
 
 /**
- * Generates the search box
+ * Generates the search box.
  *
- * @param $channel
- *   (optional) Channel ID of the configured Ad Channel
- * @return
+ * @param int $client
+ *   Publisher ID.
+ * @param int $channel
+ *   Channel ID of the configured Ad Channel (optional).
+ *
+ * @return string
  *   HTML with the search input form
  */
 function _adsense_search_get_searchbox($client, $channel = NULL) {
   global $base_url;
 
-  $border   = variable_get('adsense_search_color_border',       ADSENSE_SEARCH_COLOR_BORDER_DEFAULT);
-  $title    = variable_get('adsense_search_color_title',        ADSENSE_SEARCH_COLOR_TITLE_DEFAULT);
-  $bg       = variable_get('adsense_search_color_bg',           ADSENSE_SEARCH_COLOR_BG_DEFAULT);
-  $text     = variable_get('adsense_search_color_text',         ADSENSE_SEARCH_COLOR_TEXT_DEFAULT);
-  $url      = variable_get('adsense_search_color_url',          ADSENSE_SEARCH_COLOR_URL_DEFAULT);
+  $border   = variable_get('adsense_search_color_border', ADSENSE_SEARCH_COLOR_BORDER_DEFAULT);
+  $title    = variable_get('adsense_search_color_title', ADSENSE_SEARCH_COLOR_TITLE_DEFAULT);
+  $bg       = variable_get('adsense_search_color_bg', ADSENSE_SEARCH_COLOR_BG_DEFAULT);
+  $text     = variable_get('adsense_search_color_text', ADSENSE_SEARCH_COLOR_TEXT_DEFAULT);
+  $url      = variable_get('adsense_search_color_url', ADSENSE_SEARCH_COLOR_URL_DEFAULT);
   $visited  = variable_get('adsense_search_color_visited_url', ADSENSE_SEARCH_COLOR_VISITED_URL_DEFAULT);
-  $light    = variable_get('adsense_search_color_light_url',    ADSENSE_SEARCH_COLOR_LIGHT_URL_DEFAULT);
-  $logobg   = variable_get('adsense_search_color_logo_bg',      ADSENSE_SEARCH_COLOR_LOGO_BG_DEFAULT);
+  $light    = variable_get('adsense_search_color_light_url', ADSENSE_SEARCH_COLOR_LIGHT_URL_DEFAULT);
+  $logobg   = variable_get('adsense_search_color_logo_bg', ADSENSE_SEARCH_COLOR_LOGO_BG_DEFAULT);
 
   $logo     = variable_get('adsense_search_logo', ADSENSE_SEARCH_LOGO_DEFAULT);
   $search_button = variable_get('adsense_search_button', ADSENSE_SEARCH_BUTTON_DEFAULT);
@@ -209,13 +214,14 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
 
     $part1 = "<a href=\"http://www.google.com/\">\n" .
              "<img src=\"http://www.google.com/logos/Logo_25$logo_color.gif\" border=\"0\" alt=\"Google\" align=\"middle\"></img></a>";
+    $part3 = "";
+
     if ($logo == 'adsense_search_logo_google') {
       $part1 .= "\n</td>\n<td nowrap=\"nowrap\">";
       $part3 = "<td>&nbsp;</td>";
     }
     elseif ($logo == 'adsense_search_logo_above_textbox') {
-      $part1 .=  "\n<br/>";
-      $part3 = "";
+      $part1 .= "\n<br/>";
     }
   }
   else {
@@ -253,7 +259,7 @@ function _adsense_search_get_searchbox($client, $channel = NULL) {
     $part4 = "";
   }
 
-  // AdSense for Search channel
+  // AdSense for Search channel.
   $channel  = variable_get('adsense_ad_channel_' . $channel, ADSENSE_AD_CHANNEL_DEFAULT);
   if (!empty($channel)) {
     $part6 = "<input type=\"hidden\" name=\"channel\" value=\"$channel\"></input>";

@@ -8,7 +8,3 @@ package = Adsense
 core = 7.x
 
 configure = admin/config/services/adsense/publisher/revenue_sharing_basic
-
-files[] = revenue_sharing_basic.admin.inc
-files[] = revenue_sharing_basic.install
-files[] = revenue_sharing_basic.module

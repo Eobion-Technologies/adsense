@@ -8,7 +8,3 @@ package = Adsense
 core = 7.x
 
 configure = admin/config/services/adsense/oldcode
-
-files[] = adsense_oldcode.admin.inc
-files[] = adsense_oldcode.install
-files[] =  adsense_oldcode.module

@@ -8,8 +8,3 @@ package = Adsense
 core = 7.x
 
 configure = admin/config/services/adsense/cse
-
-files[] = adsense_cse.module
-files[] = adsense_cse.install
-files[] = adsense_cse.admin.inc
-files[] = adsense_cse.results.inc

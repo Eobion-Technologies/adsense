@@ -8,8 +8,3 @@ package = Adsense
 core = 7.x
 
 configure = admin/config/services/adsense/click
-
-files[] = adsense_click.module
-files[] = adsense_click.install
-files[] = adsense_click.admin.inc
-files[] = adsense_click.logs.inc

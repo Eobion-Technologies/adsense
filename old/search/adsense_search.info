@@ -8,8 +8,3 @@ package = Adsense
 core = 7.x
 
 configure = admin/config/services/adsense/search
-
-files[] = adsense_search.admin.inc
-files[] = adsense_search.install
-files[] = adsense_search.module
-files[] = adsense_search.results.inc
