@@ -1,0 +1,7 @@
+adsense_oldcode.colorpicker:
+  version: 1.x
+  js:
+    js/adsense_oldcode.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.farbtastic

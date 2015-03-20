@@ -1,0 +1,8 @@
+name: 'Old code ads'
+type: module
+description: 'AdSense for Content ad unit generator module using the old code (<=2007).'
+package: Adsense Deprecated
+core: 8.x
+configure: adsense_oldcode.settings
+dependencies:
+  - adsense

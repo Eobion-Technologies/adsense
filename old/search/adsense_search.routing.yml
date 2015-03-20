@@ -1,0 +1,14 @@
+adsense_search.settings:
+  path: /admin/config/services/adsense/search
+  defaults:
+    _title: Search
+    _form: \Drupal\adsense_search\Form\AdsenseSearchSettings
+  requirements:
+    _permission: 'administer adsense'
+adsense_search.results:
+  path: /adsense/search
+  defaults:
+    _title: 'Search Results'
+    _controller: '\Drupal\adsense_search\Controller\SearchResultsController::display'
+  requirements:
+    _access: 'TRUE'

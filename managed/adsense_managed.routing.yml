@@ -1,0 +1,7 @@
+adsense_managed.settings:
+  path: /admin/config/services/adsense/managed
+  defaults:
+    _title: 'Managed Ads'
+    _form: \Drupal\adsense_managed\Form\AdsenseManagedSettings
+  requirements:
+    _permission: 'administer adsense'

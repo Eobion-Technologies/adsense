@@ -1,0 +1,5 @@
+adsense:
+  version: 1.x
+  css:
+    component:
+      css/adsense.module.css: {}

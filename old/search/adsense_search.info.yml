@@ -1,0 +1,8 @@
+name: 'Old search'
+type: module
+description: 'AdSense for Search generator module. This module uses the ''old'' code in which the user can select to search the entire Web or 1 to 3 user-defined domains.'
+package: Adsense Deprecated
+core: 8.x
+configure: adsense_search.settings
+dependencies:
+  - adsense

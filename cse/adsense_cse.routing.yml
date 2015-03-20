@@ -1,0 +1,14 @@
+adsense_cse.settings:
+  path: /admin/config/services/adsense/cse
+  defaults:
+    _title: 'Custom Search'
+    _form: \Drupal\adsense_cse\Form\AdsenseCseSettings
+  requirements:
+    _permission: 'administer adsense'
+adsense_cse.results:
+  path: /adsense/cse
+  defaults:
+    _title: 'Search Results'
+    _controller: '\Drupal\adsense_cse\Controller\CseResultsController::display'
+  requirements:
+    _access: 'TRUE'

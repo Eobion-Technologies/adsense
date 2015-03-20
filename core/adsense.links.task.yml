@@ -1,0 +1,15 @@
+adsense.main_settings:
+  route_name: adsense.main_settings
+  title: Settings
+  weight: 10
+  base_route: adsense.main_settings
+adsense.id_settings:
+  route_name: adsense.id_settings
+  title: 'Publisher ID'
+  weight: 0
+  base_route: adsense.main_settings
+adsense.id_settings_0:
+  route_name: adsense.id_settings
+  title: 'Site ID'
+  weight: -1
+  parent_id: adsense.id_settings

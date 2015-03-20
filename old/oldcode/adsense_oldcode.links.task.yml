@@ -1,0 +1,5 @@
+adsense_oldcode.settings:
+  route_name: adsense_oldcode.settings
+  title: 'Old Code Ads'
+  weight: 3
+  base_route: adsense.main_settings

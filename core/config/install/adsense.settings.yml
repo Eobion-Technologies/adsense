@@ -1,0 +1,9 @@
+adsense_unblock_ads: 0
+adsense_test_mode: 0
+adsense_disable: 0
+adsense_placeholder: 1
+adsense_placeholder_text: 'Google AdSense'
+adsense_secret_language: ''
+
+adsense_basic_id: ''
+adsense_id_module: 'adsense_basic'

@@ -1,33 +1,30 @@
 <?php
-// Copyright 2005-2008 Khalid Baheyeldin - http://2bits.com
-// Copyright 2008 Joao Ventura - http://www.venturas.org
-
 /**
  * @file
- * Helpfile for the revenue_sharing_basic module
+ * Help file for the revenue_sharing_basic module.
  */
 
 /**
  * Creates the help text for the revenue sharing (basic)
  *
- * @return
+ * @return string
  *   HTML with the help text
  */
 function revenue_sharing_basic_help_text() {
-  global $user;
+  $user = \Drupal::currentUser();
   $uid = $user->uid;
 
   $base = rtrim(base_path(), '/');
 
   $output = <<<EOF
 <h2>Overview</h2>
-<p>This module provides web site admins the factility to share revenue from
+<p>This module provides web site admins the ability to share revenue from
 Google AdSense ads with those writing the content on the site, according to
 certain percentages.</p>
 
 <h2>Revenue sharing</h2>
 <p>For revenue sharing, each author gets a predefined share of ad revenue from
-clicks occuring on nodes they authored.</p>
+clicks occurring on nodes they authored.</p>
 <p>In order for the user to be credited they must have a Google AdSense
 account.</p>
 <p>Each user must enter their Google AdSense client ID in the profile field

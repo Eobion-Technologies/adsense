@@ -1,0 +1,5 @@
+adsense_cse.settings:
+  route_name: adsense_cse.settings
+  title: 'Custom Search'
+  weight: 2
+  base_route: adsense.main_settings

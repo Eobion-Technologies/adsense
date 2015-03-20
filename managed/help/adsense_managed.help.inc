@@ -1,17 +1,14 @@
 <?php
-// Copyright 2005-2008 Khalid Baheyeldin - http://2bits.com
-// Copyright 2008 Joao Ventura - http://www.venturas.org
-
 /**
  * @file
- * Helpfile for the Managed ads generator module
+ * Help file for the Managed ads generator module.
  */
 
 /**
- * Creates the help text for the Managed Ads tab
+ * Creates the help text for the Managed Ads tab.
  *
- * @return
- *   HTML with the help text
+ * @return string
+ *   HTML with the help text.
  */
 function adsense_managed_help_text() {
   $output = <<<EOF
