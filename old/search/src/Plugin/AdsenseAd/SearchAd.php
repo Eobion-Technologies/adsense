@@ -12,6 +12,16 @@ use \Drupal\Core\Url;
 use Drupal\adsense\SearchAdBase;
 use Drupal\adsense\PublisherId;
 
+/**
+ * Provides an AdSense old search engine form.
+ *
+ * @AdsenseAd(
+ *   id = "search",
+ *   name = @Translation("Old search"),
+ *   isSearch = TRUE,
+ *   needsSlot = FALSE
+ * )
+ */
 class SearchAd extends SearchAdBase {
   private $channel;
 

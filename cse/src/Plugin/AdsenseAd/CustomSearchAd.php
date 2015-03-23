@@ -12,6 +12,16 @@ use Drupal\Core\Url;
 use Drupal\adsense\SearchAdBase;
 use Drupal\adsense\PublisherId;
 
+/**
+ * Provides an AdSense custom search engine form.
+ *
+ * @AdsenseAd(
+ *   id = "cse",
+ *   name = @Translation("CSE Search"),
+ *   isSearch = TRUE,
+ *   needsSlot = TRUE
+ * )
+ */
 class CustomSearchAd extends SearchAdBase {
   private $slot;
 
