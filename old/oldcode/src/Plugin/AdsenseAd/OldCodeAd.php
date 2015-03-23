@@ -178,7 +178,6 @@ OLDCODE_TXT;
    */
   public static function adsenseAdFormats($key = NULL) {
     $ads = [
-      'responsive' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive'],
       // Top performing ad sizes.
       '300x250' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Medium Rectangle'), 'code' => '300x250_as'],
       '336x280' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Rectangle'), 'code' => '336x280_as'],

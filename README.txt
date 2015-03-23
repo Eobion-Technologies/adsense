@@ -1,20 +1,10 @@
-
 Copyright 2005-2008 Khalid Baheyeldin (http://2bits.com)
-Copyright 2008      Joao Ventura      (http://www.venturas.org)
+Copyright 2008-2015 Joao Ventura      (http://venturas.org)
 
 Description
 -----------
 This module provides web site admins the ability to display Google AdSense
 ads on their web site, thus earning revenue.
-
-
-Resources
----------
-You can read the module author's collection of articles on resources for
-using Google Adsense with Drupal. They contain hints and tips on how to use
-the module, as well as Adsense in general.
-
-http://baheyeldin.com/click/476/0
 
 
 Prerequisites
@@ -30,7 +20,7 @@ directory.
 
 Configuration
 -------------
-To enable this module, visit Administration -> Modules, and enable adsense,
+To enable this module, visit Administration -> Extend, and enable adsense,
 and one of the other modules in the Adsense group.  The modules marked as
 '(old)' are not using the new 'Managed Ads' feature of Google AdSense, so
 you should only use them if you have ads in the old format or if you know

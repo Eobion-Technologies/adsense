@@ -32,8 +32,8 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
     return [
       'ad_slot' => '',
       'ad_format' => '250x250',
-      'ad_width' => '',
-      'ad_height' => '',
+      'ad_width' => '728',
+      'ad_height' => '90',
       'ad_shape' => 'auto',
       'ad_align' => 'center',
     ];
@@ -110,10 +110,15 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
     ];
 
     $form['ad_width'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => t('Width'),
       '#default_value' => $this->configuration['ad_width'],
       '#description' => t('Custom ad width.'),
+      '#field_suffix' => ' ' . t('pixels'),
+      '#size' => 3,
+      '#maxlength' => 4,
+      '#min' => 120,
+      '#max' => 1200,
       '#states' => [
         'enabled' => [
           ':input[name="settings[ad_format]"]' => ['value' => 'custom'],
@@ -128,10 +133,15 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
     ];
 
     $form['ad_height'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => t('Height'),
       '#default_value' => $this->configuration['ad_height'],
       '#description' => t('Custom ad height.'),
+      '#field_suffix' => ' ' . t('pixels'),
+      '#size' => 3,
+      '#maxlength' => 4,
+      '#min' => 50,
+      '#max' => 1200,
       '#states' => [
         'enabled' => [
           ':input[name="settings[ad_format]"]' => ['value' => 'custom'],

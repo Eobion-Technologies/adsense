@@ -8,7 +8,6 @@
 namespace Drupal\adsense_oldcode\Form;
 
 use Drupal\Component\Utility\String;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -77,6 +76,7 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
         '#default_value' => $config->get('adsense_color_text_' . $group),
         '#size' => 7,
         '#maxlength' => 7,
+        '#pattern' => '#[a-fA-F0-9]{6}',
       ];
 
       $form['types_colors']['groups'][$group]['adsense_color_border_' . $group] = [
@@ -85,6 +85,7 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
         '#default_value' => $config->get('adsense_color_border_' . $group),
         '#size' => 7,
         '#maxlength' => 7,
+        '#pattern' => '#[a-fA-F0-9]{6}',
       ];
 
       $form['types_colors']['groups'][$group]['adsense_color_bg_' . $group] = [
@@ -93,6 +94,7 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
         '#default_value' => $config->get('adsense_color_bg_' . $group),
         '#size' => 7,
         '#maxlength' => 7,
+        '#pattern' => '#[a-fA-F0-9]{6}',
       ];
 
       $form['types_colors']['groups'][$group]['adsense_color_link_' . $group] = [
@@ -101,6 +103,7 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
         '#default_value' => $config->get('adsense_color_link_' . $group),
         '#size' => 7,
         '#maxlength' => 7,
+        '#pattern' => '#[a-fA-F0-9]{6}',
       ];
 
       $form['types_colors']['groups'][$group]['adsense_color_url_' . $group] = [
@@ -109,6 +112,7 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
         '#default_value' => $config->get('adsense_color_url_' . $group),
         '#size' => 7,
         '#maxlength' => 7,
+        '#pattern' => '#[a-fA-F0-9]{6}',
       ];
 
       $form['types_colors']['groups'][$group]['adsense_alt_' . $group] = [
@@ -171,32 +175,6 @@ class AdsenseOldcodeSettings extends ConfigFormBase {
     $form['#attached']['library'] = ['adsense_oldcode/adsense_oldcode.colorpicker'];
 
     return parent::buildForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-    $config = \Drupal::config('adsense_oldcode.settings');
-
-    $colors = [
-      'adsense_color_border_',
-      'adsense_color_bg_',
-      'adsense_color_link_',
-      'adsense_color_url_',
-      'adsense_color_text_',
-    ];
-
-    for ($group = 1; $group <= $config->get('adsense_max_groups'); $group++) {
-      foreach ($colors as $field_name) {
-        $field_value = $form_state->getValue($field_name . $group);
-        $form_state->setValueForElement($form['types_colors']['groups'][$group][$field_name . $group], Unicode::strtoupper($field_value));
-        if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
-          $form_state->setErrorByName($field_name . $group, $this->t("Color must be between #000000 and #FFFFFF"));
-        }
-      }
-    }
   }
 
   /**

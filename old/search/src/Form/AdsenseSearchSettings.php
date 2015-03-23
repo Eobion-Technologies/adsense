@@ -8,7 +8,6 @@
 namespace Drupal\adsense_search\Form;
 
 use Drupal\Component\Utility\String;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -35,8 +34,6 @@ class AdsenseSearchSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    module_load_include('inc', 'adsense', 'includes/adsense.search_options');
-
     $config = \Drupal::config('adsense_search.settings');
 
     $form['searchbox'] = [
@@ -115,11 +112,12 @@ class AdsenseSearchSettings extends ConfigFormBase {
     ];
 
     $form['searchbox']['adsense_search_textbox_length'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => t('Length of text box (Max 64)'),
       '#default_value' => $config->get('adsense_search_textbox_length'),
       '#size' => 2,
-      '#maxlength' => 2,
+      '#min' => 8,
+      '#max' => 64,
     ];
 
     $form['result'] = [
@@ -136,11 +134,14 @@ class AdsenseSearchSettings extends ConfigFormBase {
     ];
 
     $form['result']['adsense_search_frame_width'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => t('Width of results area'),
       '#default_value' => $config->get('adsense_search_frame_width'),
-      '#size' => 4,
+      '#field_suffix' => ' ' . t('pixels'),
+      '#size' => 3,
       '#maxlength' => 4,
+      '#min' => 500,
+      '#max' => 10000,
     ];
 
     $form['result']['colors'] = [
@@ -161,6 +162,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_border'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_title'] = [
@@ -169,6 +171,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_title'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_bg'] = [
@@ -177,6 +180,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_bg'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_text'] = [
@@ -185,6 +189,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_text'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_url'] = [
@@ -193,6 +198,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_url'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_visited_url'] = [
@@ -201,6 +207,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_visited_url'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_light_url'] = [
@@ -209,6 +216,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_light_url'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['result']['colors']['adsense_search_color_logo_bg'] = [
@@ -217,6 +225,7 @@ class AdsenseSearchSettings extends ConfigFormBase {
       '#default_value' => $config->get('adsense_search_color_logo_bg'),
       '#size' => 7,
       '#maxlength' => 7,
+      '#pattern' => '#[a-fA-F0-9]{6}',
     ];
 
     $form['channels'] = [
@@ -248,32 +257,6 @@ class AdsenseSearchSettings extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
-
-    $textbox_length = $form_state->getValue('adsense_search_textbox_length');
-    $min = 8;
-    $max = 64;
-    if (($textbox_length < $min) || ($textbox_length > $max)) {
-      $form_state->setErrorByName('adsense_search_textbox_length', $this->t("Text Box Length must be between !min and !max", ['!min' => $min, '!max' => $max]));
-    }
-
-    $colors = [
-      'adsense_search_color_border',
-      'adsense_search_color_title',
-      'adsense_search_color_bg',
-      'adsense_search_color_text',
-      'adsense_search_color_url',
-      'adsense_search_color_visited_url',
-      'adsense_search_color_light_url',
-      'adsense_search_color_logo_bg',
-    ];
-
-    foreach ($colors as $field_name) {
-      $field_value = $form_state->getValue($field_name);
-      $form_state->setValueForElement($form['result']['colors'][$field_name], Unicode::strtoupper($field_value));
-      if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
-        $form_state->setErrorByName($field_name, $this->t("Color must be between #000000 and #FFFFFF"));
-      }
-    }
 
     $box_background_color = $form_state->getValue('adsense_search_color_box_background');
     if ($box_background_color == '#000000') {
