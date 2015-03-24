@@ -50,7 +50,7 @@ define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
  *   if a key is provided, the array containing the ad format for that key, or
  *   NULL if there is no ad with that key
  */
-function adsense_ad_formats($key = NULL) {
+function adsense_ad_formats($key = NULL, $newcode = TRUE) {
   $ads = array(
     'responsive' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive', 'width' => '', 'height' => ''),
     'custom' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit'), 'code' => 'custom', 'width' => '', 'height' => ''),
@@ -85,6 +85,11 @@ function adsense_ad_formats($key = NULL) {
     '468x15_5' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links Horizontal Medium'), 'code' => '468x15_0ads_al_s', 'width' => 468, 'height' => 15),
     '728x15_5' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links Horizontal Large'), 'code' => '728x15_0ads_al_s', 'width' => 728, 'height' => 15),
   );
+
+  if (!$newcode) {
+    unset($ads['responsive']);
+    unset($ads['custom']);
+  }
 
   if (!empty($key)) {
     if (array_key_exists($key, $ads)) {
@@ -379,7 +384,7 @@ function adsense_display() {
     }
   }
 
-  $ad = adsense_ad_formats($args['format']);
+  $ad = adsense_ad_formats($args['format'], !empty($args['slot']));
 
   if ($ad === NULL) {
     $ad = '<!--adsense: invalid format: ' . $args['format'] . '-->';

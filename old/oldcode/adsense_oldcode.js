@@ -1,5 +1,5 @@
 (function ($) {
-  Drupal.behaviors.adSenseOldCodeColorpicker = {
+  Drupal.behaviors.adsenseOldCodeColorpicker = {
     attach: function () {
       var i = 0;
 

@@ -71,7 +71,7 @@ function adsense_oldcode_block_configure($delta) {
   $ad = _adsense_oldcode_get_block_config($delta);
 
   $ad_list = array();
-  foreach (adsense_ad_formats() as $format => $data) {
+  foreach (adsense_ad_formats(NULL, FALSE) as $format => $data) {
     $ad_list[$format] = $format . ' : ' . $data['desc'];
   }
 
@@ -198,7 +198,7 @@ function _adsense_oldcode_get_block_config($delta = 0) {
  *   JavaScript that embeds the Google AdSense ad
  */
 function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
-  $ad = adsense_ad_formats($format);
+  $ad = adsense_ad_formats($format, FALSE);
 
   if ($ad === NULL) {
     $output = "";
