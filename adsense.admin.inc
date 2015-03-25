@@ -120,13 +120,6 @@ function adsense_main_settings() {
     '#title' => t('I agree'),
   );
 
-  $form['secret']['agreed']['adsense_secret_adtest'] = array(
-    '#type' => 'checkbox',
-    '#title' => t("Use Google's AdSense test option?"),
-    '#default_value' => variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT),
-    '#description' => t('With this option set, Google will not count any clicks or page impressions. Revenue is not generated. Make sure that you disable this option in production servers. [!statement]', array('!statement' => l(t('Unofficial statement'), 'http://adsense-es.blogspot.com/2007/01/impresiones-de-mis-propios-anuncios-en.html'))),
-  );
-
   $form['secret']['agreed']['adsense_secret_language'] = array(
     '#type' => 'select',
     '#title' => t('Language to display ads'),

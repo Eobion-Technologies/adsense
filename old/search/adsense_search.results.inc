@@ -23,10 +23,6 @@ function _adsense_search_results() {
     $output = theme('adsense_placeholder', "Results<br />width = ${width}<br />country = ${country}", $width, 100);
   }
   else {
-    if (variable_get('adsense_secret_adtest', ADSENSE_SECRET_ADTEST_DEFAULT)) {
-      $secret = '  var googleAdtest = "on";';
-    }
-
     $output = <<<SEARCH_RESULTS_TXT
 <!-- Google Search Result Snippet Begins -->
 <div id="googleSearchUnitIframe"></div>
@@ -35,7 +31,6 @@ function _adsense_search_results() {
   var googleSearchFrameWidth = $width;
   var googleSearchFrameborder = 0 ;
   var googleSearchDomain = '$country';
-$secret
 </script>
 <script type="text/javascript"
   src="http://www.google.com/afsonline/show_afs_search.js">
