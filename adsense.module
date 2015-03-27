@@ -98,9 +98,13 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
     elseif ($key == 'Search Box') {
       return array('type' => ADSENSE_TYPE_SEARCH, 'desc' => t('AdSense for Search'));
     }
-    else {
-      return NULL;
+    elseif ($newcode) {
+      $ad = _adsense_dimensions($key);
+      if (!empty($ad)) {
+        return array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom'), 'width' => $ad['width'], 'height' => $ad['height']);
+      }
     }
+    return NULL;
   }
 
   return $ads;
@@ -499,6 +503,19 @@ function adsense_request_unblock() {
 }
 
 /**
+ * Helper function to get ad width and height from the format.
+ *
+ * @return mixed
+ *   Width and height of the ad, or NULL
+ */
+function _adsense_dimensions($format) {
+  if (preg_match('!^(\d+)x(\d+)(.*)$!', $format, $matches)) {
+    return array('width' => $matches[1], 'height' => $matches[2]);
+  }
+  return NULL;
+}
+
+/**
  * Default AdSense ad unit theming.
  *
  * Simply add a div with the adsense and $module classes.
@@ -515,7 +532,7 @@ function adsense_request_unblock() {
 function theme_adsense_ad(array $vars) {
   $style = '';
   if (isset($vars['format']) && ($vars['format'] != 'responsive')) {
-    $ad_fmt = adsense_ad_formats($vars['format']);
+    $ad_fmt = _adsense_dimensions($vars['format']);
     $style = "style='display:inline-block;width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;'";
   }
 

@@ -138,11 +138,11 @@ function adsense_oldcode_block_configure($delta) {
  */
 function adsense_oldcode_block_save($delta, $edit) {
   $data = implode(':', array(
-    urlencode($edit['info']),
-    $edit['ad_format'],
-    $edit['ad_group'],
-    $edit['ad_channel'],
-    $edit['ad_align'],
+    urlencode(check_plain($edit['info'])),
+    check_plain($edit['ad_format']),
+    check_plain($edit['ad_group']),
+    check_plain($edit['ad_channel']),
+    check_plain($edit['ad_align']),
   ));
   variable_set('adsense_oldcode_ad_block_' . $delta, $data);
 }

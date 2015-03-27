@@ -116,7 +116,10 @@ function adsense_search_block_configure($delta) {
  * Implements hook_block_save().
  */
 function adsense_search_block_save($delta, $edit) {
-  $data = implode(':', array(urlencode($edit['info']), $edit['ad_channel']));
+  $data = implode(':', array(
+    urlencode(check_plain($edit['info'])),
+    check_plain($edit['ad_channel']),
+  ));
   variable_set('adsense_search_ad_block_' . $delta, $data);
 }
 

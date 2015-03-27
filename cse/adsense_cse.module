@@ -102,7 +102,10 @@ function adsense_cse_block_configure($delta = '') {
  * Implements hook_block_save().
  */
 function adsense_cse_block_save($delta = '', $edit = array()) {
-  $data = implode(':', array(urlencode($edit['info']), $edit['ad_slot']));
+  $data = implode(':', array(
+    urlencode(check_plain($edit['info'])),
+    check_plain($edit['ad_slot']),
+  ));
   variable_set('adsense_cse_ad_block_' . $delta, $data);
 }
 
