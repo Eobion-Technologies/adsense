@@ -1,6 +1,6 @@
-(function ($) {
+(function ($, Drupal, drupalSettings) {
   Drupal.behaviors.adSenseUnblock = {
-    attach: function () {
+    attach: function (context, settings) {
       setTimeout(function() {
         if ($('.adsense ins').contents().length == 0) {
           var $adsense = $('.adsense');
@@ -11,5 +11,4 @@
       }, 3000);
     }
   };
-
-})(jQuery);
+})(jQuery, Drupal, drupalSettings);

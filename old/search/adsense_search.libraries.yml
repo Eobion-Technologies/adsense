@@ -3,5 +3,6 @@ adsense_search.colorpicker:
   js:
     js/adsense_search.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
     - core/jquery.farbtastic

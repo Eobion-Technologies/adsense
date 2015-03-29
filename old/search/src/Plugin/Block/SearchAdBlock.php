@@ -42,11 +42,7 @@ class SearchAdBlock extends BlockBase implements AdBlockInterface {
    * {@inheritdoc}
    */
   public function build() {
-    return [
-      '#type' => 'markup',
-      '#markup' => $this->createAd()->display(),
-      '#attached' => ['library' => ['adsense/adsense']],
-    ];
+    return $this->createAd()->display();
   }
 
   /**

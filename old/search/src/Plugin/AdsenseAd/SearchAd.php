@@ -26,6 +26,7 @@ class SearchAd extends SearchAdBase {
   private $channel;
 
   public function __construct($args) {
+    $this->type = ADSENSE_TYPE_SEARCH;
     $ch = (!empty($args['channel'])) ? $args['channel'] : 1;
 
     $this->channel = $ch;
@@ -41,6 +42,7 @@ class SearchAd extends SearchAdBase {
 
   public function getAdContent() {
     $client = PublisherId::get();
+    \Drupal::moduleHandler()->alter('adsense', $client);
 
     $config = \Drupal::config('adsense_search.settings');
     $border   = $config->get('adsense_search_color_border');

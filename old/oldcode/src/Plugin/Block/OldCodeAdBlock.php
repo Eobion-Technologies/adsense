@@ -63,15 +63,7 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
         $classes[] = 'text-align-right';
         break;
     }
-    $class = implode(' ', $classes);
-
-    $text = $this->createAd()->display();
-
-    return [
-      '#type' => 'markup',
-      '#markup' => "<div class='$class'>{$text}</div>",
-      '#attached' => ['library' => ['adsense/adsense']],
-    ];
+    return $this->createAd()->display($classes);
   }
 
   /**

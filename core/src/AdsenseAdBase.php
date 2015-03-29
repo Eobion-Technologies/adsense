@@ -10,6 +10,7 @@ namespace Drupal\adsense;
 use Drupal\Component\Plugin\PluginBase;
 
 abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
+  protected $type;
 
   public static function createAd(array $args) {
     $is_search = (!empty($args['format']) && ($args['format'] == 'Search Box'));
@@ -29,14 +30,84 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
     return NULL;
   }
 
-  public function display() {
-    if (\Drupal::config('adsense.settings')->get('adsense_test_mode')) {
+  /**
+   * Display ad HTML.
+   *
+   * @return array
+   *   render array with ad or placeholder depending on current configuration.
+   */
+  public function display(array $classes) {
+    $config = \Drupal::config('adsense.settings');
+    $libraries = ['adsense/adsense.css'];
+
+    if (!$config->get('adsense_basic_id')) {
+      $text = '<!-- adsense: no publisher id configured. -->';
+    }
+    elseif ($config->get('adsense_test_mode') ||
+        \Drupal::currentUser()->hasPermission('show adsense placeholders')) {
+      // Show ad placeholder.
       $text = theme_adsense_placeholder($this->getAdPlaceholder());
     }
     else {
-      $text = theme_adsense_ad($this->getAdContent());
+      if ($config->get('adsense_disable')) {
+        $text = '<!-- adsense: adsense disabled. -->';
+      }
+      elseif (\Drupal::currentUser()->hasPermission('hide adsense')) {
+        $text = '<!-- adsense: disabled for current user. -->';
+      }
+      elseif (!$this->canInsertAnother()) {
+        $text = '<!--adsense: ad limit reached for type. -->';
+      }
+      else {
+        // Show ad.
+        $text = theme_adsense_ad($this->getAdContent());
+
+        // Display ad-block disabling request.
+        if ($config->get('adsense_unblock_ads')) {
+          $libraries[] = 'adsense/adsense.unblock';
+        }
+      }
     }
-    return $text;
+
+    if (!empty($classes)) {
+      $text = '<div class="' . implode(' ', $classes) . '">' . $text . '</div>';
+    }
+
+    return [
+      '#type' => 'markup',
+      '#markup' => $text,
+      '#attached' => ['library' => $libraries],
+    ];
+  }
+
+  /**
+   * Check if another ad of this type can be inserted.
+   *
+   * @return bool
+   *   TRUE if ad can be inserted.
+   */
+  public function canInsertAnother() {
+    static $num_ads = [
+      ADSENSE_TYPE_AD     => 0,
+      ADSENSE_TYPE_LINK   => 0,
+      ADSENSE_TYPE_SEARCH => 0,
+    ];
+
+    $max_ads = [
+      ADSENSE_TYPE_AD     => 3,
+      ADSENSE_TYPE_LINK   => 3,
+      ADSENSE_TYPE_SEARCH => 2,
+    ];
+
+    if ($num_ads[$this->type] < $max_ads[$this->type]) {
+      $num_ads[$this->type]++;
+      return TRUE;
+    }
+
+    // Because of #1627846, it's better to always return TRUE
+    return TRUE;
+
+    return FALSE;
   }
 
   /**

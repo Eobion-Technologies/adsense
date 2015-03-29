@@ -3,5 +3,6 @@ adsense_oldcode.colorpicker:
   js:
     js/adsense_oldcode.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
     - core/jquery.farbtastic

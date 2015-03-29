@@ -35,6 +35,7 @@ class AdsenseFilter extends FilterBase {
       'oldtag'  => '/\[adsense:([^:]+):(\d*):(\d*):?(\w*)\]/x',
       'tag'     => '/\[adsense:([^:]+):([^:\]]+)\]/x',
     ];
+    $modified = FALSE;
 
     foreach ($patterns as $mode => $pattern) {
       if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
@@ -77,6 +78,7 @@ class AdsenseFilter extends FilterBase {
           // Replace the first occurrence of the tag, in case we have the same
           // tag more than once.
           if (isset($ad)) {
+            $modified = TRUE;
             $ad_text = $ad->display();
 
             $str = '/\\' . $match[0] . '/';
@@ -88,7 +90,13 @@ class AdsenseFilter extends FilterBase {
 
     $result = new FilterProcessResult($text);
 
-    $result->addAssets(['library' => ['adsense/adsense']]);
+    if ($modified) {
+      $result->addAssets(['library' => ['adsense/adsense.css']]);
+      $config = \Drupal::config('adsense.settings');
+      if ($config->get('adsense_unblock_ads')) {
+        $result->addAssets(['library' => ['adsense/adsense.unblock']]);
+      }
+    }
 
     return $result;
   }

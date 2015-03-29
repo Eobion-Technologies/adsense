@@ -33,6 +33,9 @@ class ManagedAd extends ContentAdBase {
       $this->format = $fo;
       $this->slot = $sl;
       $this->shape = $sh;
+
+      $fmt = $this->adsenseAdFormats($fo);
+      $this->type = $fmt['type'];
     }
   }
 
@@ -53,6 +56,8 @@ class ManagedAd extends ContentAdBase {
   public function getAdContent() {
     if (!empty($this->format) && !empty($this->slot)) {
       $client = PublisherId::get();
+      \Drupal::moduleHandler()->alter('adsense', $client);
+
       // Get width and height from the format.
       list($width, $height) = $this->dimensions($this->format);
       $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : '';

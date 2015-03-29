@@ -42,17 +42,12 @@ class CustomSearchAdBlock extends BlockBase implements AdBlockInterface {
    * {@inheritdoc}
    */
   public function build() {
-    $libraries = ['adsense/adsense'];
     /*$config = \Drupal::config('adsense_cse.settings');
     if ($config->get('adsense_cse_logo') == 'adsense_cse_branding_watermark') {
       $libraries[] = 'adsense_cse/adsense_cse.searchbox';
     }*/
 
-    return [
-      '#type' => 'markup',
-      '#markup' => $this->createAd()->display(),
-      '#attached' => ['library' => $libraries],
-    ];
+    return $this->createAd()->display();
   }
 
   /**

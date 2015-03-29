@@ -26,6 +26,7 @@ class CustomSearchAd extends SearchAdBase {
   private $slot;
 
   public function __construct($args) {
+    $this->type = ADSENSE_TYPE_SEARCH;
     $sl = (!empty($args['slot'])) ? $args['slot'] : '';
 
     if (!empty($sl)) {
@@ -48,6 +49,7 @@ class CustomSearchAd extends SearchAdBase {
     if (!empty($this->slot)) {
       global $base_url;
       $client = PublisherId::get();
+      \Drupal::moduleHandler()->alter('adsense', $client);
 
       $cse_config = \Drupal::config('adsense_cse.settings');
 

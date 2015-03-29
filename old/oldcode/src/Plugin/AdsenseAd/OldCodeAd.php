@@ -41,6 +41,9 @@ class OldCodeAd extends ContentAdBase {
       $this->format = $fo;
       $this->group = $gr;
       $this->channel = $ch;
+
+      $fmt = $this->adsenseAdFormats($fo);
+      $this->type = $fmt['type'];
     }
   }
 
@@ -63,6 +66,8 @@ class OldCodeAd extends ContentAdBase {
       $oldcode_config = \Drupal::config('adsense_oldcode.settings');
 
       $client = PublisherId::get();
+      \Drupal::moduleHandler()->alter('adsense', $client);
+
       // Get width and height from the format.
       list($width, $height) = $this->dimensions($this->format);
 
