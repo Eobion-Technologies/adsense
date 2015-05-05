@@ -2,20 +2,20 @@
 
 /**
  * @file
- * Displays the page containing the results of the Adsense for Search box
+ * Displays the page containing the results of the Adsense for Search box.
  */
 
 /**
- * Creates the CSE search results page for site-embedded search results
+ * Creates the CSE search results page for site-embedded search results.
  *
- * @return
+ * @return string
  *   JavaScript that embeds the Google results
  */
 function _adsense_cse_results() {
   // Log the search keys:
   watchdog('AdSense search', 'Search keywords: '. urldecode(check_plain($_GET['as_q'])));
 
-  // Output search results
+  // Output search results.
   $width   = variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT);
   $country = variable_get('adsense_cse_country', ADSENSE_CSE_COUNTRY_DEFAULT);
 
@@ -36,7 +36,7 @@ function _adsense_cse_results() {
 <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
 CSE_RESULTS_TXT;
 
-    // Remove empty lines
+    // Remove empty lines.
     $output = str_replace("\n\n", "\n", $output);
   }
 

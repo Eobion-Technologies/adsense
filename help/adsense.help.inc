@@ -1,22 +1,19 @@
 <?php
-// Copyright 2005-2008 Khalid Baheyeldin - http://2bits.com
-// Copyright 2008 Joao Ventura - http://www.venturas.org
-
 /**
  * @file
- * Helpfile for the settings tab of the adsense module
+ * Helpfile for the settings tab of the adsense module.
  */
 
 /**
- * Creates the help text for the settings tab
+ * Creates the help text for the settings tab.
  *
- * @return
+ * @return string
  *   HTML with the help text
  */
 function adsense_help_text() {
   $base = rtrim(base_path(), '/');
 
-  // Get the ad formats
+  // Get the ad formats.
   $ads = adsense_ad_formats();
   $ads['Search Box'] = adsense_ad_formats('Search Box');
 
@@ -29,7 +26,7 @@ function adsense_help_text() {
     $rows[] = array($format, $data['desc'], $width, $height);
   }
 
-  // Create the ad format text
+  // Create the ad format text.
   $ad_formats_text = theme('table', $headers, $rows);
 
   if (module_exists('adsense_cse')) {

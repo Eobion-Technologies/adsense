@@ -36,12 +36,12 @@ function adsense_oldcode_settings() {
     '#title'       => t('Ad groups'),
   );
 
-  // Add Farbtastic color picker
+  // Add Farbtastic color picker.
   drupal_add_css('misc/farbtastic/farbtastic.css', 'module', 'all', FALSE);
   drupal_add_js('misc/farbtastic/farbtastic.js');
   drupal_add_js(drupal_get_path('module', 'adsense_oldcode') .'/adsense_oldcode.js');
 
-  for ($group=1; $group <= ADSENSE_MAX_GROUPS ; $group++) {
+  for ($group = 1; $group <= ADSENSE_MAX_GROUPS; $group++) {
     $form['types_colors']['groups'][$group] = array(
       '#type' => 'fieldset',
       '#collapsible' => TRUE,
@@ -147,7 +147,7 @@ function adsense_oldcode_settings() {
     '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.', array('!channels' => ADSENSE_MAX_CHANNELS)),
   );
 
-  for ($channel=1; $channel <= ADSENSE_MAX_CHANNELS ; $channel++) {
+  for ($channel = 1; $channel <= ADSENSE_MAX_CHANNELS; $channel++) {
     $form['channels']['adsense_ad_channel_'. $channel] = array(
       '#type' => 'textfield',
       '#title' => t('Custom channel ID') .' '. $channel,
@@ -179,7 +179,7 @@ function _adsense_oldcode_settings_validate($form, &$form_state) {
     'adsense_color_text_',
   );
 
-  for ($group = 1; $group <= ADSENSE_MAX_GROUPS ; $group++) {
+  for ($group = 1; $group <= ADSENSE_MAX_GROUPS; $group++) {
     foreach ($colors as $field_name) {
       $field_value = $form_state['values'][$field_name . $group];
       $form_state['values'][$field_name . $group] = drupal_strtoupper($field_value);

@@ -2,18 +2,18 @@
 
 /**
  * @file
- * Contains the functions to display the logs tracked by the adsense_click
- * module.
- *
- * This file is included by the adsense_click module.
+ * Functions to display the logs tracked by the adsense_click module.
  */
 
+/**
+ * Click log.
+ */
 function adsense_click_log() {
   $header = array(
     array('data' => t('Timestamp'), 'field' => 'timestamp', 'sort' => 'desc'),
-    array('data' => t('Path'),      'field' => 'path'),
-    array('data' => t('IP/Host'),   'field' => 'ip'),
-    array('data' => t('Referrer'),  'field' => 'referrer'),
+    array('data' => t('Path'), 'field' => 'path'),
+    array('data' => t('IP/Host'), 'field' => 'ip'),
+    array('data' => t('Referrer'), 'field' => 'referrer'),
   );
 
   $name_resolve = variable_get('adsense_click_tracking_name_resolve', ADSENSE_CLICK_TRACKING_NAME_RESOLVE_DEFAULT);
@@ -30,7 +30,10 @@ function adsense_click_log() {
     }
 
     $rows[] = array(
-      array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
+      array(
+        'data' => format_date($log->timestamp, 'small'),
+        'nowrap' => 'nowrap',
+      ),
       _adsense_click_format_path($log->path, $log->title),
       l($host, 'http://whois.domaintools.com/'. $log->ip),
       _adsense_click_format_path($log->referrer),
@@ -40,11 +43,14 @@ function adsense_click_log() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
+/**
+ * Click top pages.
+ */
 function adsense_click_top_pages() {
   $header = array(
-    array('data' => t('Path'),   'field' => 'path'),
+    array('data' => t('Path'), 'field' => 'path'),
     array('data' => t('Clicks'), 'field' => 'count', 'sort' => 'desc'),
-    array('data' => t('Last'),   'field' => 'last'),
+    array('data' => t('Last'), 'field' => 'last'),
   );
 
   $sql = 'SELECT path, COUNT(*) AS count, MAX(timestamp) AS last FROM {adsense_clicks} GROUP BY path'. tablesort_sql($header);
@@ -62,10 +68,13 @@ function adsense_click_top_pages() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
+/**
+ * Click by day.
+ */
 function adsense_click_by_day() {
   global $db_type;
   $header = array(
-    array('data' => t('Day'),    'field' => 'day', 'sort' => 'desc'),
+    array('data' => t('Day'), 'field' => 'day', 'sort' => 'desc'),
     array('data' => t('Clicks'), 'field' => 'count'),
   );
 
@@ -75,6 +84,7 @@ function adsense_click_by_day() {
       $sql_count = "SELECT COUNT(DISTINCT(FROM_UNIXTIME(timestamp, '%y-%m-%%d'))) FROM {adsense_clicks}";
       $sql = "SELECT FROM_UNIXTIME(timestamp, '%Y-%m-%%d') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" . tablesort_sql($header);
       break;
+
     case 'pgsql':
       $sql_count = "SELECT COUNT(DISTINCT(TO_CHAR(timestamp, 'YYYY-MM-DD'))) FROM {adsense_clicks}";
       $sql = "SELECT TO_CHAR(timestamp, 'YYYY-MM-DD') AS day, COUNT(*) AS count FROM {adsense_clicks} GROUP BY day" . tablesort_sql($header);
@@ -92,6 +102,9 @@ function adsense_click_by_day() {
   return theme('table', $header, $rows) . theme('pager', NULL, 50, 0);
 }
 
+/**
+ * Format path.
+ */
 function _adsense_click_format_path($path, $title = '', $width = 32) {
   global $base_url;
 

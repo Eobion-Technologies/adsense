@@ -2,8 +2,7 @@
 
 /**
  * @file
- * Contains the administrative functions of the revenue_sharing_basic
- * module.
+ * Administrative functions of the revenue_sharing_basic module.
  *
  * This file is included by the basic revenue sharing  module, and includes
  * the settings form.
@@ -134,9 +133,9 @@ function theme_revenue_sharing_basic_author_percentage_role($form) {
 }
 
 /**
- * Auxiliary function to create the list for the revenue_sharing_basic_client_id_profile_field field
+ * Create the list for the revenue_sharing_basic_client_id_profile_field field.
  *
- * @return
+ * @return array
  *   array of fields with the field IDs as keys and the field titles as values
  *
  * @ingroup forms

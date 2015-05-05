@@ -74,6 +74,9 @@ function adsense_click_init() {
   }
 }
 
+/**
+ * Registers clicks in the database.
+ */
 function adsense_click_register() {
   if (variable_get('adsense_click_tracking', ADSENSE_CLICK_TRACKING_DEFAULT)) {
     db_query("INSERT INTO {adsense_clicks} (ip, timestamp, path, title, referrer) values('%s', %d, '%s', '%s', '%s')",

@@ -2,9 +2,12 @@
 
 /**
  * @file
- * Install file of the adsense_click module
+ * Install file of the adsense_click module.
  */
 
+/**
+ * Implementation of hook_install().
+ */
 function adsense_click_install() {
   // Create tables.
   drupal_install_schema('adsense_click');
@@ -71,6 +74,9 @@ function adsense_click_schema() {
   return $schema;
 }
 
+/**
+ * Implementation of hook_update_n().
+ */
 function adsense_click_update_1() {
   $schema['adsense_clicks'] = array(
     'fields' => array(
@@ -110,18 +116,49 @@ function adsense_click_update_1() {
   return $ret;
 }
 
+/**
+ * Implementation of hook_update_n().
+ */
 function adsense_click_update_2() {
   $ret = array();
-  db_add_field($ret, 'adsense_clicks', 'title', array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''));
-  db_add_field($ret, 'adsense_clicks', 'referrer', array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''));
+  db_add_field($ret, 'adsense_clicks', 'title', array(
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ));
+  db_add_field($ret, 'adsense_clicks', 'referrer', array(
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ));
   return $ret;
 }
 
+/**
+ * Implementation of hook_update_n().
+ */
 function adsense_click_update_3() {
   $ret = array();
-  db_change_field($ret, 'adsense_clicks', 'path', 'path', array('type' => 'varchar', 'length' => '255', 'not null' => FALSE, 'default' => ''));
-  db_change_field($ret, 'adsense_clicks', 'title', 'title', array('type' => 'varchar', 'length' => '255', 'not null' => FALSE, 'default' => ''));
-  db_change_field($ret, 'adsense_clicks', 'referrer', 'referrer', array('type' => 'varchar', 'length' => '255', 'not null' => FALSE, 'default' => ''));
+  db_change_field($ret, 'adsense_clicks', 'path', 'path', array(
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => FALSE,
+    'default' => '',
+  ));
+  db_change_field($ret, 'adsense_clicks', 'title', 'title', array(
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => FALSE,
+    'default' => '',
+  ));
+  db_change_field($ret, 'adsense_clicks', 'referrer', 'referrer', array(
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => FALSE,
+    'default' => '',
+  ));
   db_add_index($ret, 'adsense_clicks', 'path', array('path'));
   return $ret;
 }

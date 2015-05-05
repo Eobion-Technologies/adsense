@@ -47,7 +47,11 @@ function adsense_main_settings() {
     '#type' => 'textarea',
     '#default_value' => variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT),
     '#rows' => 3,
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
+      '%blog' => 'blog',
+      '%blog-wildcard' => 'blog/*',
+      '%front' => '<front>',
+    )),
     '#wysiwyg' => FALSE,
   );
 
@@ -110,7 +114,7 @@ function adsense_main_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#title' => t('Undocumented options'),
-    '#description' => t("Warning: Use of these options is AT YOUR OWN RISK. Google will never generate an ad with any of these options, so using one of them is a violation of Google AdSense's Terms and Conditions. USE OF THESE OPTIONS MAY RESULT IN GETTING BANNED FROM THE PROGRAM. You may lose all the revenue accumulated in your account. FULL RESPONSABILITY FOR THE USE OF THESE OPTIONS IS YOURS. In other words, don't complain to the authors about getting banned, even if using one of these options was provided as a solution to a reported problem."),
+    '#description' => t("Warning: Use of these options is AT YOUR OWN RISK. Google will never generate an ad with any of these options, so using one of them is a violation of Google AdSense's Terms and Conditions. USE OF THESE OPTIONS MAY RESULT IN GETTING BANNED FROM THE PROGRAM. You may lose all the revenue accumulated in your account. FULL RESPONSIBILITY FOR THE USE OF THESE OPTIONS IS YOURS. In other words, don't complain to the authors about getting banned, even if using one of these options was provided as a solution to a reported problem."),
   );
 
   $form['secret']['agreed'] = array(
@@ -183,7 +187,7 @@ function adsense_id_settings() {
  * Validate adsense_id_settings form.
  */
 function _adsense_id_settings_validate($form, &$form_state) {
-  // Trim remaning whitespace.
+  // Trim remaining whitespace.
   $form_state['values']['adsense_basic_id'] = trim($form_state['values']['adsense_basic_id']);
 
   // Verify it's a valid Adsense publisher ID.
@@ -193,9 +197,9 @@ function _adsense_id_settings_validate($form, &$form_state) {
 }
 
 /**
- * Search for the available Publisher ID modules
+ * Search for the available Publisher ID modules.
  *
- * @return
+ * @return array
  *   array of selectable Publisher ID functions
  */
 function _adsense_id_settings_client_id_mods() {

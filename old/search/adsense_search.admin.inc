@@ -22,7 +22,7 @@ function adsense_search_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#title' => t('Search Box Options'),
-    '#description' => t('Allows users to search the web or the specific site(s) of your choice. Enter the site\'s URL without the last \'/\''),
+    '#description' => t("Allows users to search the web or the specific site(s) of your choice. Enter the site's URL without the last '/'"),
   );
 
   $form['searchbox']['adsense_search_domain_0'] = array(
@@ -144,7 +144,7 @@ function adsense_search_settings() {
     '#title' => t('Color attributes'),
   );
 
-  // Add Farbtastic color picker
+  // Add Farbtastic color picker.
   drupal_add_css('misc/farbtastic/farbtastic.css', 'module', 'all', FALSE);
   drupal_add_js('misc/farbtastic/farbtastic.js');
   drupal_add_js(drupal_get_path('module', 'adsense_search') .'/adsense_search.js');
@@ -241,7 +241,7 @@ function adsense_search_settings() {
     '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.', array('!channels' => ADSENSE_MAX_CHANNELS)),
   );
 
-  for ($channel=1; $channel <= ADSENSE_MAX_CHANNELS ; $channel++) {
+  for ($channel = 1; $channel <= ADSENSE_MAX_CHANNELS; $channel++) {
     $form['channels']['adsense_ad_channel_'. $channel] = array(
       '#type' => 'textfield',
       '#title' => t('Custom channel ID') .' '. $channel,
@@ -263,7 +263,7 @@ function _adsense_search_settings_validate($form, &$form_state) {
   $textbox_length = $form_state['values']['adsense_search_textbox_length'];
   $min = 8;
   $max = 64;
-  if (($textbox_length < $min ) || ($textbox_length > $max )) {
+  if (($textbox_length < $min) || ($textbox_length > $max)) {
     form_set_error('adsense_search_textbox_length', t("Text Box Length must be between !min and !max", array('!min' => $min, '!max' => $max)));
   }
 

@@ -1,11 +1,10 @@
-
 if (Drupal.jsEnabled) {
   $(document).ready(function () {
-    // initiate farbtastic colorpicker
+    // Initiate farbtastic colorpicker.
     var farb = $.farbtastic("#colorpicker");
     var firstField = "";
 
-    $("input.form-text").each( function() {
+    $("input.form-text").each(function() {
       if (this.name.substring(0, 20) == "adsense_search_color") {
         if (firstField == "") {
           firstField = this;

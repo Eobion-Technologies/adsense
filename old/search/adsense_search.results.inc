@@ -2,20 +2,20 @@
 
 /**
  * @file
- * Displays the page containing the results of the Adsense for Search box
+ * Displays the page containing the results of the Adsense for Search box.
  */
 
 /**
- * Creates the Adsense for Search search results page for site-embedded search results
+ * Creates the Adsense for Search page for site-embedded search results.
  *
- * @return
+ * @return string
  *   JavaScript that embeds the Google results
  */
 function _adsense_search_results() {
-  // Log the search keys:
+  // Log the search keys.
   watchdog('AdSense', 'Search keywords: %keyword', array('%keyword' => urldecode($_GET['as_q'])), WATCHDOG_NOTICE);
 
-  // Output search results
+  // Output search results.
   $width   = variable_get('adsense_search_frame_width', ADSENSE_SEARCH_FRAME_WIDTH_DEFAULT);
   $country = variable_get('adsense_search_country', ADSENSE_SEARCH_COUNTRY_DEFAULT);
 
@@ -38,10 +38,9 @@ function _adsense_search_results() {
 <!-- Google Search Result Snippet Ends -->
 SEARCH_RESULTS_TXT;
 
-    // Remove empty lines
+    // Remove empty lines.
     $output = str_replace("\n\n", "\n", $output);
   }
 
   return $output;
 }
-

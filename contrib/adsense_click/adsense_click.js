@@ -1,11 +1,11 @@
-/* $Id */
-
 /**
- * adsense_click.js - fires counter to log adsense clicks
+ * @file
+ * Fires counter to log adsense clicks.
  */
+
 var lastStatus = '';
 
-function adsense_click(e) {
+function adsense_click() {
   window.focus();
   if (window.status && (window.status != lastStatus)) {
     lastStatus = window.status;
@@ -21,7 +21,7 @@ var iframeObj;
 var elements;
 elements = document.getElementsByTagName("iframe");
 for (var i = 0; i < elements.length; i++) {
-  if(elements[i].src.indexOf('googlesyndication.com') > -1) {
+  if (elements[i].src.indexOf('googlesyndication.com') > -1) {
     if (document.layers) {
       elements[i].captureEvents(Events.ONFOCUS);
     }
@@ -29,4 +29,3 @@ for (var i = 0; i < elements.length; i++) {
     iframeObj = elements[i];
   }
 }
-

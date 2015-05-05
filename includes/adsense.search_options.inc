@@ -2,52 +2,52 @@
 
 /**
  * @file
- * Helper functions used by AdSense for Search configuration forms
+ * Helper functions used by AdSense for Search configuration forms.
  */
 
 /**
- * Helper function to supply the available encodings for the search configuration forms
+ * Supply the available encodings for the search configuration forms.
  *
- * @return
+ * @return array
  *   array of encoding options with the key used by Google and its description
  */
 function _adsense_search_options_encoding() {
   return array(
-    'UTF-8'        =>  t('Unicode (UTF-8)'),
-    'ISO-8859-1'   =>  t('West European Latin-1 (ISO-8859-1)'),
-    'ISO-8859-15'  =>  t('West European Latin-9 (ISO-8859-15)'),
-    'windows-1252' =>  t('Western (Windows-1252)'),
-    'ISO-8859-10'  =>  t('Nordic Latin-6 (ISO-8859-10)'),
-    'ISO-8859-7'   =>  t('Greek (ISO-8859-7)'),
-    'Shift_JIS'    =>  t('Japanese (Shift_JIS)'),
-    'EUC-JP'       =>  t('Japanese (EUC-JP)'),
-    'ISO-2022-JP'  =>  t('Japanese (ISO-2022-JP)'),
-    'GB2312'       =>  t('Chinese Simplified (GB2312)'),
-    'GB18030'      =>  t('Chinese Simplified (GB18030)'),
-    'big5'         =>  t('Chinese Traditional (Big5)'),
-    'EUC-KR'       =>  t('Korean (EUC-KR)'),
-    'windows-874'  =>  t('Thai (Windows-874)'),
-    'windows-1258' =>  t('Vietnamese (Windows-1258)'),
-    'ISO-8859-2'   =>  t('Central European Latin-2 (ISO-8859-2)'),
-    'windows-1250' =>  t('Central European (Windows-1250)'),
-    'cp852'        =>  t('Central European (CP852)'),
-    'ISO-8859-9'   =>  t('Turkish Latin-5 (ISO-8859-9)'),
-    'windows-1254' =>  t('Turkish (Windows-1254)'),
-    'ISO-8859-3'   =>  t('South European Latin-3 (ISO-8859-3)'),
-    'ISO-8859-8-I' =>  t('Hebrew (ISO-8859-8-I)'),
-    'windows-1255' =>  t('Hebrew (Windows-1255)'),
-    'windows-1256' =>  t('Arabic (Windows-1256)'),
-    'ISO-8859-5'   =>  t('Cyrillic (ISO-8859-5)'),
-    'KOI8-R'       =>  t('Cyrillic (KOI8-R)'),
-    'windows-1251' =>  t('Cyrillic (Windows-1251)'),
-    'cp-866'       =>  t('Cyrillic/Russian (CP-866)'),
+    'UTF-8'        => t('Unicode (UTF-8)'),
+    'ISO-8859-1'   => t('West European Latin-1 (ISO-8859-1)'),
+    'ISO-8859-15'  => t('West European Latin-9 (ISO-8859-15)'),
+    'windows-1252' => t('Western (Windows-1252)'),
+    'ISO-8859-10'  => t('Nordic Latin-6 (ISO-8859-10)'),
+    'ISO-8859-7'   => t('Greek (ISO-8859-7)'),
+    'Shift_JIS'    => t('Japanese (Shift_JIS)'),
+    'EUC-JP'       => t('Japanese (EUC-JP)'),
+    'ISO-2022-JP'  => t('Japanese (ISO-2022-JP)'),
+    'GB2312'       => t('Chinese Simplified (GB2312)'),
+    'GB18030'      => t('Chinese Simplified (GB18030)'),
+    'big5'         => t('Chinese Traditional (Big5)'),
+    'EUC-KR'       => t('Korean (EUC-KR)'),
+    'windows-874'  => t('Thai (Windows-874)'),
+    'windows-1258' => t('Vietnamese (Windows-1258)'),
+    'ISO-8859-2'   => t('Central European Latin-2 (ISO-8859-2)'),
+    'windows-1250' => t('Central European (Windows-1250)'),
+    'cp852'        => t('Central European (CP852)'),
+    'ISO-8859-9'   => t('Turkish Latin-5 (ISO-8859-9)'),
+    'windows-1254' => t('Turkish (Windows-1254)'),
+    'ISO-8859-3'   => t('South European Latin-3 (ISO-8859-3)'),
+    'ISO-8859-8-I' => t('Hebrew (ISO-8859-8-I)'),
+    'windows-1255' => t('Hebrew (Windows-1255)'),
+    'windows-1256' => t('Arabic (Windows-1256)'),
+    'ISO-8859-5'   => t('Cyrillic (ISO-8859-5)'),
+    'KOI8-R'       => t('Cyrillic (KOI8-R)'),
+    'windows-1251' => t('Cyrillic (Windows-1251)'),
+    'cp-866'       => t('Cyrillic/Russian (CP-866)'),
   );
 }
 
 /**
- * Helper function to supply the available countries for the search configuration forms
+ * Supply the available countries for the search configuration forms.
  *
- * @return
+ * @return array
  *   array of countries with the key used by Google and its description
  */
 function _adsense_search_options_country() {
@@ -122,7 +122,7 @@ function _adsense_search_options_country() {
     'www.google.cd'     => t('Congo (DRC)'),
     'www.google.co.ck'  => t('Cook Islands'),
     'www.google.co.cr'  => t('Costa Rica'),
-    'www.google.ci'     => t('Cote d\'Ivoire'),
+    'www.google.ci'     => t("Cote d'Ivoire"),
     'www.google.hr'     => t('Croatia'),
     'www.google.com.cu' => t('Cuba'),
     'www.google.com.cy' => t('Cyprus'),
@@ -165,7 +165,7 @@ function _adsense_search_options_country() {
     'www.google.is'     => t('Iceland'),
     'www.google.co.in'  => t('India'),
     'www.google.co.id'  => t('Indonesia'),
-//    'www.google.ir'     => t('Iran'),
+  // 'www.google.ir'     => t('Iran'),
     'www.google.iq'     => t('Iraq'),
     'www.google.ie'     => t('Ireland'),
     'www.google.co.il'  => t('Israel'),
@@ -220,7 +220,7 @@ function _adsense_search_options_country() {
     'www.google.nu'     => t('Niue'),
     'www.google.com.nf' => t('Norfolk Island'),
     'www.google.com'    => t('Northern Mariana Islands'),
-//    'www.google.com'    => t('North Korea'),
+  // 'www.google.com'    => t('North Korea'),
     'www.google.com.om' => t('Oman'),
     'www.google.com.pk' => t('Pakistan'),
     'www.google.com'    => t('Palau'),
@@ -296,9 +296,9 @@ function _adsense_search_options_country() {
 }
 
 /**
- * Helper function to supply the available languages for the search configuration forms
+ * Supply the available languages for the search configuration forms.
  *
- * @return
+ * @return array
  *   array of language options with the key used by Google and its description
  */
 function _adsense_search_options_language() {
