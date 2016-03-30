@@ -1,6 +1,0 @@
-name: 'AdSense core'
-type: module
-description: 'Displays Google AdSense ads on your site to earn revenue. Requires at least one additional ad unit generator module.'
-package: Adsense
-core: 8.x
-configure: adsense.main_settings

@@ -1,4 +1,0 @@
-adsense_cse.searchbox:
-  version: 1.x
-  js:
-    js/adsense_cse.js: {}

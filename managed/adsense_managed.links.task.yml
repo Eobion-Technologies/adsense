@@ -1,5 +1,0 @@
-adsense_managed.settings:
-  route_name: adsense_managed.settings
-  title: 'Managed Ads'
-  weight: 1
-  base_route: adsense.main_settings
