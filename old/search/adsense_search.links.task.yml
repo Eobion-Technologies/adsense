@@ -1,5 +1,0 @@
-adsense_search.settings:
-  route_name: adsense_search.settings
-  title: Search
-  weight: 4
-  base_route: adsense.main_settings
