@@ -19,10 +19,10 @@ define('ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED', 0);
 function adsense_managed_init() {
   if (variable_get('adsense_managed_page_level_ads_enabled', ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED)) {
     if (!_adsense_page_match()) {
-      $ad = '<!-- adsense page-level ads: page not in match list -->';
+      $script = '<!-- adsense page-level ads: page not in match list -->';
     }
     elseif (!_adsense_check_if_enabled()) {
-      $ad = '<!-- adsense page-level ads: ads disabled -->';
+      $script = '<!-- adsense page-level ads: ads disabled -->';
     }
     else {
       $client = adsense_get_client_slot_id();
@@ -283,7 +283,7 @@ function _adsense_managed_get_block_config($delta = 0) {
 function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
   $ad = _adsense_dimensions($format);
 
-  if (($ad === NULL) || empty($slot)) {
+  if (empty($slot) || (($format != 'responsive')  && ($ad === NULL))) {
     $output = "";
   }
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
@@ -294,7 +294,6 @@ function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
     ));
   }
   else {
-
     if ($format == 'responsive') {
       // Responsive smart sizing code.
       $output = <<<MANAGED_RESP_SMART_TXT
