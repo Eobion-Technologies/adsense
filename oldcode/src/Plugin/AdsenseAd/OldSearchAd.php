@@ -7,8 +7,6 @@
 
 namespace Drupal\adsense_oldcode\Plugin\AdsenseAd;
 
-use \Drupal\Core\Url;
-
 use Drupal\adsense\SearchAdBase;
 use Drupal\adsense\PublisherId;
 
