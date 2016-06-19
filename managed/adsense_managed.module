@@ -38,7 +38,7 @@ EOF;
     }
     $ad = array(
       '#type' => 'markup',
-      '#markup' => $ad,
+      '#markup' => $script,
       '#weight' => 100,
     );
     drupal_add_html_head($ad, 'adsense_managed_page_level_ad_script');
