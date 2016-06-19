@@ -25,10 +25,10 @@ class CseResultsController extends ControllerBase {
     $width = $config->get('adsense_cse_frame_width');
     $country = $config->get('adsense_cse_country');
 
-    if (TRUE || $config->get('adsense_test_mode')) {
+    if ($config->get('adsense_test_mode')) {
       $content = [
         '#theme' => 'adsense_ad',
-        '#content' => ['#markup' => nl2br("Results\nwidth = ${width}\ncountry = ${country}")],
+        '#content' => ['#markup' => nl2br("Results\nwidth = $width\ncountry = $country")],
         '#classes' => ['adsense-placeholder'],
         '#width' => $width,
         '#height' => 100,
@@ -37,7 +37,7 @@ class CseResultsController extends ControllerBase {
     else {
       // Log the search keys.
       \Drupal::logger('AdSense CSE')->notice('Search keywords: %keyword', [
-        '%keyword' => urldecode($_GET['q']),
+        '%keyword' => urldecode($_GET['as_q']),
       ]);
 
       $content = [

@@ -10,7 +10,6 @@ namespace Drupal\adsense\Plugin\Block;
 use Drupal\adsense\AdBlockInterface;
 use Drupal\adsense\Plugin\AdsenseAd\CustomSearchAd;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -56,19 +55,20 @@ class CustomSearchAdBlock extends BlockBase implements AdBlockInterface {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+
+    // Hide block title by default.
+    $form['label_display']['#default_value'] = FALSE;
+
     $link = Link::fromTextAndUrl(t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
 
     $form['ad_slot'] = [
       '#type' => 'textfield',
       '#title' => t('Ad ID'),
       '#default_value' => $this->configuration['ad_slot'],
-      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.', ['@adsensepage' => $link]),
+      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.',
+        ['@adsensepage' => $link]),
       '#required' => TRUE,
     ];
-
-    $form['cache']['#disabled'] = TRUE;
-    $form['cache']['max_age']['#value'] = Cache::PERMANENT;
-    $form['cache']['#description'] = t('This block is always cached forever, it is not configurable.');
 
     return $form;
   }
@@ -86,13 +86,6 @@ class CustomSearchAdBlock extends BlockBase implements AdBlockInterface {
   public function getCacheMaxAge() {
     /*return Cache::PERMANENT;*/
     return 0;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isCacheable() {
-    return TRUE;
   }
 
 }

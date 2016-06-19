@@ -82,6 +82,10 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+
+    // Hide block title by default.
+    $form['label_display']['#default_value'] = FALSE;
+
     $link = Link::fromTextAndUrl(t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
 
     $ad_list = [];
@@ -93,7 +97,8 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
       '#type' => 'textfield',
       '#title' => t('Ad ID'),
       '#default_value' => $this->configuration['ad_slot'],
-      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.', ['@adsensepage' => $link]),
+      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.',
+        ['@adsensepage' => $link]),
       '#required' => TRUE,
     ];
 
@@ -184,10 +189,6 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
       '#description' => t('Select the horizontal alignment of the ad within the block.'),
     ];
 
-    $form['cache']['#disabled'] = TRUE;
-    $form['cache']['max_age']['#value'] = 0;
-    $form['cache']['#description'] = t('This block is always cached forever, it is not configurable.');
-
     return $form;
   }
 
@@ -209,14 +210,6 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
   public function getCacheMaxAge() {
     /*return Cache::PERMANENT;*/
     return 0;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isCacheable() {
-    /*return TRUE;*/
-    return FALSE;
   }
 
 }

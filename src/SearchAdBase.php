@@ -304,4 +304,20 @@ abstract class SearchAdBase extends AdsenseAdBase {
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  static public function adsenseAdFormats($key = NULL) {
+    $ads = [
+      'Search Box' => ['type' => ADSENSE_TYPE_SEARCH, 'desc' => t('Search Box')],
+    ];
+
+    if (!empty($key)) {
+      return (array_key_exists($key, $ads)) ? $ads[$key] : NULL;
+    }
+    else {
+      return $ads;
+    }
+  }
+
 }

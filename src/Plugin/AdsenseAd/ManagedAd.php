@@ -53,8 +53,8 @@ class ManagedAd extends ContentAdBase {
       list($width, $height) = $this->dimensions($this->format);
 
       $content = \Drupal::config('adsense.settings')->get('adsense_placeholder_text');
-      $content .= "\nclient = ca-${client}\nslot = {$this->slot}";
-      $content .= ($this->format == 'responsive') ? "\nshape = " . implode(',', $this->shape) : "\nwidth = ${width}\nheight = ${height}";
+      $content .= "\nclient = ca-$client\nslot = {$this->slot}";
+      $content .= ($this->format == 'responsive') ? "\nshape = " . implode(',', $this->shape) : "\nwidth = $width\nheight = $height";
 
       return [
         '#content' => ['#markup' => nl2br($content)],
@@ -71,11 +71,17 @@ class ManagedAd extends ContentAdBase {
    */
   public function getAdContent() {
     if (!empty($this->format) && !empty($this->slot)) {
+      $config = \Drupal::config('adsense.settings');
       $client = PublisherId::get();
       \Drupal::moduleHandler()->alter('adsense', $client);
 
       // Get width and height from the format.
       list($width, $height) = $this->dimensions($this->format);
+
+      $secret = '';
+      if ($lang = $config->get('adsense_secret_language')) {
+        $secret = "    google_language = '$lang';\n";
+      }
 
       if ($this->format == 'responsive') {
         $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : '';
@@ -87,10 +93,10 @@ class ManagedAd extends ContentAdBase {
           '#client' => $client,
           '#slot' => $this->slot,
           '#shape' => $shape,
+          '#secret' => $secret,
         ];
       }
       else {
-        $config = \Drupal::config('adsense.settings');
         if ($config->get('adsense_managed_async')) {
           // Asynchronous code.
           $content = [
@@ -100,15 +106,11 @@ class ManagedAd extends ContentAdBase {
             '#height' => $height,
             '#client' => $client,
             '#slot' => $this->slot,
+            '#secret' => $secret,
           ];
         }
         else {
           // Synchronous code.
-          $secret = '';
-          if ($lang = $config->get('adsense_secret_language')) {
-            $secret = "    google_language = '$lang';\n";
-          }
-
           $content = [
             '#theme' => 'adsense_managed_sync',
             '#format' => $this->format,
