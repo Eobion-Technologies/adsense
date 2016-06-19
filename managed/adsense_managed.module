@@ -11,6 +11,39 @@
 define('ADSENSE_MANAGED_AD_BLOCK_DEFAULT', '');
 define('ADSENSE_MANAGED_ASYNC_DEFAULT', 0);
 define('ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT', 3);
+define('ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED', 0);
+
+/**
+ * Implements hook_init().
+ */
+function adsense_managed_init() {
+  if (variable_get('adsense_managed_page_level_ads_enabled', ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED)) {
+    if (!_adsense_page_match()) {
+      $ad = '// adsense page-level ads: page not in match list';
+    }
+    elseif (!_adsense_check_if_enabled()) {
+      $ad = '// adsense page-level ads: ads disabled';
+    }
+    else {
+      $client = adsense_get_client_slot_id();
+      $ad = <<<EOF
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-$client",
+    enable_page_level_ads: true
+  });
+</script>
+EOF;
+      $script = array(
+        '#type' => 'markup',
+        '#markup' => $ad,
+        '#weight' => 100,
+      );
+    }
+    drupal_add_html_head($script, 'adsense_managed_page_level_ad_script');
+  }
+}
 
 /**
  * Implements hook_menu().
