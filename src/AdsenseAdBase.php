@@ -86,8 +86,8 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
       return [
         '#theme' => 'adsense_ad',
         '#content' => $content,
-        '#width' => $content['#width'],
-        '#height' => $content['#height'],
+        '#width' => isset($content['#width']) ? $content['#width'] : NULL,
+        '#height' => isset($content['#height']) ? $content['#height'] : NULL,
         '#format' => $content['#format'],
         '#classes' => $classes,
         '#attached' => ['library' => $libraries],
