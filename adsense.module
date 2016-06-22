@@ -12,11 +12,48 @@ use Drupal\Core\Routing\RouteMatchInterface;
 
 use Drupal\adsense\AdsenseAdBase;
 use Drupal\adsense\ContentAdBase;
+use Drupal\adsense\PublisherId;
 
 // Ad types, link or ad.
 define('ADSENSE_TYPE_LINK', 1);
 define('ADSENSE_TYPE_AD', 2);
 define('ADSENSE_TYPE_SEARCH', 3);
+
+/**
+ * Implements hook_page_attachments().
+ */
+function adsense_page_attachments(array &$page) {
+  $config = \Drupal::config('adsense.settings');
+  if ($config->get('adsense_managed_page_level_ads_enabled')) {
+    /* @var \Drupal\system\Plugin\Condition\RequestPath $condition */
+    $condition = \Drupal::getContainer()->get('plugin.manager.condition')->createInstance('request_path');
+    $visibility = $config->get('adsense_access_pages');
+    if ($visibility) {
+      $condition->setConfiguration($visibility);
+    }
+
+    if ($visibility['negate'] xor !$condition->evaluate()) {
+      $page['#attached']['html_head'][] = [[
+        '#theme' => 'adsense_comment',
+        '#comment' => 'adsense page-level ads: page not in match list',
+      ]];
+    }
+    elseif (AdsenseAdBase::isDisabled()) {
+      $page['#attached']['html_head'][] = [[
+        '#theme' => 'adsense_comment',
+        '#comment' => 'adsense page-level ads: ads disabled',
+      ]];
+    }
+    else {
+      $client = PublisherId::get();
+      \Drupal::moduleHandler()->alter('adsense', $client);
+      $page['#attached']['html_head'][] = [[
+        '#theme' => 'adsense_managed_page_level',
+        '#client' => $client,
+      ]];
+    }
+  }
+}
 
 /**
  * Implements hook_theme().
@@ -78,6 +115,11 @@ function adsense_theme() {
         'height' => '',
         'client' => '',
         'slot' => '',
+      ],
+    ],
+    'adsense_managed_page_level' => [
+      'variables' => [
+        'client' => '',
       ],
     ],
     'adsense_managed_responsive' => [

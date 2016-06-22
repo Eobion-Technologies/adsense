@@ -1,5 +1,5 @@
 Copyright 2005-2008 Khalid Baheyeldin (http://2bits.com)
-Copyright 2008-2015 Joao Ventura      (http://venturas.org)
+Copyright 2008-2016 Joao Ventura      (http://venturas.org)
 
 Description
 -----------

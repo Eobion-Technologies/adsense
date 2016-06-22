@@ -4,6 +4,7 @@ adsense_disable: 0
 adsense_placeholder: 1
 adsense_placeholder_text: 'Google AdSense'
 adsense_secret_language: ''
+adsense_access_pages: { }
 
 adsense_basic_id: ''
 adsense_id_module: 'adsense_basic'

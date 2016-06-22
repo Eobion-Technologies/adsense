@@ -49,15 +49,9 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
     $account = \Drupal::currentUser();
     $config = \Drupal::config('adsense.settings');
     $libraries = ['adsense/adsense.css'];
+    $text = '';
 
-    if (!$config->get('adsense_basic_id')) {
-      $text = 'no publisher id configured.';
-    }
-    elseif ($config->get('adsense_disable')) {
-      $text = 'adsense disabled.';
-    }
-    elseif (($account->id() != 1) && ($account->hasPermission('hide adsense'))) {
-      $text = 'disabled for current user.';
+    if ($this->isDisabled($text)) {
     }
     elseif (!$this->canInsertAnother()) {
       $text = 'ad limit reached for type.';
@@ -98,6 +92,25 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
       '#theme' => 'adsense_comment',
       '#comment' => 'adsense: ' . $text,
     ];
+  }
+
+  public static function isDisabled(&$text = '') {
+    $account = \Drupal::currentUser();
+    $config = \Drupal::config('adsense.settings');
+
+    if (!$config->get('adsense_basic_id')) {
+      $text = 'no publisher id configured.';
+    }
+    elseif ($config->get('adsense_disable')) {
+      $text = 'adsense disabled.';
+    }
+    elseif (($account->id() != 1) && ($account->hasPermission('hide adsense'))) {
+      $text = 'disabled for current user.';
+    }
+    else {
+      return FALSE;
+    }
+    return TRUE;
   }
 
   /**
