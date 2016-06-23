@@ -93,6 +93,7 @@ function adsense_theme() {
       'variables' => [
         'width' => '',
         'country' => '',
+        'script' => '',
       ],
     ],
     'adsense_cse_watermark' => [
