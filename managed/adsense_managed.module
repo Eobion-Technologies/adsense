@@ -236,7 +236,7 @@ function adsense_managed_block_view($delta = '') {
     $ad = _adsense_managed_get_block_config($delta);
     $format = ($ad[1] == 'custom') ? ($ad[5] . 'x' . $ad[6]) : $ad[1];
     $shape = isset($ad[4]) ? $ad[4] : 'auto';
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $format, 'slot' => $ad[2], 'shape' => $shape)) : t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => url('admin/structure/block/manage/adsense_managed/' . $delta)));
+    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $format, 'slot' => $ad[2], 'shape' => $shape)) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_managed/' . $delta));
     if (!empty($ad[3])) {
       $block['content'] = "<div style='text-align:{$ad[3]}'>{$block['content']}</div>";
     }

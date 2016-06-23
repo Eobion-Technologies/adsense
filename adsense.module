@@ -646,3 +646,16 @@ function theme_adsense_placeholder(array $vars) {
 
   return "<div class='adsense adsense-placeholder' style='{$style}'>{$vars['text']}</div>";
 }
+
+/**
+ * Displays a message for unconfigured blocks.
+ *
+ * @param array $url
+ *   URL of the block admin page.
+ *
+ * @return string
+ *   string with the configure block message.
+ */
+function _adsense_configure_block_message($url) {
+  return user_access('administer adsense') ? t('AdSense unconfigured block. <a href=!url>Click to configure.</a>', array('!url' => $url)) : '';
+}
