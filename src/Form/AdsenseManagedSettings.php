@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Form\AdsenseManagedSettings.
- */
-
 namespace Drupal\adsense\Form;
 
 use Drupal\Component\Plugin\Factory\FactoryInterface;

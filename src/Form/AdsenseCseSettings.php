@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Form\AdsenseCseSettings.
- */
-
 namespace Drupal\adsense\Form;
 
 use Drupal\Component\Utility\Html;

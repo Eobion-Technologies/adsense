@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\PublisherId.
- */
-
 namespace Drupal\adsense;
 
 /**

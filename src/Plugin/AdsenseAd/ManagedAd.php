@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Plugin\AdsenseAd\ManagedAd.
- */
-
 namespace Drupal\adsense\Plugin\AdsenseAd;
 
 use Drupal\adsense\ContentAdBase;
@@ -162,7 +157,7 @@ class ManagedAd extends ContentAdBase {
       '200x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical X-Large')],
       '468x15' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Horizontal Medium')],
       '728x15' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Horizontal Large')],
-     ];
+    ];
 
     if (!empty($key)) {
       return (array_key_exists($key, $ads)) ? $ads[$key] : NULL;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Plugin\AdsenseAd\CustomSearchAd.
- */
-
 namespace Drupal\adsense\Plugin\AdsenseAd;
 
 use Drupal\Core\Url;

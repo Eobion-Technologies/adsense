@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense_managed\Plugin\AdsenseAd\OldCodeAd.
- */
-
 namespace Drupal\adsense_oldcode\Plugin\AdsenseAd;
 
 use Drupal\Component\Utility\Unicode;

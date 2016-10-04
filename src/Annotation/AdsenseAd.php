@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\adsense\Annotation\AdsenseAd.
- */
 
 namespace Drupal\adsense\Annotation;
 

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\AdsenseAdBase.
- */
-
 namespace Drupal\adsense;
 
 use Drupal\Component\Plugin\PluginBase;
@@ -94,6 +89,12 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
     ];
   }
 
+  /**
+   * Check if ads display is disabled.
+   *
+   * @return bool
+   *   TRUE if ads are disabled.
+   */
   public static function isDisabled(&$text = '') {
     $account = \Drupal::currentUser();
     $config = \Drupal::config('adsense.settings');

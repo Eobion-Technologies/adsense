@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense_oldcode\Plugin\Block\OldCodeAdBlock.
- */
-
 namespace Drupal\adsense_oldcode\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;

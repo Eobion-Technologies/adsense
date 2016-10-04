@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense_oldcode\Plugin\AdsenseAd\OldSearchAd.
- */
-
 namespace Drupal\adsense_oldcode\Plugin\AdsenseAd;
 
 use Drupal\adsense\SearchAdBase;

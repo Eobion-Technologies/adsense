@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\ContentAdBase.
- */
-
 namespace Drupal\adsense;
 
 /**

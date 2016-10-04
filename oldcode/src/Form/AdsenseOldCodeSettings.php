@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense_oldcode\Form\AdsenseOldCodeSettings.
- */
-
 namespace Drupal\adsense_oldcode\Form;
 
 use Drupal\Component\Utility\Html;

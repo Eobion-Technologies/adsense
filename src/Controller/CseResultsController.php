@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Controller\CseResultsController.
- */
-
 namespace Drupal\adsense\Controller;
 
 use Drupal\Core\Controller\ControllerBase;

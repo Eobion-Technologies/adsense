@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Plugin\Block\ManagedAdBlock.
- */
-
 namespace Drupal\adsense\Plugin\Block;
 
 use Drupal\adsense\AdBlockInterface;

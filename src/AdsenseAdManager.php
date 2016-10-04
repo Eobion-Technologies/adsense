@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains AdsenseAdManager.
- */
 
 namespace Drupal\adsense;
 

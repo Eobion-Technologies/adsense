@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Provides Drupal\adsense\AdsenseAdInterface.
- */
 
 namespace Drupal\adsense;
 

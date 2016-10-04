@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\adsense\Form\AdsenseMainSettings.
- */
-
 namespace Drupal\adsense\Form;
 
 use Drupal\Component\Utility\Html;
@@ -57,9 +52,8 @@ class AdsenseMainSettings extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $config->get('adsense_basic_id'),
       '#pattern' => 'pub-[0-9]+',
-      '#description' => t('This is the Google AdSense Publisher ID for the site owner. It is used if no other ID is suitable. Get this in your Google Adsense account. It should be similar to %id.', [
-          '%id' => 'pub-9999999999999',
-        ]
+      '#description' => t('This is the Google AdSense Publisher ID for the site owner. It is used if no other ID is suitable. Get this in your Google Adsense account. It should be similar to %id.',
+        ['%id' => 'pub-9999999999999']
       ),
     ];
 
@@ -83,9 +77,8 @@ class AdsenseMainSettings extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Display anti ad-block request?'),
       '#default_value' => $config->get('adsense_unblock_ads'),
-      '#description' => t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [@moreinfo]", [
-          '@moreinfo' => Link::fromTextAndUrl(t('More information'), Url::fromUri('http://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins'))->toString(),
-        ]
+      '#description' => t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [@moreinfo]",
+        ['@moreinfo' => Link::fromTextAndUrl(t('More information'), Url::fromUri('http://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins'))->toString()]
       ),
     ];
 
