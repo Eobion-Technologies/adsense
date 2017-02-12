@@ -226,7 +226,7 @@ CSE_TXT1;
     }
     $output = <<<CSE_TXT2
 <style type="text/css">
-@import url(http://www.google.com/cse/api/branding.css);
+@import url(//www.google.com/cse/api/branding.css);
 </style>
 <div class="$class" style="background-color:#$box_background_color;color:#$box_text_color">
   <div class="cse-branding-form">
@@ -241,7 +241,7 @@ CSE_TXT1;
     </form>
   </div>
   <div class="cse-branding-logo">
-    <img src="http://www.google.com/images/poweredby_transparent/poweredby_$box_background_color.gif" alt="Google" />
+    <img src="//www.google.com/images/poweredby_transparent/poweredby_$box_background_color.gif" alt="Google" />
   </div>
   <div class="cse-branding-text">
     $custom_search

@@ -285,7 +285,7 @@ google_color_url = "$url";
 google_ui_features = "$corner";
 $secret//--></script>
 <script type="text/javascript"
-  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  src="//pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 OLDCODE_TXT;
   }
