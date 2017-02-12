@@ -34,6 +34,8 @@ various ways to do so.
 
 API
 ---
+(Not yet avaiable in the Drupal 8 version)
+
 The adsense module provides developers with an API that can be used to control
 the Adsense Client ID used for the particular page view.
 

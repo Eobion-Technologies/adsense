@@ -92,6 +92,9 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
   /**
    * Check if ads display is disabled.
    *
+   * @param string $text
+   *   Reason for the ad display being disabled.
+   *
    * @return bool
    *   TRUE if ads are disabled.
    */
@@ -126,15 +129,17 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
 
     // @codingStandardsIgnoreStart
 //    static $num_ads = [
-//      ADSENSE_TYPE_AD     => 0,
-//      ADSENSE_TYPE_LINK   => 0,
-//      ADSENSE_TYPE_SEARCH => 0,
+//      ADSENSE_TYPE_AD      => 0,
+//      ADSENSE_TYPE_LINK    => 0,
+//      ADSENSE_TYPE_SEARCH  => 0,
+//      ADSENSE_TYPE_MATCHED => 0,
 //    ];
 //
 //    $max_ads = [
-//      ADSENSE_TYPE_AD     => 3,
-//      ADSENSE_TYPE_LINK   => 3,
-//      ADSENSE_TYPE_SEARCH => 2,
+//      ADSENSE_TYPE_AD      => 3,
+//      ADSENSE_TYPE_LINK    => 3,
+//      ADSENSE_TYPE_SEARCH  => 2,
+//      ADSENSE_TYPE_MATCHED => PHP_INT_MAX,
 //    ];
 //
 //    if ($num_ads[$this->type] < $max_ads[$this->type]) {

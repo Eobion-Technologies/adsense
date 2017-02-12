@@ -9,7 +9,9 @@
     google_ad_slot = "{{ slot }}";
     google_ad_width = {{ width }};
     google_ad_height = {{ height }};
-    {{ secret }}
+    {% if secret %}
+      {{ secret }}
+    {% endif %}
 </script>
 <!-- {{ format }} -->
 <script type="text/javascript"

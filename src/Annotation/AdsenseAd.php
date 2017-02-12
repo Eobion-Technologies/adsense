@@ -9,7 +9,7 @@ use Drupal\Component\Annotation\Plugin;
  *
  * Plugin Namespace: Plugin\adsense\AdsenseAd.
  *
- * @see \Drupal\adsense\Plugin\AdsenseManager
+ * @see \Drupal\adsense\AdsenseAdManager
  * @see plugin_api
  *
  * @Annotation

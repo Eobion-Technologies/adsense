@@ -70,16 +70,8 @@ class ManagedAd extends ContentAdBase {
       $client = PublisherId::get();
       \Drupal::moduleHandler()->alter('adsense', $client);
 
-      // Get width and height from the format.
-      list($width, $height) = $this->dimensions($this->format);
-
-      $secret = '';
-      if ($lang = $config->get('adsense_secret_language')) {
-        $secret = "    google_language = '$lang';\n";
-      }
-
-      if ($this->format == 'responsive') {
-        $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : '';
+      if (in_array($this->format, ['responsive', 'link', 'autorelaxed'])) {
+        $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
 
         // Responsive smart sizing code.
         $content = [
@@ -88,10 +80,12 @@ class ManagedAd extends ContentAdBase {
           '#client' => $client,
           '#slot' => $this->slot,
           '#shape' => $shape,
-          '#secret' => $secret,
         ];
       }
       else {
+        // Get width and height from the format.
+        list($width, $height) = $this->dimensions($this->format);
+
         if ($config->get('adsense_managed_async')) {
           // Asynchronous code.
           $content = [
@@ -101,10 +95,12 @@ class ManagedAd extends ContentAdBase {
             '#height' => $height,
             '#client' => $client,
             '#slot' => $this->slot,
-            '#secret' => $secret,
           ];
         }
         else {
+          $lang = $config->get('adsense_secret_language');
+          $secret = $lang ? "    google_language = '$lang';\n" : '';
+
           // Synchronous code.
           $content = [
             '#theme' => 'adsense_managed_sync',
@@ -130,6 +126,7 @@ class ManagedAd extends ContentAdBase {
     $ads = [
       'responsive' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit')],
       'custom' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit')],
+      'autorelaxed' => ['type' => ADSENSE_TYPE_MATCHED, 'desc' => t('Matched content')],
       // Top performing ad sizes.
       '300x250' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Medium Rectangle')],
       '336x280' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Rectangle')],
@@ -151,6 +148,7 @@ class ManagedAd extends ContentAdBase {
       '180x150' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Small Rectangle')],
       '125x125' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Button')],
       // 4-links.
+      'link' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('Responsive links')],
       '120x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Small')],
       '160x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Medium')],
       '180x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Large')],
