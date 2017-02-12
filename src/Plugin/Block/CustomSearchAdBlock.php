@@ -54,13 +54,13 @@ class CustomSearchAdBlock extends BlockBase implements AdBlockInterface {
     // Hide block title by default.
     $form['label_display']['#default_value'] = FALSE;
 
-    $link = Link::fromTextAndUrl(t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
+    $link = Link::fromTextAndUrl($this->t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
 
     $form['ad_slot'] = [
       '#type' => 'textfield',
-      '#title' => t('Ad ID'),
+      '#title' => $this->t('Ad ID'),
       '#default_value' => $this->configuration['ad_slot'],
-      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.',
+      '#description' => $this->t('This is the Ad ID from your @adsensepage, such as 1234567890.',
         ['@adsensepage' => $link]),
       '#required' => TRUE,
     ];

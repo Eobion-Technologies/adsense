@@ -82,7 +82,7 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
     $style_list = [];
     for ($style = 1; $style <= $config->get('adsense_max_groups'); $style++) {
       $title = $config->get('adsense_group_title_' . $style);
-      $style_list[$style] = empty($title) ? t('Style @style', ['@style' => $style]) : $title;
+      $style_list[$style] = empty($title) ? $this->t('Style @style', ['@style' => $style]) : $title;
     }
 
     $channel_list = [];
@@ -95,23 +95,23 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_format'] = [
       '#type' => 'select',
-      '#title' => t('Ad format'),
+      '#title' => $this->t('Ad format'),
       '#default_value' => $this->configuration['ad_format'],
       '#options' => $ad_list,
-      '#description' => t('Select the ad dimensions you want for this block.'),
+      '#description' => $this->t('Select the ad dimensions you want for this block.'),
       '#required' => TRUE,
     ];
 
     $form['ad_style'] = [
       '#type' => 'select',
-      '#title' => t('Style'),
+      '#title' => $this->t('Style'),
       '#default_value' => $this->configuration['ad_style'],
       '#options' => $style_list,
     ];
 
     $form['ad_channel'] = [
       '#type' => 'select',
-      '#title' => t('Channel'),
+      '#title' => $this->t('Channel'),
       '#default_value' => $this->configuration['ad_channel'],
       '#options' => $channel_list,
       '#empty_value' => '',
@@ -119,15 +119,15 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_align'] = [
       '#type' => 'select',
-      '#title' => t('Ad alignment'),
+      '#title' => $this->t('Ad alignment'),
       '#default_value' => $this->configuration['ad_align'],
       '#options' => [
-        '' => t('None'),
-        'left' => t('Left'),
-        'center' => t('Centered'),
-        'right' => t('Right'),
+        '' => $this->t('None'),
+        'left' => $this->t('Left'),
+        'center' => $this->t('Centered'),
+        'right' => $this->t('Right'),
       ],
-      '#description' => t('Select the horizontal alignment of the ad within the block.'),
+      '#description' => $this->t('Select the horizontal alignment of the ad within the block.'),
     ];
 
     return $form;

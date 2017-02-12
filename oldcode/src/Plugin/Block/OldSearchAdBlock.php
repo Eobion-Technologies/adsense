@@ -63,7 +63,7 @@ class OldSearchAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_channel'] = [
       '#type' => 'select',
-      '#title' => t('Channel'),
+      '#title' => $this->t('Channel'),
       '#default_value' => $this->configuration['ad_channel'],
       '#options' => $channel_list,
       '#empty_value' => '',

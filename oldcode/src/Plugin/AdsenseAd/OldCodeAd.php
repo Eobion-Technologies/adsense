@@ -132,125 +132,125 @@ class OldCodeAd extends ContentAdBase {
       // Top performing ad sizes.
       '300x250' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Medium Rectangle'),
+        'desc' => $this->t('Medium Rectangle'),
         'code' => '300x250_as',
       ],
       '336x280' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Large Rectangle'),
+        'desc' => $this->t('Large Rectangle'),
         'code' => '336x280_as',
       ],
       '728x90' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Leaderboard'),
+        'desc' => $this->t('Leaderboard'),
         'code' => '728x90_as',
       ],
       // Other supported ad sizes.
       '468x60' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Banner'),
+        'desc' => $this->t('Banner'),
         'code' => '468x60_as',
       ],
       '234x60' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Half Banner'),
+        'desc' => $this->t('Half Banner'),
         'code' => '234x60_as',
       ],
       '120x600' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Skyscraper'),
+        'desc' => $this->t('Skyscraper'),
         'code' => '120x600_as',
       ],
       '120x240' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Vertical Banner'),
+        'desc' => $this->t('Vertical Banner'),
         'code' => '120x240_as',
       ],
       '160x600' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Wide Skyscraper'),
+        'desc' => $this->t('Wide Skyscraper'),
         'code' => '160x600_as',
       ],
       '250x250' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Square'),
+        'desc' => $this->t('Square'),
         'code' => '250x250_as',
       ],
       '200x200' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Small Square'),
+        'desc' => $this->t('Small Square'),
         'code' => '200x200_as',
       ],
       '180x150' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Small Rectangle'),
+        'desc' => $this->t('Small Rectangle'),
         'code' => '180x150_as',
       ],
       '125x125' => [
         'type' => ADSENSE_TYPE_AD,
-        'desc' => t('Button'),
+        'desc' => $this->t('Button'),
         'code' => '125x125_as',
       ],
       // 4-links.
       '120x90' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Vertical Small'),
+        'desc' => $this->t('4-links Vertical Small'),
         'code' => '120x90_0ads_al',
       ],
       '160x90' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Vertical Medium'),
+        'desc' => $this->t('4-links Vertical Medium'),
         'code' => '160x90_0ads_al',
       ],
       '180x90' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Vertical Large'),
+        'desc' => $this->t('4-links Vertical Large'),
         'code' => '180x90_0ads_al',
       ],
       '200x90' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Vertical X-Large'),
+        'desc' => $this->t('4-links Vertical X-Large'),
         'code' => '200x90_0ads_al',
       ],
       '468x15' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Horizontal Medium'),
+        'desc' => $this->t('4-links Horizontal Medium'),
         'code' => '468x15_0ads_al',
       ],
       '728x15' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('4-links Horizontal Large'),
+        'desc' => $this->t('4-links Horizontal Large'),
         'code' => '728x15_0ads_al',
       ],
       // 5-links.
       '120x90_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Vertical Small'),
+        'desc' => $this->t('5-links Vertical Small'),
         'code' => '120x90_0ads_al_s',
       ],
       '160x90_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Vertical Medium'),
+        'desc' => $this->t('5-links Vertical Medium'),
         'code' => '160x90_0ads_al_s',
       ],
       '180x90_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Vertical Large'),
+        'desc' => $this->t('5-links Vertical Large'),
         'code' => '180x90_0ads_al_s',
       ],
       '200x90_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Vertical X-Large'),
+        'desc' => $this->t('5-links Vertical X-Large'),
         'code' => '200x90_0ads_al_s',
       ],
       '468x15_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Horizontal Medium'),
+        'desc' => $this->t('5-links Horizontal Medium'),
         'code' => '468x15_0ads_al_s',
       ],
       '728x15_5' => [
         'type' => ADSENSE_TYPE_LINK,
-        'desc' => t('5-links Horizontal Large'),
+        'desc' => $this->t('5-links Horizontal Large'),
         'code' => '728x15_0ads_al_s',
       ],
     ];

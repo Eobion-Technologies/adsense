@@ -81,7 +81,7 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
     // Hide block title by default.
     $form['label_display']['#default_value'] = FALSE;
 
-    $link = Link::fromTextAndUrl(t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
+    $link = Link::fromTextAndUrl($this->t('Google AdSense account page'), Url::fromUri('https://www.google.com/adsense/app#main/myads-springboard'))->toString();
 
     $ad_list = [];
     foreach (ManagedAd::adsenseAdFormats() as $format => $data) {
@@ -90,28 +90,28 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_slot'] = [
       '#type' => 'textfield',
-      '#title' => t('Ad ID'),
+      '#title' => $this->t('Ad ID'),
       '#default_value' => $this->configuration['ad_slot'],
-      '#description' => t('This is the Ad ID from your @adsensepage, such as 1234567890.',
+      '#description' => $this->t('This is the Ad ID from your @adsensepage, such as 1234567890.',
         ['@adsensepage' => $link]),
       '#required' => TRUE,
     ];
 
     $form['ad_format'] = [
       '#type' => 'select',
-      '#title' => t('Ad format'),
+      '#title' => $this->t('Ad format'),
       '#default_value' => $this->configuration['ad_format'],
       '#options' => $ad_list,
-      '#description' => t('Select the ad dimensions you want for this block.'),
+      '#description' => $this->t('Select the ad dimensions you want for this block.'),
       '#required' => TRUE,
     ];
 
     $form['ad_width'] = [
       '#type' => 'number',
-      '#title' => t('Width'),
+      '#title' => $this->t('Width'),
       '#default_value' => $this->configuration['ad_width'],
-      '#description' => t('Custom ad width.'),
-      '#field_suffix' => ' ' . t('pixels'),
+      '#description' => $this->t('Custom ad width.'),
+      '#field_suffix' => ' ' . $this->t('pixels'),
       '#size' => 3,
       '#maxlength' => 4,
       '#min' => 120,
@@ -131,10 +131,10 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_height'] = [
       '#type' => 'number',
-      '#title' => t('Height'),
+      '#title' => $this->t('Height'),
       '#default_value' => $this->configuration['ad_height'],
-      '#description' => t('Custom ad height.'),
-      '#field_suffix' => ' ' . t('pixels'),
+      '#description' => $this->t('Custom ad height.'),
+      '#field_suffix' => ' ' . $this->t('pixels'),
       '#size' => 3,
       '#maxlength' => 4,
       '#min' => 50,
@@ -154,16 +154,16 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_shape'] = [
       '#type' => 'select',
-      '#title' => t('Responsive ad shape'),
+      '#title' => $this->t('Responsive ad shape'),
       '#default_value' => $this->configuration['ad_shape'],
       '#multiple' => TRUE,
       '#options' => [
-        'auto' => t('Auto-sizing'),
-        'horizontal' => t('Horizontal'),
-        'vertical' => t('Vertical'),
-        'rectangle' => t('Rectangle'),
+        'auto' => $this->t('Auto-sizing'),
+        'horizontal' => $this->t('Horizontal'),
+        'vertical' => $this->t('Vertical'),
+        'rectangle' => $this->t('Rectangle'),
       ],
-      '#description' => t("Shape of the responsive ad unit. Google's default is 'auto' for auto-sizing behaviour, but can also be a combination of one or more of the following: 'rectangle', 'vertical' or 'horizontal'."),
+      '#description' => $this->t("Shape of the responsive ad unit. Google's default is 'auto' for auto-sizing behaviour, but can also be a combination of one or more of the following: 'rectangle', 'vertical' or 'horizontal'."),
       '#states' => [
         'visible' => [
           ':input[name="settings[ad_format]"]' => ['value' => 'responsive'],
@@ -173,15 +173,15 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
 
     $form['ad_align'] = [
       '#type' => 'select',
-      '#title' => t('Ad alignment'),
+      '#title' => $this->t('Ad alignment'),
       '#default_value' => $this->configuration['ad_align'],
       '#options' => [
-        '' => t('None'),
-        'left' => t('Left'),
-        'center' => t('Centered'),
-        'right' => t('Right'),
+        '' => $this->t('None'),
+        'left' => $this->t('Left'),
+        'center' => $this->t('Centered'),
+        'right' => $this->t('Right'),
       ],
-      '#description' => t('Select the horizontal alignment of the ad within the block.'),
+      '#description' => $this->t('Select the horizontal alignment of the ad within the block.'),
     ];
 
     return $form;

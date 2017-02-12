@@ -36,8 +36,8 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
     $form['searchbox'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Search Box Options'),
-      '#description' => t("Allows users to search the web or the specific site(s) of your choice. Enter the site's URL without the last '/'"),
+      '#title' => $this->t('Search Box Options'),
+      '#description' => $this->t("Allows users to search the web or the specific site(s) of your choice. Enter the site's URL without the last '/'"),
     ];
 
     for ($i = 0; $i <= 2; $i++) {
@@ -52,65 +52,65 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['searchbox']['adsense_search_safe_mode'] = [
       '#type' => 'checkbox',
-      '#title' => t('Use SafeSearch'),
+      '#title' => $this->t('Use SafeSearch'),
       '#default_value' => $config->get('adsense_search_safe_mode'),
     ];
 
     $form['searchbox']['adsense_search_logo'] = [
       '#type' => 'radios',
-      '#title' => t('Logo Type'),
+      '#title' => $this->t('Logo Type'),
       '#default_value' => $config->get('adsense_search_logo'),
       '#options' => [
-        'adsense_search_logo_google' => t('Google Logo'),
-        'adsense_search_logo_above_textbox' => t('Logo above text box'),
-        'adsense_search_logo_on_button' => t('"Google Search" on button'),
+        'adsense_search_logo_google' => $this->t('Google Logo'),
+        'adsense_search_logo_above_textbox' => $this->t('Logo above text box'),
+        'adsense_search_logo_on_button' => $this->t('"Google Search" on button'),
       ],
     ];
 
     $form['searchbox']['adsense_search_button'] = [
       '#type' => 'checkbox',
-      '#title' => t('Search button below text box'),
+      '#title' => $this->t('Search button below text box'),
       '#default_value' => $config->get('adsense_search_button'),
     ];
 
     $form['searchbox']['adsense_search_color_box_background'] = [
       '#type' => 'select',
-      '#title' => t('Background color'),
+      '#title' => $this->t('Background color'),
       '#default_value' => $config->get('adsense_search_color_box_background'),
       '#options' => [
-        '#FFFFFF' => t('White'),
-        '#000000' => t('Black'),
-        '#CCCCCC' => t('Gray'),
+        '#FFFFFF' => $this->t('White'),
+        '#000000' => $this->t('Black'),
+        '#CCCCCC' => $this->t('Gray'),
       ],
     ];
 
     $form['searchbox']['adsense_search_color_box_text'] = [
       '#type' => 'select',
-      '#title' => t('Text color'),
+      '#title' => $this->t('Text color'),
       '#default_value' => $config->get('adsense_search_color_box_text'),
       '#options' => [
-        '#000000' => t('Black'),
-        '#FFFFFF' => t('White'),
+        '#000000' => $this->t('Black'),
+        '#FFFFFF' => $this->t('White'),
       ],
     ];
 
     $form['searchbox']['adsense_search_language'] = [
       '#type' => 'select',
-      '#title' => t('Site Language'),
+      '#title' => $this->t('Site Language'),
       '#default_value' => $config->get('adsense_search_language'),
       '#options' => OldSearchAd::adsenseLanguages(),
     ];
 
     $form['searchbox']['adsense_search_encoding'] = [
       '#type' => 'select',
-      '#title' => t('Site Encoding'),
+      '#title' => $this->t('Site Encoding'),
       '#default_value' => $config->get('adsense_search_encoding'),
       '#options' => OldSearchAd::adsenseEncodings(),
     ];
 
     $form['searchbox']['adsense_search_textbox_length'] = [
       '#type' => 'number',
-      '#title' => t('Length of text box (Max 64)'),
+      '#title' => $this->t('Length of text box (Max 64)'),
       '#default_value' => $config->get('adsense_search_textbox_length'),
       '#size' => 2,
       '#min' => 8,
@@ -120,21 +120,21 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
     $form['result'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Search Results Style'),
+      '#title' => $this->t('Search Results Style'),
     ];
 
     $form['result']['adsense_search_country'] = [
       '#type' => 'select',
-      '#title' => t('Country or territory for Google domain'),
+      '#title' => $this->t('Country or territory for Google domain'),
       '#default_value' => $config->get('adsense_search_country'),
       '#options' => OldSearchAd::adsenseCountries(),
     ];
 
     $form['result']['adsense_search_frame_width'] = [
       '#type' => 'number',
-      '#title' => t('Width of results area'),
+      '#title' => $this->t('Width of results area'),
       '#default_value' => $config->get('adsense_search_frame_width'),
-      '#field_suffix' => ' ' . t('pixels'),
+      '#field_suffix' => ' ' . $this->t('pixels'),
       '#size' => 3,
       '#maxlength' => 4,
       '#min' => 500,
@@ -144,7 +144,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
     $form['result']['colors'] = [
       '#type' => 'details',
       '#open' => FALSE,
-      '#title' => t('Color attributes'),
+      '#title' => $this->t('Color attributes'),
     ];
 
     // Add Farbtastic color picker.
@@ -155,7 +155,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_border'] = [
       '#type' => 'textfield',
-      '#title' => t('Border'),
+      '#title' => $this->t('Border'),
       '#default_value' => $config->get('adsense_search_color_border'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -164,7 +164,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_title'] = [
       '#type' => 'textfield',
-      '#title' => t('Title'),
+      '#title' => $this->t('Title'),
       '#default_value' => $config->get('adsense_search_color_title'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -173,7 +173,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_bg'] = [
       '#type' => 'textfield',
-      '#title' => t('Background'),
+      '#title' => $this->t('Background'),
       '#default_value' => $config->get('adsense_search_color_bg'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -182,7 +182,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_text'] = [
       '#type' => 'textfield',
-      '#title' => t('Text'),
+      '#title' => $this->t('Text'),
       '#default_value' => $config->get('adsense_search_color_text'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -191,7 +191,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_url'] = [
       '#type' => 'textfield',
-      '#title' => t('URL'),
+      '#title' => $this->t('URL'),
       '#default_value' => $config->get('adsense_search_color_url'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -200,7 +200,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_visited_url'] = [
       '#type' => 'textfield',
-      '#title' => t('Visited URL'),
+      '#title' => $this->t('Visited URL'),
       '#default_value' => $config->get('adsense_search_color_visited_url'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -209,7 +209,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_light_url'] = [
       '#type' => 'textfield',
-      '#title' => t('Light URL'),
+      '#title' => $this->t('Light URL'),
       '#default_value' => $config->get('adsense_search_color_light_url'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -218,7 +218,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
 
     $form['result']['colors']['adsense_search_color_logo_bg'] = [
       '#type' => 'hidden',
-      '#title' => t('Logo Background'),
+      '#title' => $this->t('Logo Background'),
       '#default_value' => $config->get('adsense_search_color_logo_bg'),
       '#size' => 7,
       '#maxlength' => 7,
@@ -228,15 +228,15 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
     $form['channels'] = [
       '#type' => 'details',
       '#open' => FALSE,
-      '#title' => t('Custom channels'),
-      '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
+      '#title' => $this->t('Custom channels'),
+      '#description' => $this->t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
         ['!channels' => ADSENSE_OLDCODE_MAX_CHANNELS]),
     ];
 
     for ($channel = 1; $channel <= ADSENSE_OLDCODE_MAX_CHANNELS; $channel++) {
       $form['channels']['adsense_ad_channel_' . $channel] = [
         '#type' => 'textfield',
-        '#title' => t('Custom channel ID @channel',
+        '#title' => $this->t('Custom channel ID @channel',
           ['@channel' => $channel]),
         '#default_value' => $config->get('adsense_ad_channel_' . $channel),
         '#size' => 30,
@@ -259,11 +259,11 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
     $box_text_color = $form_state->getValue('adsense_search_color_box_background');
     if (($box_background_color == '#000000') && ($box_text_color == '#000000')) {
       $form_state->setValueForElement($form['searchbox']['adsense_search_color_box_text'], '#FFFFFF');
-      drupal_set_message(t('Changing text color due to conflict with background color.'));
+      drupal_set_message($this->t('Changing text color due to conflict with background color.'));
     }
     elseif (($box_background_color == '#FFFFFF') && ($box_text_color == '#FFFFFF')) {
       $form_state->setValueForElement($form['searchbox']['adsense_search_color_box_text'], '#000000');
-      drupal_set_message(t('Changing text color due to conflict with background color.'));
+      drupal_set_message($this->t('Changing text color due to conflict with background color.'));
     }
   }
 

@@ -34,7 +34,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
     $form['ad_styles'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Ad styles'),
+      '#title' => $this->t('Ad styles'),
     ];
 
     for ($style = 1; $style <= $config->get('adsense_max_groups'); $style++) {
@@ -42,24 +42,24 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
       $form['ad_styles'][$style] = [
         '#type' => 'details',
         '#open' => FALSE,
-        '#title' => t('Style @style attributes',
+        '#title' => $this->t('Style @style attributes',
           ['@style' => $style . (!empty($title) ? " ($title)" : '')]),
       ];
 
       $form['ad_styles'][$style]['adsense_group_title_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Title'),
+        '#title' => $this->t('Title'),
         '#default_value' => $title,
         '#size' => 100,
         '#maxlength' => 100,
-        '#description' => t('Title of the style.'),
+        '#description' => $this->t('Title of the style.'),
       ];
 
       $form['ad_styles'][$style]['adsense_ad_type_' . $style] = [
         '#type' => 'radios',
-        '#title' => t('Ad type'),
+        '#title' => $this->t('Ad type'),
         '#default_value' => $config->get('adsense_ad_type_' . $style),
-        '#options' => [t('Text'), t('Image'), t('Both')],
+        '#options' => [t('Text'), $this->t('Image'), $this->t('Both')],
       ];
 
       // Add Farbtastic color picker.
@@ -70,7 +70,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_color_text_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Text color'),
+        '#title' => $this->t('Text color'),
         '#default_value' => $config->get('adsense_color_text_' . $style),
         '#size' => 7,
         '#maxlength' => 7,
@@ -79,7 +79,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_color_border_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Border color'),
+        '#title' => $this->t('Border color'),
         '#default_value' => $config->get('adsense_color_border_' . $style),
         '#size' => 7,
         '#maxlength' => 7,
@@ -88,7 +88,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_color_bg_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Background color'),
+        '#title' => $this->t('Background color'),
         '#default_value' => $config->get('adsense_color_bg_' . $style),
         '#size' => 7,
         '#maxlength' => 7,
@@ -97,7 +97,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_color_link_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Title color'),
+        '#title' => $this->t('Title color'),
         '#default_value' => $config->get('adsense_color_link_' . $style),
         '#size' => 7,
         '#maxlength' => 7,
@@ -106,7 +106,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_color_url_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('URL color'),
+        '#title' => $this->t('URL color'),
         '#default_value' => $config->get('adsense_color_url_' . $style),
         '#size' => 7,
         '#maxlength' => 7,
@@ -115,22 +115,22 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_alt_' . $style] = [
         '#type' => 'select',
-        '#title' => t('Alternate URL color'),
+        '#title' => $this->t('Alternate URL color'),
         '#default_value' => $config->get('adsense_alt_' . $style),
         '#options' => [
-          t('None'),
-          t('Alternate URL'),
-          t('Alternate color'),
+          $this->t('None'),
+          $this->t('Alternate URL'),
+          $this->t('Alternate color'),
         ],
       ];
 
       $form['ad_styles'][$style]['adsense_alt_info_' . $style] = [
         '#type' => 'textfield',
-        '#title' => t('Alternate info'),
+        '#title' => $this->t('Alternate info'),
         '#default_value' => $config->get('adsense_alt_info_' . $style),
         '#size' => 100,
         '#maxlength' => 100,
-        '#description' => t('Enter either 6 letter alternate color code, or alternate URL to use'),
+        '#description' => $this->t('Enter either 6 letter alternate color code, or alternate URL to use'),
         '#states' => [
           'invisible' => [
             ":input[name='adsense_alt_{$style}']" => ['value' => 0],
@@ -140,29 +140,29 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
 
       $form['ad_styles'][$style]['adsense_ui_features_' . $style] = [
         '#type' => 'select',
-        '#title' => t('Rounded corners'),
+        '#title' => $this->t('Rounded corners'),
         '#default_value' => $config->get('adsense_ui_features_' . $style),
         '#options' => [
           'rc:0' => 'Square',
           'rc:6' => 'Slightly rounded',
           'rc:10' => 'Very rounded',
         ],
-        '#description' => t('Choose type of round corners'),
+        '#description' => $this->t('Choose type of round corners'),
       ];
     }
 
     $form['channels'] = [
       '#type' => 'details',
       '#open' => FALSE,
-      '#title' => t('Custom channels'),
-      '#description' => t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
+      '#title' => $this->t('Custom channels'),
+      '#description' => $this->t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
         ['!channels' => ADSENSE_OLDCODE_MAX_CHANNELS]),
     ];
 
     for ($channel = 1; $channel <= ADSENSE_OLDCODE_MAX_CHANNELS; $channel++) {
       $form['channels']['adsense_ad_channel_' . $channel] = [
         '#type' => 'textfield',
-        '#title' => t('Custom channel ID @channel',
+        '#title' => $this->t('Custom channel ID @channel',
           ['@channel' => $channel]),
         '#default_value' => $config->get('adsense_ad_channel_' . $channel),
         '#size' => 30,

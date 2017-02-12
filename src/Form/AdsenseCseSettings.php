@@ -36,41 +36,41 @@ class AdsenseCseSettings extends ConfigFormBase {
     $form['searchbox'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Search Box Options'),
+      '#title' => $this->t('Search Box Options'),
     ];
 
     $form['searchbox']['adsense_cse_logo'] = [
       '#type' => 'radios',
-      '#title' => t('Logo Type'),
+      '#title' => $this->t('Logo Type'),
       '#default_value' => $config->get('adsense_cse_logo'),
       '#options' => [
-        'adsense_cse_branding_watermark' => t('Watermark on search box (requires JavaScript)'),
-        'adsense_cse_branding_right' => t('Next to the search box'),
-        'adsense_cse_branding_bottom' => t('Below the search box'),
+        'adsense_cse_branding_watermark' => $this->t('Watermark on search box (requires JavaScript)'),
+        'adsense_cse_branding_right' => $this->t('Next to the search box'),
+        'adsense_cse_branding_bottom' => $this->t('Below the search box'),
       ],
     ];
 
     $form['searchbox']['adsense_cse_color_box_background'] = [
       '#type' => 'select',
-      '#title' => t('Background color'),
+      '#title' => $this->t('Background color'),
       '#default_value' => $config->get('adsense_cse_color_box_background'),
       '#options' => [
-        'FFFFFF' => t('White'),
-        '999999' => t('Gray'),
-        '000000' => t('Black'),
+        'FFFFFF' => $this->t('White'),
+        '999999' => $this->t('Gray'),
+        '000000' => $this->t('Black'),
       ],
     ];
 
     $form['searchbox']['adsense_cse_encoding'] = [
       '#type' => 'select',
-      '#title' => t('Site Encoding'),
+      '#title' => $this->t('Site Encoding'),
       '#default_value' => $config->get('adsense_cse_encoding'),
       '#options' => CustomSearchAd::adsenseEncodings(),
     ];
 
     $form['searchbox']['adsense_cse_textbox_length'] = [
       '#type' => 'number',
-      '#title' => t('Text Box Length'),
+      '#title' => $this->t('Text Box Length'),
       '#default_value' => $config->get('adsense_cse_textbox_length'),
       '#size' => 2,
       '#min' => 8,
@@ -79,7 +79,7 @@ class AdsenseCseSettings extends ConfigFormBase {
 
     $form['searchbox']['adsense_cse_language'] = [
       '#type' => 'select',
-      '#title' => t('Watermark Language'),
+      '#title' => $this->t('Watermark Language'),
       '#default_value' => $config->get('adsense_cse_language'),
       '#options' => CustomSearchAd::adsenseLanguages(),
     ];
@@ -87,21 +87,21 @@ class AdsenseCseSettings extends ConfigFormBase {
     $form['result'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Search Results Style'),
+      '#title' => $this->t('Search Results Style'),
     ];
 
     $form['result']['adsense_cse_country'] = [
       '#type' => 'select',
-      '#title' => t('Country or territory for Google domain'),
+      '#title' => $this->t('Country or territory for Google domain'),
       '#default_value' => $config->get('adsense_cse_country'),
       '#options' => CustomSearchAd::adsenseCountries(),
     ];
 
     $form['result']['adsense_cse_frame_width'] = [
       '#type' => 'number',
-      '#title' => t('Width of results area'),
+      '#title' => $this->t('Width of results area'),
       '#default_value' => $config->get('adsense_cse_frame_width'),
-      '#field_suffix' => ' ' . t('pixels'),
+      '#field_suffix' => ' ' . $this->t('pixels'),
       '#size' => 3,
       '#maxlength' => 4,
       '#min' => ($form_state->getValue('adsense_cse_ad_location') == 'adsense_cse_loc_top_bottom') ? 500 : 795,
@@ -110,12 +110,12 @@ class AdsenseCseSettings extends ConfigFormBase {
 
     $form['result']['adsense_cse_ad_location'] = [
       '#type' => 'radios',
-      '#title' => t('Ad Location'),
+      '#title' => $this->t('Ad Location'),
       '#default_value' => $config->get('adsense_cse_ad_location'),
       '#options' => [
-        'adsense_cse_loc_top_right' => t('Top and Right'),
-        'adsense_cse_loc_top_bottom' => t('Top and Bottom'),
-        'adsense_cse_loc_right' => t('Right'),
+        'adsense_cse_loc_top_right' => $this->t('Top and Right'),
+        'adsense_cse_loc_top_bottom' => $this->t('Top and Bottom'),
+        'adsense_cse_loc_right' => $this->t('Right'),
       ],
     ];
 
