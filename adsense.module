@@ -12,6 +12,7 @@
 define('ADSENSE_TYPE_LINK', 1);
 define('ADSENSE_TYPE_AD', 2);
 define('ADSENSE_TYPE_SEARCH', 3);
+define('ADSENSE_TYPE_MATCHED', 4);
 
 define('ADSENSE_MAX_CHANNELS', 10);
 define('ADSENSE_AD_CHANNEL_DEFAULT', '');
@@ -54,6 +55,7 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
   $ads = array(
     'responsive' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive', 'width' => '', 'height' => ''),
     'custom' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit'), 'code' => 'custom', 'width' => '', 'height' => ''),
+    'autorelaxed' => array('type' => ADSENSE_TYPE_MATCHED, 'desc' => t('Matched content'), 'code' => 'custom', 'width' => '', 'height' => ''),
     '120x240' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Vertical Banner'), 'code' => '120x240_as', 'width' => 120, 'height' => 240),
     '120x600' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Skyscraper'), 'code' => '120x600_as', 'width' => 120, 'height' => 600),
     '125x125' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Button'), 'code' => '125x125_as', 'width' => 125, 'height' => 125),
@@ -72,6 +74,7 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
     '728x90' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Leaderboard'), 'code' => '728x90_as', 'width' => 728, 'height' => 90),
     '970x250' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Billboard'), 'code' => '970x250_as', 'width' => 970, 'height' => 250),
     '970x90' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Large Leaderboard'), 'code' => '970x90_as', 'width' => 970, 'height' => 90),
+    'link' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('Responsive links'), 'code' => 'custom', 'width' => '', 'height' => ''),
     '120x90' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Small'), 'code' => '120x90_0ads_al', 'width' => 120, 'height' => 90),
     '160x90' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Medium'), 'code' => '160x90_0ads_al', 'width' => 160, 'height' => 90),
     '180x90' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Large'), 'code' => '180x90_0ads_al', 'width' => 180, 'height' => 90),
@@ -89,6 +92,8 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
   if (!$newcode) {
     unset($ads['responsive']);
     unset($ads['custom']);
+    unset($ads['autorelaxed']);
+    unset($ads['link']);
   }
 
   if (!empty($key)) {
@@ -579,16 +584,21 @@ function _adsense_check_if_enabled() {
  *   TRUE if we can insert another ad, FALSE if not allowed.
  */
 function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
+  // Because of #1627846, it's better to always return TRUE.
+  return TRUE;
+
   static $num_ads = array(
-    ADSENSE_TYPE_AD     => 0,
-    ADSENSE_TYPE_LINK   => 0,
-    ADSENSE_TYPE_SEARCH => 0,
+    ADSENSE_TYPE_AD      => 0,
+    ADSENSE_TYPE_LINK    => 0,
+    ADSENSE_TYPE_SEARCH  => 0,
+    ADSENSE_TYPE_MATCHED => 0,
   );
 
   $max_ads = array(
-    ADSENSE_TYPE_AD     => 3,
-    ADSENSE_TYPE_LINK   => 3,
-    ADSENSE_TYPE_SEARCH => 2,
+    ADSENSE_TYPE_AD      => 3,
+    ADSENSE_TYPE_LINK    => 3,
+    ADSENSE_TYPE_SEARCH  => 2,
+    ADSENSE_TYPE_MATCHED => PHP_INT_MAX,
   );
 
   if ($num_ads[$type] < $max_ads[$type]) {
@@ -596,9 +606,7 @@ function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
     return TRUE;
   }
 
-  // Because of #1627846, it's better to always return TRUE.
-  return TRUE;
-  /*return FALSE;*/
+  return FALSE;
 }
 
 /**
