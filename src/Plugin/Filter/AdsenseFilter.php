@@ -73,7 +73,8 @@ class AdsenseFilter extends FilterBase {
           // tag more than once.
           if (isset($ad)) {
             $modified = TRUE;
-            $ad_text = \Drupal::service('renderer')->render($ad->display());
+            $ad_array = $ad->display();
+            $ad_text = \Drupal::service('renderer')->render($ad_array);
 
             $text = preg_replace('/\\' . $match[0] . '/', $ad_text, $text);
           }
