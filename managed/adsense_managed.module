@@ -283,7 +283,7 @@ function _adsense_managed_get_block_config($delta = 0) {
 function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
   $ad = _adsense_dimensions($format);
 
-  if (empty($slot) || ((!in_array($format, ['responsive', 'link', 'autorelaxed']))  && ($ad === NULL))) {
+  if (empty($slot) || ((!in_array($format, array('responsive', 'link', 'autorelaxed')))  && ($ad === NULL))) {
     $output = "";
   }
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
@@ -294,7 +294,7 @@ function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
     ));
   }
   else {
-    if (in_array($format, ['responsive', 'link', 'autorelaxed'])) {
+    if (in_array($format, array('responsive', 'link', 'autorelaxed'))) {
       $shape = ($format == 'responsive') ? $shape : $format;
 
       // Responsive smart sizing code.
