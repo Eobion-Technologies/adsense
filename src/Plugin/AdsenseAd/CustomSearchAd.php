@@ -94,7 +94,7 @@ class CustomSearchAd extends SearchAdBase {
           '#forid' => $forid,
           '#encoding' => $cse_config->get('adsense_cse_encoding'),
           '#qsize' => $cse_config->get('adsense_cse_textbox_length'),
-          '#search' => $this->t('Search'),
+          '#search' => t('Search'),
           // Since we use as_q, we must use a modified copy of
           // Google's Javascript.
           '#script' => $base_url . '/' . drupal_get_path('module', 'adsense') . '/js/adsense_cse.js',
@@ -114,8 +114,8 @@ class CustomSearchAd extends SearchAdBase {
           '#forid' => $forid,
           '#encoding' => $cse_config->get('adsense_cse_encoding'),
           '#qsize' => $cse_config->get('adsense_cse_textbox_length'),
-          '#search' => $this->t('Search'),
-          '#custom_search' => $this->t('Custom Search'),
+          '#search' => t('Search'),
+          '#custom_search' => t('Custom Search'),
         ];
       }
 

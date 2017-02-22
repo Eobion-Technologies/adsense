@@ -51,7 +51,7 @@ class OldSearchAd extends SearchAdBase {
     \Drupal::moduleHandler()->alter('adsense', $client);
 
     $config = \Drupal::config('adsense_oldcode.settings');
-    $logo     = $config->get('adsense_search_logo');
+    $logo = $config->get('adsense_search_logo');
     $box_background_color = $config->get('adsense_search_color_box_background');
 
     $domain_0 = $config->get('adsense_search_domain_0');
@@ -74,7 +74,7 @@ class OldSearchAd extends SearchAdBase {
       '#domain' => $domain,
       '#qsize' => $config->get('adsense_search_textbox_length'),
       '#search_button' => $config->get('adsense_search_button'),
-      '#btn' => ($logo == 'adsense_search_logo_on_button') ? $this->t('Google Search') : $this->t('Search'),
+      '#btn' => ($logo == 'adsense_search_logo_on_button') ? t('Google Search') : t('Search'),
       '#box_text_color' => $config->get('adsense_search_color_box_text'),
       '#domain_0' => $domain_0,
       '#domain_1' => $domain_1,
