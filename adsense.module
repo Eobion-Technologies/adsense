@@ -54,6 +54,7 @@ define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
  *   NULL if there is no ad with that key
  */
 function adsense_ad_formats($key = NULL, $newcode = TRUE) {
+  // Don't forget to add responsive formats in _adsense_is_responsive().
   $ads = array(
     'responsive' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive', 'width' => '', 'height' => ''),
     'custom' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit'), 'code' => 'custom', 'width' => '', 'height' => ''),
@@ -500,6 +501,19 @@ function adsense_request_unblock() {
 }
 
 /**
+ * Helper function to determine if an ad format is responsive.
+ *
+ * @param string $format
+ *   Ad format.
+ *
+ * @return bool
+ *   TRUE if the ad is responsive.
+ */
+function _adsense_is_responsive($format) {
+  return in_array($format, array('responsive', 'link', 'autorelaxed'));
+}
+
+/**
  * Helper function to get ad width and height from the format.
  *
  * @param string $format
@@ -532,7 +546,7 @@ function _adsense_dimensions($format) {
  */
 function theme_adsense_ad(array $vars) {
   $style = '';
-  if (isset($vars['format']) && ($vars['format'] != 'responsive')) {
+  if (isset($vars['format']) && (!_adsense_is_responsive($vars['format']))) {
     $ad_fmt = _adsense_dimensions($vars['format']);
     $style = "style='display:inline-block;width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;'";
   }
