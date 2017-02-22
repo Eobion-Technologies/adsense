@@ -264,7 +264,6 @@ function _adsense_managed_get_block_config($delta = 0) {
   return FALSE;
 }
 
-
 /**
  * Generates the AdSense ad.
  *

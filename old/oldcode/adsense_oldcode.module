@@ -169,7 +169,7 @@ function adsense_oldcode_block_view($delta) {
  * @param int $delta
  *   Block number.
  *
- * @return array
+ * @return array|bool
  *   array with the block configuration or FALSE if no such block was found
  */
 function _adsense_oldcode_get_block_config($delta = 0) {
@@ -230,16 +230,16 @@ function _adsense_oldcode_get_ad($format, $client, $group = 1, $channel = 1) {
         break;
     }
 
-    $channel  = variable_get('adsense_ad_channel_' . $channel, ADSENSE_AD_CHANNEL_DEFAULT);
+    $channel = variable_get('adsense_ad_channel_' . $channel, ADSENSE_AD_CHANNEL_DEFAULT);
 
-    $border   = drupal_substr(variable_get('adsense_color_border_' . $group, ADSENSE_COLOR_BORDER_DEFAULT), 1);
-    $bg       = drupal_substr(variable_get('adsense_color_bg_' . $group, ADSENSE_COLOR_BG_DEFAULT), 1);
-    $link     = drupal_substr(variable_get('adsense_color_link_' . $group, ADSENSE_COLOR_LINK_DEFAULT), 1);
-    $url      = drupal_substr(variable_get('adsense_color_url_' . $group, ADSENSE_COLOR_URL_DEFAULT), 1);
-    $text     = drupal_substr(variable_get('adsense_color_text_' . $group, ADSENSE_COLOR_TEXT_DEFAULT), 1);
+    $border = drupal_substr(variable_get('adsense_color_border_' . $group, ADSENSE_COLOR_BORDER_DEFAULT), 1);
+    $bg = drupal_substr(variable_get('adsense_color_bg_' . $group, ADSENSE_COLOR_BG_DEFAULT), 1);
+    $link = drupal_substr(variable_get('adsense_color_link_' . $group, ADSENSE_COLOR_LINK_DEFAULT), 1);
+    $url = drupal_substr(variable_get('adsense_color_url_' . $group, ADSENSE_COLOR_URL_DEFAULT), 1);
+    $text = drupal_substr(variable_get('adsense_color_text_' . $group, ADSENSE_COLOR_TEXT_DEFAULT), 1);
 
-    $corner   = variable_get('adsense_ui_features_' . $group, ADSENSE_UI_FEATURES_DEFAULT);
-    $alt      = variable_get('adsense_alt_' . $group, ADSENSE_ALT_DEFAULT);
+    $corner = variable_get('adsense_ui_features_' . $group, ADSENSE_UI_FEATURES_DEFAULT);
+    $alt = variable_get('adsense_alt_' . $group, ADSENSE_ALT_DEFAULT);
     $alt_info = variable_get('adsense_alt_info_' . $group, ADSENSE_ALT_INFO_DEFAULT);
     switch ($alt) {
       case 1:

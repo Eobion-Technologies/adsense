@@ -128,7 +128,7 @@ function adsense_cse_block_view($delta = '') {
  * @param int $delta
  *   Block number.
  *
- * @return array
+ * @return array|bool
  *   array with the block configuration or FALSE if no such block was found
  */
 function _adsense_cse_get_block_config($delta = 0) {
