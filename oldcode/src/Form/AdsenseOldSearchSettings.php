@@ -271,7 +271,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $config = \Drupal::configFactory()->getEditable('adsense_oldcode.settings');
+    $config = $this->configFactory()->getEditable('adsense_oldcode.settings');
     $form_state->cleanValues();
 
     foreach ($form_state->getValues() as $key => $value) {

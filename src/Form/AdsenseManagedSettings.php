@@ -111,7 +111,7 @@ class AdsenseManagedSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $config = \Drupal::configFactory()->getEditable('adsense.settings');
+    $config = $this->configFactory()->getEditable('adsense.settings');
     $form_state->cleanValues();
 
     $this->condition->submitConfigurationForm($form, $form_state);
