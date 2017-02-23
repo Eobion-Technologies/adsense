@@ -16,7 +16,19 @@ use Drupal\adsense\PublisherId;
  * )
  */
 class ManagedAd extends ContentAdBase {
+
+  /**
+   * Ad slot ID.
+   *
+   * @var string
+   */
   private $slot;
+
+  /**
+   * Ad Shape (auto, horizontal, vertical, rectangle).
+   *
+   * @var string[]
+   */
   private $shape;
 
   /**

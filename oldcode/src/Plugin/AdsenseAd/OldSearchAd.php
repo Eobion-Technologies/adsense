@@ -16,6 +16,12 @@ use Drupal\adsense\PublisherId;
  * )
  */
 class OldSearchAd extends SearchAdBase {
+
+  /**
+   * Ad Channel.
+   *
+   * @var string
+   */
   private $channel;
 
   /**
@@ -74,7 +80,7 @@ class OldSearchAd extends SearchAdBase {
       '#domain' => $domain,
       '#qsize' => $config->get('adsense_search_textbox_length'),
       '#search_button' => $config->get('adsense_search_button'),
-      '#btn' => ($logo == 'adsense_search_logo_on_button') ? t('Google Search') : t('Search'),
+      '#btn' => ($logo == 'adsense_search_logo_on_button') ? $this->t('Google Search') : $this->t('Search'),
       '#box_text_color' => $config->get('adsense_search_color_box_text'),
       '#domain_0' => $domain_0,
       '#domain_1' => $domain_1,

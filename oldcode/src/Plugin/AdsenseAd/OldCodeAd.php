@@ -18,7 +18,19 @@ use Drupal\adsense\PublisherId;
  * )
  */
 class OldCodeAd extends ContentAdBase {
+
+  /**
+   * Ad style (key to configured styles).
+   *
+   * @var int
+   */
   private $style;
+
+  /**
+   * Ad Channel.
+   *
+   * @var string
+   */
   private $channel;
 
   /**

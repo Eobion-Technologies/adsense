@@ -3,11 +3,19 @@
 namespace Drupal\adsense;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Class AdsenseAdBase.
  */
 abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
+  use StringTranslationTrait;
+
+  /**
+   * Ad type.
+   *
+   * @var int
+   */
   protected $type;
 
   /**

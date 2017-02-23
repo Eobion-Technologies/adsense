@@ -16,6 +16,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AdsenseManagedSettings extends ConfigFormBase {
 
+  /**
+   * Request path condition block.
+   *
+   * @var \Drupal\system\Plugin\Condition\RequestPath
+   */
   protected $condition;
 
   /**
@@ -28,7 +33,6 @@ class AdsenseManagedSettings extends ConfigFormBase {
    */
   public function __construct(ConfigFactoryInterface $config_factory, FactoryInterface $plugin_factory) {
     parent::__construct($config_factory);
-    /** @var \Drupal\system\Plugin\Condition\RequestPath $condition */
     $condition = $plugin_factory->createInstance('request_path');
     $this->condition = $condition;
   }
