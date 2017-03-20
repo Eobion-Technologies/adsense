@@ -42,7 +42,7 @@ class OldCodeAd extends ContentAdBase {
     $ch = (!empty($configuration['channel'])) ? $configuration['channel'] : '';
 
     $oldcode_config = \Drupal::config('adsense_oldcode.settings');
-    if (($st < 1) || ($st > $oldcode_config->get('adsense_max_groups'))) {
+    if (($st < 1) || ($st > ADSENSE_OLDCODE_MAX_GROUPS)) {
       // Default to 1 if an invalid style is supplied.
       $st = 1;
     }

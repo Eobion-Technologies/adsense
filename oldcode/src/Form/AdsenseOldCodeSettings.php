@@ -37,7 +37,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
       '#title' => $this->t('Ad styles'),
     ];
 
-    for ($style = 1; $style <= $config->get('adsense_max_groups'); $style++) {
+    for ($style = 1; $style <= ADSENSE_OLDCODE_MAX_GROUPS; $style++) {
       $title = $config->get('adsense_group_title_' . $style);
       $form['ad_styles'][$style] = [
         '#type' => 'details',

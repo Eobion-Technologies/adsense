@@ -10,6 +10,7 @@
 
 // Ad channel defaults.
 define('ADSENSE_OLDCODE_MAX_CHANNELS', 10);
+define('ADSENSE_OLDCODE_MAX_GROUPS', 5);
 define('ADSENSE_OLDCODE_AD_CHANNEL_DEFAULT', '');
 
 /**
