@@ -121,7 +121,12 @@ class AdsenseManagedSettings extends ConfigFormBase {
     $this->condition->submitConfigurationForm($form, $form_state);
     $config->set('adsense_access_pages', $this->condition->getConfiguration());
 
-    foreach ($form_state->getValues() as $key => $value) {
+    // Don't store the condition values separately.
+    $values = $form_state->getValues();
+    unset($values['pages']);
+    unset($values['negate']);
+
+    foreach ($values as $key => $value) {
       $config->set($key, Html::escape($value));
     }
     $config->save();
