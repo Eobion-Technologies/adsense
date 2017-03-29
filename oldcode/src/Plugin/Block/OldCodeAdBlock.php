@@ -25,8 +25,8 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
   public function defaultConfiguration() {
     return [
       'ad_format' => '250x250',
-      'ad_style' => 1,
-      'ad_channel' => 1,
+      'ad_style' => '1',
+      'ad_channel' => '',
       'ad_align' => 'center',
     ];
   }
@@ -66,9 +66,7 @@ class OldCodeAdBlock extends BlockBase implements AdBlockInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
-
+  public function blockForm($form, FormStateInterface $form_state) {
     // Hide block title by default.
     $form['label_display']['#default_value'] = FALSE;
 

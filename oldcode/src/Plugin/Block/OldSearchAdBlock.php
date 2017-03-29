@@ -45,9 +45,7 @@ class OldSearchAdBlock extends BlockBase implements AdBlockInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
-
+  public function blockForm($form, FormStateInterface $form_state) {
     // Hide block title by default.
     $form['label_display']['#default_value'] = FALSE;
 

@@ -27,8 +27,8 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
     return [
       'ad_slot' => '',
       'ad_format' => '250x250',
-      'ad_width' => '250',
-      'ad_height' => '250',
+      'ad_width' => 250,
+      'ad_height' => 250,
       'ad_shape' => 'auto',
       'ad_align' => 'center',
     ];
@@ -75,9 +75,7 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
-
+  public function blockForm($form, FormStateInterface $form_state) {
     // Hide block title by default.
     $form['label_display']['#default_value'] = FALSE;
 
