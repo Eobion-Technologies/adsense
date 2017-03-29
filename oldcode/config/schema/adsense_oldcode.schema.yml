@@ -215,3 +215,28 @@ adsense_oldcode.settings:
     adsense_search_textbox_length:
       type: integer
       label: 'Length of text box'
+
+block.settings.adsense_oldcode_ad_block:
+  type: block_settings
+  label: 'Managed ad block settings'
+  mapping:
+    ad_format:
+      type: string
+      label: 'Ad format'
+    ad_style:
+      type: string
+      label: 'Style'
+    ad_channel:
+      type: string
+      label: 'Channel'
+    ad_align:
+      type: string
+      label: 'Ad alignment'
+
+block.settings.adsense_oldsearch_ad_block:
+  type: block_settings
+  label: 'Custom search block settings'
+  mapping:
+    ad_channel:
+      type: string
+      label: 'Channel'

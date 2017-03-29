@@ -69,3 +69,36 @@ adsense.settings:
     adsense_cse_ad_location:
       type: string
       label: 'Ad location'
+
+block.settings.adsense_cse_ad_block:
+  type: block_settings
+  label: 'Custom search block settings'
+  mapping:
+    ad_slot:
+      type: string
+      label: 'Ad ID'
+
+block.settings.adsense_managed_ad_block:
+  type: block_settings
+  label: 'Managed ad block settings'
+  mapping:
+    ad_slot:
+      type: string
+      label: 'Ad ID'
+    ad_format:
+      type: string
+      label: 'Ad format'
+    ad_width:
+      type: integer
+      label: 'Width'
+    ad_height:
+      type: integer
+      label: 'Height'
+    ad_shape:
+      type: sequence
+      label: 'Responsive ad shape'
+      sequence:
+        type: string
+    ad_align:
+      type: string
+      label: 'Ad alignment'
