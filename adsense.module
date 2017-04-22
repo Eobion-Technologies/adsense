@@ -222,14 +222,14 @@ function adsense_filter_info() {
 /**
  * Implements callback_filter_tips().
  */
-function _adsense_filter_tips($filter, $format, $long) {
+function _adsense_filter_tips($filter, $format, $long = FALSE) {
   return t('Use the special tag [adsense:<em>format</em>:<em>slot</em>] or [adsense:<em>format</em>:<em>[group]</em>:<em>[channel]</em><em>[:slot]</em>] or [adsense:block:<em>location</em>] to display Google AdSense ads.');
 }
 
 /**
  * Implements callback_filter_process().
  */
-function _adsense_process_tags($text, $filter, $format, $langcode, $cache, $cache_id) {
+function _adsense_process_tags($text, $filter) {
   $patterns = array(
     'block' => '/\[adsense:block:([^\]]+)\]/x',
     'oldtag' => '/\[adsense:([^:]+):(\d*):(\d*):?(\w*)\]/x',
