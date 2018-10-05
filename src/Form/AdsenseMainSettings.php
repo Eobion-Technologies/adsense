@@ -78,7 +78,7 @@ class AdsenseMainSettings extends ConfigFormBase {
       '#title' => $this->t('Display anti ad-block request?'),
       '#default_value' => $config->get('adsense_unblock_ads'),
       '#description' => $this->t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [@moreinfo]",
-        ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('http://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins'))->toString()]
+        ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('https://easylist.to/2013/05/10/anti-adblock-guide-for-site-admins.html'))->toString()]
       ),
     ];
 
