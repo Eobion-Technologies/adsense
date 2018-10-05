@@ -16,7 +16,7 @@ class CseResultsController extends ControllerBase {
    *   Markup for the page with the search results.
    */
   public function display() {
-    $config = \Drupal::config('adsense.settings');
+    $config = $this->config('adsense.settings');
     $width = $config->get('adsense_cse_frame_width');
     $country = $config->get('adsense_cse_country');
 

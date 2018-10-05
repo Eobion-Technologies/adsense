@@ -31,7 +31,7 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = \Drupal::config('adsense_oldcode.settings');
+    $config = $this->config('adsense_oldcode.settings');
 
     $form['searchbox'] = [
       '#type' => 'details',

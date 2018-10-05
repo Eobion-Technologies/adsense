@@ -36,7 +36,7 @@ class AdsenseMainSettings extends ConfigFormBase {
     module_load_include('inc', 'adsense', 'help/adsense.help');
     module_load_include('inc', 'adsense', 'includes/adsense.search_options');
 
-    $config = \Drupal::config('adsense.settings');
+    $config = $this->config('adsense.settings');
 
     $form['help'] = [
       '#type' => 'details',

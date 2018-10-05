@@ -65,7 +65,7 @@ class AdsenseManagedSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = \Drupal::config('adsense.settings');
+    $config = $this->config('adsense.settings');
 
     $form['adsense_managed_async'] = [
       '#type' => 'checkbox',
