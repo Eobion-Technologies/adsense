@@ -5,7 +5,7 @@
  */
 #}
 <div {% if classes %}class="{{ classes }}"{% endif %}>
-  <div class="adsense" {% if style %}style="{{ style }}"{% endif %}>
+  <div class="{{ adclasses }}" {% if style %}style="{{ style }}"{% endif %}>
     {{ content }}
   </div>
 </div>

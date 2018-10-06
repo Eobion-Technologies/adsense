@@ -161,8 +161,10 @@ function adsense_theme() {
  * Implements template_preprocess_HOOK().
  */
 function template_preprocess_adsense_ad(&$variables) {
+  $variables['adclasses'][] = 'adsense';
   if ((!empty($variables['format'])) && ((empty($variables['width'])) || (empty($variables['height'])))) {
     list($variables['width'], $variables['height']) = ContentAdBase::dimensions($variables['format']);
+    $variables['adclasses'][] = 'responsive';
   }
 
   if (empty($variables['content'])) {
@@ -174,6 +176,7 @@ function template_preprocess_adsense_ad(&$variables) {
   }
 
   $variables['classes'] = implode(' ', $variables['classes']);
+  $variables['adclasses'] = implode(' ', $variables['adclasses']);
 }
 
 /**
