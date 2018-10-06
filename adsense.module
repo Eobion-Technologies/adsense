@@ -37,7 +37,7 @@ function adsense_page_attachments(array &$attachments) {
       $attachments['#attached']['html_head'][] = [
         [
           '#type' => 'inline_template',
-          '#template' => '<!-- adsense page-level ads: {{ comment }} -->',
+          '#template' => '<!-- adsense auto ads: {{ comment }} -->',
           '#context' => [
             'comment' => 'page not in match list',
           ],
@@ -49,7 +49,7 @@ function adsense_page_attachments(array &$attachments) {
       $attachments['#attached']['html_head'][] = [
         [
           '#type' => 'inline_template',
-          '#template' => '<!-- adsense page-level ads: {{ comment }} -->',
+          '#template' => '<!-- adsense auto ads: {{ comment }} -->',
           '#context' => [
             'comment' => 'ads disabled',
           ],

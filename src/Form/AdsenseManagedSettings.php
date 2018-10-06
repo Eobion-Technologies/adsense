@@ -69,25 +69,25 @@ class AdsenseManagedSettings extends ConfigFormBase {
 
     $form['adsense_managed_async'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Use asynchronous code?'),
+      '#title' => $this->t('Use asynchronous ad code?'),
       '#default_value' => $config->get('adsense_managed_async'),
-      '#description' => $this->t('This will enable the new Asynchronous code type. [@moreinfo]',
+      '#description' => $this->t('This will enable the asynchronous ad code type. [@moreinfo]',
         ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('https://support.google.com/adsense/answer/3221666'))->toString()]),
     ];
 
     $form['adsense_managed_page_level_ads_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable Page-level ads?'),
+      '#title' => $this->t('Enable auto ads?'),
       '#default_value' => $config->get('adsense_managed_page_level_ads_enabled'),
-      '#description' => $this->t('This will enable the new Page-level ads. [@moreinfo]',
-        ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('https://support.google.com/adsense/answer/6245305'))->toString()]),
+      '#description' => $this->t('This will enable Auto ads. [@moreinfo]',
+        ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('https://support.google.com/adsense/answer/7478040'))->toString()]),
     ];
 
-    // Page-level ads visibility.
+    // Auto ads visibility.
     $form['visibility'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => $this->t('Page-level ad visibility'),
+      '#title' => $this->t('Auto ads visibility'),
       '#states' => [
         'invisible' => [
           ":input[name='adsense_managed_page_level_ads_enabled']" => ['checked' => FALSE],
