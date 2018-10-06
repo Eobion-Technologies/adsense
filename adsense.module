@@ -36,9 +36,11 @@ function adsense_page_attachments(array &$attachments) {
     if ($visibility['negate'] xor !$condition->evaluate()) {
       $attachments['#attached']['html_head'][] = [
         [
-          '#tag' => '',
-          '#theme' => 'adsense_comment',
-          '#comment' => 'adsense page-level ads: page not in match list',
+          '#type' => 'inline_template',
+          '#template' => '<!-- adsense page-level ads: {{ comment }} -->',
+          '#context' => [
+            'comment' => 'page not in match list',
+          ],
         ],
         'adsense_unmatched_page',
       ];
@@ -46,9 +48,11 @@ function adsense_page_attachments(array &$attachments) {
     elseif (AdsenseAdBase::isDisabled()) {
       $attachments['#attached']['html_head'][] = [
         [
-          '#tag' => '',
-          '#theme' => 'adsense_comment',
-          '#comment' => 'adsense page-level ads: ads disabled',
+          '#type' => 'inline_template',
+          '#template' => '<!-- adsense page-level ads: {{ comment }} -->',
+          '#context' => [
+            'comment' => 'ads disabled',
+          ],
         ],
         'adsense_ads_disabled',
       ];
@@ -80,11 +84,6 @@ function adsense_theme() {
         'height' => '',
         'format' => '',
         'classes' => [],
-      ],
-    ],
-    'adsense_comment' => [
-      'variables' => [
-        'comment' => '',
       ],
     ],
     'adsense_cse_branding' => [

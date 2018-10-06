@@ -92,8 +92,11 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
     }
 
     return [
-      '#theme' => 'adsense_comment',
-      '#comment' => 'adsense: ' . $text,
+      '#type' => 'inline_template',
+      '#template' => '<!-- adsense: {{ comment }} -->',
+      '#context' => [
+        'comment' => $text,
+      ],
     ];
   }
 
