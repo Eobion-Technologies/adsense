@@ -360,6 +360,8 @@ function adsense_get_client_slot_id($format = NULL) {
  * @see _adsense_oldcode_get_ad()
  */
 function adsense_display() {
+  drupal_add_css(drupal_get_path('module', 'adsense') . '/css/adsense.css');
+
   $numargs = func_num_args();
   if (($numargs == 1) && is_array(func_get_arg(0))) {
     $args = func_get_arg(0);
@@ -546,12 +548,18 @@ function _adsense_dimensions($format) {
  */
 function theme_adsense_ad(array $vars) {
   $style = '';
-  if (isset($vars['format']) && (!_adsense_is_responsive($vars['format']))) {
-    $ad_fmt = _adsense_dimensions($vars['format']);
-    $style = "style='display:inline-block;width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;'";
+  $adclasses = 'adsense';
+  if (isset($vars['format'])) {
+    if (_adsense_is_responsive($vars['format'])) {
+      $adclasses .= ' responsive';
+    }
+    else {
+      $ad_fmt = _adsense_dimensions($vars['format']);
+      $style = "style='width:{$ad_fmt['width']}px;height:{$ad_fmt['height']}px;'";
+    }
   }
 
-  return "<div class='adsense' {$style}>\n{$vars['ad']}\n</div>";
+  return "<div class='{$adclasses}' {$style}>\n{$vars['ad']}\n</div>";
 }
 
 /**
@@ -659,8 +667,7 @@ function _adsense_page_match() {
  */
 function theme_adsense_placeholder(array $vars) {
   // Use inline CSS, as some ad-blocking software blocks CSS files.
-  $style = 'border:solid 1px;display:inline-block;overflow:hidden;text-align:center;word-wrap:break-word;';
-  $style .= ((!empty($vars['width'])) && (!empty($vars['height']))) ? 'width:' . ($vars['width'] - 2) . 'px;height:' . ($vars['height'] - 2) . 'px;' : '';
+  $style = ((!empty($vars['width'])) && (!empty($vars['height']))) ? 'width:' . ($vars['width'] - 2) . 'px;height:' . ($vars['height'] - 2) . 'px;' : '';
 
   return "<div class='adsense adsense-placeholder' style='{$style}'>{$vars['text']}</div>";
 }
