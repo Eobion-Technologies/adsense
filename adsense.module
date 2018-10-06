@@ -62,7 +62,8 @@ function adsense_page_attachments(array &$attachments) {
       \Drupal::moduleHandler()->alter('adsense', $client);
       $attachments['#attached']['html_head'][] = [
         [
-          '#tag' => 'script',
+          '#type' => 'inline_template',
+          '#template' => '',
           '#theme' => 'adsense_managed_page_level',
           '#client' => $client,
         ],
