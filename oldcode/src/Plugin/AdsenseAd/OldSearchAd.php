@@ -28,7 +28,6 @@ class OldSearchAd extends SearchAdBase {
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id = NULL, $plugin_definition = NULL) {
-    $this->type = ADSENSE_TYPE_SEARCH;
     $ch = (!empty($configuration['channel'])) ? $configuration['channel'] : '';
 
     $this->channel = $ch;

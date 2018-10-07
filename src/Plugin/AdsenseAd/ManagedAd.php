@@ -43,9 +43,6 @@ class ManagedAd extends ContentAdBase {
       $this->format = $fo;
       $this->slot = $sl;
       $this->shape = $sh;
-
-      $fmt = $this->adsenseAdFormats($fo);
-      $this->type = $fmt['type'];
     }
     return parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -136,37 +133,37 @@ class ManagedAd extends ContentAdBase {
    */
   public static function adsenseAdFormats($key = NULL) {
     $ads = [
-      'responsive' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit')],
-      'custom' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit')],
-      'autorelaxed' => ['type' => ADSENSE_TYPE_MATCHED, 'desc' => t('Matched content')],
+      'responsive' => ['desc' => t('Responsive ad unit')],
+      'custom' => ['desc' => t('Custom size ad unit')],
+      'autorelaxed' => ['desc' => t('Matched content')],
       // Top performing ad sizes.
-      '300x250' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Medium Rectangle')],
-      '336x280' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Rectangle')],
-      '728x90' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Leaderboard')],
-      '300x600' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Skyscraper')],
-      '320x100' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Mobile Banner')],
+      '300x250' => ['desc' => t('Medium Rectangle')],
+      '336x280' => ['desc' => t('Large Rectangle')],
+      '728x90' => ['desc' => t('Leaderboard')],
+      '300x600' => ['desc' => t('Large Skyscraper')],
+      '320x100' => ['desc' => t('Large Mobile Banner')],
       // Other supported ad sizes.
-      '320x50' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Mobile Banner')],
-      '468x60' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Banner')],
-      '234x60' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Half Banner')],
-      '120x600' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Skyscraper')],
-      '120x240' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Vertical Banner')],
-      '160x600' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Wide Skyscraper')],
-      '300x1050' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Portrait')],
-      '970x90' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Large Leaderboard')],
-      '970x250' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Billboard')],
-      '250x250' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Square')],
-      '200x200' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Small Square')],
-      '180x150' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Small Rectangle')],
-      '125x125' => ['type' => ADSENSE_TYPE_AD, 'desc' => t('Button')],
+      '320x50' => ['desc' => t('Mobile Banner')],
+      '468x60' => ['desc' => t('Banner')],
+      '234x60' => ['desc' => t('Half Banner')],
+      '120x600' => ['desc' => t('Skyscraper')],
+      '120x240' => ['desc' => t('Vertical Banner')],
+      '160x600' => ['desc' => t('Wide Skyscraper')],
+      '300x1050' => ['desc' => t('Portrait')],
+      '970x90' => ['desc' => t('Large Leaderboard')],
+      '970x250' => ['desc' => t('Billboard')],
+      '250x250' => ['desc' => t('Square')],
+      '200x200' => ['desc' => t('Small Square')],
+      '180x150' => ['desc' => t('Small Rectangle')],
+      '125x125' => ['desc' => t('Button')],
       // 4-links.
-      'link' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('Responsive links')],
-      '120x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Small')],
-      '160x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Medium')],
-      '180x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical Large')],
-      '200x90' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Vertical X-Large')],
-      '468x15' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Horizontal Medium')],
-      '728x15' => ['type' => ADSENSE_TYPE_LINK, 'desc' => t('4-links Horizontal Large')],
+      'link' => ['desc' => t('Responsive links')],
+      '120x90' => ['desc' => t('4-links Vertical Small')],
+      '160x90' => ['desc' => t('4-links Vertical Medium')],
+      '180x90' => ['desc' => t('4-links Vertical Large')],
+      '200x90' => ['desc' => t('4-links Vertical X-Large')],
+      '468x15' => ['desc' => t('4-links Horizontal Medium')],
+      '728x15' => ['desc' => t('4-links Horizontal Large')],
     ];
 
     if (!empty($key)) {

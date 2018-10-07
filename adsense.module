@@ -14,12 +14,6 @@ use Drupal\adsense\AdsenseAdBase;
 use Drupal\adsense\ContentAdBase;
 use Drupal\adsense\PublisherId;
 
-// Ad types, link or ad.
-define('ADSENSE_TYPE_LINK', 1);
-define('ADSENSE_TYPE_AD', 2);
-define('ADSENSE_TYPE_SEARCH', 3);
-define('ADSENSE_TYPE_MATCHED', 4);
-
 /**
  * Implements hook_page_attachments().
  */

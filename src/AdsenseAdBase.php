@@ -12,13 +12,6 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
   use StringTranslationTrait;
 
   /**
-   * Ad type.
-   *
-   * @var int
-   */
-  protected $type;
-
-  /**
    * {@inheritdoc}
    */
   public static function createAd(array $args) {
@@ -55,9 +48,13 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
     $text = '';
 
     if ($this->isDisabled($text)) {
-    }
-    elseif (!$this->canInsertAnother()) {
-      $text = 'ad limit reached for type.';
+      return [
+        '#type' => 'inline_template',
+        '#template' => '<!-- adsense: {{ comment }} -->',
+        '#context' => [
+          'comment' => $text,
+        ],
+      ];
     }
     elseif ($config->get('adsense_test_mode') || $account->hasPermission('show adsense placeholders')) {
       // Show ad placeholder.
@@ -90,14 +87,6 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
         '#attached' => ['library' => $libraries],
       ];
     }
-
-    return [
-      '#type' => 'inline_template',
-      '#template' => '<!-- adsense: {{ comment }} -->',
-      '#context' => [
-        'comment' => $text,
-      ],
-    ];
   }
 
   /**
@@ -126,40 +115,6 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
       return FALSE;
     }
     return TRUE;
-  }
-
-  /**
-   * Check if another ad of this type can be inserted.
-   *
-   * @return bool
-   *   TRUE if ad can be inserted.
-   */
-  public function canInsertAnother() {
-    // Because of #1627846, it's better to always return TRUE.
-    return TRUE;
-
-    // @codingStandardsIgnoreStart
-//    static $num_ads = [
-//      ADSENSE_TYPE_AD      => 0,
-//      ADSENSE_TYPE_LINK    => 0,
-//      ADSENSE_TYPE_SEARCH  => 0,
-//      ADSENSE_TYPE_MATCHED => 0,
-//    ];
-//
-//    $max_ads = [
-//      ADSENSE_TYPE_AD      => 3,
-//      ADSENSE_TYPE_LINK    => 3,
-//      ADSENSE_TYPE_SEARCH  => 2,
-//      ADSENSE_TYPE_MATCHED => PHP_INT_MAX,
-//    ];
-//
-//    if ($num_ads[$this->type] < $max_ads[$this->type]) {
-//      $num_ads[$this->type]++;
-//      return TRUE;
-//    }
-//
-//    return FALSE;
-    // @codingStandardsIgnoreEnd
   }
 
   /**

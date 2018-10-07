@@ -30,7 +30,6 @@ class CustomSearchAd extends SearchAdBase {
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id = NULL, $plugin_definition = NULL) {
-    $this->type = ADSENSE_TYPE_SEARCH;
     $sl = (!empty($configuration['slot'])) ? $configuration['slot'] : '';
 
     if (!empty($sl)) {
