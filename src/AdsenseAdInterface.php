@@ -42,7 +42,7 @@ interface AdsenseAdInterface extends PluginInspectionInterface {
    * @return array
    *   list of language options with the key used by Google and description.
    */
-  static public function adsenseLanguages();
+  public static function adsenseLanguages();
 
   /**
    * This is the array that holds all ad formats.
@@ -65,6 +65,6 @@ interface AdsenseAdInterface extends PluginInspectionInterface {
    *   if a key is provided, the array containing the ad format for that key,
    *   or NULL if there is no ad with that key.
    */
-  static public function adsenseAdFormats($key = NULL);
+  public static function adsenseAdFormats($key = NULL);
 
 }
