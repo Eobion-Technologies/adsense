@@ -12,7 +12,7 @@
 define('ADSENSE_TYPE_LINK', 1);
 define('ADSENSE_TYPE_AD', 2);
 define('ADSENSE_TYPE_SEARCH', 3);
-define('ADSENSE_TYPE_MATCHED', 4);
+define('ADSENSE_TYPE_OTHER', 4);
 
 define('ADSENSE_MAX_CHANNELS', 10);
 define('ADSENSE_AD_CHANNEL_DEFAULT', '');
@@ -58,7 +58,9 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
   $ads = array(
     'responsive' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive', 'width' => '', 'height' => ''),
     'custom' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit'), 'code' => 'custom', 'width' => '', 'height' => ''),
-    'autorelaxed' => array('type' => ADSENSE_TYPE_MATCHED, 'desc' => t('Matched content'), 'code' => 'autorelaxed', 'width' => '', 'height' => ''),
+    'autorelaxed' => array('type' => ADSENSE_TYPE_OTHER, 'desc' => t('Matched content'), 'code' => 'autorelaxed', 'width' => '', 'height' => ''),
+    'in-article' => array('type' => ADSENSE_TYPE_OTHER, 'desc' => t('In-article ad'), 'code' => 'in-article', 'width' => '', 'height' => ''),
+    'in-feed' => array('type' => ADSENSE_TYPE_OTHER, 'desc' => t('In-feed ad'), 'code' => 'in-feed', 'width' => '', 'height' => ''),
     '120x240' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Vertical Banner'), 'code' => '120x240_as', 'width' => 120, 'height' => 240),
     '120x600' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Skyscraper'), 'code' => '120x600_as', 'width' => 120, 'height' => 600),
     '125x125' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Button'), 'code' => '125x125_as', 'width' => 125, 'height' => 125),
@@ -453,7 +455,8 @@ function adsense_display() {
       default:
         if (!empty($slot) && module_exists('adsense_managed')) {
           $shape = empty($args['shape']) ? 'auto' : $args['shape'];
-          $ad = _adsense_managed_get_ad($args['format'], $client, $slot, $shape);
+          $layout_key = empty($args['layout_key']) ? '' : $args['layout_key'];
+          $ad = _adsense_managed_get_ad($args['format'], $client, $slot, $shape, $layout_key);
           $module = 'adsense_managed';
         }
         elseif (module_exists('adsense_oldcode')) {
@@ -513,6 +516,19 @@ function _adsense_is_responsive($format) {
 }
 
 /**
+ * Helper function to determine if an ad format is fluid.
+ *
+ * @param string $format
+ *   Ad format.
+ *
+ * @return bool
+ *   TRUE if the ad is fluid.
+ */
+function _adsense_is_fluid($format) {
+  return in_array($format, array('in-article', 'in-feed'));
+}
+
+/**
  * Helper function to get ad width and height from the format.
  *
  * @param string $format
@@ -547,7 +563,7 @@ function theme_adsense_ad(array $vars) {
   $style = '';
   $adclasses = 'adsense';
   if (isset($vars['format'])) {
-    if (_adsense_is_responsive($vars['format'])) {
+    if (_adsense_is_responsive($vars['format']) || _adsense_is_fluid($vars['format'])) {
       $adclasses .= ' responsive';
     }
     else {

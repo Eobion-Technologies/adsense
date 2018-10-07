@@ -120,7 +120,7 @@ function adsense_managed_block_configure($delta = '') {
   $form['ad_format'] = array(
     '#type' => 'select',
     '#title' => t('Ad format'),
-    '#default_value' => ($ad) ? $ad[1] : '250x250',
+    '#default_value' => ($ad) ? $ad[1] : 'responsive',
     '#options' => $ad_list,
     '#description' => t('Select the ad dimensions you want for this block.'),
     '#required' => TRUE,
@@ -189,8 +189,29 @@ function adsense_managed_block_configure($delta = '') {
     ),
     '#description' => t("Shape of the responsive ad unit. Google's default is 'auto' for auto-sizing behaviour, but can also be a combination of one or more of the following: 'rectangle', 'vertical' or 'horizontal'."),
     '#states' => array(
+      'enabled' => array(
+        ':input[name="ad_format"]' => array('value' => 'responsive'),
+      ),
       'visible' => array(
         ':input[name="ad_format"]' => array('value' => 'responsive'),
+      ),
+    ),
+  );
+
+  $form['ad_layout_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Layout key'),
+    '#default_value' => isset($ad[7]) ? $ad[7] : '',
+    '#description' => t("This is the data-ad-layout-key in the ad code from your Google Adsense account, such as '-gw-3+1f-3d+2z'."),
+    '#states' => array(
+      'enabled' => array(
+        ':input[name="ad_format"]' => array('value' => 'in-feed'),
+      ),
+      'visible' => array(
+        ':input[name="ad_format"]' => array('value' => 'in-feed'),
+      ),
+      'required' => array(
+        ':input[name="ad_format"]' => array('value' => 'in-feed'),
       ),
     ),
   );
@@ -223,6 +244,7 @@ function adsense_managed_block_save($delta = '', $edit = array()) {
     check_plain(implode(',', $edit['ad_shape'])),
     check_plain($edit['ad_width']),
     check_plain($edit['ad_height']),
+    check_plain($edit['ad_layout_key']),
   ));
   variable_set('adsense_managed_ad_block_' . $delta, $data);
 }
@@ -236,7 +258,7 @@ function adsense_managed_block_view($delta = '') {
     $ad = _adsense_managed_get_block_config($delta);
     $format = ($ad[1] == 'custom') ? ($ad[5] . 'x' . $ad[6]) : $ad[1];
     $shape = isset($ad[4]) ? $ad[4] : 'auto';
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $format, 'slot' => $ad[2], 'shape' => $shape)) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_managed/' . $delta));
+    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $format, 'slot' => $ad[2], 'shape' => $shape, 'layout_key' => $ad['7'])) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_managed/' . $delta));
     if (!empty($ad[3])) {
       $block['content'] = "<div style='text-align:{$ad[3]}'>{$block['content']}</div>";
     }
@@ -275,14 +297,16 @@ function _adsense_managed_get_block_config($delta = 0) {
  *   Slot Id for the AdSense ad.
  * @param string $shape
  *   Responsive ad shape.
+ * @param string $layout_key
+ *   In-feed layout key.
  *
  * @return string
  *   JavaScript that embeds the Google AdSense ad
  */
-function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
+function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto', $layout_key = '') {
   $ad = _adsense_dimensions($format);
 
-  if (empty($slot) || ((!_adsense_is_responsive($format))  && ($ad === NULL))) {
+  if (empty($slot) || (!_adsense_is_responsive($format) && !_adsense_is_fluid($format) && ($ad === NULL))) {
     $output = "";
   }
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
@@ -297,7 +321,7 @@ function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
       $shape = ($format == 'responsive') ? $shape : $format;
 
       // Responsive smart sizing code.
-      $output = <<<MANAGED_RESP_SMART_TXT
+      $output = <<<MANAGED_RESP_TXT
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- $format -->
 <ins class="adsbygoogle"
@@ -309,7 +333,36 @@ function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto') {
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-MANAGED_RESP_SMART_TXT;
+MANAGED_RESP_TXT;
+    }
+    elseif (_adsense_is_fluid($format)) {
+      $style = 'display:block';
+      $layout = '';
+      if (empty($layout_key)) {
+        // In-article.
+        $layout = 'data-ad-layout="' . $format . '"';
+        $style .= '; text-align:center;';
+      }
+      else {
+        // In-feed.
+        $layout_key = 'data-ad-layout-key="' . $layout_key . '"';
+      }
+
+      // Responsive smart sizing code.
+      $output = <<<MANAGED_FLUID_TXT
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- $format -->
+<ins class="adsbygoogle"
+     style="$style"
+     $layout
+     data-ad-format="fluid"
+     $layout_key
+     data-ad-client="ca-$client"
+     data-ad-slot="$slot"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+MANAGED_FLUID_TXT;
     }
     elseif (variable_get('adsense_managed_async', ADSENSE_MANAGED_ASYNC_DEFAULT)) {
       // Asynchronous code.
