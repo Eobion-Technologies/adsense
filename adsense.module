@@ -353,7 +353,6 @@ function adsense_get_client_slot_id($format = NULL) {
  * @see _adsense_page_match()
  * @see _adsense_check_if_enabled()
  * @see theme_adsense_placeholder()
- * @see _adsense_can_insert_another()
  * @see _adsense_cse_get_searchbox()
  * @see _adsense_search_get_searchbox()
  * @see _adsense_managed_get_ad()
@@ -397,9 +396,6 @@ function adsense_display() {
     // Check first if disabled or if we are at adsense limit or if this page
     // doesn't allow adsense.
     $ad = '<!--adsense: page not in match list-->';
-  }
-  elseif (!_adsense_can_insert_another($ad['type'])) {
-    $ad = '<!--adsense: ad limit reached for type-->';
   }
   elseif (!_adsense_check_if_enabled()) {
     global $user;
@@ -589,43 +585,6 @@ function _adsense_check_if_enabled() {
   }
 
   return TRUE;
-}
-
-/**
- * Determine if AdSense has reached limit on this page.
- *
- * As per Google policy, a page can have up to 3 ad units and 3 link units.
- *
- * @param int $type
- *   Ad type (ADSENSE_TYPE_AD, ADSENSE_TYPE_LINK, ADSENSE_TYPE_SEARCH).
- *
- * @return bool
- *   TRUE if we can insert another ad, FALSE if not allowed.
- */
-function _adsense_can_insert_another($type = ADSENSE_TYPE_AD) {
-  // Because of #1627846, it's better to always return TRUE.
-  return TRUE;
-
-  static $num_ads = array(
-    ADSENSE_TYPE_AD      => 0,
-    ADSENSE_TYPE_LINK    => 0,
-    ADSENSE_TYPE_SEARCH  => 0,
-    ADSENSE_TYPE_MATCHED => 0,
-  );
-
-  $max_ads = array(
-    ADSENSE_TYPE_AD      => 3,
-    ADSENSE_TYPE_LINK    => 3,
-    ADSENSE_TYPE_SEARCH  => 2,
-    ADSENSE_TYPE_MATCHED => PHP_INT_MAX,
-  );
-
-  if ($num_ads[$type] < $max_ads[$type]) {
-    $num_ads[$type]++;
-    return TRUE;
-  }
-
-  return FALSE;
 }
 
 /**
