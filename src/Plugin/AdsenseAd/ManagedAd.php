@@ -107,9 +107,9 @@ class ManagedAd extends ContentAdBase {
         ];
       }
       elseif (ManagedAd::isFluid($this->format)) {
-        $style = 'display:block;';
+        $style = 'display:block';
         if ($this->format == 'in-article') {
-          $style .= ' text-align:center;';
+          $style .= '; text-align:center;';
         }
 
         // Responsive smart sizing code.
