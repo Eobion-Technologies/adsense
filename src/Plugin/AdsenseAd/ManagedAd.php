@@ -32,17 +32,26 @@ class ManagedAd extends ContentAdBase {
   private $shape;
 
   /**
+   * Ad Layout key.
+   *
+   * @var string
+   */
+  private $layout_key;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id = NULL, $plugin_definition = NULL) {
     $fo = (!empty($configuration['format'])) ? $configuration['format'] : '';
     $sl = (!empty($configuration['slot'])) ? $configuration['slot'] : '';
     $sh = (!empty($configuration['shape'])) ? $configuration['shape'] : ['auto'];
+    $lk = (!empty($configuration['layout_key'])) ? $configuration['layout_key'] : '';
 
     if (($fo != 'Search Box') && !empty($fo) && !empty($sl)) {
       $this->format = $fo;
       $this->slot = $sl;
       $this->shape = $sh;
+      $this->layout_key = $lk;
     }
     return parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -58,7 +67,13 @@ class ManagedAd extends ContentAdBase {
 
       $content = \Drupal::config('adsense.settings')->get('adsense_placeholder_text');
       $content .= "\nclient = ca-$client\nslot = {$this->slot}";
-      $content .= ($this->format == 'responsive') ? "\nshape = " . implode(',', $this->shape) : "\nwidth = $width\nheight = $height";
+      if (ManagedAd::isResponsive($this->format) || ManagedAd::isFluid($this->format)) {
+        $format = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
+        $content .= "\nformat = $format";
+      }
+      else {
+        $content .= "\nwidth = $width\nheight = $height";
+      }
 
       return [
         '#content' => ['#markup' => nl2br($content)],
@@ -79,7 +94,7 @@ class ManagedAd extends ContentAdBase {
       $client = PublisherId::get();
       \Drupal::moduleHandler()->alter('adsense', $client);
 
-      if (in_array($this->format, ['responsive', 'link', 'autorelaxed'])) {
+      if (ManagedAd::isResponsive($this->format)) {
         $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
 
         // Responsive smart sizing code.
@@ -89,6 +104,22 @@ class ManagedAd extends ContentAdBase {
           '#client' => $client,
           '#slot' => $this->slot,
           '#shape' => $shape,
+        ];
+      }
+      elseif (ManagedAd::isFluid($this->format)) {
+        $style = 'display:block;';
+        if ($this->format == 'in-article') {
+          $style .= ' text-align:center;';
+        }
+
+        // Responsive smart sizing code.
+        $content = [
+          '#theme' => 'adsense_managed_fluid',
+          '#format' => $this->format,
+          '#client' => $client,
+          '#slot' => $this->slot,
+          '#layout_key' => $this->layout_key,
+          '#style' => $style,
         ];
       }
       else {
@@ -129,6 +160,32 @@ class ManagedAd extends ContentAdBase {
   }
 
   /**
+   * Helper function to determine if an ad format is responsive.
+   *
+   * @param string $format
+   *   Ad format.
+   *
+   * @return bool
+   *   TRUE if the ad is responsive.
+   */
+  private static function isResponsive($format) {
+    return in_array($format, ['responsive', 'link', 'autorelaxed']);
+  }
+
+  /**
+   * Helper function to determine if an ad format is fluid.
+   *
+   * @param string $format
+   *   Ad format.
+   *
+   * @return bool
+   *   TRUE if the ad is fluid.
+   */
+  private static function isFluid($format) {
+    return in_array($format, ['in-article', 'in-feed']);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function adsenseAdFormats($key = NULL) {
@@ -136,6 +193,8 @@ class ManagedAd extends ContentAdBase {
       'responsive' => ['desc' => t('Responsive ad unit')],
       'custom' => ['desc' => t('Custom size ad unit')],
       'autorelaxed' => ['desc' => t('Matched content')],
+      'in-article' => ['desc' => t('In-article ad')],
+      'in-feed' => ['desc' => t('In-feed ad')],
       // Top performing ad sizes.
       '300x250' => ['desc' => t('Medium Rectangle')],
       '336x280' => ['desc' => t('Large Rectangle')],

@@ -138,6 +138,15 @@ function adsense_theme() {
         'shape' => '',
       ],
     ],
+    'adsense_managed_fluid' => [
+      'variables' => [
+        'format' => '',
+        'client' => '',
+        'slot' => '',
+        'layout_key' => '',
+        'style' => '',
+      ],
+    ],
     'adsense_managed_sync' => [
       'variables' => [
         'format' => '',
