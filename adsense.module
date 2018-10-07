@@ -412,8 +412,9 @@ function adsense_display() {
       // and then the default text as specified in the admin settings.
       $text = isset($args['title']) ? t('Block') . ': ' . $args['title'] . '<br />' : '';
       $text .= variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) . ' ' . $args['format'];
-      if ((isset($user) && ($user->uid == 1)) || user_access('show adsense placeholders')) {
-        $text = t('Ads disabled for %name', array('%name' => $user->name)) . '<br />' . $text;
+      if (user_access('show adsense placeholders')) {
+        $name = user_is_anonymous() ? variable_get('anonymous', t('Anonymous')) : $user->name;
+        $text = t('Ads disabled for %name', array('%name' => $name)) . '<br />' . $text;
       }
 
       $ad = "<!--adsense: placeholder-->\n" . theme('adsense_placeholder', array('text' => $text, 'width' => $width, 'height' => $height));
