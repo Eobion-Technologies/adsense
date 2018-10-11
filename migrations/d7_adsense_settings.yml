@@ -2,6 +2,7 @@ id: d7_adsense_settings
 label: AdSense 7 configuration
 migration_tags:
   - Drupal 7
+  - Configuration
 source:
   plugin: variable
   variables:
@@ -25,6 +26,7 @@ source:
     - adsense_cse_country
     - adsense_cse_frame_width
     - adsense_cse_ad_location
+  source_module: adsense
 process:
   adsense_unblock_ads: adsense_unblock_ads
   adsense_test_mode: adsense_test_mode
