@@ -2,6 +2,7 @@ id: d7_adsense_oldcode_settings
 label: AdSense pre-2007 code 7 configuration
 migration_tags:
   - Drupal 7
+  - Configuration
 source:
   plugin: variable
   variables:
@@ -86,6 +87,7 @@ source:
     - adsense_search_logo
     - adsense_search_safe_mode
     - adsense_search_textbox_length
+  source_module: adsense_oldcode
 process:
     adsense_ad_channel_1: adsense_ad_channel_1
     adsense_ad_channel_2: adsense_ad_channel_2
