@@ -1,10 +1,7 @@
-; Copyright 2005-2008 Khalid Baheyeldin http://2bits.com
-; Copyright 2008      Joao Ventura      http://www.venturas.org
-
 name = Revenue sharing basic (old)
 description = Revenue sharing for the Google Adsense module
-dependencies[] = adsense
-package = Adsense
+dependencies[] = adsense:adsense
+package = AdSense
 core = 7.x
 
 configure = admin/config/services/adsense/publisher/revenue_sharing_basic
