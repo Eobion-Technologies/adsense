@@ -2,6 +2,7 @@
 
 namespace Drupal\adsense\Form;
 
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AdsenseManagedSettings extends ConfigFormBase {
 
   /**
-   * Request path condition block.
+   * Request path condition plugin.
    *
    * @var \Drupal\system\Plugin\Condition\RequestPath
    */
@@ -33,8 +34,13 @@ class AdsenseManagedSettings extends ConfigFormBase {
    */
   public function __construct(ConfigFactoryInterface $config_factory, FactoryInterface $plugin_factory) {
     parent::__construct($config_factory);
-    $condition = $plugin_factory->createInstance('request_path');
-    $this->condition = $condition;
+    try {
+      $this->condition = $plugin_factory->createInstance('request_path');
+    }
+    catch (PluginException $e) {
+      // System is badly broken if we can't get the condition plugin.
+      $this->condition = NULL;
+    }
   }
 
   /**

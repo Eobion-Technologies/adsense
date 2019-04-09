@@ -33,7 +33,7 @@ class CseResultsController extends ControllerBase {
       global $base_url;
 
       // Log the search keys.
-      \Drupal::logger('AdSense CSE')->notice('Search keywords: %keyword', [
+      $this->getLogger('AdSense CSE')->notice('Search keywords: %keyword', [
         '%keyword' => urldecode($_GET['as_q']),
       ]);
 
@@ -41,7 +41,7 @@ class CseResultsController extends ControllerBase {
         '#theme' => 'adsense_cse_results',
         '#width' => $width,
         '#country' => $country,
-        '#script' => $base_url . '/' . drupal_get_path('module', 'adsense') . '/js/adsense_cse.results.js',
+        '#script' => $base_url . '/' . drupal_get_path('module', 'adsense') . '/js/adsense_cse-v1.results.js',
       ];
     }
     return $content;

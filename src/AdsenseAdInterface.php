@@ -17,6 +17,9 @@ interface AdsenseAdInterface extends PluginInspectionInterface {
    *
    * @return AdsenseAdBase
    *   Created ad object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *   Exception thrown in the event of problems with the plugin.
    */
   public static function createAd(array $args);
 

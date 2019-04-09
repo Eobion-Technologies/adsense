@@ -207,6 +207,9 @@ function adsense_help($route_name, RouteMatchInterface $route_match) {
  *
  * @return array
  *   Render array with ad code.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\PluginException
+ *   Exception thrown in the event of problems with the plugin.
  */
 function adsense_display(array $args) {
   if (!is_array($args)) {

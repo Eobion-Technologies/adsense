@@ -36,12 +36,13 @@ class ManagedAd extends ContentAdBase {
    *
    * @var string
    */
-  private $layout_key;
+  private $layoutKey;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id = NULL, $plugin_definition = NULL) {
+  public function __construct(array $configuration, $plugin_id = '', $plugin_definition = NULL, $config_factory = NULL, $module_handler = NULL, $current_user = NULL) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $config_factory, $module_handler, $current_user);
     $fo = (!empty($configuration['format'])) ? $configuration['format'] : '';
     $sl = (!empty($configuration['slot'])) ? $configuration['slot'] : '';
     $sh = (!empty($configuration['shape'])) ? $configuration['shape'] : ['auto'];
@@ -51,9 +52,8 @@ class ManagedAd extends ContentAdBase {
       $this->format = $fo;
       $this->slot = $sl;
       $this->shape = $sh;
-      $this->layout_key = $lk;
+      $this->layoutKey = $lk;
     }
-    return parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
@@ -65,7 +65,7 @@ class ManagedAd extends ContentAdBase {
       // Get width and height from the format.
       list($width, $height) = $this->dimensions($this->format);
 
-      $content = \Drupal::config('adsense.settings')->get('adsense_placeholder_text');
+      $content = $this->configFactory->get('adsense.settings')->get('adsense_placeholder_text');
       $content .= "\nclient = ca-$client\nslot = {$this->slot}";
       if (ManagedAd::isResponsive($this->format) || ManagedAd::isFluid($this->format)) {
         $format = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
@@ -90,9 +90,9 @@ class ManagedAd extends ContentAdBase {
    */
   public function getAdContent() {
     if (!empty($this->format) && !empty($this->slot)) {
-      $config = \Drupal::config('adsense.settings');
+      $config = $this->configFactory->get('adsense.settings');
       $client = PublisherId::get();
-      \Drupal::moduleHandler()->alter('adsense', $client);
+      $this->moduleHandler->alter('adsense', $client);
 
       if (ManagedAd::isResponsive($this->format)) {
         $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
@@ -118,7 +118,7 @@ class ManagedAd extends ContentAdBase {
           '#format' => $this->format,
           '#client' => $client,
           '#slot' => $this->slot,
-          '#layout_key' => $this->layout_key,
+          '#layout_key' => $this->layoutKey,
           '#style' => $style,
         ];
       }

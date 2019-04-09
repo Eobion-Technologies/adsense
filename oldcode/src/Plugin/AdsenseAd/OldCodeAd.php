@@ -2,8 +2,6 @@
 
 namespace Drupal\adsense_oldcode\Plugin\AdsenseAd;
 
-use Drupal\Component\Utility\Unicode;
-
 use Drupal\adsense\ContentAdBase;
 use Drupal\adsense\PublisherId;
 
@@ -36,12 +34,12 @@ class OldCodeAd extends ContentAdBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id = NULL, $plugin_definition = NULL) {
+  public function __construct(array $configuration, $plugin_id = '', $plugin_definition = NULL, $config_factory = NULL, $module_handler = NULL, $current_user = NULL) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $config_factory, $module_handler, $current_user);
     $fo = (!empty($configuration['format'])) ? $configuration['format'] : '';
     $st = (!empty($configuration['style'])) ? $configuration['style'] : 1;
     $ch = (!empty($configuration['channel'])) ? $configuration['channel'] : '';
 
-    $oldcode_config = \Drupal::config('adsense_oldcode.settings');
     if (($st < 1) || ($st > ADSENSE_OLDCODE_MAX_GROUPS)) {
       // Default to 1 if an invalid style is supplied.
       $st = 1;
@@ -52,7 +50,6 @@ class OldCodeAd extends ContentAdBase {
       $this->style = $st;
       $this->channel = $ch;
     }
-    return parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
@@ -64,7 +61,7 @@ class OldCodeAd extends ContentAdBase {
       // Get width and height from the format.
       list($width, $height) = $this->dimensions($this->format);
 
-      $content = \Drupal::config('adsense.settings')->get('adsense_placeholder_text');
+      $content = $this->configFactory->get('adsense.settings')->get('adsense_placeholder_text');
       $content .= "\nclient = $client\nformat = {$this->format}\nwidth = $width\nheight = $height\nstyle = {$this->style}\nchannel = {$this->channel}";
 
       return [
@@ -84,11 +81,11 @@ class OldCodeAd extends ContentAdBase {
     if (!empty($this->format)) {
       $ad = $this->adsenseAdFormats($this->format);
       if ($ad != NULL) {
-        $core_config = \Drupal::config('adsense.settings');
-        $oldcode_config = \Drupal::config('adsense_oldcode.settings');
+        $core_config = $this->configFactory->get('adsense.settings');
+        $oldcode_config = $this->configFactory->get('adsense_oldcode.settings');
 
         $client = PublisherId::get();
-        \Drupal::moduleHandler()->alter('adsense', $client);
+        $this->moduleHandler->alter('adsense', $client);
 
         // Get width and height from the format.
         list($width, $height) = $this->dimensions($this->format);
@@ -120,11 +117,11 @@ class OldCodeAd extends ContentAdBase {
           '#format' => $ad['code'],
           '#type' => ($ad['type'] == ADSENSE_OLDCODE_TYPE_AD) ? $type : '',
           '#channel' => $oldcode_config->get('adsense_ad_channel_' . $this->channel),
-          '#border' => Unicode::substr($oldcode_config->get('adsense_color_border_' . $this->style), 1),
-          '#bg' => Unicode::substr($oldcode_config->get('adsense_color_bg_' . $this->style), 1),
-          '#link' => Unicode::substr($oldcode_config->get('adsense_color_link_' . $this->style), 1),
-          '#text' => Unicode::substr($oldcode_config->get('adsense_color_text_' . $this->style), 1),
-          '#url' => Unicode::substr($oldcode_config->get('adsense_color_url_' . $this->style), 1),
+          '#border' => mb_substr($oldcode_config->get('adsense_color_border_' . $this->style), 1),
+          '#bg' => mb_substr($oldcode_config->get('adsense_color_bg_' . $this->style), 1),
+          '#link' => mb_substr($oldcode_config->get('adsense_color_link_' . $this->style), 1),
+          '#text' => mb_substr($oldcode_config->get('adsense_color_text_' . $this->style), 1),
+          '#url' => mb_substr($oldcode_config->get('adsense_color_url_' . $this->style), 1),
           '#features' => $oldcode_config->get('adsense_ui_features_' . $this->style),
           '#secret' => $core_config->get('adsense_secret_language'),
         ];

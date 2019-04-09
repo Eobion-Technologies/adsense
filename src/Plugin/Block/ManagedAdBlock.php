@@ -178,7 +178,7 @@ class ManagedAdBlock extends BlockBase implements AdBlockInterface {
       '#type' => 'textfield',
       '#title' => $this->t('Layout key'),
       '#default_value' => $this->configuration['ad_layout_key'],
-      '#description' => $this->t("This is the data-ad-layout-key in the ad code from your @adsensepage, such as '-gw-3+1f-3d+2z.'",
+      '#description' => $this->t("This is the data-ad-layout-key in the ad code from your @adsensepage, such as '-gw-3+1f-3d+2z'.",
         ['@adsensepage' => $link]),
       '#states' => [
         'enabled' => [

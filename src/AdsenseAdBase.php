@@ -3,13 +3,76 @@
 namespace Drupal\adsense;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class AdsenseAdBase.
  */
-abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
+abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface, ContainerFactoryPluginInterface {
   use StringTranslationTrait;
+
+  /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
+   * Module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
+   * Creates a new AdsenseAdBase instance.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed|null $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface|null $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface|null $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Session\AccountProxyInterface|null $current_user
+   *   The current user.
+   */
+  public function __construct(array $configuration, $plugin_id = '', $plugin_definition = NULL, ConfigFactoryInterface $config_factory = NULL, ModuleHandlerInterface $module_handler = NULL, AccountProxyInterface $current_user = NULL) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory ?: \Drupal::configFactory();
+    $this->moduleHandler = $module_handler ?: \Drupal::moduleHandler();
+    $this->currentUser = $current_user ?: \Drupal::currentUser();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('config.factory'),
+      $container->get('module_handler'),
+      $container->get('current_user')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -42,8 +105,7 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
    *   render array with ad or placeholder depending on current configuration.
    */
   public function display(array $classes = []) {
-    $account = \Drupal::currentUser();
-    $config = \Drupal::config('adsense.settings');
+    $config = $this->configFactory->get('adsense.settings');
     $libraries = ['adsense/adsense.css'];
     $text = '';
 
@@ -56,7 +118,7 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface {
         ],
       ];
     }
-    elseif ($config->get('adsense_test_mode') || $account->hasPermission('show adsense placeholders')) {
+    elseif ($config->get('adsense_test_mode') || $this->currentUser->hasPermission('show adsense placeholders')) {
       // Show ad placeholder.
       $content = $this->getAdPlaceholder();
       return [
