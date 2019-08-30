@@ -2,7 +2,10 @@
 
 namespace Drupal\adsense_adstxt\Controller;
 
+use Drupal\adsense\PublisherId;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -12,17 +15,43 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AdsenseAdsTxtController extends ControllerBase {
 
   /**
+   * Module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Constructs a new CseV2ResultsController controller.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface|null $module_handler
+   *   The module handler.
+   */
+  public function __construct(ModuleHandlerInterface $module_handler) {
+    $this->moduleHandler = $module_handler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('module_handler')
+    );
+  }
+
+  /**
    * Display the ads.txt page.
    *
    * @return \Symfony\Component\HttpFoundation\Response
    *   Plain text response with the ads.txt content.
    */
   public function display() {
-    $config = $this->config('adsense.settings');
-    $publisher = $config->get('adsense_basic_id');
+    $client = PublisherId::get();
+    $this->moduleHandler->alter('adsense', $client);
 
-    if (!empty($publisher)) {
-      $content = "google.com, $publisher, DIRECT, f08c47fec0942fa0\n";
+    if (!empty($client)) {
+      $content = "google.com, $client, DIRECT, f08c47fec0942fa0\n";
       $response = new Response($content, 200, ['Content-Type' => 'text/plain']);
 
       return $response;
