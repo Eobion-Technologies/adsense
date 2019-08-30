@@ -33,7 +33,7 @@ class CseResultsController extends ControllerBase {
       global $base_url;
 
       // Log the search keys.
-      $this->getLogger('AdSense CSE')->notice('Search keywords: %keyword', [
+      $this->getLogger('AdSense CSE v1')->notice('Search keywords: %keyword', [
         '%keyword' => urldecode($_GET['as_q']),
       ]);
 

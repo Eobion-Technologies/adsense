@@ -115,6 +115,18 @@ function adsense_theme() {
         'script' => '',
       ],
     ],
+    'adsense_cse_v2_results' => [
+      'variables' => [
+        'client' => '',
+        'slot' => '',
+      ],
+    ],
+    'adsense_cse_v2_searchbox' => [
+      'variables' => [
+        'client' => '',
+        'slot' => '',
+      ],
+    ],
     'adsense_managed_async' => [
       'variables' => [
         'format' => '',

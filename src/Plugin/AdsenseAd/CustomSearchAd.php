@@ -12,9 +12,10 @@ use Drupal\adsense\PublisherId;
  *
  * @AdsenseAd(
  *   id = "cse",
- *   name = @Translation("CSE Search"),
+ *   name = @Translation("CSE V1 Search"),
  *   isSearch = TRUE,
- *   needsSlot = TRUE
+ *   needsSlot = TRUE,
+ *   version = 1
  * )
  */
 class CustomSearchAd extends SearchAdBase {
@@ -41,7 +42,7 @@ class CustomSearchAd extends SearchAdBase {
     if (!empty($this->slot)) {
       $client = PublisherId::get();
 
-      $content = "CSE\ncx = partner-$client:{$this->slot}";
+      $content = "CSE v1\ncx = partner-$client:{$this->slot}";
 
       return [
         '#content' => ['#markup' => nl2br($content)],
