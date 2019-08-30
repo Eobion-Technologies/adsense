@@ -96,25 +96,6 @@ if (module_exists('adsense')) {
 }
 </pre>
 
-<h3>Using themes</h3>
-<p>You must use a phptemplate-based theme to display ads from within the
-theme. This requires some familiarity with PHP. Edit the appropriate
-<strong>.tpl.php</strong> file in your theme directory, and add:</p>
-
-<pre>
-print adsense_display(array('format' => '468x60', slot => '0123456789'));
-</pre>
-
-<p>Make sure you enclose it in PHP tags.</p>
-<p>You could also use the longer format that protects you against deleting or
-disabling the module:</p>
-
-<pre>
-if (module_exists('adsense')) {
-  print adsense_display(array('format' => '468x60', 'slot' => '0123456789'));
-}
-</pre>
-
 <h3>Using tags</h3>
 <p>The tags feature allows placement of ads anywhere in the content.  Please
 note that content here means any part that is passed through Drupal's filter
