@@ -74,3 +74,15 @@ function adsense_oldcode_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function adsense_oldcode_preprocess_block(&$variables) {
+  // Remove adsense from the block id and classes to bypass adblock rules.
+  if (($variables['configuration']['provider'] == 'adsense_oldcode') &&
+      \Drupal::config('adsense.settings')->get('adsense_unblock_ads')) {
+    $variables['plugin_id'] = str_replace('adsense', '', $variables['plugin_id']);
+    $variables['configuration']['provider'] = '';
+  }
+}
