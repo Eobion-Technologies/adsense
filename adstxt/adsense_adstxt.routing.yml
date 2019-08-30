@@ -1,0 +1,7 @@
+adsense_adstxt.page:
+  path: '/ads.txt'
+  defaults:
+    _title: 'ads.txt'
+    _controller: '\Drupal\adsense_adstxt\Controller\AdsenseAdsTxtController::display'
+  requirements:
+    _access: 'TRUE'

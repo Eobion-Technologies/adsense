@@ -37,7 +37,7 @@ function adsense_help_text() {
   $ad_formats_text = \Drupal::service('renderer')->render($table);
 
   $output = <<<EOF
-<h2>Overview</h2>
+<h3>About</h3>
 <p>This module provides web site admins the factility to display Google
 AdSense ads on their web site, thus earning revenue.</p>
 

@@ -1,0 +1,5 @@
+name: 'AdSense ads.txt'
+type: module
+description: 'Generates an ads.txt file suitable for use with Google AdSense.'
+package: Adsense
+core: 8.x
