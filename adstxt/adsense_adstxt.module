@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Displays Google AdSense ads on Drupal pages.
+ *
+ * This is the core module of the AdSense package, with the Drupal hooks
+ * and other administrative functions.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function adsense_adstxt_menu() {
+  $items = array();
+
+  $items['ads.txt'] = array(
+    'title' => 'ads.txt',
+    'page callback' => 'adsense_adstxt_controller',
+    'access callback' => TRUE,
+    'file' => 'adsense_adstxt.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_help().
+ */
+function adsense_adstxt_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#adsense_adstxt':
+      return '<p>' . t('This module creates an ads.txt file compliant with the <a href="@link">ads.txt specification</a>.', array('@link' => 'https://iabtechlab.com/ads-txt')) . '</p>';
+  }
+  return '';
+}
