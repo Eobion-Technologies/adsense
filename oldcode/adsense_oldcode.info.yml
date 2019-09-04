@@ -3,6 +3,7 @@ type: module
 description: 'Generates AdSense ad units using the pre-2007 code (deprecated by Google).'
 package: Adsense
 core: 8.x
+core_version_requirement: ^8 || ^9
 configure: adsense_oldcode.settings
 dependencies:
   - adsense:adsense
