@@ -1,4 +1,5 @@
 name = AdSense ads.txt
 description = Generates an ads.txt file suitable for use with Google AdSense.
+dependencies[] = adsense:adsense
 package = AdSense
 core = 7.x
