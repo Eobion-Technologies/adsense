@@ -59,7 +59,7 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
         '#type' => 'radios',
         '#title' => $this->t('Ad type'),
         '#default_value' => $config->get('adsense_ad_type_' . $style),
-        '#options' => [t('Text'), $this->t('Image'), $this->t('Both')],
+        '#options' => [$this->t('Text'), $this->t('Image'), $this->t('Both')],
       ];
 
       // Add Farbtastic color picker.
