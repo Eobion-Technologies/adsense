@@ -34,13 +34,14 @@ class CseResultsController extends ControllerBase {
 
       // Log the search keys.
       $this->getLogger('AdSense CSE v1')->notice('Search keywords: %keyword', [
-        '%keyword' => urldecode($_GET['as_q']),
+        '%keyword' => urldecode($_GET['q']),
       ]);
 
       $content = [
         '#theme' => 'adsense_cse_results',
         '#width' => $width,
         '#country' => $country,
+        // http://www.google.com/afsonline/show_afs_search.js
         '#script' => $base_url . '/' . drupal_get_path('module', 'adsense') . '/js/adsense_cse-v1.results.js',
       ];
     }

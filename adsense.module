@@ -112,7 +112,6 @@ function adsense_theme() {
         'encoding' => '',
         'qsize' => '',
         'search' => '',
-        'script' => '',
       ],
     ],
     'adsense_cse_v2_results' => [
