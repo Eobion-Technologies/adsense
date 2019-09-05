@@ -105,7 +105,7 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
     if (array_key_exists($key, $ads)) {
       return $ads[$key];
     }
-    elseif ($key == 'Search Box') {
+    elseif (substr($key, 0, 10) == 'Search Box') {
       return array('type' => ADSENSE_TYPE_SEARCH, 'desc' => t('AdSense for Search'));
     }
     elseif ($newcode) {
@@ -446,6 +446,15 @@ function adsense_display() {
         }
         elseif (module_exists('adsense_search')) {
           $ad = _adsense_search_get_searchbox($client, $args['channel']);
+        }
+        else {
+          $ad = '<!--adsense: no AdSense for Search module found-->';
+        }
+        break;
+
+      case 'Search Box v2':
+        if (!empty($slot) && module_exists('adsense_cse')) {
+          $ad = _adsense_csev2_get_searchbox($client, $slot);
         }
         else {
           $ad = '<!--adsense: no AdSense for Search module found-->';

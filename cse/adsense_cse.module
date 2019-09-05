@@ -9,6 +9,7 @@
  */
 
 define('ADSENSE_CSE_RESULTS_PATH', 'adsense/cse');
+define('ADSENSE_CSE_V2_RESULTS_PATH', 'csev2/results');
 
 define('ADSENSE_CSE_AD_BLOCK_DEFAULT', '');
 define('ADSENSE_CSE_AD_LOCATION_DEFAULT', 'adsense_cse_loc_top_right');
@@ -28,6 +29,7 @@ function adsense_cse_menu() {
   $items = array();
 
   $results_path = variable_get('clean_url', 0) ? ADSENSE_CSE_RESULTS_PATH : '.';
+  $resultsv2_path = variable_get('clean_url', 0) ? ADSENSE_CSE_V2_RESULTS_PATH : '.';
 
   $items['admin/config/services/adsense/cse'] = array(
     'title' => 'Custom Search',
@@ -44,6 +46,14 @@ function adsense_cse_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'file' => 'adsense_cse.results.inc',
+  );
+  $items[$resultsv2_path . '/%'] = array(
+    'title' => 'Search Results',
+    'page callback' => '_adsense_csev2_results',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'adsense_csev2.results.inc',
   );
 
   return $items;
@@ -107,6 +117,22 @@ function adsense_cse_block_configure($delta = '') {
     '#required' => TRUE,
   );
 
+  // If the block has already been saved, but the version is not set, that
+  // means it's a version 1, otherwise set to the latest version (2).
+  $default = ($ad) ? (isset($ad[2]) ? $ad[2] : '1') : '2';
+
+  $form['version'] = array(
+    '#type' => 'radios',
+    '#title' => t('CSE version'),
+    '#default_value' => $default,
+    '#options' => array(
+      '1' => t('Version 1'),
+      '2' => t('Version 2'),
+    ),
+    '#description' => t('CSE version. If unsure, choose %default.', array('%default' => 'Version 2')),
+    '#required' => TRUE,
+  );
+
   return $form;
 }
 
@@ -117,6 +143,7 @@ function adsense_cse_block_save($delta = '', $edit = array()) {
   $data = implode(':', array(
     urlencode(check_plain($edit['info'])),
     check_plain($edit['ad_slot']),
+    check_plain($edit['version']),
   ));
   variable_set('adsense_cse_ad_block_' . $delta, $data);
 }
@@ -128,7 +155,8 @@ function adsense_cse_block_view($delta = '') {
   $block = array();
   if (_adsense_page_match()) {
     $ad = _adsense_cse_get_block_config($delta);
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => 'Search Box', 'slot' => $ad[1])) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_cse/' . $delta));
+    $fo = (isset($ad[2]) && ($ad[2] === '2')) ? 'Search Box v2' : 'Search Box';
+    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $fo, 'slot' => $ad[1])) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_cse/' . $delta));
   }
 
   return $block;
@@ -164,7 +192,7 @@ function _adsense_cse_get_block_config($delta = 0) {
  * @return string
  *   HTML with the search input form
  */
-function _adsense_cse_get_searchbox($client, $slot = NULL) {
+function _adsense_cse_get_searchbox($client, $slot = '') {
   global $base_url;
 
   $branding = variable_get('adsense_cse_logo', ADSENSE_CSE_LOGO_DEFAULT);
@@ -261,6 +289,31 @@ CSE_TXT1;
 </div>
 CSE_TXT2;
   }
+
+  return $output;
+}
+
+/**
+ * Generates the CSE v2 search box.
+ *
+ * @param string $client
+ *   Publisher ID.
+ * @param int $slot
+ *   Slot Id for the AdSense for Search.
+ *
+ * @return string
+ *   HTML with the search input form
+ */
+function _adsense_csev2_get_searchbox($client, $slot = '') {
+  if (variable_get('clean_url', 0)) {
+    $results_path = url(ADSENSE_CSE_V2_RESULTS_PATH, array('absolute' => TRUE));
+  }
+  else {
+    $results_path = $base_url;
+  }
+
+  // Add data-queryParameterName because of conflicts with Drupal's 'q' query.
+  $output = "<script async src='https://cse.google.com/cse.js?cx=partner-${client}:${slot}'></script><div class='gcse-searchbox-only' data-resultsUrl='" . $results_path . '/' . $slot . "' data-queryParameterName='as_q'></div>";
 
   return $output;
 }

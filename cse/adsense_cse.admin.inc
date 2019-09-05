@@ -28,14 +28,21 @@ function adsense_cse_settings() {
     '#markup' => adsense_cse_help_text(),
   );
 
-  $form['searchbox'] = array(
+  $form['csev1'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('CSE v1'),
+  );
+
+  $form['csev1']['searchbox'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#title' => t('Search Box Options'),
   );
 
-  $form['searchbox']['adsense_cse_logo'] = array(
+  $form['csev1']['searchbox']['adsense_cse_logo'] = array(
     '#type' => 'radios',
     '#title' => t('Logo Type'),
     '#default_value' => variable_get('adsense_cse_logo', ADSENSE_CSE_LOGO_DEFAULT),
@@ -46,7 +53,7 @@ function adsense_cse_settings() {
     ),
   );
 
-  $form['searchbox']['adsense_cse_color_box_background'] = array(
+  $form['csev1']['searchbox']['adsense_cse_color_box_background'] = array(
     '#type' => 'select',
     '#title' => t('Background color'),
     '#default_value' => variable_get('adsense_cse_color_box_background', ADSENSE_CSE_COLOR_BOX_BACKGROUND_DEFAULT),
@@ -57,14 +64,14 @@ function adsense_cse_settings() {
     ),
   );
 
-  $form['searchbox']['adsense_cse_encoding'] = array(
+  $form['csev1']['searchbox']['adsense_cse_encoding'] = array(
     '#type' => 'select',
     '#title' => t('Site Encoding'),
     '#default_value' => variable_get('adsense_cse_encoding', ADSENSE_CSE_ENCODING_DEFAULT),
     '#options' => _adsense_search_options_encoding(),
   );
 
-  $form['searchbox']['adsense_cse_textbox_length'] = array(
+  $form['csev1']['searchbox']['adsense_cse_textbox_length'] = array(
     '#type' => 'textfield',
     '#title' => t('Text Box Length'),
     '#default_value' => variable_get('adsense_cse_textbox_length', ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT),
@@ -72,28 +79,28 @@ function adsense_cse_settings() {
     '#maxlength' => 2,
   );
 
-  $form['searchbox']['adsense_cse_language'] = array(
+  $form['csev1']['searchbox']['adsense_cse_language'] = array(
     '#type' => 'select',
     '#title' => t('Watermark Language'),
     '#default_value' => variable_get('adsense_cse_language', ADSENSE_CSE_LANGUAGE_DEFAULT),
     '#options' => _adsense_search_options_language(),
   );
 
-  $form['result'] = array(
+  $form['csev1']['result'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#title' => t('Search Results Style'),
   );
 
-  $form['result']['adsense_cse_country'] = array(
+  $form['csev1']['result']['adsense_cse_country'] = array(
     '#type' => 'select',
     '#title' => t('Country or territory for Google domain'),
     '#default_value' => variable_get('adsense_cse_country', ADSENSE_CSE_COUNTRY_DEFAULT),
     '#options' => _adsense_search_options_country(),
   );
 
-  $form['result']['adsense_cse_frame_width'] = array(
+  $form['csev1']['result']['adsense_cse_frame_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Width of results area'),
     '#default_value' => variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT),
@@ -101,7 +108,7 @@ function adsense_cse_settings() {
     '#maxlength' => 4,
   );
 
-  $form['result']['adsense_cse_ad_location'] = array(
+  $form['csev1']['result']['adsense_cse_ad_location'] = array(
     '#type' => 'radios',
     '#title' => t('Ad Location'),
     '#default_value' => variable_get('adsense_cse_ad_location', ADSENSE_CSE_AD_LOCATION_DEFAULT),
