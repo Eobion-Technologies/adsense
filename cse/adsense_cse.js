@@ -55,7 +55,7 @@ var s = f.parentNode.childNodes;
 for (var i = 0; i < s.length; i++) {
         if (s[i].nodeName == 'SCRIPT' &&
             s[i].attributes['src'] &&
-            s[i].attributes['src'].nodeValue == unescape('http:\x2F\x2Fwww.google.com\x2Fcoop\x2Fcse\x2Fbrand?form=cse-search-box\x26amp\x3Blang=' + lang)) {
+            s[i].attributes['src'].nodeValue == unescape('\x2F\x2Fcse.google.com\x2Fcoop\x2Fcse\x2Fbrand?form=cse-search-box\x26amp\x3Blang=' + lang)) {
           append = true;
           break;
         }
@@ -90,12 +90,16 @@ for (var i = 0; i < s.length; i++) {
 
     var b = function() {
       if (q.value == '') {
-        q.style.background = '#FFFFFF url(\x2F\x2Fwww.google.com\x2Fcse\x2Fintl\x2F' + lang + '\x2Fimages\x2Fgoogle_custom_search_watermark.gif) left no-repeat';
+        q.style.background = '#FFFFFF url(https:\x2F\x2Fwww.google.com\x2Fcse\x2Fstatic\x2Fimages\x2F1x\x2Fgooglelogo_lightgrey_46x16dp.png) left no-repeat';
+        q.style.textIndent = '48px';
+        q.placeholder = 'Custom Search';
       }
     };
 
     var f = function() {
       q.style.background = '#ffffff';
+      q.style.textIndent = '0';
+      q.placeholder = '';
     };
 
     q.onfocus = f;
