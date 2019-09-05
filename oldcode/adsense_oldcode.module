@@ -8,6 +8,7 @@
  * seem to work, their use is not recommended.
  */
 
+// @codingStandardsIgnoreStart DrupalPractice.Constants.GlobalDefine.GlobalConstant
 // Ad channel defaults.
 define('ADSENSE_OLDCODE_MAX_CHANNELS', 10);
 define('ADSENSE_OLDCODE_MAX_GROUPS', 5);
@@ -16,6 +17,7 @@ define('ADSENSE_OLDCODE_AD_CHANNEL_DEFAULT', '');
 // Ad types, link or ad.
 define('ADSENSE_OLDCODE_TYPE_LINK', 1);
 define('ADSENSE_OLDCODE_TYPE_AD', 2);
+// @codingStandardsIgnoreEnd
 
 /**
  * Implements hook_theme().

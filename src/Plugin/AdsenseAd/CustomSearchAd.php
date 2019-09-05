@@ -84,8 +84,6 @@ class CustomSearchAd extends SearchAdBase {
       }
 
       if ($branding == 'adsense_cse_branding_watermark') {
-        global $base_url;
-
         // When using a watermark, code is not reusable due to indentation.
         $content = [
           '#theme' => 'adsense_cse_watermark',
