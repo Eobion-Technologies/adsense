@@ -43,6 +43,9 @@ function _adsense_cse_results() {
 </script>
 <script type="text/javascript" src="$script"></script>
 CSE_RESULTS_TXT;
+// @codingStandardsIgnoreStart Drupal.WhiteSpace.ScopeIndent.IncorrectExact
+// <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+// @codingStandardsIgnoreEnd
 
     // Remove empty lines.
     $output = str_replace("\n\n", "\n", $output);
