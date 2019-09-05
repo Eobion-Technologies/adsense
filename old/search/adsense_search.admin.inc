@@ -244,7 +244,7 @@ function adsense_search_settings($form, &$form_state) {
   for ($channel = 1; $channel <= ADSENSE_MAX_CHANNELS; $channel++) {
     $form['channels']['adsense_ad_channel_' . $channel] = array(
       '#type' => 'textfield',
-      '#title' => t('Custom channel ID') . ' ' . $channel,
+      '#title' => t('Custom channel ID @channel', array('@channel' => $channel)),
       '#default_value' => variable_get('adsense_ad_channel_' . $channel, ADSENSE_AD_CHANNEL_DEFAULT),
       '#size' => 30,
       '#maxlength' => 30,

@@ -293,7 +293,7 @@ function _adsense_search_options_country() {
   // 'www.google.com'    => t('Yemen'),
     'www.google.co.zm'  => t('Zambia'),
     'www.google.co.zw'  => t('Zimbabwe'),
-    // phpcs: enable
+    // @codingStandardsIgnoreEnd
   );
 }
 
