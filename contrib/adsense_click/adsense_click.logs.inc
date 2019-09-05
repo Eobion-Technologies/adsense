@@ -10,7 +10,11 @@
  */
 function adsense_click_log() {
   $header = array(
-    array('data' => t('Timestamp'), 'field' => 'ads.timestamp', 'sort' => 'desc'),
+    array(
+      'data' => t('Timestamp'),
+      'field' => 'ads.timestamp',
+      'sort' => 'desc',
+    ),
     array('data' => t('Path'), 'field' => 'ads.path'),
     array('data' => t('IP/Host'), 'field' => 'ads.ip'),
     array('data' => t('Referrer'), 'field' => 'ads.referrer'),
@@ -39,7 +43,10 @@ function adsense_click_log() {
     }
 
     $rows[] = array(
-      array('data' => format_date($log->timestamp, 'small'), 'nowrap' => 'nowrap'),
+      array(
+        'data' => format_date($log->timestamp, 'small'),
+        'nowrap' => 'nowrap',
+      ),
       _adsense_click_format_path($log->path, $log->title),
       l($host, 'http://whois.domaintools.com/' . $log->ip),
       _adsense_click_format_path($log->referrer),

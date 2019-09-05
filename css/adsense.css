@@ -7,20 +7,20 @@
  * Placeholder.
  */
 div.adsense.adsense-placeholder {
-    border: solid 1px;
-    overflow: hidden;
-    text-align: center;
-    word-wrap: break-word;
+  border: solid 1px;
+  overflow: hidden;
+  text-align: center;
+  word-wrap: break-word;
 }
 
 /**
  * Ad.
  */
 div.adsense {
-    display: inline-block;
+  display: inline-block;
 }
 
 div.adsense.responsive {
-    width: 100%;
-    overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 }

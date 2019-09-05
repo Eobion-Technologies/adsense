@@ -72,7 +72,9 @@ function revenue_sharing_basic_settings($form, &$form_state) {
   foreach ($roles as $role => $role_desc) {
     $form['percentage']['role']['revenue_sharing_basic_percentage_role_' . $role] = array(
       '#type' => 'select',
+      // @codingStandardsIgnoreStart Drupal.Semantics.FunctionT.NotLiteralString
       '#title' => t($role_desc),
+      // @codingStandardsIgnoreEnd
       '#default_value' => variable_get('revenue_sharing_basic_percentage_role_' . $role, REVENUE_SHARING_BASIC_PERCENTAGE_ROLE_DEFAULT),
       '#options' => $options,
     );

@@ -76,7 +76,7 @@ function adsense_main_settings() {
     '#type' => 'checkbox',
     '#title' => t('Display anti ad-block request?'),
     '#default_value' => variable_get('adsense_unblock_ads', ADSENSE_UNBLOCK_ADS_DEFAULT),
-   '#description' => t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [!moreinfo]", array('!moreinfo' => l(t('More information'), 'https://easylist.to/2013/05/10/anti-adblock-guide-for-site-admins.html'))),
+    '#description' => t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [!moreinfo]", array('!moreinfo' => l(t('More information'), 'https://easylist.to/2013/05/10/anti-adblock-guide-for-site-admins.html'))),
   );
 
   $form['advanced']['adsense_test_mode'] = array(

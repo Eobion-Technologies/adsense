@@ -56,6 +56,7 @@ define('ADSENSE_SECRET_LANGUAGE_DEFAULT', '');
 function adsense_ad_formats($key = NULL, $newcode = TRUE) {
   // Don't forget to add responsive formats in _adsense_is_responsive().
   $ads = array(
+    // @codingStandardsIgnoreStart Drupal.Arrays.Array.LongLineDeclaration
     'responsive' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Responsive ad unit'), 'code' => 'responsive', 'width' => '', 'height' => ''),
     'custom' => array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom size ad unit'), 'code' => 'custom', 'width' => '', 'height' => ''),
     'autorelaxed' => array('type' => ADSENSE_TYPE_OTHER, 'desc' => t('Matched content'), 'code' => 'autorelaxed', 'width' => '', 'height' => ''),
@@ -92,6 +93,7 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
     '200x90_5' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links Vertical X-Large'), 'code' => '200x90_0ads_al_s', 'width' => 200, 'height' => 90),
     '468x15_5' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links Horizontal Medium'), 'code' => '468x15_0ads_al_s', 'width' => 468, 'height' => 15),
     '728x15_5' => array('type' => ADSENSE_TYPE_LINK, 'desc' => t('5-links Horizontal Large'), 'code' => '728x15_0ads_al_s', 'width' => 728, 'height' => 15),
+    // @codingStandardsIgnoreEnd
   );
 
   if (!$newcode) {
@@ -111,7 +113,12 @@ function adsense_ad_formats($key = NULL, $newcode = TRUE) {
     elseif ($newcode) {
       $ad = _adsense_dimensions($key);
       if (!empty($ad)) {
-        return array('type' => ADSENSE_TYPE_AD, 'desc' => t('Custom'), 'width' => $ad['width'], 'height' => $ad['height']);
+        return array(
+          'type' => ADSENSE_TYPE_AD,
+          'desc' => t('Custom'),
+          'width' => $ad['width'],
+          'height' => $ad['height'],
+        );
       }
     }
     return NULL;
@@ -408,14 +415,20 @@ function adsense_display() {
       $height = array_key_exists('height', $ad) ? $ad['height'] : 0;
       // The text to display in the placeholder starts with the block title,
       // and then the default text as specified in the admin settings.
+      // @codingStandardsIgnoreStart Drupal.Semantics.FunctionT.ConcatString
       $text = isset($args['title']) ? t('Block') . ': ' . $args['title'] . '<br />' : '';
+      // @codingStandardsIgnoreEnd
       $text .= variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT) . ' ' . $args['format'];
       if (user_access('show adsense placeholders')) {
         $name = user_is_anonymous() ? variable_get('anonymous', t('Anonymous')) : $user->name;
         $text = t('Ads disabled for %name', array('%name' => $name)) . '<br />' . $text;
       }
 
-      $ad = "<!--adsense: placeholder-->\n" . theme('adsense_placeholder', array('text' => $text, 'width' => $width, 'height' => $height));
+      $ad = "<!--adsense: placeholder-->\n" . theme('adsense_placeholder', array(
+        'text' => $text,
+        'width' => $width,
+        'height' => $height,
+      ));
     }
     else {
       $ad = '<!--adsense: ads disabled -->';

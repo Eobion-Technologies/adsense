@@ -259,7 +259,13 @@ function adsense_managed_block_view($delta = '') {
     $format = ($ad[1] == 'custom') ? ($ad[5] . 'x' . $ad[6]) : $ad[1];
     $shape = isset($ad[4]) ? $ad[4] : 'auto';
     $layout_key = isset($ad[7]) ? $ad[7] : '';
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $format, 'slot' => $ad[2], 'shape' => $shape, 'layout_key' => $layout_key)) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_managed/' . $delta));
+    $block['content'] = ($ad) ? adsense_display(array(
+      'title' => $ad[0],
+      'format' => $format,
+      'slot' => $ad[2],
+      'shape' => $shape,
+      'layout_key' => $layout_key,
+    )) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_managed/' . $delta));
     if (!empty($ad[3])) {
       $block['content'] = "<div style='text-align:{$ad[3]}'>{$block['content']}</div>";
     }

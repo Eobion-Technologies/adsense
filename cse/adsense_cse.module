@@ -70,7 +70,6 @@ function adsense_cse_theme_registry_alter(&$theme_registry) {
   $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
 }
 
-
 /**
  * Implements hook_block_info().
  */
@@ -156,7 +155,11 @@ function adsense_cse_block_view($delta = '') {
   if (_adsense_page_match()) {
     $ad = _adsense_cse_get_block_config($delta);
     $fo = (isset($ad[2]) && ($ad[2] === '2')) ? 'Search Box v2' : 'Search Box';
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $fo, 'slot' => $ad[1])) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_cse/' . $delta));
+    $block['content'] = ($ad) ? adsense_display(array(
+      'title' => $ad[0],
+      'format' => $fo,
+      'slot' => $ad[1],
+    )) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_cse/' . $delta));
   }
 
   return $block;
@@ -255,7 +258,9 @@ drupal_adsense_cse_lang = '$language';
 </form>
 <script type="text/javascript" src="$script"></script>
 CSE_TXT1;
-/*<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>*/
+// @codingStandardsIgnoreStart Drupal.WhiteSpace.ScopeIndent.IncorrectExact
+// <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+// @codingStandardsIgnoreEnd
   }
   else {
     if ($branding == 'adsense_cse_branding_right') {

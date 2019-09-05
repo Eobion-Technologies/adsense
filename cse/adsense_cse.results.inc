@@ -15,7 +15,7 @@ function _adsense_cse_results() {
   global $base_url;
 
   // Log the search keys:
-  watchdog('AdSense search', 'Search keywords: ' . urldecode(check_plain($_GET['as_q'])));
+  watchdog('AdSense search', 'Search keywords: %keywords', array('%keywords' => urldecode(check_plain($_GET['as_q']))));
 
   $script = $base_url . '/' . drupal_get_path('module', 'adsense_cse') . '/adsense_cse.results.js';
 

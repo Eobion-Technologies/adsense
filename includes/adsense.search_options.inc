@@ -52,6 +52,7 @@ function _adsense_search_options_encoding() {
  */
 function _adsense_search_options_country() {
   return array(
+    // @codingStandardsIgnoreStart Drupal.Commenting.InlineComment.InvalidEndChar
     'www.google.com.au' => t('Australia'),
     'www.google.at'     => t('Austria'),
     'www.google.be'     => t('Belgium'),
@@ -292,6 +293,7 @@ function _adsense_search_options_country() {
   // 'www.google.com'    => t('Yemen'),
     'www.google.co.zm'  => t('Zambia'),
     'www.google.co.zw'  => t('Zimbabwe'),
+    // phpcs: enable
   );
 }
 

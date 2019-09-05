@@ -8,6 +8,7 @@
  * and other administrative functions.
  */
 
+// @codingStandardsIgnoreStart Drupal.Semantics.ConstantName.ConstantStart
 define('ADSENSE_MAX_GROUPS', 5);
 
 define('ADSENSE_AD_TYPE_DEFAULT', 0);
@@ -22,6 +23,7 @@ define('ADSENSE_GROUP_TITLE_DEFAULT', '');
 define('ADSENSE_OLDCODE_AD_BLOCK_DEFAULT', '');
 define('ADSENSE_OLDCODE_NUMBER_BLOCKS_DEFAULT', 3);
 define('ADSENSE_UI_FEATURES_DEFAULT', 'rc:0');
+// @codingStandardsIgnoreEnd
 
 /**
  * Implements hook_menu().
@@ -154,7 +156,12 @@ function adsense_oldcode_block_view($delta) {
   $block = array();
   if (_adsense_page_match()) {
     $ad = _adsense_oldcode_get_block_config($delta);
-    $block['content'] = ($ad) ? adsense_display(array('title' => $ad[0], 'format' => $ad[1], 'group' => $ad[2], 'channel' => $ad[3])) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_oldcode/' . $delta));
+    $block['content'] = ($ad) ? adsense_display(array(
+      'title' => $ad[0],
+      'format' => $ad[1],
+      'group' => $ad[2],
+      'channel' => $ad[3],
+    )) : _adsense_configure_block_message(url('admin/structure/block/manage/adsense_oldcode/' . $delta));
     if (!empty($ad[4])) {
       $block['content'] = "<div style='text-align:{$ad[4]}'>{$block['content']}</div>";
     }
