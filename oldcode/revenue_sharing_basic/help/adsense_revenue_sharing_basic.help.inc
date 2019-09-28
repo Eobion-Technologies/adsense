@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Help file for the revenue_sharing_basic module.
+ * Help file for the adsense_revenue_sharing_basic module.
  */
 
 /**
@@ -11,9 +11,9 @@
  * @return string
  *   HTML with the help text
  */
-function revenue_sharing_basic_help_text() {
-  $user = \Drupal::currentUser();
-  $uid = $user->uid;
+function adsense_revenue_sharing_basic_help_text() {
+  $user = Drupal::currentUser();
+  $uid = $user->id();
 
   $base = rtrim(base_path(), '/');
 
@@ -35,9 +35,9 @@ you defined above.</p>
 <p>To use this module, you need to do the following first:</p>
 <ul>
   <li>
-    <p>Go to <a href="$base/admin/user/profile">Administer -&gt; User
-    management -&gt; Profiles</a> and create a new profile field of type
-    &quot;single-line textfield&quot;. Name this field something like
+    <p>Go to <a href="$base/admin/config/people/accounts/fields">Administration
+    > Configuration > People > Account settings</a> and create a new profile
+    field of type &quot;Text (Plain)&quot;. Name this field something like
     &quot;Google AdSense client ID&quot;, and form name
     &quot;profile_google_adsense_client_id&quot;. This is a required
     configuration parameter.</p>
