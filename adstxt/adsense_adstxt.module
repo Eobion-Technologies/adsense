@@ -18,6 +18,7 @@ function adsense_adstxt_menu() {
     'title' => 'ads.txt',
     'page callback' => 'adsense_adstxt_controller',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
     'file' => 'adsense_adstxt.pages.inc',
   );
 
