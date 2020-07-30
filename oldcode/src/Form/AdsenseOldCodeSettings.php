@@ -143,9 +143,9 @@ class AdsenseOldCodeSettings extends ConfigFormBase {
         '#title' => $this->t('Rounded corners'),
         '#default_value' => $config->get('adsense_ui_features_' . $style),
         '#options' => [
-          'rc:0' => 'Square',
-          'rc:6' => 'Slightly rounded',
-          'rc:10' => 'Very rounded',
+          'rc:0' => $this->t('Square'),
+          'rc:6' => $this->t('Slightly rounded'),
+          'rc:10' => $this->t('Very rounded'),
         ],
         '#description' => $this->t('Choose type of round corners'),
       ];

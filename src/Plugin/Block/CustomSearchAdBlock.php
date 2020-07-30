@@ -42,6 +42,7 @@ class CustomSearchAdBlock extends BlockBase implements AdBlockInterface {
         return new CustomSearchAd($configuration);
 
       case '2':
+      default:
         return new CustomSearchV2Ad($configuration);
     }
   }

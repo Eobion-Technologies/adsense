@@ -52,9 +52,7 @@ class AdsenseAdsTxtController extends ControllerBase {
 
     if (!empty($client)) {
       $content = "google.com, $client, DIRECT, f08c47fec0942fa0\n";
-      $response = new Response($content, 200, ['Content-Type' => 'text/plain']);
-
-      return $response;
+      return new Response($content, 200, ['Content-Type' => 'text/plain']);
     }
 
     throw new NotFoundHttpException();

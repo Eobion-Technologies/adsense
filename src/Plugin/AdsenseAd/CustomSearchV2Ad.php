@@ -58,13 +58,11 @@ class CustomSearchV2Ad extends SearchAdBase {
       $client = PublisherId::get();
       $this->moduleHandler->alter('adsense', $client);
 
-      $content = [
+      return [
         '#theme' => 'adsense_cse_v2_searchbox',
         '#client' => $client,
         '#slot' => $this->slot,
       ];
-
-      return $content;
     }
     return [];
   }
