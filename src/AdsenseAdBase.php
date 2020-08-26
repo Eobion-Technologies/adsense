@@ -80,6 +80,7 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface, C
    */
   public static function createAd(array $args) {
     $version = 1;
+    $is_search = FALSE;
     if (!empty($args['format']) && (substr($args['format'], 0, 10) == 'Search Box')) {
       $is_search = TRUE;
       switch ($args['format']) {
