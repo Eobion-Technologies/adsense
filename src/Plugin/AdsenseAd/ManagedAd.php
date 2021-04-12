@@ -93,6 +93,7 @@ class ManagedAd extends ContentAdBase {
       $config = $this->configFactory->get('adsense.settings');
       $client = PublisherId::get();
       $this->moduleHandler->alter('adsense', $client);
+      $defer = $config->get('adsense_managed_defer');
 
       if (ManagedAd::isResponsive($this->format)) {
         $shape = ($this->format == 'responsive') ? implode(',', $this->shape) : $this->format;
@@ -104,6 +105,7 @@ class ManagedAd extends ContentAdBase {
           '#client' => $client,
           '#slot' => $this->slot,
           '#shape' => $shape,
+          '#defer' => $defer,
         ];
       }
       elseif (ManagedAd::isFluid($this->format)) {
@@ -120,6 +122,7 @@ class ManagedAd extends ContentAdBase {
           '#slot' => $this->slot,
           '#layout_key' => $this->layoutKey,
           '#style' => $style,
+          '#defer' => $defer,
         ];
       }
       else {
@@ -135,6 +138,7 @@ class ManagedAd extends ContentAdBase {
             '#height' => $height,
             '#client' => $client,
             '#slot' => $this->slot,
+            '#defer' => $defer,
           ];
         }
         else {
@@ -150,6 +154,7 @@ class ManagedAd extends ContentAdBase {
             '#client' => $client,
             '#slot' => $this->slot,
             '#secret' => $secret,
+            '#defer' => $defer,
           ];
         }
       }

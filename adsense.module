@@ -133,11 +133,13 @@ function adsense_theme() {
         'height' => '',
         'client' => '',
         'slot' => '',
+        'defer' => FALSE,
       ],
     ],
     'adsense_managed_page_level' => [
       'variables' => [
         'client' => '',
+        'defer' => FALSE,
       ],
     ],
     'adsense_managed_responsive' => [
@@ -146,6 +148,7 @@ function adsense_theme() {
         'client' => '',
         'slot' => '',
         'shape' => '',
+        'defer' => FALSE,
       ],
     ],
     'adsense_managed_fluid' => [
@@ -155,6 +158,7 @@ function adsense_theme() {
         'slot' => '',
         'layout_key' => '',
         'style' => '',
+        'defer' => FALSE,
       ],
     ],
     'adsense_managed_sync' => [
@@ -165,6 +169,7 @@ function adsense_theme() {
         'client' => '',
         'slot' => '',
         'secret' => '',
+        'defer' => FALSE,
       ],
     ],
   ];

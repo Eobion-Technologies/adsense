@@ -81,6 +81,13 @@ class AdsenseManagedSettings extends ConfigFormBase {
         ['@moreinfo' => Link::fromTextAndUrl($this->t('More information'), Url::fromUri('https://support.google.com/adsense/answer/3221666'))->toString()]),
     ];
 
+    $form['adsense_managed_defer'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Defer javascript loading?'),
+      '#default_value' => $config->get('adsense_managed_defer'),
+      '#description' => $this->t('This will defer the execution of the ad script until the page is loaded'),
+    ];
+
     $form['adsense_managed_page_level_ads_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable auto ads?'),

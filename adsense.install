@@ -32,3 +32,12 @@ function adsense_requirements($phase) {
   }
   return $requirements;
 }
+
+/**
+ * Add adsense_managed_defer to module settings.
+ */
+function adsense_update_8101() {
+  $config = \Drupal::configFactory()->getEditable('adsense.settings');
+  $config->set('adsense_managed_defer', FALSE);
+  $config->save(TRUE);
+}
