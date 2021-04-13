@@ -3,11 +3,39 @@
 namespace Drupal\adsense\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Controller for the Custom Search Engine results page.
  */
 class CseResultsController extends ControllerBase {
+
+  /**
+   * The request stack used to access request globals.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * Constructs a new CseV2ResultsController controller.
+   *
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
+   */
+  public function __construct(RequestStack $request_stack) {
+    $this->requestStack = $request_stack;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('request_stack')
+    );
+  }
 
   /**
    * Display the search results page.
@@ -34,7 +62,7 @@ class CseResultsController extends ControllerBase {
 
       // Log the search keys.
       $this->getLogger('AdSense CSE v1')->notice('Search keywords: %keyword', [
-        '%keyword' => urldecode($_GET['q']),
+        '%keyword' => urldecode($this->requestStack->getCurrentRequest()->query->get('q')),
       ]);
 
       $content = [
