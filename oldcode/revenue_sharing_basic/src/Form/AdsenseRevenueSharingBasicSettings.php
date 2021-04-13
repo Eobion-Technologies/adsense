@@ -10,7 +10,7 @@ use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
 
 /**
- * Class AdsenseRevenueSharingBasicSettings.
+ * Form for the adsense revenue sharing settings.
  */
 class AdsenseRevenueSharingBasicSettings extends ConfigFormBase {
 
@@ -149,7 +149,7 @@ class AdsenseRevenueSharingBasicSettings extends ConfigFormBase {
     }
 
     // Get fields from the Profile module.
-    // @TODO: adapt this to the profile module.
+    // @todo adapt this to the profile module.
     /* @codingStandardsIgnoreStart
     if (\Drupal::moduleHandler()->moduleExists('profile')) {
       $result = db_query("SELECT fid, name, title FROM {profile_field} WHERE type='textfield' ORDER BY fid");

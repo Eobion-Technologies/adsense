@@ -5,7 +5,7 @@ namespace Drupal\adsense\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Class CseResultsController.
+ * Controller for the Custom Search Engine results page.
  */
 class CseResultsController extends ControllerBase {
 

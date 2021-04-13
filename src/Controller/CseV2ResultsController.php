@@ -8,7 +8,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class CseResultsController.
+ * Controller for the Custom Search Engine v2 results page.
  */
 class CseV2ResultsController extends ControllerBase {
 

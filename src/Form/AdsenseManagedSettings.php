@@ -13,7 +13,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AdsenseManagedSettings.
+ * Form for the adsense managed ads settings.
  */
 class AdsenseManagedSettings extends ConfigFormBase {
 

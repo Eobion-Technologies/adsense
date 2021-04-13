@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\adsense\Plugin\AdsenseAd\CustomSearchAd;
 
 /**
- * Class AdsenseCseSettings.
+ * Form for the adsense CSE settings.
  */
 class AdsenseCseSettings extends ConfigFormBase {
 

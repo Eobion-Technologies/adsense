@@ -7,7 +7,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class AdsenseOldCodeSettings.
+ * Form for the older adsense content ads settings.
  */
 class AdsenseOldCodeSettings extends ConfigFormBase {
 

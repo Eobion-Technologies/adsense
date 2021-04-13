@@ -11,7 +11,7 @@ use Drupal\Core\Url;
 use Drupal\adsense\AdsenseAdBase;
 
 /**
- * Class AdsenseMainSettings.
+ * Form for the adsense module general settings.
  */
 class AdsenseMainSettings extends ConfigFormBase {
 
@@ -158,7 +158,7 @@ class AdsenseMainSettings extends ConfigFormBase {
    *   array of selectable Publisher ID functions
    */
   private function adsenseIdSettingsClientIdMods() {
-    // TODO ModuleHandler::getImplementations.
+    // @todo ModuleHandler::getImplementations.
     $ret['adsense_basic'] = 'Always use the site Publisher ID.';
 
     $funcs = get_defined_functions();

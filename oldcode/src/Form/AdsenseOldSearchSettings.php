@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\adsense_oldcode\Plugin\AdsenseAd\OldSearchAd;
 
 /**
- * Class AdsenseOldSearchSettings.
+ * Form for the older adsense search ads settings.
  */
 class AdsenseOldSearchSettings extends ConfigFormBase {
 

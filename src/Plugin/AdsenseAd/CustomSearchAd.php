@@ -64,7 +64,7 @@ class CustomSearchAd extends SearchAdBase {
       $branding = $cse_config->get('adsense_cse_logo');
       $results_path = Url::fromRoute('adsense_cse.results')->toString();
 
-      // @TODO this is necessary for unclean URLs.
+      // @todo this is necessary for unclean URLs.
       /*  $results_path = $base_url;
       $hidden_q_field = '<input type="hidden" name="q" value="." />';*/
 

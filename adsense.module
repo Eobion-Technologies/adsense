@@ -19,7 +19,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function adsense_page_attachments(array &$attachments) {
   $config = \Drupal::config('adsense.settings');
   if ($config->get('adsense_managed_page_level_ads_enabled')) {
-    /* @var \Drupal\system\Plugin\Condition\RequestPath $condition */
+    /** @var \Drupal\system\Plugin\Condition\RequestPath $condition */
     $condition = \Drupal::getContainer()->get('plugin.manager.condition')->createInstance('request_path');
     $visibility = $config->get('adsense_access_pages');
     if ($visibility) {

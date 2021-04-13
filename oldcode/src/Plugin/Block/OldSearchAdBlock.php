@@ -30,7 +30,7 @@ class OldSearchAdBlock extends BlockBase implements AdBlockInterface, ContainerF
   protected $configFactory;
 
   /**
-   * Creates a new AdsenseAdBase instance.
+   * Creates a new OldCodeAdBlock instance.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.

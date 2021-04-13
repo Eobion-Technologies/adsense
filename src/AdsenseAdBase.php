@@ -2,7 +2,6 @@
 
 namespace Drupal\adsense;
 
-use Drupal;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -12,7 +11,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AdsenseAdBase.
+ * Base class for the AdsenseAd plugins.
  */
 abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface, ContainerFactoryPluginInterface {
   use StringTranslationTrait;
@@ -97,7 +96,7 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface, C
 
     // Search for the AdsenseAd plugins.
     /** @var \Drupal\adsense\AdsenseAdManager $manager */
-    $manager = Drupal::service('plugin.manager.adsensead');
+    $manager = \Drupal::service('plugin.manager.adsensead');
     $plugins = $manager->getDefinitions();
 
     foreach ($plugins as $plugin) {
@@ -175,8 +174,8 @@ abstract class AdsenseAdBase extends PluginBase implements AdsenseAdInterface, C
    *   TRUE if ads are disabled.
    */
   public static function isDisabled(&$text = '') {
-    $account = Drupal::currentUser();
-    $config = Drupal::config('adsense.settings');
+    $account = \Drupal::currentUser();
+    $config = \Drupal::config('adsense.settings');
 
     if (!$config->get('adsense_basic_id')) {
       $text = 'no publisher id configured.';
