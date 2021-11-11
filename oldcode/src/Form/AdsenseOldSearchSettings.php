@@ -229,8 +229,8 @@ class AdsenseOldSearchSettings extends ConfigFormBase {
       '#type' => 'details',
       '#open' => FALSE,
       '#title' => $this->t('Custom channels'),
-      '#description' => $this->t('Enter up to !channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
-        ['!channels' => ADSENSE_OLDCODE_MAX_CHANNELS]),
+      '#description' => $this->t('Enter up to @channels custom channels that you have configured in Google AdSense. If you are not using custom channels, or you are only using URL channels, then leave this empty.',
+        ['@channels' => ADSENSE_OLDCODE_MAX_CHANNELS]),
     ];
 
     for ($channel = 1; $channel <= ADSENSE_OLDCODE_MAX_CHANNELS; $channel++) {
