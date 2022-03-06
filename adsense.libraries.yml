@@ -16,4 +16,4 @@ adsense.adsbygoogle:
   version: 1.x
   header: true
   js:
-    //pagead2.googlesyndication.com/pagead/js/adsbygoogle.js: { type: external, minified: true, attributes: { defer: true } }
+    https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js: { type: external, minified: true, attributes: { defer: true, crossorigin: anonymous } }
