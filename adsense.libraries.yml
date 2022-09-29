@@ -10,7 +10,6 @@ adsense.unblock:
     js/unblock.js: {}
   dependencies:
     - core/drupal
-    - core/jquery
 
 adsense.adsbygoogle:
   version: 1.x
