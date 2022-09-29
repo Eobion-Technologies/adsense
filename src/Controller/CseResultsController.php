@@ -3,6 +3,7 @@
 namespace Drupal\adsense\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Extension\ModuleExtensionList;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,13 +20,23 @@ class CseResultsController extends ControllerBase {
   protected $requestStack;
 
   /**
+   * The module extension list.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * Constructs a new CseV2ResultsController controller.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $extension_list_module
+   *   The module extension list.
    */
-  public function __construct(RequestStack $request_stack) {
+  public function __construct(RequestStack $request_stack, ModuleExtensionList $extension_list_module) {
     $this->requestStack = $request_stack;
+    $this->moduleExtensionList = $extension_list_module;
   }
 
   /**
@@ -33,7 +44,8 @@ class CseResultsController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('extension.list.module')
     );
   }
 
@@ -70,7 +82,7 @@ class CseResultsController extends ControllerBase {
         '#width' => $width,
         '#country' => $country,
         // http://www.google.com/afsonline/show_afs_search.js
-        '#script' => $base_url . '/' . drupal_get_path('module', 'adsense') . '/js/adsense_cse-v1.results.js',
+        '#script' => $base_url . '/' . $this->moduleExtensionList->getPath('adsense') . '/js/adsense_cse-v1.results.js',
       ];
     }
     return $content;

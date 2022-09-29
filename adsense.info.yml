@@ -2,6 +2,5 @@ name: 'AdSense'
 type: module
 description: 'Displays Google AdSense ads on your site to earn revenue.'
 package: Adsense
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9.3 || ^10
 configure: adsense.main_settings
