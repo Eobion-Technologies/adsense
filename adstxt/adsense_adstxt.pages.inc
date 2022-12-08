@@ -12,12 +12,12 @@ function adsense_adstxt_controller() {
   $client = adsense_get_client_slot_id();
 
   if (!empty($client)) {
-    drupal_add_http_header('Content-Type', 'text/plain');
+    backdrop_add_http_header('Content-Type', 'text/plain');
     print "google.com, $client, DIRECT, f08c47fec0942fa0\n";
   }
   else {
-    drupal_not_found();
+    backdrop_not_found();
   }
 
-  drupal_exit();
+  backdrop_exit();
 }

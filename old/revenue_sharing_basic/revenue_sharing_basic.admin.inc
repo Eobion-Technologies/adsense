@@ -14,8 +14,10 @@
  * @ingroup forms
  */
 function revenue_sharing_basic_settings($form, &$form_state) {
+  $config = config('revenue_sharing_basic.settings');
   module_load_include('inc', 'revenue_sharing_basic', 'help/revenue_sharing_basic.help');
 
+  $form['#config'] = 'revenue_sharing_basic.settings';
   $form['help'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -38,7 +40,7 @@ function revenue_sharing_basic_settings($form, &$form_state) {
   $form['required']['revenue_sharing_basic_client_id_profile_field'] = array(
     '#type' => 'select',
     '#title' => t('Google AdSense client ID profile field'),
-    '#default_value' => variable_get('revenue_sharing_basic_client_id_profile_field', REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT),
+    '#default_value' => $config->get('revenue_sharing_basic_client_id_profile_field'),
     '#options' => revenue_sharing_basic_get_profile_fields(),
     '#required' => TRUE,
     '#description' => t('This is the profile field that holds the AdSense Client ID for the site owner as well as (optionally) for site users who participate in revenue sharing. You must enabled the profile module and create a new field for this.'),
@@ -51,12 +53,12 @@ function revenue_sharing_basic_settings($form, &$form_state) {
     '#title' => t('Revenue sharing percentage'),
   );
 
-  $options = drupal_map_assoc(range(0, 100, 5));
+  $options = backdrop_map_assoc(range(0, 100, 5));
 
   $form['percentage']['revenue_sharing_basic_percentage_author'] = array(
     '#type' => 'select',
     '#title' => t('Percentage of node views going to author'),
-    '#default_value' => variable_get('revenue_sharing_basic_percentage_author', REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR_DEFAULT),
+    '#default_value' => $config->get('revenue_sharing_basic_percentage_author'),
     '#options' => $options,
   );
 
@@ -72,10 +74,10 @@ function revenue_sharing_basic_settings($form, &$form_state) {
   foreach ($roles as $role => $role_desc) {
     $form['percentage']['role']['revenue_sharing_basic_percentage_role_' . $role] = array(
       '#type' => 'select',
-      // @codingStandardsIgnoreStart Drupal.Semantics.FunctionT.NotLiteralString
+      // @codingStandardsIgnoreStart Backdrop.Semantics.FunctionT.NotLiteralString
       '#title' => t($role_desc),
       // @codingStandardsIgnoreEnd
-      '#default_value' => variable_get('revenue_sharing_basic_percentage_role_' . $role, REVENUE_SHARING_BASIC_PERCENTAGE_ROLE_DEFAULT),
+      '#default_value' => $config->get('revenue_sharing_basic_percentage_role_' . $role),
       '#options' => $options,
     );
   }
@@ -84,7 +86,7 @@ function revenue_sharing_basic_settings($form, &$form_state) {
     $form['percentage']['revenue_sharing_basic_percentage_refer'] = array(
       '#type' => 'select',
       '#title' => t('Percentage of node views going to user who referred the author'),
-      '#default_value' => variable_get('revenue_sharing_basic_percentage_refer', REVENUE_SHARING_BASIC_PERCENTAGE_REFER_DEFAULT),
+      '#default_value' => $config->get('revenue_sharing_basic_percentage_refer'),
       '#options' => $options,
     );
   }
@@ -101,7 +103,7 @@ function revenue_sharing_basic_settings($form, &$form_state) {
     $form['content_types']['revenue_sharing_basic_node_type_' . $type] = array(
       '#type' => 'checkbox',
       '#title' => $name->name,
-      '#default_value' => variable_get('revenue_sharing_basic_node_type_' . $type, REVENUE_SHARING_BASIC_NODE_TYPE_DEFAULT),
+      '#default_value' => $config->get('revenue_sharing_basic_node_type_' . $type),
     );
   }
 
@@ -126,13 +128,13 @@ function theme_revenue_sharing_basic_author_percentage_role($variables) {
       $row = array();
       $row[] = $form[$key]['#title'];
       unset($form[$key]['#title']);
-      $row[] = drupal_render($form[$key]);
+      $row[] = backdrop_render($form[$key]);
       $rows[] = $row;
     }
     $output .= theme('table', array('header' => $header, 'rows' => $rows));
   }
 
-  $output .= drupal_render_children($form);
+  $output .= backdrop_render_children($form);
   return $output;
 }
 

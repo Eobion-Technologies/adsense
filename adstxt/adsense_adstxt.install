@@ -14,7 +14,7 @@ function adsense_adstxt_requirements($phase) {
   switch ($phase) {
     // At runtime, make sure there is no existing ads.txt.
     case 'runtime':
-      if (file_exists(DRUPAL_ROOT . '/ads.txt')) {
+      if (file_exists(BACKDROP_ROOT . '/ads.txt')) {
         $requirements['adstxt_file'] = array(
           'title' => $t('AdSense ads.txt'),
           'value' => $t('Existing ads.txt file detected.'),

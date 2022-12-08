@@ -1,4 +1,4 @@
-var lang = window.drupal_adsense_cse_lang;
+var lang = window.backdrop_adsense_cse_lang;
 (function() {
 var f = document.getElementById('cse-search-box');
 if (!f) {

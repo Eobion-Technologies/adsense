@@ -14,13 +14,15 @@
  * @ingroup forms
  */
 function adsense_managed_settings() {
+  $config = config('adsense_managed.settings');
   module_load_include('inc', 'adsense_managed', 'help/adsense_managed.help');
 
+  $form['#config'] = 'adsense_managed.settings';
   $form['help'] = array(
-    '#type'        => 'fieldset',
+    '#type' => 'fieldset',
     '#collapsible' => TRUE,
-    '#collapsed'   => TRUE,
-    '#title'       => t('Help and instructions'),
+    '#collapsed' => TRUE,
+    '#title' => t('Help and instructions'),
   );
 
   $form['help']['help'] = array(
@@ -37,7 +39,7 @@ function adsense_managed_settings() {
   $form['code']['adsense_managed_async'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use asynchronous ad code?'),
-    '#default_value' => variable_get('adsense_managed_async', ADSENSE_MANAGED_ASYNC_DEFAULT),
+    '#default_value' => $config->get('adsense_managed_async'),
     '#description' => t('This will enable the asynchronous ad code type. [!moreinfo]', array('!moreinfo' => l(t('More information'), 'https://support.google.com/adsense/answer/3221666'))),
   );
 
@@ -51,7 +53,7 @@ function adsense_managed_settings() {
   $form['page_level']['adsense_managed_page_level_ads_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable auto ads?'),
-    '#default_value' => variable_get('adsense_managed_page_level_ads_enabled', ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED),
+    '#default_value' => $config->get('adsense_managed_page_level_ads_enabled'),
     '#description' => t('This will enable Auto ads. [!moreinfo]', array('!moreinfo' => l(t('More information'), 'https://support.google.com/adsense/answer/7478040'))),
   );
 
@@ -65,7 +67,7 @@ function adsense_managed_settings() {
   $form['blocks']['adsense_managed_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_managed_number_blocks', ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT),
+    '#default_value' => $config->get('adsense_managed_number_blocks'),
     '#size' => 2,
     '#maxlength' => 2,
   );

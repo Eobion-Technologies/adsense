@@ -1,5 +1,5 @@
 (function ($) {
-  Drupal.behaviors.adSenseOldCodeColorpicker = {
+  Backdrop.behaviors.adSenseOldCodeColorpicker = {
     attach: function () {
       // Initiate farbtastic colorpicker.
       var farb = $.farbtastic("#colorpicker");

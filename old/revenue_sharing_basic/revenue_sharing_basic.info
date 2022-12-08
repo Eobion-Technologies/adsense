@@ -2,6 +2,7 @@ name = Revenue sharing basic (old)
 description = Revenue sharing for the Google Adsense module
 dependencies[] = adsense:adsense
 package = AdSense
-core = 7.x
+backdrop = 1.x
+type = module
 
 configure = admin/config/services/adsense/publisher/revenue_sharing_basic

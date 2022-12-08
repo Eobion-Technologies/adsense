@@ -14,6 +14,7 @@
  * @ingroup forms
  */
 function adsense_oldcode_settings($form, &$form_state) {
+  $form['#config'] = 'adsense_oldcode.settings';
   $form['blocks'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -24,7 +25,7 @@ function adsense_oldcode_settings($form, &$form_state) {
   $form['blocks']['adsense_oldcode_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_oldcode_number_blocks', ADSENSE_OLDCODE_NUMBER_BLOCKS_DEFAULT),
+    '#default_value' => config_get('adsense_oldcode.settings', 'adsense_oldcode_number_blocks'),
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -37,11 +38,12 @@ function adsense_oldcode_settings($form, &$form_state) {
   );
 
   // Add Farbtastic color picker.
-  drupal_add_css('misc/farbtastic/farbtastic.css', array('preprocess' => FALSE));
-  drupal_add_js('misc/farbtastic/farbtastic.js');
-  drupal_add_js(drupal_get_path('module', 'adsense_oldcode') . '/adsense_oldcode.js');
+  backdrop_add_css('misc/farbtastic/farbtastic.css', array('preprocess' => FALSE));
+  backdrop_add_js('misc/farbtastic/farbtastic.js');
+  backdrop_add_js(backdrop_get_path('module', 'adsense_oldcode') . '/adsense_oldcode.js');
 
   for ($group = 1; $group <= ADSENSE_MAX_GROUPS; $group++) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group] = array(
       '#type' => 'fieldset',
       '#collapsible' => TRUE,
@@ -49,6 +51,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#title' => t('Group @group attributes', array('@group' => $group . ' ' . variable_get('adsense_group_title_' . $group, ADSENSE_GROUP_TITLE_DEFAULT))),
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_group_title_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Title'),
@@ -58,6 +61,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#description' => t('Title of the group.'),
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_ad_type_' . $group] = array(
       '#type' => 'radios',
       '#title' => t('Ad type'),
@@ -70,6 +74,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#markup' => "<div id='colorpicker-$group' style='float: right;'></div>",
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_color_text_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Text color'),
@@ -78,6 +83,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#maxlength' => 7,
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_color_border_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Border color'),
@@ -86,6 +92,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#maxlength' => 7,
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_color_bg_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Background color'),
@@ -94,6 +101,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#maxlength' => 7,
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_color_link_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Title color'),
@@ -102,6 +110,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#maxlength' => 7,
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_color_url_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('URL color'),
@@ -110,6 +119,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#maxlength' => 7,
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_alt_' . $group] = array(
       '#type' => 'select',
       '#title' => t('Alternate URL color'),
@@ -117,6 +127,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#options' => array(t('None'), t('Alternate URL'), t('Alternate color')),
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_alt_info_' . $group] = array(
       '#type' => 'textfield',
       '#title' => t('Alternate info'),
@@ -126,6 +137,7 @@ function adsense_oldcode_settings($form, &$form_state) {
       '#description' => t('Enter either 6 letter alternate color code, or alternate URL to use'),
     );
 
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['types_colors']['groups'][$group]['adsense_ui_features_' . $group] = array(
       '#type' => 'select',
       '#title' => t('Rounded corners'),
@@ -148,6 +160,7 @@ function adsense_oldcode_settings($form, &$form_state) {
   );
 
   for ($channel = 1; $channel <= ADSENSE_MAX_CHANNELS; $channel++) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['channels']['adsense_ad_channel_' . $channel] = array(
       '#type' => 'textfield',
       '#title' => t('Custom channel ID @channel', array('@channel' => $channel)),
@@ -182,7 +195,7 @@ function _adsense_oldcode_settings_validate($form, &$form_state) {
   for ($group = 1; $group <= ADSENSE_MAX_GROUPS; $group++) {
     foreach ($colors as $field_name) {
       $field_value = $form_state['values'][$field_name . $group];
-      $form_state['values'][$field_name . $group] = drupal_strtoupper($field_value);
+      $form_state['values'][$field_name . $group] = backdrop_strtoupper($field_value);
       if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
         form_set_error($field_name . $group, t("Color must be between #000000 and #FFFFFF"));
       }

@@ -10,9 +10,10 @@
  */
 function adsense_install() {
   $t = get_t();
-  drupal_set_message($t("AdSense settings are available under !link", array(
+  backdrop_set_message($t("AdSense settings are available under !link", array(
     '!link' => l($t('Administration') . ' > ' . $t('Configuration') . ' > ' . $t('Web services') . ' > ' . $t('AdSense'), 'admin/config/services/adsense'),
   )));
+  // Dynamically generated variable data was detected on the following lines.
 }
 
 /**
@@ -24,7 +25,7 @@ function adsense_requirements($phase) {
   switch ($phase) {
     // At runtime, make sure that we have a publisher ID.
     case 'runtime':
-      $basic_id = variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT);
+      $basic_id = config_get('adsense.settings', 'adsense_basic_id');
       if (empty($basic_id)) {
         $requirements['adsense_basic_id'] = array(
           'title' => $t('AdSense'),
@@ -42,26 +43,59 @@ function adsense_requirements($phase) {
  * Implements hook_uninstall().
  */
 function adsense_uninstall() {
-  variable_del('adsense_access_pages');
-  variable_del('adsense_basic_id');
-  variable_del('adsense_disable');
-  variable_del('adsense_id_module');
-  variable_del('adsense_placeholder');
-  variable_del('adsense_placeholder_text');
-  variable_del('adsense_secret_language');
-  variable_del('adsense_test_mode');
-  variable_del('adsense_unblock_ads');
-  variable_del('adsense_visibility');
+  config_clear('adsense.settings', 'adsense_access_pages');
+  config_clear('adsense.settings', 'adsense_basic_id');
+  config_clear('adsense.settings', 'adsense_disable');
+  config_clear('adsense.settings', 'adsense_id_module');
+  config_clear('adsense.settings', 'adsense_placeholder');
+  config_clear('adsense.settings', 'adsense_placeholder_text');
+  config_clear('adsense.settings', 'adsense_secret_language');
+  config_clear('adsense.settings', 'adsense_test_mode');
+  config_clear('adsense.settings', 'adsense_unblock_ads');
+  config_clear('adsense.settings', 'adsense_visibility');
 
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_ad\_channel\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
 }
 
+// TODO The old hook_update_N functions cannot be applied to Backdrop.
+function adsense_update_7100(&$sandbox) { }
+
 /**
- * Delete obsolete variable.
+ * Implements hook_update_last_removed().
  */
-function adsense_update_7100(&$sandbox) {
-  variable_del('adsense_section_targeting');
+function adsense_update_last_removed() {
+  return 7100;
+}
+
+/**
+ * Migrate adsense variables to config.
+ */
+function adsense_update_1000() {
+  $config = config('adsense.settings');
+  $config->set('adsense_visibility', update_variable_get('adsense_visibility', 'ADSENSE_VISIBILITY_DEFAULT'));
+  $config->set('adsense_access_pages', update_variable_get('adsense_access_pages', 'ADSENSE_ACCESS_PAGES_DEFAULT'));
+  $config->set('adsense_unblock_ads', update_variable_get('adsense_unblock_ads', 'ADSENSE_UNBLOCK_ADS_DEFAULT'));
+  $config->set('adsense_test_mode', update_variable_get('adsense_test_mode', 'ADSENSE_TEST_MODE_DEFAULT'));
+  $config->set('adsense_disable', update_variable_get('adsense_disable', 'ADSENSE_DISABLE_DEFAULT'));
+  $config->set('adsense_placeholder', update_variable_get('adsense_placeholder', 'ADSENSE_PLACEHOLDER_DEFAULT'));
+  $config->set('adsense_placeholder_text', update_variable_get('adsense_placeholder_text', 'ADSENSE_PLACEHOLDER_TEXT_DEFAULT'));
+  $config->set('adsense_secret_language', update_variable_get('adsense_secret_language', 'ADSENSE_SECRET_LANGUAGE_DEFAULT'));
+  $config->set('adsense_basic_id', update_variable_get('adsense_basic_id', 'ADSENSE_BASIC_ID_DEFAULT'));
+  $config->set('adsense_id_module', update_variable_get('adsense_id_module', 'ADSENSE_ID_MODULE_DEFAULT'));
+  $config->save();
+
+  update_variable_del('adsense_visibility');
+  update_variable_del('adsense_access_pages');
+  update_variable_del('adsense_unblock_ads');
+  update_variable_del('adsense_test_mode');
+  update_variable_del('adsense_disable');
+  update_variable_del('adsense_placeholder');
+  update_variable_del('adsense_placeholder_text');
+  update_variable_del('adsense_secret_language');
+  update_variable_del('adsense_basic_id');
+  update_variable_del('adsense_id_module');
 }

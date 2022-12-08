@@ -123,7 +123,7 @@ if (module_exists('adsense')) {
 
 <h3>Using tags</h3>
 <p>The tags feature allows placement of ads anywhere in the content.  Please
-note that content here means any part that is passed through Drupal's filter
+note that content here means any part that is passed through Backdrop's filter
 system. Text in the slogan, mission, and footer is normally not filtered the
 same way as text in nodes, so you cannot put tags in those places.</p>
 <p>To enable the tags feature, you have to enable the &quot;AdSense tag&quot;
@@ -220,7 +220,7 @@ used for an ad.</p>
 </ul>
 
 <h3>Module Weight</h3>
-<p>Unless configured otherwise, Drupal normally calls modules in alphabetical
+<p>Unless configured otherwise, Backdrop normally calls modules in alphabetical
 order. Insofar as Adsense starts with "a," this may occasionally cause
 conflicts with other installed modules. For example, with
 <strong>image_attach</strong> (a function of the

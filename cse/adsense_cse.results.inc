@@ -12,17 +12,19 @@
  *   JavaScript that embeds the Google results
  */
 function _adsense_cse_results() {
+  $config = config('adsense_cse.settings');
   global $base_url;
 
   // Log the search keys:
   watchdog('AdSense search', 'Search keywords: %keywords', array('%keywords' => urldecode(check_plain($_GET['as_q']))));
 
-  $script = $base_url . '/' . drupal_get_path('module', 'adsense_cse') . '/adsense_cse.results.js';
+  $script = $base_url . '/' . backdrop_get_path('module', 'adsense_cse') . '/adsense_cse.results.js';
 
   // Output search results.
-  $width   = variable_get('adsense_cse_frame_width', ADSENSE_CSE_FRAME_WIDTH_DEFAULT);
-  $country = variable_get('adsense_cse_country', ADSENSE_CSE_COUNTRY_DEFAULT);
+  $width   = $config->get('adsense_cse_frame_width');
+  $country = $config->get('adsense_cse_country');
 
+  // TODO This variable was probably removed in Backdrop without replacement.
   if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
     $output = theme('adsense_placeholder', array(
       'text' => "Results<br />width = {$width}<br />country = {$country}",
@@ -43,9 +45,9 @@ function _adsense_cse_results() {
 </script>
 <script type="text/javascript" src="$script"></script>
 CSE_RESULTS_TXT;
-// @codingStandardsIgnoreStart Drupal.WhiteSpace.ScopeIndent.IncorrectExact
-// <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
-// @codingStandardsIgnoreEnd
+    // @codingStandardsIgnoreStart Backdrop.WhiteSpace.ScopeIndent.IncorrectExact
+    // <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+    // @codingStandardsIgnoreEnd
 
     // Remove empty lines.
     $output = str_replace("\n\n", "\n", $output);

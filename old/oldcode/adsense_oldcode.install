@@ -9,50 +9,82 @@
  * Implements hook_uninstall().
  */
 function adsense_oldcode_uninstall() {
-  variable_del('adsense_oldcode_number_blocks');
+  config_clear('adsense_oldcode.settings', 'adsense_oldcode_number_blocks');
 
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_oldcode\_ad\_block\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_ad\_type\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_alt\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_alt\_info\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_color\_bg\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_color\_border\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_color\_link\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_color\_text\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_color\_url\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_group\_title\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_ui\_features\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
+}
+
+/**
+ * Migrate adsense_oldcode variables to config.
+ */
+function adsense_oldcode_update_1000() {
+  $config = config('adsense_oldcode.settings');
+  $config->set('adsense_oldcode_number_blocks', update_variable_get('adsense_oldcode_number_blocks', 'ADSENSE_OLDCODE_NUMBER_BLOCKS_DEFAULT'));
+  $config->set('adsense_oldcode_ad_block_delta', update_variable_get('adsense_oldcode_ad_block_delta', 'dynamic variable in file /adsense/old/oldcode/adsense_oldcode.module line 183'));
+  $config->save();
+
+  update_variable_del('adsense_oldcode_number_blocks');
+  update_variable_del('adsense_oldcode_ad_block_delta');
+}
+
+/**
+ * Implements hook_install().
+ */
+function adsense_oldcode_install() {
+  // Dynamically generated variable data was detected.
+  // /adsense/old/oldcode/adsense_oldcode.module line 183
 }

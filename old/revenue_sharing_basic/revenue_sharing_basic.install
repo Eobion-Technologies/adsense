@@ -14,10 +14,11 @@ function revenue_sharing_basic_requirements($phase) {
   switch ($phase) {
     // At runtime, make sure that we have a publisher ID.
     case 'runtime':
-      if (variable_get('cache', 0) && (variable_get('adsense_id_module', ADSENSE_ID_MODULE_DEFAULT) == 'revenue_sharing_basic_adsense')) {
+      // TODO This variable was probably removed in Backdrop without replacement.
+      if (config_get('system.performance', 'cache') && (variable_get('adsense_id_module', ADSENSE_ID_MODULE_DEFAULT) == 'revenue_sharing_basic_adsense')) {
         $requirements['revenue_sharing_nocache'] = array(
           'title' => $t('Revenue Sharing'),
-          'value' => $t('Drupal page cache is enabled.'),
+          'value' => $t('Backdrop page cache is enabled.'),
           'description' => $t('This causes conflicts with revenue sharing, since the pages are stored in the cache and are not dynamically generated. If you experience issues with revenue sharing, then disable the page cache.'),
           'severity' => REQUIREMENT_WARNING,
         );
@@ -31,34 +32,59 @@ function revenue_sharing_basic_requirements($phase) {
  * Implements hook_uninstall().
  */
 function revenue_sharing_basic_uninstall() {
-  variable_del('revenue_sharing_basic_client_id_profile_field');
-  variable_del('revenue_sharing_basic_percentage_author');
-  variable_del('revenue_sharing_basic_percentage_refer');
-  variable_del('revenue_sharing_basic_revenue_enable');
+  config_clear('revenue_sharing_basic.settings', 'revenue_sharing_basic_client_id_profile_field');
+  config_clear('revenue_sharing_basic.settings', 'revenue_sharing_basic_percentage_author');
+  config_clear('revenue_sharing_basic.settings', 'revenue_sharing_basic_percentage_refer');
+  config_clear('revenue_sharing_basic.settings', 'revenue_sharing_basic_revenue_enable');
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'revenue\_sharing\_basic\_percentage\_role\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'revenue\_sharing\_basic\_node\_type\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
 }
 
+// TODO The old hook_update_N functions cannot be applied to Backdrop.
+function revenue_sharing_basic_update_7100(&$sandbox) { }
+
 /**
- * Update value of the revenue_sharing_basic_client_id_profile_field variable.
+ * Implements hook_update_last_removed().
  */
-function revenue_sharing_basic_update_7100(&$sandbox) {
-  $value = variable_get('revenue_sharing_basic_client_id_profile_field', REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT);
+function revenue_sharing_basic_update_last_removed() {
+  return 7100;
+}
 
-  if ($value != REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT) {
-    // Value is set to something useful.
-    $new_value = 'profile:' . db_query("SELECT name FROM {profile_field} WHERE fid=:fid", array(':fid' => $value))->fetchField();
+/**
+ * Migrate revenue_sharing_basic variables to config.
+ */
+function revenue_sharing_basic_update_1000() {
+  $config = config('revenue_sharing_basic.settings');
+  $config->set('revenue_sharing_basic_client_id_profile_field', update_variable_get('revenue_sharing_basic_client_id_profile_field', 'REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT'));
+  $config->set('revenue_sharing_basic_percentage_author', update_variable_get('revenue_sharing_basic_percentage_author', 'REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR_DEFAULT'));
+  $config->set('revenue_sharing_basic_percentage_role_role', update_variable_get('revenue_sharing_basic_percentage_role_role', 'dynamic variable in file /adsense/old/revenue_sharing_basic/revenue_sharing_basic.module line 120'));
+  $config->set('revenue_sharing_basic_percentage_refer', update_variable_get('revenue_sharing_basic_percentage_refer', 'REVENUE_SHARING_BASIC_PERCENTAGE_REFER_DEFAULT'));
+  $config->set('revenue_sharing_basic_node_type_type', update_variable_get('revenue_sharing_basic_node_type_type', 'dynamic variable in file /adsense/old/revenue_sharing_basic/revenue_sharing_basic.admin.inc line 104'));
+  $config->set('revenue_sharing_basic_node_type_infotype', update_variable_get('revenue_sharing_basic_node_type_infotype', 'dynamic variable in file /adsense/old/revenue_sharing_basic/revenue_sharing_basic.module line 112'));
+  $config->save();
 
-    variable_set('revenue_sharing_basic_client_id_profile_field', $new_value);
+  update_variable_del('revenue_sharing_basic_client_id_profile_field');
+  update_variable_del('revenue_sharing_basic_percentage_author');
+  update_variable_del('revenue_sharing_basic_percentage_role_role');
+  update_variable_del('revenue_sharing_basic_percentage_refer');
+  update_variable_del('revenue_sharing_basic_node_type_type');
+  update_variable_del('revenue_sharing_basic_node_type_infotype');
+}
 
-    return t('Updated the value of revenue_sharing_basic_client_id_profile_field to %value', array('%value' => $new_value));
-  }
-
-  return '';
+/**
+ * Implements hook_install().
+ */
+function revenue_sharing_basic_install() {
+  // Dynamically generated variable data was detected.
+  // /adsense/old/revenue_sharing_basic/revenue_sharing_basic.module line 120
+  // /adsense/old/revenue_sharing_basic/revenue_sharing_basic.admin.inc line 104
+  // /adsense/old/revenue_sharing_basic/revenue_sharing_basic.module line 112
 }

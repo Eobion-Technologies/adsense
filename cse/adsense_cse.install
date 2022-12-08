@@ -9,17 +9,55 @@
  * Implements hook_uninstall().
  */
 function adsense_cse_uninstall() {
-  variable_del('adsense_cse_ad_location');
-  variable_del('adsense_cse_color_box_background');
-  variable_del('adsense_cse_country');
-  variable_del('adsense_cse_encoding');
-  variable_del('adsense_cse_frame_width');
-  variable_del('adsense_cse_logo');
-  variable_del('adsense_cse_number_blocks');
-  variable_del('adsense_cse_textbox_length');
-  variable_del('adsense_cse_language');
+  config_clear('adsense_cse.settings', 'adsense_cse_ad_location');
+  config_clear('adsense_cse.settings', 'adsense_cse_color_box_background');
+  config_clear('adsense_cse.settings', 'adsense_cse_country');
+  config_clear('adsense_cse.settings', 'adsense_cse_encoding');
+  config_clear('adsense_cse.settings', 'adsense_cse_frame_width');
+  config_clear('adsense_cse.settings', 'adsense_cse_logo');
+  config_clear('adsense_cse.settings', 'adsense_cse_number_blocks');
+  config_clear('adsense_cse.settings', 'adsense_cse_textbox_length');
+  config_clear('adsense_cse.settings', 'adsense_cse_language');
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_cse\_ad\_block\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
+}
+
+/**
+ * Migrate adsense_cse variables to config.
+ */
+function adsense_cse_update_1000() {
+  $config = config('adsense_cse.settings');
+  $config->set('adsense_cse_logo', update_variable_get('adsense_cse_logo', 'ADSENSE_CSE_LOGO_DEFAULT'));
+  $config->set('adsense_cse_color_box_background', update_variable_get('adsense_cse_color_box_background', 'ADSENSE_CSE_COLOR_BOX_BACKGROUND_DEFAULT'));
+  $config->set('adsense_cse_encoding', update_variable_get('adsense_cse_encoding', 'ADSENSE_CSE_ENCODING_DEFAULT'));
+  $config->set('adsense_cse_textbox_length', update_variable_get('adsense_cse_textbox_length', 'ADSENSE_CSE_TEXTBOX_LENGTH_DEFAULT'));
+  $config->set('adsense_cse_language', update_variable_get('adsense_cse_language', 'ADSENSE_CSE_LANGUAGE_DEFAULT'));
+  $config->set('adsense_cse_country', update_variable_get('adsense_cse_country', 'ADSENSE_CSE_COUNTRY_DEFAULT'));
+  $config->set('adsense_cse_frame_width', update_variable_get('adsense_cse_frame_width', 'ADSENSE_CSE_FRAME_WIDTH_DEFAULT'));
+  $config->set('adsense_cse_ad_location', update_variable_get('adsense_cse_ad_location', 'ADSENSE_CSE_AD_LOCATION_DEFAULT'));
+  $config->set('adsense_cse_number_blocks', update_variable_get('adsense_cse_number_blocks', 'ADSENSE_CSE_NUMBER_BLOCKS_DEFAULT'));
+  $config->set('adsense_cse_ad_block_delta', update_variable_get('adsense_cse_ad_block_delta', 'dynamic variable in file /adsense/cse/adsense_cse.module line 178'));
+  $config->save();
+
+  update_variable_del('adsense_cse_logo');
+  update_variable_del('adsense_cse_color_box_background');
+  update_variable_del('adsense_cse_encoding');
+  update_variable_del('adsense_cse_textbox_length');
+  update_variable_del('adsense_cse_language');
+  update_variable_del('adsense_cse_country');
+  update_variable_del('adsense_cse_frame_width');
+  update_variable_del('adsense_cse_ad_location');
+  update_variable_del('adsense_cse_number_blocks');
+  update_variable_del('adsense_cse_ad_block_delta');
+}
+
+/**
+ * Implements hook_install().
+ */
+function adsense_cse_install() {
+  // Dynamically generated variable data was detected.
+  // /adsense/cse/adsense_cse.module line 178
 }

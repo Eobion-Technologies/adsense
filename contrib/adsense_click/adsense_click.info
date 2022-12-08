@@ -2,6 +2,7 @@ name = AdSense Click Tracking
 description = Tracks clicks to Google Adsense
 dependencies[] = adsense:adsense
 package = AdSense
-core = 7.x
+backdrop = 1.x
+type = module
 
 configure = admin/config/services/adsense/click

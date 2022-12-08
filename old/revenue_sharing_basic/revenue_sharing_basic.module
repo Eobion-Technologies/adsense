@@ -19,7 +19,7 @@ function revenue_sharing_basic_menu() {
 
   $items['admin/config/services/adsense/publisher/revenue_sharing_basic'] = array(
     'title' => 'Revenue Sharing',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('revenue_sharing_basic_settings'),
     'access arguments' => array('administer adsense'),
     'type' => MENU_LOCAL_TASK,
@@ -86,6 +86,17 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
 }
 
 /**
+ * Implements hook_config_info().
+ */
+function revenue_sharing_basic_config_info() {
+  $prefixes['revenue_sharing_basic.settings'] = array(
+    'label' => t('AdSense core settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Provide the applicable Publisher ID, based on the configured probabilities.
  *
  * @param string $format
@@ -98,6 +109,7 @@ function revenue_sharing_basic_adsense($op, $args = array()) {
  *   Publisher ID of the user who referred the page author.
  */
 function revenue_sharing_basic_choose_client($format) {
+  $config = config('revenue_sharing_basic.settings');
   global $user;
 
   if (isset($format)) {
@@ -106,23 +118,24 @@ function revenue_sharing_basic_choose_client($format) {
     return NULL;
   }
 
+  // TODO This variable was probably removed in Backdrop without replacement.
   $site_client = variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT);
 
   $info = revenue_sharing_basic_get_node_info();
-  if (empty($info) || !variable_get('revenue_sharing_basic_node_type_' . $info['type'], REVENUE_SHARING_BASIC_NODE_TYPE_DEFAULT)) {
+  if (empty($info) || !$config->get('revenue_sharing_basic_node_type_' . $info['type'])) {
     return $site_client;
   }
 
-  $percents[0] = variable_get('revenue_sharing_basic_percentage_author', REVENUE_SHARING_BASIC_PERCENTAGE_AUTHOR_DEFAULT);
+  $percents[0] = $config->get('revenue_sharing_basic_percentage_author');
 
   $author_user = user_load($info['uid']);
   foreach ($author_user->roles as $role => $role_desc) {
-    $percents[$role] = variable_get('revenue_sharing_basic_percentage_role_' . $role, REVENUE_SHARING_BASIC_PERCENTAGE_ROLE_DEFAULT);
+    $percents[$role] = $config->get('revenue_sharing_basic_percentage_role_' . $role);
   }
   arsort($percents);
   $percent_author = array_shift($percents);
 
-  $percent_referral = variable_get('revenue_sharing_basic_percentage_refer', REVENUE_SHARING_BASIC_PERCENTAGE_REFER_DEFAULT);
+  $percent_referral = $config->get('revenue_sharing_basic_percentage_refer');
 
   // Toss the dice and see who gets their ad displayed.
   $random = mt_rand(1, 100);
@@ -158,7 +171,7 @@ function revenue_sharing_basic_get_profile_client_id($uid) {
   $client_id = NULL;
 
   // Get the profile field for a certain user.
-  $profile_field = explode(':', variable_get('revenue_sharing_basic_client_id_profile_field', REVENUE_SHARING_BASIC_CLIENT_ID_PROFILE_FIELD_DEFAULT));
+  $profile_field = explode(':', config_get('revenue_sharing_basic.settings', 'revenue_sharing_basic_client_id_profile_field'));
   if ($uid && (count($profile_field) > 1) && module_exists($profile_field[0])) {
     $user = user_load($uid);
 
@@ -176,7 +189,7 @@ function revenue_sharing_basic_get_profile_client_id($uid) {
       case 'profile2':
         $profile = profile2_load_by_user($user);
         $items = field_get_items('profile2', $profile[$profile_field[1]], $profile_field[2]);
-        $client_id = drupal_render(field_view_value('profile2', $profile[$profile_field[1]], $profile_field[2], $items[0]));
+        $client_id = backdrop_render(field_view_value('profile2', $profile[$profile_field[1]], $profile_field[2], $items[0]));
         break;
     }
   }

@@ -15,13 +15,22 @@ function adsense_click_log() {
       'field' => 'ads.timestamp',
       'sort' => 'desc',
     ),
-    array('data' => t('Path'), 'field' => 'ads.path'),
-    array('data' => t('IP/Host'), 'field' => 'ads.ip'),
-    array('data' => t('Referrer'), 'field' => 'ads.referrer'),
+    array(
+      'data' => t('Path'),
+      'field' => 'ads.path',
+    ),
+    array(
+      'data' => t('IP/Host'),
+      'field' => 'ads.ip',
+    ),
+    array(
+      'data' => t('Referrer'),
+      'field' => 'ads.referrer',
+    ),
   );
   $rows = array();
 
-  $name_resolve = variable_get('adsense_click_tracking_name_resolve', ADSENSE_CLICK_TRACKING_NAME_RESOLVE_DEFAULT);
+  $name_resolve = config_get('adsense_click.settings', 'adsense_click_tracking_name_resolve');
 
   // Create our base query.
   $query = db_select('adsense_clicks', 'ads');
@@ -61,9 +70,19 @@ function adsense_click_log() {
  */
 function adsense_click_top_pages() {
   $header = array(
-    array('data' => t('Path'), 'field' => 'ads.path'),
-    array('data' => t('Clicks'), 'field' => 'count', 'sort' => 'desc'),
-    array('data' => t('Last'), 'field' => 'last'),
+    array(
+      'data' => t('Path'),
+      'field' => 'ads.path',
+    ),
+    array(
+      'data' => t('Clicks'),
+      'field' => 'count',
+      'sort' => 'desc',
+    ),
+    array(
+      'data' => t('Last'),
+      'field' => 'last',
+    ),
   );
   $rows = array();
 
@@ -85,8 +104,14 @@ function adsense_click_top_pages() {
   foreach ($result as $log) {
     $rows[] = array(
       array('data' => _adsense_click_format_path($log->path, $log->title)),
-      array('data' => $log->count, 'align' => 'right'),
-      array('data' => format_date($log->last, 'small'), 'nowrap' => 'nowrap'),
+      array(
+        'data' => $log->count,
+        'align' => 'right',
+      ),
+      array(
+        'data' => format_date($log->last, 'small'),
+        'nowrap' => 'nowrap',
+      ),
     );
   }
 
@@ -98,8 +123,15 @@ function adsense_click_top_pages() {
  */
 function adsense_click_by_day() {
   $header = array(
-    array('data' => t('Day'), 'field' => 'day', 'sort' => 'desc'),
-    array('data' => t('Clicks'), 'field' => 'count'),
+    array(
+      'data' => t('Day'),
+      'field' => 'day',
+      'sort' => 'desc',
+    ),
+    array(
+      'data' => t('Clicks'),
+      'field' => 'count',
+    ),
   );
   $rows = array();
 
@@ -140,7 +172,10 @@ function adsense_click_by_day() {
   foreach ($result as $log) {
     $rows[] = array(
       $log->day,
-      array('data' => $log->count, 'align' => 'right'),
+      array(
+        'data' => $log->count,
+        'align' => 'right',
+      ),
     );
   }
 

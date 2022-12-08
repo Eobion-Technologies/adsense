@@ -55,3 +55,23 @@ function adsense_click_schema() {
 
   return $schema;
 }
+
+/**
+ * Migrate adsense_click variables to config.
+ */
+function adsense_click_update_1000() {
+  $config = config('adsense_click.settings');
+  $config->set('adsense_click_tracking', update_variable_get('adsense_click_tracking', 'ADSENSE_CLICK_TRACKING_DEFAULT'));
+  $config->set('adsense_click_tracking_name_resolve', update_variable_get('adsense_click_tracking_name_resolve', 'ADSENSE_CLICK_TRACKING_NAME_RESOLVE_DEFAULT'));
+  $config->save();
+
+  update_variable_del('adsense_click_tracking');
+  update_variable_del('adsense_click_tracking_name_resolve');
+}
+
+/**
+ * Implements hook_install().
+ */
+function adsense_click_install() {
+  // Dynamically generated variable data was detected.
+}

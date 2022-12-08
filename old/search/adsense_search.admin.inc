@@ -14,9 +14,11 @@
  * @ingroup forms
  */
 function adsense_search_settings($form, &$form_state) {
+  $config = config('adsense_search.settings');
   global $base_url;
   module_load_include('inc', 'adsense', 'includes/adsense.search_options');
 
+  $form['#config'] = 'adsense_search.settings';
   $form['searchbox'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -28,7 +30,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_domain_0'] = array(
     '#type' => 'textfield',
     '#field_prefix' => 'http://',
-    '#default_value' => variable_get('adsense_search_domain_0', str_replace('http://', '', $base_url)),
+    '#default_value' => $config->get('adsense_search_domain_0'),
     '#size' => 32,
     '#maxlength' => 255,
   );
@@ -36,7 +38,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_domain_1'] = array(
     '#type' => 'textfield',
     '#field_prefix' => 'http://',
-    '#default_value' => variable_get('adsense_search_domain_1', ADSENSE_SEARCH_DOMAIN_DEFAULT),
+    '#default_value' => $config->get('adsense_search_domain_1'),
     '#size' => 32,
     '#maxlength' => 255,
   );
@@ -44,7 +46,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_domain_2'] = array(
     '#type' => 'textfield',
     '#field_prefix' => 'http://',
-    '#default_value' => variable_get('adsense_search_domain_2', ADSENSE_SEARCH_DOMAIN_DEFAULT),
+    '#default_value' => $config->get('adsense_search_domain_2'),
     '#size' => 32,
     '#maxlength' => 255,
   );
@@ -52,13 +54,13 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_safe_mode'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use SafeSearch'),
-    '#default_value' => variable_get('adsense_search_safe_mode', ADSENSE_SEARCH_SAFE_MODE_DEFAULT),
+    '#default_value' => $config->get('adsense_search_safe_mode'),
   );
 
   $form['searchbox']['adsense_search_logo'] = array(
     '#type' => 'radios',
     '#title' => t('Logo Type'),
-    '#default_value' => variable_get('adsense_search_logo', ADSENSE_SEARCH_LOGO_DEFAULT),
+    '#default_value' => $config->get('adsense_search_logo'),
     '#options' => array(
       'adsense_search_logo_google' => t('Google Logo'),
       'adsense_search_logo_above_textbox' => t('Logo above text box'),
@@ -69,13 +71,13 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_button'] = array(
     '#type' => 'checkbox',
     '#title' => t('Search button below text box'),
-    '#default_value' => variable_get('adsense_search_button', ADSENSE_SEARCH_BUTTON_DEFAULT),
+    '#default_value' => $config->get('adsense_search_button'),
   );
 
   $form['searchbox']['adsense_search_color_box_background'] = array(
     '#type' => 'select',
     '#title' => t('Background color'),
-    '#default_value' => variable_get('adsense_search_color_box_background', ADSENSE_SEARCH_COLOR_BOX_BACKGROUND_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_box_background'),
     '#options' => array(
       '#FFFFFF' => t('White'),
       '#000000' => t('Black'),
@@ -86,7 +88,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_color_box_text'] = array(
     '#type' => 'select',
     '#title' => t('Text color'),
-    '#default_value' => variable_get('adsense_search_color_box_text', ADSENSE_SEARCH_COLOR_BOX_TEXT_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_box_text'),
     '#options' => array(
       '#000000' => t('Black'),
       '#FFFFFF' => t('White'),
@@ -96,21 +98,21 @@ function adsense_search_settings($form, &$form_state) {
   $form['searchbox']['adsense_search_language'] = array(
     '#type' => 'select',
     '#title' => t('Site Language'),
-    '#default_value' => variable_get('adsense_search_language', ADSENSE_SEARCH_LANGUAGE_DEFAULT),
+    '#default_value' => $config->get('adsense_search_language'),
     '#options' => _adsense_search_options_language(),
   );
 
   $form['searchbox']['adsense_search_encoding'] = array(
     '#type' => 'select',
     '#title' => t('Site Encoding'),
-    '#default_value' => variable_get('adsense_search_encoding', ADSENSE_SEARCH_ENCODING_DEFAULT),
+    '#default_value' => $config->get('adsense_search_encoding'),
     '#options' => _adsense_search_options_encoding(),
   );
 
   $form['searchbox']['adsense_search_textbox_length'] = array(
     '#type' => 'textfield',
     '#title' => t('Length of text box (Max 64)'),
-    '#default_value' => variable_get('adsense_search_textbox_length', ADSENSE_SEARCH_TEXTBOX_LENGTH_DEFAULT),
+    '#default_value' => $config->get('adsense_search_textbox_length'),
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -125,14 +127,14 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['adsense_search_country'] = array(
     '#type' => 'select',
     '#title' => t('Country or territory for Google domain'),
-    '#default_value' => variable_get('adsense_search_country', ADSENSE_SEARCH_COUNTRY_DEFAULT),
+    '#default_value' => $config->get('adsense_search_country'),
     '#options' => _adsense_search_options_country(),
   );
 
   $form['result']['adsense_search_frame_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Width of results area'),
-    '#default_value' => variable_get('adsense_search_frame_width', ADSENSE_SEARCH_FRAME_WIDTH_DEFAULT),
+    '#default_value' => $config->get('adsense_search_frame_width'),
     '#size' => 4,
     '#maxlength' => 4,
   );
@@ -145,9 +147,9 @@ function adsense_search_settings($form, &$form_state) {
   );
 
   // Add Farbtastic color picker.
-  drupal_add_css('misc/farbtastic/farbtastic.css', array('preprocess' => FALSE));
-  drupal_add_js('misc/farbtastic/farbtastic.js');
-  drupal_add_js(drupal_get_path('module', 'adsense_search') . '/adsense_search.js');
+  backdrop_add_css('misc/farbtastic/farbtastic.css', array('preprocess' => FALSE));
+  backdrop_add_js('misc/farbtastic/farbtastic.js');
+  backdrop_add_js(backdrop_get_path('module', 'adsense_search') . '/adsense_search.js');
 
   $form['result']['colors']['colorpicker'] = array(
     '#type' => 'markup',
@@ -157,7 +159,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_border'] = array(
     '#type' => 'textfield',
     '#title' => t('Border'),
-    '#default_value' => variable_get('adsense_search_color_border', ADSENSE_SEARCH_COLOR_BORDER_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_border'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -165,7 +167,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
-    '#default_value' => variable_get('adsense_search_color_title', ADSENSE_SEARCH_COLOR_TITLE_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_title'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -173,7 +175,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_bg'] = array(
     '#type' => 'textfield',
     '#title' => t('Background'),
-    '#default_value' => variable_get('adsense_search_color_bg', ADSENSE_SEARCH_COLOR_BG_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_bg'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -181,7 +183,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_text'] = array(
     '#type' => 'textfield',
     '#title' => t('Text'),
-    '#default_value' => variable_get('adsense_search_color_text', ADSENSE_SEARCH_COLOR_TEXT_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_text'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -189,7 +191,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_url'] = array(
     '#type' => 'textfield',
     '#title' => t('URL'),
-    '#default_value' => variable_get('adsense_search_color_url', ADSENSE_SEARCH_COLOR_URL_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_url'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -197,7 +199,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_visited_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Visited URL'),
-    '#default_value' => variable_get('adsense_search_color_visited_url', ADSENSE_SEARCH_COLOR_VISITED_URL_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_visited_url'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -205,7 +207,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_light_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Light URL'),
-    '#default_value' => variable_get('adsense_search_color_light_url', ADSENSE_SEARCH_COLOR_LIGHT_URL_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_light_url'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -213,7 +215,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['result']['colors']['adsense_search_color_logo_bg'] = array(
     '#type' => 'hidden',
     '#title' => t('Logo Background'),
-    '#default_value' => variable_get('adsense_search_color_logo_bg', ADSENSE_SEARCH_COLOR_LOGO_BG_DEFAULT),
+    '#default_value' => $config->get('adsense_search_color_logo_bg'),
     '#size' => 7,
     '#maxlength' => 7,
   );
@@ -228,7 +230,7 @@ function adsense_search_settings($form, &$form_state) {
   $form['blocks']['adsense_search_number_blocks'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of blocks'),
-    '#default_value' => variable_get('adsense_search_number_blocks', ADSENSE_SEARCH_NUMBER_BLOCKS_DEFAULT),
+    '#default_value' => $config->get('adsense_search_number_blocks'),
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -242,6 +244,7 @@ function adsense_search_settings($form, &$form_state) {
   );
 
   for ($channel = 1; $channel <= ADSENSE_MAX_CHANNELS; $channel++) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     $form['channels']['adsense_ad_channel_' . $channel] = array(
       '#type' => 'textfield',
       '#title' => t('Custom channel ID @channel', array('@channel' => $channel)),
@@ -285,7 +288,7 @@ function _adsense_search_settings_validate($form, &$form_state) {
 
   foreach ($colors as $field_name) {
     $field_value = $form_state['values'][$field_name];
-    $form_state['values'][$field_name] = drupal_strtoupper($field_value);
+    $form_state['values'][$field_name] = backdrop_strtoupper($field_value);
     if (!preg_match('/#[0-9A-F]{6}/i', $field_value)) {
       form_set_error($field_name, t("Color must be between #000000 and #FFFFFF"));
     }

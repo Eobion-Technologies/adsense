@@ -2,9 +2,9 @@
 
 /**
  * @file
- * Displays Google AdSense ads on Drupal pages.
+ * Displays Google AdSense ads on Backdrop pages.
  *
- * This is the core module of the AdSense package, with the Drupal hooks
+ * This is the core module of the AdSense package, with the Backdrop hooks
  * and other administrative functions.
  */
 
@@ -14,10 +14,21 @@ define('ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT', 3);
 define('ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED', 0);
 
 /**
+ * Implements hook_config_info().
+ */
+function adsense_managed_config_info() {
+  $prefixes['adsense_managed.settings'] = array(
+    'label' => t('AdSense core settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_init().
  */
 function adsense_managed_init() {
-  if (variable_get('adsense_managed_page_level_ads_enabled', ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED)) {
+  if (config_get('adsense_managed.settings', 'adsense_managed_page_level_ads_enabled')) {
     if (!_adsense_page_match()) {
       $script = '<!-- adsense auto ads: page not in match list -->';
     }
@@ -41,7 +52,7 @@ EOF;
       '#markup' => $script,
       '#weight' => 100,
     );
-    drupal_add_html_head($ad, 'adsense_managed_page_level_ad_script');
+    backdrop_add_html_head($ad, 'adsense_managed_page_level_ad_script');
   }
 }
 
@@ -53,9 +64,9 @@ function adsense_managed_menu() {
 
   $items['admin/config/services/adsense/managed'] = array(
     'title' => 'Managed Ads',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('adsense_managed_settings'),
-    'access arguments'  => array('administer adsense'),
+    'access arguments' => array('administer adsense'),
     'weight' => 1,
     'type' => MENU_LOCAL_TASK,
     'file' => 'adsense_managed.admin.inc',
@@ -68,7 +79,7 @@ function adsense_managed_menu() {
  * Implements hook_theme_registry_alter().
  */
 function adsense_managed_theme_registry_alter(&$theme_registry) {
-  $mod_path = drupal_get_path('module', 'adsense_managed');
+  $mod_path = backdrop_get_path('module', 'adsense_managed');
   // Munge on a copy.
   $theme_registry_copy = $theme_registry;
   _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'pow', $mod_path);
@@ -80,7 +91,7 @@ function adsense_managed_theme_registry_alter(&$theme_registry) {
  */
 function adsense_managed_block_info() {
   $blocks = array();
-  $max = variable_get('adsense_managed_number_blocks', ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT);
+  $max = config_get('adsense_managed.settings', 'adsense_managed_number_blocks');
   for ($count = 0; $count < $max; $count++) {
     if ($ad = _adsense_managed_get_block_config($count)) {
       $title = $ad[0];
@@ -90,7 +101,7 @@ function adsense_managed_block_info() {
     }
     $blocks[$count] = array(
       'info' => $title,
-      'cache' => DRUPAL_NO_CACHE,
+      'cache' => BACKDROP_NO_CACHE,
     );
   }
 
@@ -179,7 +190,7 @@ function adsense_managed_block_configure($delta = '') {
   $form['ad_shape'] = array(
     '#type' => 'select',
     '#title' => t('Responsive ad shape'),
-    '#default_value' => isset($ad[4]) ? explode(',', $ad[4]) : 'auto',
+    '#default_value' => isset($ad[4])?explode(',', $ad[4]) : 'auto',
     '#multiple' => TRUE,
     '#options' => array(
       'auto' => t('Auto-sizing'),
@@ -246,7 +257,7 @@ function adsense_managed_block_save($delta = '', $edit = array()) {
     check_plain($edit['ad_height']),
     check_plain($edit['ad_layout_key']),
   ));
-  variable_set('adsense_managed_ad_block_' . $delta, $data);
+  config_set('adsense_managed.settings', 'adsense_managed_ad_block_' . $delta, $data);
 }
 
 /**
@@ -259,7 +270,7 @@ function adsense_managed_block_view($delta = '') {
     $format = ($ad[1] == 'custom') ? ($ad[5] . 'x' . $ad[6]) : $ad[1];
     $shape = isset($ad[4]) ? $ad[4] : 'auto';
     $layout_key = isset($ad[7]) ? $ad[7] : '';
-    $block['content'] = ($ad) ? adsense_display(array(
+    $block['content'] = ($ad)?adsense_display(array(
       'title' => $ad[0],
       'format' => $format,
       'slot' => $ad[2],
@@ -284,7 +295,7 @@ function adsense_managed_block_view($delta = '') {
  *   array with the block configuration or FALSE if no such block was found
  */
 function _adsense_managed_get_block_config($delta = 0) {
-  if ($data = variable_get('adsense_managed_ad_block_' . $delta, ADSENSE_MANAGED_AD_BLOCK_DEFAULT)) {
+  if ($data = config_get('adsense_managed.settings', 'adsense_managed_ad_block_' . $delta)) {
     $ad = explode(':', $data);
     $ad[0] = urldecode($ad[0]);
     return $ad;
@@ -316,6 +327,7 @@ function _adsense_managed_get_ad($format, $client, $slot, $shape = 'auto', $layo
   if (empty($slot) || (!_adsense_is_responsive($format) && !_adsense_is_fluid($format) && ($ad === NULL))) {
     $output = "";
   }
+  // TODO This variable was probably removed in Backdrop without replacement.
   elseif (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
     $output = theme('adsense_placeholder', array(
       'text' => "client = {$client}<br />slot = {$slot}<br />width = {$ad['width']}<br />height = {$ad['height']}<br />shape = {$shape}",
@@ -371,7 +383,7 @@ MANAGED_RESP_TXT;
 </script>
 MANAGED_FLUID_TXT;
     }
-    elseif (variable_get('adsense_managed_async', ADSENSE_MANAGED_ASYNC_DEFAULT)) {
+    elseif (config_get('adsense_managed.settings', 'adsense_managed_async')) {
       // Asynchronous code.
       $output = <<<MANAGED_ASYNC_TXT
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -388,6 +400,7 @@ MANAGED_ASYNC_TXT;
     else {
       // Synchronous code.
       $secret = '';
+      // TODO This variable was probably removed in Backdrop without replacement.
       if ($lang = variable_get('adsense_secret_language', ADSENSE_SECRET_LANGUAGE_DEFAULT)) {
         $secret = "google_language = '$lang';\n";
       }

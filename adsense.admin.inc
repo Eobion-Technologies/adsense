@@ -14,14 +14,16 @@
  * @ingroup forms
  */
 function adsense_main_settings() {
+  $config = config('adsense.settings');
   module_load_include('inc', 'adsense', 'help/adsense.help');
   module_load_include('inc', 'adsense', 'includes/adsense.search_options');
 
+  $form['#config'] = 'adsense.settings';
   $form['help'] = array(
-    '#type'        => 'fieldset',
+    '#type' => 'fieldset',
     '#collapsible' => TRUE,
-    '#collapsed'   => TRUE,
-    '#title'       => t('Help and instructions'),
+    '#collapsed' => TRUE,
+    '#title' => t('Help and instructions'),
   );
 
   $form['help']['help'] = array(
@@ -38,15 +40,15 @@ function adsense_main_settings() {
   $form['visibility']['adsense_visibility'] = array(
     '#type' => 'radios',
     '#title' => t('Show AdSense on specific pages'),
-    '#default_value' => variable_get('adsense_visibility', ADSENSE_VISIBILITY_DEFAULT),
+    '#default_value' => $config->get('adsense_visibility'),
     '#options' => array(t('Show on every page except the listed pages.'), t('Show on only the listed pages.')),
   );
 
   $form['visibility']['adsense_access_pages'] = array(
     '#type' => 'textarea',
-    '#default_value' => variable_get('adsense_access_pages', ADSENSE_ACCESS_PAGES_DEFAULT),
+    '#default_value' => $config->get('adsense_access_pages'),
     '#rows' => 3,
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
+    '#description' => t("Enter one page per line as Backdrop paths. The '*' character is a wildcard. Example paths are  %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
       '%blog' => 'blog',
       '%blog-wildcard' => 'blog/*',
       '%front' => '<front>',
@@ -57,12 +59,18 @@ function adsense_main_settings() {
   $access = user_access('use PHP for ad visibility');
 
   if ($form['visibility']['adsense_visibility']['#default_value'] == 2 && !$access) {
-    $form['visibility']['adsense_visibility'] = array('#type' => 'value', '#value' => 2);
-    $form['visibility']['adsense_access_pages'] = array('#type' => 'value', '#value' => $form['visibility']['adsense_access_pages']['#default_value']);
+    $form['visibility']['adsense_visibility'] = array(
+      '#type' => 'value',
+      '#value' => 2,
+    );
+    $form['visibility']['adsense_access_pages'] = array(
+      '#type' => 'value',
+      '#value' => $form['visibility']['adsense_access_pages']['#default_value'],
+    );
   }
   elseif ($access) {
     $form['visibility']['adsense_visibility']['#options'][] = t('Show if the following PHP code returns <code>TRUE</code> (PHP-mode, experts only).');
-    $form['visibility']['adsense_access_pages']['#description'] .= ' ' . t('If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site.', array('%php' => '<?php ?>'));
+    $form['visibility']['adsense_access_pages']['#description'] .= ' ' . t('If the PHP-mode is chosen, enter PHP code between %php. Note that executing incorrect PHP-code can break your Backdrop site.', array('%php' => '<?php ?>'));
   }
 
   $form['advanced'] = array(
@@ -75,35 +83,35 @@ function adsense_main_settings() {
   $form['advanced']['adsense_unblock_ads'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display anti ad-block request?'),
-    '#default_value' => variable_get('adsense_unblock_ads', ADSENSE_UNBLOCK_ADS_DEFAULT),
+    '#default_value' => $config->get('adsense_unblock_ads'),
     '#description' => t("EXPERIMENTAL! Enabling this feature will add a mechanism that tries to detect when adblocker software is in use, displaying a polite request to the user to enable ads on this site. [!moreinfo]", array('!moreinfo' => l(t('More information'), 'https://easylist.to/2013/05/10/anti-adblock-guide-for-site-admins.html'))),
   );
 
   $form['advanced']['adsense_test_mode'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable test mode?'),
-    '#default_value' => variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT),
+    '#default_value' => $config->get('adsense_test_mode'),
     '#description' => t('This enables you to test the AdSense module settings. This can be useful in some situations: for example, testing whether revenue sharing is working properly or not without having to display real ads on your site. It is best to test this after you log out.'),
   );
 
   $form['advanced']['adsense_disable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Disable Google AdSense ads?'),
-    '#default_value' => variable_get('adsense_disable', ADSENSE_DISABLE_DEFAULT),
+    '#default_value' => $config->get('adsense_disable'),
     '#description' => t('This disables all display of Google AdSense ads from your web site. This is useful in certain situations, such as site upgrades, or if you make a copy of the site for development and test purposes.'),
   );
 
   $form['advanced']['adsense_placeholder'] = array(
     '#type' => 'checkbox',
     '#title' => t('Placeholder when ads are disabled?'),
-    '#default_value' => variable_get('adsense_placeholder', ADSENSE_PLACEHOLDER_DEFAULT),
+    '#default_value' => $config->get('adsense_placeholder'),
     '#description' => t('This causes an empty box to be displayed in place of the ads when they are disabled.'),
   );
 
   $form['advanced']['adsense_placeholder_text'] = array(
     '#type' => 'textarea',
     '#title' => t('Placeholder text to display'),
-    '#default_value' => variable_get('adsense_placeholder_text', ADSENSE_PLACEHOLDER_TEXT_DEFAULT),
+    '#default_value' => $config->get('adsense_placeholder_text'),
     '#rows' => 3,
     '#description' => t('Enter any text to display as a placeholder when ads are disabled.'),
   );
@@ -126,7 +134,7 @@ function adsense_main_settings() {
   $form['secret']['agreed']['adsense_secret_language'] = array(
     '#type' => 'select',
     '#title' => t('Language to display ads'),
-    '#default_value' => variable_get('adsense_secret_language', ADSENSE_SECRET_LANGUAGE_DEFAULT),
+    '#default_value' => $config->get('adsense_secret_language'),
     '#options' => array_merge(array(ADSENSE_SECRET_LANGUAGE_DEFAULT => 'Set by Google'), _adsense_search_options_language()),
   );
 
@@ -139,13 +147,15 @@ function adsense_main_settings() {
  * @ingroup forms
  */
 function adsense_id_settings() {
+  $config = config('adsense.settings');
   module_load_include('inc', 'adsense', 'help/adsense_id_help');
 
+  $form['#config'] = 'adsense.settings';
   $form['help'] = array(
-    '#type'        => 'fieldset',
+    '#type' => 'fieldset',
     '#collapsible' => TRUE,
-    '#collapsed'   => TRUE,
-    '#title'       => t('Help and instructions'),
+    '#collapsed' => TRUE,
+    '#title' => t('Help and instructions'),
   );
 
   $form['help']['help'] = array(
@@ -153,25 +163,25 @@ function adsense_id_settings() {
   );
 
   $form['adsense_basic_id'] = array(
-    '#type'          => 'textfield',
-    '#title'         => t('Site Google AdSense Publisher ID'),
-    '#required'      => TRUE,
-    '#default_value' => variable_get('adsense_basic_id', ADSENSE_BASIC_ID_DEFAULT),
-    '#description'   => t('This is the Google AdSense Publisher ID for the site owner. It is used if no other ID is suitable. Get this in your Google Adsense account. It should be similar to %id.', array('%id' => 'pub-9999999999999')),
+    '#type' => 'textfield',
+    '#title' => t('Site Google AdSense Publisher ID'),
+    '#required' => TRUE,
+    '#default_value' => $config->get('adsense_basic_id'),
+    '#description' => t('This is the Google AdSense Publisher ID for the site owner. It is used if no other ID is suitable. Get this in your Google Adsense account. It should be similar to %id.', array('%id' => 'pub-9999999999999')),
   );
 
   $options = _adsense_id_settings_client_id_mods();
   if (count($options) > 1) {
     $form['adsense_id_module'] = array(
-      '#type'          => 'radios',
-      '#title'         => t('Publisher ID module'),
-      '#default_value' => variable_get('adsense_id_module', ADSENSE_ID_MODULE_DEFAULT),
-      '#options'       => $options,
+      '#type' => 'radios',
+      '#title' => t('Publisher ID module'),
+      '#default_value' => $config->get('adsense_id_module'),
+      '#options' => $options,
     );
   }
   else {
     $form['adsense_id_module'] = array(
-      '#type'  => 'hidden',
+      '#type' => 'hidden',
       '#value' => 'adsense_basic',
     );
   }

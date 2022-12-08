@@ -2,6 +2,7 @@ name = CSE Search
 description = AdSense for Search generator module. This module uses the new Custom Search Engine code created via the Adsense interface.
 dependencies[] = adsense:adsense
 package = AdSense
-core = 7.x
+backdrop = 1.x
+type = module
 
 configure = admin/config/services/adsense/cse

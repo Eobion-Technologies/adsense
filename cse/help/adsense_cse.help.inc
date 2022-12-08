@@ -15,7 +15,7 @@ function adsense_cse_help_text() {
   $output = <<<EOF
 <h2>Overview</h2>
 <p>This module enables the simple inclusion of the new form of Google
-AdSense for Search in your Drupal site.</p>
+AdSense for Search in your Backdrop site.</p>
 
 <h2>Prerequisites</h2>
 <p>You must have a Google AdSense account before using this module.</p>

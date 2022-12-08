@@ -9,11 +9,37 @@
  * Implements hook_uninstall().
  */
 function adsense_managed_uninstall() {
-  variable_del('adsense_managed_async');
-  variable_del('adsense_managed_number_blocks');
-  variable_del('adsense_managed_page_level_ads_enabled');
+  config_clear('adsense_managed.settings', 'adsense_managed_async');
+  config_clear('adsense_managed.settings', 'adsense_managed_number_blocks');
+  config_clear('adsense_managed.settings', 'adsense_managed_page_level_ads_enabled');
   $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'adsense\_managed\_ad\_block\_%'");
   foreach ($settings as $variable) {
+    // TODO This variable was probably removed in Backdrop without replacement.
     variable_del($variable->name);
   }
+}
+
+/**
+ * Migrate adsense_managed variables to config.
+ */
+function adsense_managed_update_1000() {
+  $config = config('adsense_managed.settings');
+  $config->set('adsense_managed_async', update_variable_get('adsense_managed_async', 'ADSENSE_MANAGED_ASYNC_DEFAULT'));
+  $config->set('adsense_managed_page_level_ads_enabled', update_variable_get('adsense_managed_page_level_ads_enabled', 'ADSENSE_MANAGED_PAGE_LEVEL_ADS_ENABLED'));
+  $config->set('adsense_managed_number_blocks', update_variable_get('adsense_managed_number_blocks', 'ADSENSE_MANAGED_NUMBER_BLOCKS_DEFAULT'));
+  $config->set('adsense_managed_ad_block_delta', update_variable_get('adsense_managed_ad_block_delta', 'dynamic variable in file /adsense/managed/adsense_managed.module line 287'));
+  $config->save();
+
+  update_variable_del('adsense_managed_async');
+  update_variable_del('adsense_managed_page_level_ads_enabled');
+  update_variable_del('adsense_managed_number_blocks');
+  update_variable_del('adsense_managed_ad_block_delta');
+}
+
+/**
+ * Implements hook_install().
+ */
+function adsense_managed_install() {
+  // Dynamically generated variable data was detected.
+  // /adsense/managed/adsense_managed.module line 287
 }

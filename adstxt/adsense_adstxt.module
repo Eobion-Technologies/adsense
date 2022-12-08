@@ -2,9 +2,9 @@
 
 /**
  * @file
- * Displays Google AdSense ads on Drupal pages.
+ * Displays Google AdSense ads on Backdrop pages.
  *
- * This is the core module of the AdSense package, with the Drupal hooks
+ * This is the core module of the AdSense package, with the Backdrop hooks
  * and other administrative functions.
  */
 

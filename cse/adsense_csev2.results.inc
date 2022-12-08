@@ -18,6 +18,7 @@ function _adsense_csev2_results($slot) {
   watchdog('AdSense search', 'Search keywords: %keywords', array('%keywords' => urldecode(check_plain($_GET['as_q']))));
 
   // Output search results.
+  // TODO This variable was probably removed in Backdrop without replacement.
   if (variable_get('adsense_test_mode', ADSENSE_TEST_MODE_DEFAULT)) {
     $output = theme('adsense_placeholder', array(
       'text' => "Results",
@@ -25,7 +26,7 @@ function _adsense_csev2_results($slot) {
     ));
   }
   else {
-    // Add data-queryParameterName because of conflicts with Drupal's 'q' query.
+    // Add data-queryParameterName because of conflicts with Backdrop's 'q' query.
     $output = "<script async src='https://cse.google.com/cse.js?cx=partner-$client:$slot'></script><div class='gcse-searchresults-only' data-queryParameterName='as_q'></div>";
   }
 
