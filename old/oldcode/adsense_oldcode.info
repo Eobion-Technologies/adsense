@@ -1,8 +1,0 @@
-name = Ads (old)
-description = Ad unit generator module using the old format code in which the colours are specified in the ad's JavaScript.
-dependencies[] = adsense:adsense
-package = AdSense
-backdrop = 1.x
-type = module
-
-configure = admin/config/services/adsense/oldcode
