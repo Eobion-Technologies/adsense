@@ -1,8 +1,0 @@
-name = Search (old)
-description = AdSense for Search generator module. This module uses the 'old' code in which the user can select to search the entire Web or 1 to 3 user-defined domains.
-dependencies[] = adsense:adsense
-package = AdSense
-backdrop = 1.x
-type = module
-
-configure = admin/config/services/adsense/search
